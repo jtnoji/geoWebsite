@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How it works — [Brand]</title>
+<link rel="stylesheet" href="fonts-inline.css">
+<style>
+  :root{--ink:#0e1116;--body:#343b45;--faint:#8a929c;--bg:#fdfdfc;--dim:#f4f4f2;
+    --accent:#1d4ed8;--bad:#b91c1c;--line:#e5e6e3;--line-dark:#c4c6c1;
+    --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,sans-serif;
+    color:var(--ink);background:var(--bg);line-height:1.5;font-size:16px;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 32px}
+  a{color:inherit}
+
+  /* black chip — the signature element */
+  .chip{display:inline-block;font-family:var(--mono);font-size:12px;font-weight:600;
+    color:#fff;background:var(--ink);padding:6px 12px;letter-spacing:.06em}
+  .chip.red{background:var(--bad)}
+
+  header{border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;height:58px;gap:34px}
+  .logo{font-weight:700;font-size:16px;letter-spacing:-0.02em}
+  nav.links{display:flex;gap:26px;font-size:14px;font-weight:600;color:var(--body);margin-left:auto}
+  nav.links a{text-decoration:none;padding:18px 0}
+  nav.links a.on{color:var(--ink);font-weight:700;box-shadow:inset 0 -3px 0 var(--ink)}
+  .nav-cta{display:inline-block;background:var(--ink);color:#fff;font-weight:600;font-size:13.5px;padding:9px 16px;border-radius:6px;text-decoration:none}
+  .nav-cta:hover{background:var(--accent)}
+
+  /* head */
+  .head{padding:72px 0 52px;border-bottom:1px solid var(--line)}
+  .head h1{font-weight:700;font-size:clamp(38px,4.8vw,58px);line-height:1.0;letter-spacing:-0.04em;max-width:720px;margin:22px 0 18px}
+  .head p{font-size:18px;font-weight:400;color:var(--body);max-width:540px;margin-bottom:28px}
+  .head p b{color:var(--ink);font-weight:700}
+  .chips{display:inline-flex;border:1px solid var(--line-dark);background:#fff;color:var(--body);font-family:var(--mono);font-size:12.5px}
+  .chips span{padding:10px 18px;border-right:1px solid var(--line-dark)}
+  .chips span:last-child{border-right:none}
+  .chips b{color:var(--ink);font-weight:700}
+  .chips .hl{color:var(--accent);font-weight:600}
+
+  /* pipeline */
+  .pipe-sec{padding:56px 0;border-bottom:1px solid var(--line)}
+  .pipe-head{display:flex;align-items:center;gap:16px;margin-bottom:26px}
+  .pipe-head h2{font-size:22px;font-weight:700;letter-spacing:-0.03em}
+  .pipe{display:grid;grid-template-columns:repeat(5,1fr)}
+  .stage{border:1px solid var(--line-dark);border-right:none;padding:0 0 18px;background:#fff}
+  .stage:last-child{border-right:1px solid var(--line-dark)}
+  .stage .n{display:block;background:var(--ink);color:#fff;font-family:var(--mono);font-size:11px;padding:6px 14px}
+  .stage.hot .n{background:var(--bad)}
+  .stage .in{padding:14px 14px 0}
+  .stage .t{font-weight:700;font-size:15px;display:block;margin-bottom:4px;letter-spacing:-0.01em}
+  .stage .d{font-size:12.5px;color:var(--body);line-height:1.45}
+  .stage .art{margin:12px 14px 0;background:var(--dim);padding:9px 10px;font-family:var(--mono);font-size:10.5px;color:var(--body);line-height:1.5;min-height:52px}
+  .stage .art .dot{color:var(--ink)} .stage .art .dot i{font-style:normal;color:#cfd1cc}
+  .stage.hot .art{background:#fdf5f5;color:var(--bad)}
+
+  /* doc grid */
+  .doc{display:grid;grid-template-columns:190px 1fr;gap:56px;padding:64px 0}
+  .rail{position:sticky;top:24px;align-self:start;font-family:var(--mono);font-size:12px}
+  .rail div{padding:8px 0;border-bottom:1px solid var(--line);color:var(--faint)}
+  .rail div.on{color:var(--ink);font-weight:700}
+  .sections{min-width:0}
+  .sec{display:grid;grid-template-columns:5fr 6fr;gap:52px;padding:48px 0;border-bottom:1px solid var(--line)}
+  .sec:first-child{padding-top:0}
+  .sec:last-child{border-bottom:none;padding-bottom:0}
+  .sec h2{font-weight:700;font-size:28px;line-height:1.1;letter-spacing:-0.035em;margin:14px 0 12px;max-width:360px}
+  .sec .body{font-size:15.5px;line-height:1.6;color:var(--body)}
+  .sec .body b{color:var(--ink);font-weight:700}
+  .fn{margin-top:14px;font-size:12px;color:var(--faint);line-height:1.5}
+  .fn b{color:var(--body)}
+
+  /* artifacts */
+  .card{border:1px solid var(--line-dark);background:#fff}
+  .card .top{background:var(--ink);color:#fff;padding:9px 14px;font-family:var(--mono);font-size:11px;display:flex;justify-content:space-between;gap:12px}
+  .card .top .dim2{color:#8d96a3}
+  .card .pad{padding:16px 18px}
+
+  .qrow{font-family:var(--mono);font-size:12.5px;color:var(--ink);padding:9px 0;border-bottom:1px dashed var(--line);display:flex;justify-content:space-between;gap:14px}
+  .qrow:last-child{border-bottom:none}
+  .qrow .tag{color:#fff;background:var(--ink);font-size:10px;padding:2px 8px;align-self:center}
+
+  .runrow{display:flex;align-items:center;gap:12px;margin-bottom:12px;font-size:13px}
+  .runrow:last-child{margin-bottom:0}
+  .runrow .eng{width:84px;font-weight:700;font-size:12.5px}
+  .dots{letter-spacing:2.5px;font-size:14px;color:var(--ink)}
+  .dots i{font-style:normal;color:#d5d7d2}
+  .runrow .rate{font-family:var(--mono);font-size:12.5px;font-weight:600;margin-left:auto}
+  .runrow.comp .eng,.runrow.comp .dots,.runrow.comp .rate{color:var(--bad)}
+
+  .vrow{display:grid;grid-template-columns:104px 1fr;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line);font-size:13.5px}
+  .vrow:last-child{border-bottom:none}
+  .vrow .k{font-family:var(--mono);font-size:11px;color:var(--faint);padding-top:3px;text-transform:uppercase}
+  .vrow .v{color:var(--body)} .vrow .v b{color:var(--ink);font-weight:700}
+  .flag{display:inline-block;background:var(--bad);color:#fff;font-family:var(--mono);font-size:11px;padding:3px 9px;margin-top:6px}
+
+  .deliv{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line-dark);border:1px solid var(--line-dark)}
+  .deliv div{background:#fff;padding:16px 18px}
+  .deliv b{font-size:14.5px;font-weight:700;display:block;margin-bottom:3px;letter-spacing:-0.01em}
+  .deliv span{font-size:12.5px;color:var(--body)}
+
+  .pull{border-top:2px solid var(--ink);padding-top:24px}
+  .pull p{font-size:22px;line-height:1.45;font-weight:500;letter-spacing:-0.02em;color:var(--body)}
+  .pull p b{color:var(--ink);font-weight:700}
+  .pull p em{font-style:normal;font-weight:700;color:var(--accent)}
+  .pull .who{margin-top:18px;font-family:var(--mono);font-size:11.5px;color:var(--faint)}
+  .pull .who .chip{margin-right:10px}
+
+  .final{border-top:1px solid var(--line);padding:76px 0}
+  .final h2{font-weight:700;font-size:clamp(30px,3.6vw,42px);letter-spacing:-0.04em;margin-bottom:10px}
+  .final p{color:var(--body);margin-bottom:26px;font-size:16.5px}
+  .btn{display:inline-block;background:var(--accent);color:#fff;font-weight:600;font-size:15px;padding:13px 24px;border-radius:6px;text-decoration:none}
+  .final .note{font-family:var(--mono);font-size:11.5px;color:var(--faint);margin-top:16px}
+  footer{border-top:1px solid var(--line);padding:30px 0;font-size:13px;color:var(--faint)}
+  .foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:18px}
+  footer a{color:var(--body);text-decoration:none;margin-right:18px}
+
+  @media(max-width:880px){
+    nav.links{display:none}
+    .doc{grid-template-columns:1fr}
+    .rail{position:static;display:flex;flex-wrap:wrap;gap:0 18px;border-bottom:1px solid var(--line);padding-bottom:10px}
+    .rail div{border:none;padding:4px 0}
+    .sec{grid-template-columns:1fr;gap:22px;padding:38px 0}
+    .pipe{grid-template-columns:1fr}
+    .stage{border-right:1px solid var(--line-dark);border-bottom:none}
+    .stage:last-child{border-bottom:1px solid var(--line-dark)}
+    .chips{display:inline-grid}
+    .chips span{border-right:none;border-bottom:1px solid #2c323b}
+    .chips span:last-child{border-bottom:none}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <div class="logo">[Brand]</div>
+    <nav class="links">
+      <a href="#" class="on">How it works</a><a href="#">Sample report</a><a href="#">Pricing</a><a href="#">Learn</a><a href="#">About</a>
+    </nav>
+    <a class="nav-cta" href="#">Free visibility check →</a>
+  </div>
+</header>
+
+<section class="head">
+  <div class="wrap">
+    <span class="chip">METHODOLOGY · v2.1 · MAY 2026</span>
+    <h1>Measurement you can actually inspect.</h1>
+    <p>The full protocol — <b>what we run</b>, <b>how often</b>, and <b>how every answer is judged</b>. Public, because measurement you can't inspect is marketing.</p>
+    <div class="chips"><span>n=<b>32</b> queries</span><span>engines=<b>5</b></span><span>runs=<b>10×</b> each</span><span class="hl">judged vs fact sheet</span></div>
+  </div>
+</section>
+
+<section class="pipe-sec">
+  <div class="wrap">
+    <div class="pipe-head"><span class="chip">THE PIPELINE</span><h2>Every audit, same five stages</h2></div>
+    <div class="pipe">
+      <div class="stage"><span class="n">01</span><div class="in"><span class="t">Query set</span><span class="d">Real customer questions, locked per cycle.</span></div><div class="art">"average cost of AC replacement in berkeley"</div></div>
+      <div class="stage"><span class="n">02</span><div class="in"><span class="t">Five engines</span><span class="d">Chat models + live-search surfaces.</span></div><div class="art">chatgpt · google ai · gemini · perplexity · claude</div></div>
+      <div class="stage"><span class="n">03</span><div class="in"><span class="t">Ten runs</span><span class="d">Sampled — answers change run to run.</span></div><div class="art"><span class="dot">●●●●<i>●●●●●●</i></span> → 4/10 mention rate</div></div>
+      <div class="stage"><span class="n">04</span><div class="in"><span class="t">Judged</span><span class="d">Graded against ground truth.</span></div><div class="art">presence · prominence · accuracy</div></div>
+      <div class="stage hot"><span class="n">05</span><div class="in"><span class="t">Reported</span><span class="d">Rates, gaps, roadmap.</span></div><div class="art">losing queries → who's named instead → why</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap doc">
+  <aside class="rail">
+    <div class="on">§1&nbsp;&nbsp;What we ask</div>
+    <div>§2&nbsp;&nbsp;How we sample</div>
+    <div>§3&nbsp;&nbsp;How we judge</div>
+    <div>§4&nbsp;&nbsp;What you get</div>
+    <div>§5&nbsp;&nbsp;What we won't promise</div>
+  </aside>
+
+  <div class="sections">
+
+    <div class="sec">
+      <div>
+        <span class="chip">§1 — THE QUERY SET</span>
+        <h2>The questions your customers actually ask</h2>
+        <p class="body">Real phrasings across the whole funnel — cost, comparison, <b>"is this business legit."</b> Locked per cycle, so every before/after is <b>apples to apples</b>.</p>
+      </div>
+      <div class="card">
+        <div class="top"><span>query set — plumbing · berkeley</span><span class="dim2">v1 · locked</span></div>
+        <div class="pad">
+          <div class="qrow"><span>"best plumber in berkeley"</span><span class="tag">LOCAL</span></div>
+          <div class="qrow"><span>"average cost to replace a water heater"</span><span class="tag">COST</span></div>
+          <div class="qrow"><span>"plumber near me open now"</span><span class="tag">LOCAL</span></div>
+          <div class="qrow"><span>"is [business] plumbing legit"</span><span class="tag">BRAND</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div>
+        <span class="chip">§2 — SAMPLING</span>
+        <h2>Ten runs, not one screenshot</h2>
+        <p class="body">AI answers change between runs — <b>a single fetch is a coin flip</b>.<sup>1</sup> We run every query <b>10× per engine</b> and report the rate. A single-run "AI rank" is just noise.</p>
+        <p class="fn"><b>1.</b> Repeat runs turn over 65–81% of results. SE Ranking, 5,000-keyword study, 2025.</p>
+      </div>
+      <div class="card">
+        <div class="top"><span>sampling — "best plumber near berkeley"</span><span class="dim2">10 runs/engine</span></div>
+        <div class="pad">
+          <div class="runrow"><span class="eng">ChatGPT</span><span class="dots">●●●●<i>●●●●●●</i></span><span class="rate">4/10</span></div>
+          <div class="runrow"><span class="eng">Google AI</span><span class="dots">●●<i>●●●●●●●●</i></span><span class="rate">2/10</span></div>
+          <div class="runrow"><span class="eng">Perplexity</span><span class="dots">●<i>●●●●●●●●●</i></span><span class="rate">1/10</span></div>
+          <div class="runrow"><span class="eng">Gemini</span><span class="dots">●●●<i>●●●●●●●</i></span><span class="rate">3/10</span></div>
+          <div class="runrow comp"><span class="eng">Competitor</span><span class="dots">●●●●●●●●<i>●●</i></span><span class="rate">8/10</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div>
+        <span class="chip">§3 — JUDGING</span>
+        <h2>Every answer graded against ground truth</h2>
+        <p class="body">A mention isn't enough. Each answer is judged against <b>a fact sheet you approve</b>: present? prominent? <b>accurate?</b> "AI says you close at 5 — you run 24/7" is a finding, not a blind spot.</p>
+      </div>
+      <div class="card">
+        <div class="top"><span>judge verdict — run 7/10 · chatgpt</span><span class="dim2">fact sheet v3</span></div>
+        <div class="pad">
+          <div class="vrow"><span class="k">presence</span><span class="v"><b>Mentioned</b> — 2nd of 3 named</span></div>
+          <div class="vrow"><span class="k">prominence</span><span class="v"><b>Secondary</b> — not the lead recommendation</span></div>
+          <div class="vrow"><span class="k">accuracy</span><span class="v"><b>1 error</b> — says weekdays only; you run 24/7 emergency<br><span class="flag">wrong_hours_or_availability · HIGH</span></span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div>
+        <span class="chip">§4 — THE REPORT</span>
+        <h2>Numbers first, then the roadmap</h2>
+        <p class="body">Rates by engine and question type, <b>the queries you're losing</b>, who's named instead, and a fix list ranked by <b>what the evidence says moves answers</b>.</p>
+      </div>
+      <div class="deliv">
+        <div><b>Mention rates</b><span>per engine · per question type</span></div>
+        <div><b>Losing queries</b><span>where a rival is named, not you</span></div>
+        <div><b>Source map</b><span>the sites AI cites — where you're missing</span></div>
+        <div><b>Roadmap</b><span>prioritized, evidence-ranked fixes</span></div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div>
+        <span class="chip red">§5 — THE FINE PRINT, UP FRONT</span>
+        <h2>What we won't promise</h2>
+      </div>
+      <div class="pull">
+        <p><b>Nobody controls what ChatGPT says.</b> Anyone guaranteeing you #1 is selling something they can't deliver. <em>We deliver measurement</em> — where you stand, how it changes, what actually helps.</p>
+        <p class="who"><span class="chip">NO GUARANTEES</span>SAMPLED RATES · NO THEATER</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<section class="final">
+  <div class="wrap">
+    <h2>See the protocol run on your business.</h2>
+    <p>The free check is a small version of exactly this — real queries, real engines, real answers.</p>
+    <a class="btn" href="#">Get your free visibility check</a>
+    <p class="note">NO CALL REQUIRED · REPORT BY EMAIL IN 1–2 BUSINESS DAYS</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <div><b style="color:var(--ink)">[Brand]</b> · Berkeley, CA · hello@[domain].com</div>
+    <div><a href="#">How it works</a><a href="#">Sample report</a><a href="#">Pricing</a><a href="#">Learn</a><a href="#">About</a><a href="#">Contact</a></div>
+  </div>
+</footer>
+
+</body>
+</html>
