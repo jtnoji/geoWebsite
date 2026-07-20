@@ -157,17 +157,21 @@ site that fails its own audit.
 
 ## 6. /free-check form backend (manual-queue, static-site compatible)
 
-Static export = no API routes. Launch options, simplest first:
+**Status: WIRED (2026-07-20)** to Supabase project `satjbyfjzrwocwwonsxz`
+(config in `lib/site.ts`; not on Josh's Supabase account — believed to be
+Abhi's). `FreeCheckForm` POSTs `{business, website, area, description, email}`
+to `/rest/v1/leads` with the publishable key. Queue is manual: check the
+Supabase dashboard → run teaser → email report.
 
-1. **Formspree (or Basin/Getform) → email + dashboard.** Zero backend; queue is
-   your inbox. Fine for launch volume. ~15 min to wire.
-2. **Supabase table + anon insert** — you already run Supabase; submissions land
-   in a `leads` table Josh checks; RLS insert-only policy. Slightly more setup,
-   owns the data, no third party.
-
-Recommendation: **option 2** (Supabase) since the platform already lives there —
-one `leads` table, insert-only from the browser, Josh reviews → runs teaser →
-emails report. Either way the form component is unchanged; swap the submit URL.
+**Before launch, run `node scripts/verify-leads-backend.mjs`** (needs network,
+so run on a dev machine, not in a sandbox). It proves, using only the
+browser-facing key: INSERT works with the form's exact field names, and
+SELECT / DELETE / UPDATE are all blocked by RLS. A readable `leads` table
+would leak every prospect's email to anyone who opens the site's JS bundle —
+this check is a launch gate, and belongs in the pre-deploy checklist any time
+the key, table, or policies change. Expected RLS: enable RLS on `leads`,
+one policy `FOR INSERT TO anon WITH CHECK (true)`, and NO select/update/
+delete policies for anon.
 
 ## 7. Build sequence (each step ships something reviewable)
 

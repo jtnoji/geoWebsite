@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { FORM_ENDPOINT } from "@/lib/site";
+import { useEffect, useState } from "react";
+import { FORM_ENDPOINT, SUPABASE_PUBLISHABLE_KEY } from "@/lib/site";
 
 /**
  * The ONE interactive island besides the nav toggle (scaffold §1 rule).
@@ -22,15 +22,36 @@ const INPUT_CLASS =
 export default function FreeCheckForm() {
   const [status, setStatus] = useState<"idle" | "submitting" | "done" | "error">("idle");
 
+  // Attribution, captured client-side into hidden inputs (leads-table.sql):
+  // `source` = the ?src= campaign code on cold-email links; `referrer` = where
+  // the visitor came from (google / chatgpt / linkedin). Filled after mount so
+  // the server-rendered HTML stays stable.
+  const [source, setSource] = useState("");
+  const [referrer, setReferrer] = useState("");
+
+  useEffect(() => {
+    setSource(new URLSearchParams(window.location.search).get("src") ?? "");
+    setReferrer(document.referrer);
+  }, []);
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setStatus("submitting");
     const data = Object.fromEntries(new FormData(e.currentTarget).entries());
+    // Store blanks as NULL rather than empty strings in the nullable columns.
+    for (const key of ["source", "referrer"]) {
+      if (!data[key]) delete data[key];
+    }
     try {
-      if (FORM_ENDPOINT) {
+      if (FORM_ENDPOINT && SUPABASE_PUBLISHABLE_KEY) {
         const res = await fetch(FORM_ENDPOINT, {
           method: "POST",
-          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            apikey: SUPABASE_PUBLISHABLE_KEY,
+            Authorization: `Bearer ${SUPABASE_PUBLISHABLE_KEY}`,
+            Prefer: "return=minimal",
+          },
           body: JSON.stringify(data),
         });
         if (!res.ok) throw new Error(`Submit failed: ${res.status}`);
@@ -59,6 +80,9 @@ export default function FreeCheckForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5" data-testid="free-check-form">
+      <input type="hidden" name="source" value={source} readOnly />
+      <input type="hidden" name="referrer" value={referrer} readOnly />
+
       {FIELDS.map((field) => (
         <div key={field.name}>
           <label htmlFor={field.name} className="block text-sm font-semibold text-ink">

@@ -18,6 +18,11 @@ for (const page of PAGES) {
 }
 
 test("free-check form fills, submits, and confirms", async ({ page }) => {
+  // Stub the Supabase insert so CI runs never write real rows to the leads
+  // queue; the form's real submit path is still exercised.
+  await page.route("**/rest/v1/leads", (route) =>
+    route.fulfill({ status: 201, body: "" })
+  );
   await page.goto("/free-check/");
 
   await page.fill("#business", "Acme Test Plumbing");

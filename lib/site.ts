@@ -39,12 +39,16 @@ export const PRICING = {
 } as const;
 
 /**
- * Where FreeCheckForm POSTs submissions (manual-queue backend, scaffold §6).
- * Empty string = not wired yet; the form validates and shows the confirmation
- * state so the funnel works end-to-end while the queue backend is chosen
- * (Formspree URL or Supabase insert endpoint).
+ * Manual-queue backend (scaffold §6, CLAUDE.md forms invariant): submissions
+ * INSERT into the Supabase `leads` table. RLS allows anon INSERT only — the
+ * publishable key below is the one browser-facing credential and cannot read
+ * the queue back. While the key is unset the form validates and confirms
+ * without POSTing, so the funnel stays testable.
  */
-export const FORM_ENDPOINT = "";
+export const SUPABASE_URL = "https://satjbyfjzrwocwwonsxz.supabase.co";
+export const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_-eUBJsJhX_-TCJXvj8TeoQ_h7PGeQc7"; // browser-safe: RLS insert-only
+export const FORM_ENDPOINT = `${SUPABASE_URL}/rest/v1/leads`;
 
 export const NAV_LINKS = [
   { href: "/", label: "Home" },
