@@ -22,7 +22,7 @@ export default function Contact() {
           <h2 className="text-base font-semibold text-ink">Email</h2>
           <a
             href={`mailto:${EMAIL}`}
-            className="mt-2 inline-block text-base font-medium text-accent hover:text-accent-dark"
+            className="mt-2 inline-block text-base font-medium text-ink hover:text-accent"
           >
             {EMAIL}
           </a>
@@ -51,7 +51,7 @@ export default function Contact() {
           </p>
           <Link
             href="/free-check/"
-            className="mt-4 inline-block rounded-md bg-accent px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-accent-dark"
+            className="btn-solid mt-4 px-5 py-2.5 text-sm"
           >
             Get your free AI visibility check
           </Link>

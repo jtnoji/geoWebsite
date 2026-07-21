@@ -17,7 +17,7 @@ const FIELDS = [
 ] as const;
 
 const INPUT_CLASS =
-  "mt-1.5 w-full rounded-md border border-line-dark bg-white px-3 py-2.5 text-base text-ink placeholder:text-ink-faint focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/15";
+  "mt-1.5 w-full rounded-xl border border-line-dark bg-white px-3 py-2.5 text-base text-ink placeholder:text-ink-faint focus:border-ink focus:outline-none focus:ring-[3px] focus:ring-ink/15";
 
 export default function FreeCheckForm() {
   const [status, setStatus] = useState<"idle" | "submitting" | "done" | "error">("idle");
@@ -130,7 +130,7 @@ export default function FreeCheckForm() {
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="w-full rounded-md bg-accent px-6 py-3 text-[15px] font-semibold text-white transition-colors hover:bg-accent-dark disabled:opacity-60"
+        className="btn-solid w-full px-6 py-3 text-center text-[15px] disabled:opacity-60"
       >
         {status === "submitting" ? "Submitting…" : "Run my free check"}
       </button>

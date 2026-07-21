@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:linear-gradient(180deg,#cfe0f5 0%,#dce7f1 38%,#eee7d6 76%,#f4ecd4 100%);background-attachment:fixed;min-height:100vh;color:#003262;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.55;font-size:16px}
+  a{color:#003262}
+  a:hover{color:#a86a00}
+  h1,h2,h3,p{margin:0}
+  @keyframes weirbob{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+</style>
+</helmet>
+<div style="min-height:100vh;display:flex;flex-direction:column;padding-bottom:78px">
+
+  <header style="position:sticky;top:0;z-index:40;background:linear-gradient(180deg,rgba(220,229,246,0.92),rgba(220,229,246,0));backdrop-filter:blur(10px)">
+    <div style="display:flex;align-items:center;gap:32px;height:78px;max-width:1200px;margin:0 auto;padding:0 40px">
+      <button onClick="{{ goHome }}" style="font-size:25px;font-weight:600;letter-spacing:-0.01em;color:#003262;background:none;border:none;cursor:pointer;font-family:inherit;padding:0">[Brand]</button>
+      <nav aria-label="Main" style="margin-left:auto;display:flex;align-items:center;gap:34px">
+        <button onClick="{{ goHow }}" style="{{ navHowStyle }}">How it works</button>
+        <button onClick="{{ goSample }}" style="{{ navSampleStyle }}">Sample report</button>
+        <button onClick="{{ goPricing }}" style="{{ navPricingStyle }}">Pricing</button>
+        <button onClick="{{ goLearn }}" style="{{ navLearnStyle }}">Learn</button>
+        <button onClick="{{ goAbout }}" style="{{ navAboutStyle }}">About</button>
+        <button onClick="{{ goFree }}" style="white-space:nowrap;border-radius:999px;background:#003262;color:#fff;font-size:12.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:13px 22px;border:none;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:8px" style-hover="background:#a86a00">Free check <span style="font-size:15px">&#10230;</span></button>
+      </nav>
+    </div>
+  </header>
+
+  <main style="flex:1">
+
+    <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+    <div>
+      <section>
+        <div style="max-width:920px;margin:0 auto;padding:64px 32px 24px;text-align:center">
+          <span style="display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(46,59,71,0.22);border-radius:999px;padding:9px 18px;font-size:13px;font-weight:500;color:#003262;background:rgba(255,255,255,0.4)"><span style="width:7px;height:7px;border-radius:999px;background:#a86a00"></span>Measured across ChatGPT &middot; Google AI &middot; Gemini &middot; Perplexity</span>
+          <h1 style="margin:26px auto 0;max-width:840px;font-weight:500;font-size:clamp(40px,6vw,74px);line-height:1.03;letter-spacing:-0.02em;color:#003262">When AI recommends a business, does it say your name?</h1>
+          <p style="margin:24px auto 0;max-width:560px;font-size:18px;line-height:1.6;color:#616b76">ChatGPT, Google AI, and Perplexity now answer your customers&rsquo; questions directly — and they name only a few businesses per answer. We measure whether you&rsquo;re one of them, who&rsquo;s named instead, and what&rsquo;s driving the answer.</p>
+          <div style="margin-top:34px;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:16px">
+            <button onClick="{{ goFree }}" style="border-radius:999px;background:#003262;color:#fff;font-weight:600;font-size:13.5px;letter-spacing:.1em;text-transform:uppercase;padding:15px 26px;border:none;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:10px" style-hover="background:#a86a00">Get your free check <span style="font-size:16px">&#10230;</span></button>
+            <button onClick="{{ goSample }}" style="border-radius:999px;background:rgba(255,255,255,0.45);color:#003262;font-weight:600;font-size:13.5px;letter-spacing:.1em;text-transform:uppercase;padding:15px 26px;border:1px solid rgba(46,59,71,0.2);cursor:pointer;font-family:inherit" style-hover="border-color:#003262">See a sample report</button>
+          </div>
+          <div style="margin-top:50px;display:flex;justify-content:center;color:#003262;animation:weirbob 2.4s ease-in-out infinite"><svg width="30" height="18" viewBox="0 0 30 18" fill="none"><path d="M3 3l12 12L27 3" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div style="max-width:1000px;margin:0 auto;padding:60px 32px 96px">
+          <div style="max-width:660px;margin:0 auto;position:relative">
+            <div style="border-radius:22px;background:#f6f3ea;box-shadow:0 34px 70px -26px rgba(46,59,71,0.4);overflow:hidden">
+              <div style="display:flex;justify-content:space-between;gap:12px;padding:15px 22px;font-size:12px;color:#8b95a0;border-bottom:1px solid rgba(46,59,71,0.08)"><span style="font-weight:600;color:#003262">chatgpt &nbsp;&middot;&nbsp; &ldquo;best plumber near berkeley&rdquo;</span><span>run 3/10</span></div>
+              <p style="padding:22px 24px 6px;font-size:16px;line-height:1.65;color:#616b76">Based on reviews and reputation, I&rsquo;d recommend <b style="color:#003262;font-weight:600">Apex Plumbing Co.</b>, <b style="color:#003262;font-weight:600">BayFlow Drains</b>, or <b style="color:#003262;font-weight:600">Hartley &amp; Sons</b>. All three are well-reviewed for residential work in the Berkeley area&hellip;</p>
+              <div style="margin:8px 24px 22px;display:inline-flex;align-items:center;gap:10px;padding:10px 16px;border-radius:12px;background:#fdf0cf;color:#a86a00;font-weight:600;font-size:14px"><span style="width:8px;height:8px;border-radius:999px;background:#a86a00"></span>Your business — not mentioned</div>
+            </div>
+            <div style="position:absolute;right:-34px;top:-54px;background:#fff;border-radius:18px;box-shadow:0 24px 48px -22px rgba(46,59,71,0.45);padding:16px 20px;max-width:212px"><p style="font-size:28px;font-weight:600;color:#003262;line-height:1">3<span style="color:#8b95a0;font-size:15px;font-weight:500"> / 10 runs</span></p><p style="margin-top:6px;font-size:13px;line-height:1.4;color:#8b95a0">named on ChatGPT &mdash; <span style="color:#a86a00;font-weight:600">competitor: 8/10</span></p></div>
+          </div>
+        </div>
+      </section>
+
+      <section style="border-bottom:1px solid rgba(46,59,71,0.08)">
+        <div style="max-width:1120px;margin:0 auto;padding:56px 32px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:48px">
+          <figure style="margin:0;border-top:2px solid #003262;padding-top:16px">
+            <p style="font-size:36px;font-weight:700;letter-spacing:-0.03em;color:#003262">45%</p>
+            <blockquote style="margin:6px 0 0;max-width:270px;font-size:14px;line-height:1.5;color:#616b76">of U.S. consumers used AI tools to find local businesses last year — <b style="color:#003262">up from 6%</b> the year before.</blockquote>
+            <figcaption style="margin-top:10px;font-family:'Poppins',sans-serif;font-size:11px;color:#8b95a0;text-transform:uppercase"><a href="https://www.brightlocal.com/research/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none">BrightLocal, 2026</a></figcaption>
+          </figure>
+          <figure style="margin:0;border-top:2px solid #003262;padding-top:16px">
+            <p style="font-size:36px;font-weight:700;letter-spacing:-0.03em;color:#003262">3× fewer</p>
+            <blockquote style="margin:6px 0 0;max-width:270px;font-size:14px;line-height:1.5;color:#616b76">businesses appear in AI answers than in traditional search results. <b style="color:#003262">The shortlist got smaller.</b></blockquote>
+            <figcaption style="margin-top:10px;font-family:'Poppins',sans-serif;font-size:11px;color:#8b95a0;text-transform:uppercase"><a href="https://www.sterlingsky.ca/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none">Sterling Sky / Places Scout</a></figcaption>
+          </figure>
+          <figure style="margin:0;border-top:2px solid #003262;padding-top:16px">
+            <p style="font-size:36px;font-weight:700;letter-spacing:-0.03em;color:#003262">2 of 3</p>
+            <blockquote style="margin:6px 0 0;max-width:270px;font-size:14px;line-height:1.5;color:#616b76">informational Google searches now show an <b style="color:#003262">AI-generated answer</b> above the results.</blockquote>
+            <figcaption style="margin-top:10px;font-family:'Poppins',sans-serif;font-size:11px;color:#8b95a0;text-transform:uppercase"><a href="https://whitespark.ca/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none">Whitespark, 2025</a></figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section style="border-bottom:1px solid rgba(46,59,71,0.08)">
+        <div style="max-width:1120px;margin:0 auto;padding:80px 32px">
+          <div style="display:grid;grid-template-columns:6fr 5fr;gap:72px;align-items:start">
+            <div>
+              <span style="display:inline-block;font-family:'Poppins',sans-serif;font-size:12px;font-weight:600;color:#fff;background:#003262;padding:6px 12px;letter-spacing:.06em;text-transform:uppercase">What we do</span>
+              <h2 style="font-weight:700;font-size:clamp(26px,3.2vw,34px);letter-spacing:-0.035em;margin:14px 0;max-width:560px;color:#003262">We measure it. Properly.</h2>
+              <p style="font-size:16.5px;color:#616b76;max-width:520px;line-height:1.55">We run the questions your customers actually ask — across ChatGPT, Google&rsquo;s AI answers, Gemini, and Perplexity, <b style="color:#003262">multiple times each</b>, because AI answers change run to run. Then we judge every answer. You get numbers, not vibes.</p>
+              <dl style="margin:30px 0 0">
+                <div style="display:grid;grid-template-columns:140px 1fr;gap:18px;padding:16px 0;border-top:1px solid rgba(46,59,71,0.08)"><dt style="font-size:15px;font-weight:700;color:#003262">Mention rate</dt><dd style="margin:0;font-size:14px;color:#616b76;line-height:1.45"><b style="color:#003262;font-weight:700">Named in 7 of 10 runs</b> — rates, not one-off screenshots.</dd></div>
+                <div style="display:grid;grid-template-columns:140px 1fr;gap:18px;padding:16px 0;border-top:1px solid rgba(46,59,71,0.08)"><dt style="font-size:15px;font-weight:700;color:#003262">Share of voice</dt><dd style="margin:0;font-size:14px;color:#616b76;line-height:1.45">You vs. the competitors AI names instead of you.</dd></div>
+                <div style="display:grid;grid-template-columns:140px 1fr;gap:18px;padding:16px 0;border-top:1px solid rgba(46,59,71,0.08)"><dt style="font-size:15px;font-weight:700;color:#003262">Accuracy</dt><dd style="margin:0;font-size:14px;color:#616b76;line-height:1.45">What AI says about you, <b style="color:#003262;font-weight:700">checked against the facts</b>.</dd></div>
+                <div style="display:grid;grid-template-columns:140px 1fr;gap:18px;padding:16px 0;border-top:1px solid rgba(46,59,71,0.08)"><dt style="font-size:15px;font-weight:700;color:#003262">Sources</dt><dd style="margin:0;font-size:14px;color:#616b76;line-height:1.45">The exact sites AI cites when it builds the answer.</dd></div>
+              </dl>
+            </div>
+            <div>
+              <div style="border:1px solid rgba(46,59,71,0.14);background:#fff">
+                <div style="display:flex;justify-content:space-between;gap:12px;background:#003262;color:#fff;padding:9px 14px;font-family:'Poppins',sans-serif;font-size:11px"><span>mention rate by engine — sample</span><span style="color:#9aa4af">10 runs/engine</span></div>
+                <div style="padding:18px">
+                  <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;font-size:13px"><span style="width:88px;font-weight:700;font-size:12.5px">ChatGPT</span><span style="letter-spacing:2.5px;font-size:14px;color:#003262">●●●●<span style="color:#c7ccd6">●●●●●●</span></span><span style="margin-left:auto;font-family:'Poppins',sans-serif;font-size:12.5px;font-weight:600">4/10</span></div>
+                  <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;font-size:13px"><span style="width:88px;font-weight:700;font-size:12.5px">Google AI</span><span style="letter-spacing:2.5px;font-size:14px;color:#003262">●●<span style="color:#c7ccd6">●●●●●●●●</span></span><span style="margin-left:auto;font-family:'Poppins',sans-serif;font-size:12.5px;font-weight:600">2/10</span></div>
+                  <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;font-size:13px"><span style="width:88px;font-weight:700;font-size:12.5px">Perplexity</span><span style="letter-spacing:2.5px;font-size:14px;color:#003262">●<span style="color:#c7ccd6">●●●●●●●●●</span></span><span style="margin-left:auto;font-family:'Poppins',sans-serif;font-size:12.5px;font-weight:600">1/10</span></div>
+                  <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;font-size:13px"><span style="width:88px;font-weight:700;font-size:12.5px">Gemini</span><span style="letter-spacing:2.5px;font-size:14px;color:#003262">●●●<span style="color:#c7ccd6">●●●●●●●</span></span><span style="margin-left:auto;font-family:'Poppins',sans-serif;font-size:12.5px;font-weight:600">3/10</span></div>
+                  <div style="display:flex;align-items:center;gap:12px;font-size:13px;color:#a86a00"><span style="width:88px;font-weight:700;font-size:12.5px">Competitor</span><span style="letter-spacing:2.5px;font-size:14px;color:#a86a00">●●●●●●●●<span style="color:#f0cabb">●●</span></span><span style="margin-left:auto;font-family:'Poppins',sans-serif;font-size:12.5px;font-weight:600">8/10</span></div>
+                </div>
+                <div style="border-top:1px solid rgba(46,59,71,0.08);padding:10px 18px;font-family:'Poppins',sans-serif;font-size:11px;color:#8b95a0">n=32 queries · anonymized client · may 2026</div>
+              </div>
+              <p style="margin-top:12px;font-family:'Poppins',sans-serif;font-size:11px"><button onClick="{{ goSample }}" style="background:none;border:none;padding:0;font:inherit;color:#003262;cursor:pointer">see the full sample report →</button></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section style="border-bottom:1px solid rgba(46,59,71,0.08)">
+        <div style="max-width:1120px;margin:0 auto;padding:80px 32px">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px">
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:16px">
+              <span style="display:inline-block;font-family:'Poppins',sans-serif;font-size:12px;font-weight:600;color:#fff;background:#003262;padding:6px 12px;letter-spacing:.06em;text-transform:uppercase">How it works</span>
+              <h2 style="font-weight:700;font-size:clamp(26px,3.2vw,34px);letter-spacing:-0.035em;color:#003262">Three steps, no theater</h2>
+            </div>
+            <button onClick="{{ goHow }}" style="background:none;border:none;padding:0;font-family:inherit;font-size:14px;font-weight:600;color:#003262;cursor:pointer">Full methodology →</button>
+          </div>
+          <ol style="list-style:none;margin:34px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr)">
+            <li style="border:1px solid rgba(46,59,71,0.14);border-right:none;background:#fff"><span style="display:block;background:#003262;color:#fff;font-family:'Poppins',sans-serif;font-size:11px;padding:6px 14px">01</span><div style="padding:16px 16px 18px"><h3 style="font-size:16px;font-weight:700;margin:0 0 6px;letter-spacing:-0.01em;color:#003262">We ask</h3><p style="font-size:14px;color:#616b76;line-height:1.45">A versioned set of real customer questions, run across every major AI engine — multiple times each, to average out the noise.</p></div></li>
+            <li style="border:1px solid rgba(46,59,71,0.14);border-right:none;background:#fff"><span style="display:block;background:#003262;color:#fff;font-family:'Poppins',sans-serif;font-size:11px;padding:6px 14px">02</span><div style="padding:16px 16px 18px"><h3 style="font-size:16px;font-weight:700;margin:0 0 6px;letter-spacing:-0.01em;color:#003262">We judge</h3><p style="font-size:14px;color:#616b76;line-height:1.45">Every answer graded for your presence, prominence, and accuracy against a fact sheet you approve.</p></div></li>
+            <li style="border:1px solid rgba(46,59,71,0.14);background:#fff"><span style="display:block;background:#003262;color:#fff;font-family:'Poppins',sans-serif;font-size:11px;padding:6px 14px">03</span><div style="padding:16px 16px 18px"><h3 style="font-size:16px;font-weight:700;margin:0 0 6px;letter-spacing:-0.01em;color:#003262">You get a roadmap</h3><p style="font-size:14px;color:#616b76;line-height:1.45">Your numbers, your gaps, and a prioritized fix list ordered by what actually moves AI answers.</p></div></li>
+          </ol>
+        </div>
+      </section>
+
+      <section style="border-bottom:1px solid rgba(46,59,71,0.08)">
+        <div style="max-width:1120px;margin:0 auto;padding:80px 32px">
+          <h2 style="font-weight:700;font-size:clamp(26px,3.2vw,34px);letter-spacing:-0.035em;max-width:560px;color:#003262">The shortlist got smaller</h2>
+          <p style="margin-top:16px;max-width:540px;font-size:16px;line-height:1.6;color:#616b76">When a customer asks Google or ChatGPT &ldquo;best {your category} near me&rdquo; or &ldquo;which {product} should I buy,&rdquo; the answer isn&rsquo;t ten blue links anymore. It&rsquo;s <b style="color:#003262">a paragraph that names two or three options</b>. If you&rsquo;re not in that paragraph, you&rsquo;re not in the conversation — and you can&rsquo;t see it happening, because everyone&rsquo;s answer looks different and nobody screenshots the AI that <em>didn&rsquo;t</em> mention them.</p>
+        </div>
+      </section>
+
+      <section>
+        <div style="max-width:1120px;margin:0 auto;padding:80px 32px">
+          <aside style="max-width:680px">
+            <span style="display:inline-block;font-family:'Poppins',sans-serif;font-size:12px;font-weight:600;color:#003262;background:#FDB515;padding:6px 12px;letter-spacing:.06em;text-transform:uppercase">What we won&rsquo;t promise</span>
+            <div style="margin-top:14px;border-top:2px solid #003262;padding-top:20px">
+              <p style="font-size:21px;font-weight:500;line-height:1.45;letter-spacing:-0.02em;color:#616b76"><b style="color:#003262;font-weight:700">Nobody controls what ChatGPT says</b> — anyone who guarantees you a #1 spot in AI answers is selling something they can&rsquo;t deliver. <em style="font-style:normal;font-weight:700;color:#003262">What we deliver is measurement</em>: where you stand, how it changes over time, and which fixes have evidence behind them. Our reports show sampled rates with honest uncertainty, because that&rsquo;s the only claim that survives contact with how these systems actually behave.</p>
+              <p style="margin-top:16px;font-family:'Poppins',sans-serif;font-size:11.5px;color:#8b95a0;text-transform:uppercase"><span style="display:inline-block;font-size:12px;font-weight:600;color:#fff;background:#003262;padding:6px 12px;letter-spacing:.06em;margin-right:10px">No guarantees</span>Sampled rates · No theater</p>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section style="border-top:1px solid rgba(46,59,71,0.08)">
+        <div style="max-width:1120px;margin:0 auto;padding:88px 32px">
+          <h2 style="font-weight:700;font-size:clamp(28px,3.6vw,40px);letter-spacing:-0.03em;max-width:576px;color:#003262">Find out what AI says about you. Free.</h2>
+          <p style="margin-top:14px;max-width:576px;font-size:16px;line-height:1.6;color:#616b76">Takes one minute. We&rsquo;ll email your report within 1–2 business days.</p>
+          <div style="margin-top:30px;display:flex;flex-wrap:wrap;align-items:center;gap:24px">
+            <button onClick="{{ goFree }}" style="display:inline-block;background:#003262;color:#fff;font-weight:600;font-size:15px;padding:12px 22px;border-radius:12px;border:none;cursor:pointer;font-family:inherit" style-hover="background:#24303a">Get your free visibility check</button>
+          </div>
+          <p style="margin-top:16px;font-family:'Poppins',sans-serif;font-size:11.5px;color:#8b95a0;text-transform:uppercase">No call required · No obligation · Real data from real AI answers</p>
+        </div>
+      </section>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ isFree }}">
+    <div style="max-width:672px;margin:0 auto;padding:64px 32px">
+      <sc-if value="{{ showFreeIntro }}" hint-placeholder-val="{{ true }}">
+      <h1 style="font-size:clamp(30px,4vw,36px);font-weight:700;line-height:1.1;letter-spacing:-0.02em;color:#003262">What does AI say when customers ask about businesses like yours?</h1>
+      <p style="margin-top:20px;font-size:16px;line-height:1.75;color:#616b76">Tell us who you are. We&rsquo;ll run real customer questions through ChatGPT, Google&rsquo;s AI answers, and Perplexity, and email you a short report: whether you&rsquo;re mentioned, who&rsquo;s named instead of you, and which sources are shaping the answer. Free, no call required.</p>
+      </sc-if>
+
+      <div style="margin-top:40px">
+        <sc-if value="{{ isFormOpen }}" hint-placeholder-val="{{ true }}">
+        <form onSubmit="{{ onSubmit }}" style="display:flex;flex-direction:column;gap:20px">
+          <div><label for="fc-business" style="display:block;font-size:14px;font-weight:600;color:#003262">Business name</label><input id="fc-business" name="business" type="text" required placeholder="Acme Plumbing" style="margin-top:6px;width:100%;border-radius:12px;border:1px solid rgba(46,59,71,0.14);background:#fff;padding:10px 12px;font-size:16px;color:#003262;font-family:inherit;outline:none" style-focus="border-color:#003262;box-shadow:0 0 0 3px rgba(46,59,71,0.15)"></div>
+          <div><label for="fc-website" style="display:block;font-size:14px;font-weight:600;color:#003262">Website</label><input id="fc-website" name="website" type="url" required placeholder="https://acmeplumbing.com" style="margin-top:6px;width:100%;border-radius:12px;border:1px solid rgba(46,59,71,0.14);background:#fff;padding:10px 12px;font-size:16px;color:#003262;font-family:inherit;outline:none" style-focus="border-color:#003262;box-shadow:0 0 0 3px rgba(46,59,71,0.15)"></div>
+          <div><label for="fc-area" style="display:block;font-size:14px;font-weight:600;color:#003262">City / service area</label><input id="fc-area" name="area" type="text" required placeholder="Berkeley, CA" style="margin-top:6px;width:100%;border-radius:12px;border:1px solid rgba(46,59,71,0.14);background:#fff;padding:10px 12px;font-size:16px;color:#003262;font-family:inherit;outline:none" style-focus="border-color:#003262;box-shadow:0 0 0 3px rgba(46,59,71,0.15)"></div>
+          <div><label for="fc-desc" style="display:block;font-size:14px;font-weight:600;color:#003262">What do you do?</label><textarea id="fc-desc" name="description" required rows="3" placeholder="Residential plumbing — repairs, water heaters, repiping." style="margin-top:6px;width:100%;border-radius:12px;border:1px solid rgba(46,59,71,0.14);background:#fff;padding:10px 12px;font-size:16px;color:#003262;font-family:inherit;outline:none;resize:vertical" style-focus="border-color:#003262;box-shadow:0 0 0 3px rgba(46,59,71,0.15)"></textarea></div>
+          <div><label for="fc-email" style="display:block;font-size:14px;font-weight:600;color:#003262">Email</label><input id="fc-email" name="email" type="email" required placeholder="you@yourbusiness.com" style="margin-top:6px;width:100%;border-radius:12px;border:1px solid rgba(46,59,71,0.14);background:#fff;padding:10px 12px;font-size:16px;color:#003262;font-family:inherit;outline:none" style-focus="border-color:#003262;box-shadow:0 0 0 3px rgba(46,59,71,0.15)"></div>
+          <button type="submit" disabled="{{ isSubmitting }}" style="width:100%;border-radius:12px;background:#003262;color:#fff;padding:12px 24px;font-size:15px;font-weight:600;border:none;cursor:pointer;font-family:inherit" style-hover="background:#24303a">{{ submitLabel }}</button>
+        </form>
+        </sc-if>
+        <sc-if value="{{ isFormDone }}">
+        <div style="border-top:2px solid #003262;padding-top:24px">
+          <h2 style="font-size:24px;font-weight:700;letter-spacing:-0.02em;color:#003262">Got it — we&rsquo;re running your check.</h2>
+          <p style="margin-top:12px;font-size:16px;line-height:1.75;color:#616b76">Your report will land in your inbox within 1–2 business days.</p>
+        </div>
+        </sc-if>
+      </div>
+
+      <sc-if value="{{ showFreeIntro }}" hint-placeholder-val="{{ true }}">
+      <div style="margin-top:56px;border-top:2px solid #003262;padding-top:20px">
+        <h2 style="font-family:'Poppins',sans-serif;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:#8b95a0">What you&rsquo;ll get</h2>
+        <ul style="list-style:none;margin:16px 0 0;padding:0">
+          <li style="padding:12px 0;font-size:14px;line-height:1.5;color:#616b76">Verbatim excerpts of what the AI engines said</li>
+          <li style="padding:12px 0;font-size:14px;line-height:1.5;color:#616b76;border-top:1px solid rgba(46,59,71,0.08)">The competitors named instead of you, by name</li>
+          <li style="padding:12px 0;font-size:14px;line-height:1.5;color:#616b76;border-top:1px solid rgba(46,59,71,0.08)">The sources the AI cited</li>
+          <li style="padding:12px 0;font-size:14px;line-height:1.5;color:#616b76;border-top:1px solid rgba(46,59,71,0.08)">Whether AI bots can even read your website</li>
+        </ul>
+      </div>
+      </sc-if>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ isSample }}">
+    <div>
+      <div style="max-width:1120px;margin:0 auto;padding:64px 32px">
+        <div style="max-width:560px">
+          <h1 style="font-size:clamp(30px,4vw,36px);font-weight:700;letter-spacing:-0.02em;color:#003262">This is what you actually get.</h1>
+          <p style="margin-top:20px;font-size:16px;line-height:1.75;color:#616b76">Below is an anonymized real teaser — a Berkeley plumbing company, May 2026 — shown exactly as the client received it, with margin notes on how to read each section.</p>
+        </div>
+
+        <div style="margin-top:48px;display:flex;flex-direction:column;gap:48px">
+          <section style="display:grid;grid-template-columns:2fr 1fr;gap:24px;align-items:start">
+            <div style="border:1px solid rgba(46,59,71,0.14);background:#fff">
+              <div style="display:flex;justify-content:space-between;gap:12px;background:#003262;color:#fff;padding:9px 14px;font-family:'Poppins',sans-serif;font-size:11px"><span>chatgpt — &ldquo;best plumber near me&rdquo;</span><span style="color:#9aa4af">run 3/10</span></div>
+              <p style="padding:16px;font-size:14px;color:#616b76;line-height:1.6">&ldquo;For plumbing in Berkeley, well-reviewed options include <b style="color:#003262;font-weight:700">Competitor A</b> and <b style="color:#003262;font-weight:700">Competitor B</b>&hellip;&rdquo;</p>
+              <p style="margin:0 16px 16px;padding:8px 12px;border-left:2px solid #FDB515;background:#fdf0cf;font-family:'Poppins',sans-serif;font-size:13px;font-weight:600;color:#a86a00">The client was not mentioned.</p>
+            </div>
+            <p style="border-left:1px solid rgba(46,59,71,0.14);padding-left:16px;margin:0;font-size:14px;font-style:italic;line-height:1.5;color:#616b76">Every report opens with verbatim AI answers. The bold names mark who WAS named — the client&rsquo;s absence is the finding.</p>
+          </section>
+
+          <section style="display:grid;grid-template-columns:2fr 1fr;gap:24px;align-items:start">
+            <div style="border:1px solid rgba(46,59,71,0.14);background:#fff">
+              <div style="display:flex;justify-content:space-between;gap:12px;background:#003262;color:#fff;padding:9px 14px;font-family:'Poppins',sans-serif;font-size:11px"><span>mention rate — &ldquo;best plumber near me&rdquo;</span><span style="color:#9aa4af">10 runs/engine</span></div>
+              <div style="padding:16px">
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;font-size:13px"><span style="width:88px;font-weight:700;font-size:12.5px">ChatGPT</span><span style="letter-spacing:2.5px;font-size:14px;color:#003262">●●<span style="color:#c7ccd6">●●●●●●●●</span></span><span style="margin-left:auto;font-family:'Poppins',sans-serif;font-size:12.5px;font-weight:600">2/10</span></div>
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;font-size:13px"><span style="width:88px;font-weight:700;font-size:12.5px">Google AI</span><span style="letter-spacing:2.5px;font-size:14px;color:#003262"><span style="color:#c7ccd6">●●●●●●●●●●</span></span><span style="margin-left:auto;font-family:'Poppins',sans-serif;font-size:12.5px;font-weight:600">0/10</span></div>
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;font-size:13px"><span style="width:88px;font-weight:700;font-size:12.5px">Perplexity</span><span style="letter-spacing:2.5px;font-size:14px;color:#003262">●●●<span style="color:#c7ccd6">●●●●●●●</span></span><span style="margin-left:auto;font-family:'Poppins',sans-serif;font-size:12.5px;font-weight:600">3/10</span></div>
+                <div style="display:flex;align-items:center;gap:12px;font-size:13px;color:#a86a00"><span style="width:88px;font-weight:700;font-size:12.5px">Competitor</span><span style="letter-spacing:2.5px;font-size:14px;color:#a86a00">●●●●●●●●<span style="color:#f0cabb">●●</span></span><span style="margin-left:auto;font-family:'Poppins',sans-serif;font-size:12.5px;font-weight:600">8/10</span></div>
+              </div>
+              <div style="border-top:1px solid rgba(46,59,71,0.08);padding:10px 16px;font-family:'Poppins',sans-serif;font-size:11px;color:#8b95a0">anonymized client · may 2026</div>
+            </div>
+            <p style="border-left:1px solid rgba(46,59,71,0.14);padding-left:16px;margin:0;font-size:14px;font-style:italic;line-height:1.5;color:#616b76">Rates, not ranks: each question runs multiple times per engine, because a single fetch is a coin flip. &ldquo;Mentioned in 2 of 10 runs on ChatGPT, 0 of 10 on Google AI&rdquo; is a measurement you can re-run next month and compare.</p>
+          </section>
+
+          <section style="display:grid;grid-template-columns:2fr 1fr;gap:24px;align-items:start">
+            <div style="border:1px solid rgba(46,59,71,0.14);background:#fff">
+              <div style="display:flex;justify-content:space-between;gap:12px;background:#003262;color:#fff;padding:9px 14px;font-family:'Poppins',sans-serif;font-size:11px"><span>cited-sources checklist</span><span style="color:#9aa4af">site + off-site</span></div>
+              <ul style="list-style:none;margin:0;padding:16px;font-size:13px;line-height:1.4">
+                <li style="padding-bottom:10px"><span style="font-weight:700;color:#003262">AI crawlers can read your site</span><span style="display:block;margin-top:2px;font-family:'Poppins',sans-serif;font-size:12px;font-weight:600;color:#a86a00">Blocked by firewall</span></li>
+                <li style="padding:10px 0;border-top:1px dashed rgba(46,59,71,0.08)"><span style="font-weight:700;color:#003262">Listed on the sources AI cites</span><span style="display:block;margin-top:2px;font-family:'Poppins',sans-serif;font-size:12px;color:#616b76">2 of 6 directories</span></li>
+                <li style="padding-top:10px;border-top:1px dashed rgba(46,59,71,0.08)"><span style="font-weight:700;color:#003262">Content readable without JavaScript</span><span style="display:block;margin-top:2px;font-family:'Poppins',sans-serif;font-size:12px;color:#616b76">Yes</span></li>
+              </ul>
+            </div>
+            <p style="border-left:1px solid rgba(46,59,71,0.14);padding-left:16px;margin:0;font-size:14px;font-style:italic;line-height:1.5;color:#616b76">The cited-sources checklist: which websites the engines leaned on when deciding, and whether you exist on them — what&rsquo;s blocked, what&rsquo;s thin, what&rsquo;s fine.</p>
+          </section>
+
+          <section>
+            <h2 style="font-size:24px;font-weight:700;letter-spacing:-0.02em;color:#003262">The prioritized fix list</h2>
+            <p style="margin-top:12px;max-width:560px;font-size:16px;line-height:1.75;color:#616b76">The full audit closes with fixes ordered by what actually moves AI answers — each tied to a finding in the data, never generic advice.</p>
+            <ol style="list-style:none;margin:28px 0 0;padding:0;max-width:768px">
+              <li style="display:grid;grid-template-columns:48px 1fr;gap:16px;padding:20px 0;border-top:1px solid rgba(46,59,71,0.08)"><span style="font-size:13px;font-variant-numeric:tabular-nums;color:#8b95a0">01</span><div><p style="font-weight:600;color:#003262">Unblock AI crawlers at the firewall</p><p style="margin-top:6px;font-size:14px;line-height:1.5;color:#616b76">GPTBot and PerplexityBot were receiving challenge pages — the site is invisible to the engines being measured.</p></div></li>
+              <li style="display:grid;grid-template-columns:48px 1fr;gap:16px;padding:20px 0;border-top:1px solid rgba(46,59,71,0.08)"><span style="font-size:13px;font-variant-numeric:tabular-nums;color:#8b95a0">02</span><div><p style="font-weight:600;color:#003262">Get listed on the 4 missing directories AI actually cites</p><p style="margin-top:6px;font-size:14px;line-height:1.5;color:#616b76">The engines cited the same 6 sources across runs; the client appears on 2 of them.</p></div></li>
+              <li style="display:grid;grid-template-columns:48px 1fr;gap:16px;padding:20px 0;border-top:1px solid rgba(46,59,71,0.08)"><span style="font-size:13px;font-variant-numeric:tabular-nums;color:#8b95a0">03</span><div><p style="font-weight:600;color:#003262">Publish answer-first service pages for the 3 losing queries</p><p style="margin-top:6px;font-size:14px;line-height:1.5;color:#616b76">Competitors&rsquo; pages were quoted verbatim in answers; the client had no page addressing those questions.</p></div></li>
+            </ol>
+          </section>
+        </div>
+      </div>
+
+      <section style="border-top:1px solid rgba(46,59,71,0.08)">
+        <div style="max-width:1120px;margin:0 auto;padding:88px 32px">
+          <h2 style="font-weight:700;font-size:clamp(28px,3.6vw,40px);letter-spacing:-0.03em;max-width:576px;color:#003262">Want yours?</h2>
+          <p style="margin-top:14px;max-width:576px;font-size:16px;line-height:1.6;color:#616b76">Free visibility check — takes one minute, report in your inbox within 1–2 business days.</p>
+          <div style="margin-top:30px"><button onClick="{{ goFree }}" style="display:inline-block;background:#003262;color:#fff;font-weight:600;font-size:15px;padding:12px 22px;border-radius:12px;border:none;cursor:pointer;font-family:inherit" style-hover="background:#24303a">Get your free visibility check</button></div>
+          <p style="margin-top:16px;font-family:'Poppins',sans-serif;font-size:11.5px;color:#8b95a0;text-transform:uppercase">No call required · No obligation · Real data from real AI answers</p>
+        </div>
+      </section>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ isHow }}">
+    <div>
+      <section style="border-bottom:1px solid rgba(46,59,71,0.08)">
+        <div style="max-width:1120px;margin:0 auto;padding:72px 32px 52px">
+          <span style="display:inline-block;font-family:'Poppins',sans-serif;font-size:12px;font-weight:600;color:#fff;background:#003262;padding:6px 12px;letter-spacing:.06em;text-transform:uppercase">Methodology · v2.1 · May 2026</span>
+          <h1 style="margin:20px 0 16px;max-width:720px;font-weight:700;font-size:clamp(38px,4.8vw,58px);line-height:1.0;letter-spacing:-0.04em;color:#003262">Measurement you can actually inspect.</h1>
+          <p style="margin-bottom:28px;max-width:540px;font-size:18px;line-height:1.55;color:#616b76">The full protocol — <b style="color:#003262;font-weight:700">what we run</b>, <b style="color:#003262;font-weight:700">how often</b>, and <b style="color:#003262;font-weight:700">how every answer is judged</b>. Public, because measurement you can&rsquo;t inspect is marketing.</p>
+          <div style="display:inline-flex;flex-wrap:wrap;border:1px solid rgba(46,59,71,0.14);background:#fff;font-family:'Poppins',sans-serif;font-size:12.5px;color:#616b76">
+            <span style="padding:10px 18px;border-right:1px solid rgba(46,59,71,0.14)">n=<b style="color:#003262;font-weight:700">32</b> queries</span>
+            <span style="padding:10px 18px;border-right:1px solid rgba(46,59,71,0.14)">engines=<b style="color:#003262;font-weight:700">5</b></span>
+            <span style="padding:10px 18px;border-right:1px solid rgba(46,59,71,0.14)">runs=<b style="color:#003262;font-weight:700">10×</b> each</span>
+            <span style="padding:10px 18px;color:#003262;font-weight:600">judged vs fact sheet</span>
+          </div>
+        </div>
+      </section>
+
+      <section style="border-bottom:1px solid rgba(46,59,71,0.08)">
+        <div style="max-width:1120px;margin:0 auto;padding:56px 32px">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin-bottom:26px">
+            <span style="display:inline-block;font-family:'Poppins',sans-serif;font-size:12px;font-weight:600;color:#fff;background:#003262;padding:6px 12px;letter-spacing:.06em;text-transform:uppercase">The pipeline</span>
+            <h2 style="font-size:22px;font-weight:700;letter-spacing:-0.03em;color:#003262">Every audit, same five stages</h2>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(5,1fr)">
+            <div style="border:1px solid rgba(46,59,71,0.14);border-right:none;background:#fff;padding-bottom:18px"><span style="display:block;background:#003262;color:#fff;font-family:'Poppins',sans-serif;font-size:11px;padding:6px 14px">01</span><div style="padding:14px 14px 0"><span style="display:block;font-weight:700;font-size:15px;margin-bottom:4px;letter-spacing:-0.01em;color:#003262">Query set</span><span style="font-size:12.5px;color:#616b76;line-height:1.45">Real customer questions, locked per cycle.</span></div><div style="margin:12px 14px 0;background:#f6f3ea;padding:9px 10px;font-family:'Poppins',sans-serif;font-size:10.5px;color:#616b76;line-height:1.5;min-height:52px">&ldquo;average cost of AC replacement in berkeley&rdquo;</div></div>
+            <div style="border:1px solid rgba(46,59,71,0.14);border-right:none;background:#fff;padding-bottom:18px"><span style="display:block;background:#003262;color:#fff;font-family:'Poppins',sans-serif;font-size:11px;padding:6px 14px">02</span><div style="padding:14px 14px 0"><span style="display:block;font-weight:700;font-size:15px;margin-bottom:4px;letter-spacing:-0.01em;color:#003262">Five engines</span><span style="font-size:12.5px;color:#616b76;line-height:1.45">Chat models + live-search surfaces.</span></div><div style="margin:12px 14px 0;background:#f6f3ea;padding:9px 10px;font-family:'Poppins',sans-serif;font-size:10.5px;color:#616b76;line-height:1.5;min-height:52px">chatgpt · google ai · gemini · perplexity · claude</div></div>
+            <div style="border:1px solid rgba(46,59,71,0.14);border-right:none;background:#fff;padding-bottom:18px"><span style="display:block;background:#003262;color:#fff;font-family:'Poppins',sans-serif;font-size:11px;padding:6px 14px">03</span><div style="padding:14px 14px 0"><span style="display:block;font-weight:700;font-size:15px;margin-bottom:4px;letter-spacing:-0.01em;color:#003262">Ten runs</span><span style="font-size:12.5px;color:#616b76;line-height:1.45">Sampled — answers change run to run.</span></div><div style="margin:12px 14px 0;background:#f6f3ea;padding:9px 10px;font-family:'Poppins',sans-serif;font-size:10.5px;color:#616b76;line-height:1.5;min-height:52px"><span style="color:#003262">●●●●<span style="color:#c7ccd6">●●●●●●</span></span> → 4/10 mention rate</div></div>
+            <div style="border:1px solid rgba(46,59,71,0.14);border-right:none;background:#fff;padding-bottom:18px"><span style="display:block;background:#003262;color:#fff;font-family:'Poppins',sans-serif;font-size:11px;padding:6px 14px">04</span><div style="padding:14px 14px 0"><span style="display:block;font-weight:700;font-size:15px;margin-bottom:4px;letter-spacing:-0.01em;color:#003262">Judged</span><span style="font-size:12.5px;color:#616b76;line-height:1.45">Graded against ground truth.</span></div><div style="margin:12px 14px 0;background:#f6f3ea;padding:9px 10px;font-family:'Poppins',sans-serif;font-size:10.5px;color:#616b76;line-height:1.5;min-height:52px">presence · prominence · accuracy</div></div>
+            <div style="border:1px solid rgba(46,59,71,0.14);background:#fff;padding-bottom:18px"><span style="display:block;background:#FDB515;color:#003262;font-family:'Poppins',sans-serif;font-size:11px;padding:6px 14px">05</span><div style="padding:14px 14px 0"><span style="display:block;font-weight:700;font-size:15px;margin-bottom:4px;letter-spacing:-0.01em;color:#003262">Reported</span><span style="font-size:12.5px;color:#616b76;line-height:1.45">Rates, gaps, roadmap.</span></div><div style="margin:12px 14px 0;background:#fdf0cf;padding:9px 10px;font-family:'Poppins',sans-serif;font-size:10.5px;color:#a86a00;line-height:1.5;min-height:52px">losing queries → who&rsquo;s named instead → why</div></div>
+          </div>
+        </div>
+      </section>
+
+      <div style="display:grid;grid-template-columns:190px 1fr;gap:56px;max-width:1120px;margin:0 auto;padding:64px 32px">
+        <aside style="position:sticky;top:82px;align-self:start;font-family:'Poppins',sans-serif;font-size:12px">
+          <nav aria-label="Sections">
+            <a href="#s1" style="display:block;padding:8px 0;border-bottom:1px solid rgba(46,59,71,0.08);color:#003262;font-weight:700;text-decoration:none">§1&nbsp;&nbsp;What we ask</a>
+            <a href="#s2" style="display:block;padding:8px 0;border-bottom:1px solid rgba(46,59,71,0.08);color:#8b95a0;text-decoration:none" style-hover="color:#003262">§2&nbsp;&nbsp;How we sample</a>
+            <a href="#s3" style="display:block;padding:8px 0;border-bottom:1px solid rgba(46,59,71,0.08);color:#8b95a0;text-decoration:none" style-hover="color:#003262">§3&nbsp;&nbsp;How we judge</a>
+            <a href="#s4" style="display:block;padding:8px 0;border-bottom:1px solid rgba(46,59,71,0.08);color:#8b95a0;text-decoration:none" style-hover="color:#003262">§4&nbsp;&nbsp;What you get</a>
+            <a href="#s5" style="display:block;padding:8px 0;color:#8b95a0;text-decoration:none" style-hover="color:#003262">§5&nbsp;&nbsp;What we won&rsquo;t promise</a>
+          </nav>
+        </aside>
+
+        <div style="min-width:0">
+          <section id="s1" style="scroll-margin-top:80px;display:grid;grid-template-columns:5fr 6fr;gap:52px;padding:0 0 48px;border-bottom:1px solid rgba(46,59,71,0.08)">
+            <div>
+              <span style="display:inline-block;font-family:'Poppins',sans-serif;font-size:12px;font-weight:600;color:#fff;background:#003262;padding:6px 12px;letter-spacing:.06em;text-transform:uppercase">§1 — The query set</span>
+              <h2 style="margin:14px 0 12px;max-width:360px;font-weight:700;font-size:28px;line-height:1.1;letter-spacing:-0.035em;color:#003262">The questions your customers actually ask</h2>
+              <p style="font-size:15.5px;line-height:1.6;color:#616b76">Real phrasings across the whole funnel — cost, comparison, <b style="color:#003262;font-weight:700">&ldquo;is this business legit.&rdquo;</b> Locked per cycle, so every before/after is <b style="color:#003262;font-weight:700">apples to apples</b>.</p>
+            </div>
+            <div style="border:1px solid rgba(46,59,71,0.14);background:#fff">
+              <div style="display:flex;justify-content:space-between;gap:12px;background:#003262;color:#fff;padding:9px 14px;font-family:'Poppins',sans-serif;font-size:11px"><span>query set — plumbing · berkeley</span><span style="color:#9aa4af">v1 · locked</span></div>
+              <div style="padding:16px 18px">
+                <div style="display:flex;justify-content:space-between;gap:14px;font-family:'Poppins',sans-serif;font-size:12.5px;color:#003262;padding:9px 0;border-bottom:1px dashed rgba(46,59,71,0.08)"><span>&ldquo;best plumber in berkeley&rdquo;</span><span style="align-self:center;background:#003262;color:#fff;font-size:10px;padding:2px 8px">LOCAL</span></div>
+                <div style="display:flex;justify-content:space-between;gap:14px;font-family:'Poppins',sans-serif;font-size:12.5px;color:#003262;padding:9px 0;border-bottom:1px dashed rgba(46,59,71,0.08)"><span>&ldquo;average cost to replace a water heater&rdquo;</span><span style="align-self:center;background:#003262;color:#fff;font-size:10px;padding:2px 8px">COST</span></div>
+                <div style="display:flex;justify-content:space-between;gap:14px;font-family:'Poppins',sans-serif;font-size:12.5px;color:#003262;padding:9px 0;border-bottom:1px dashed rgba(46,59,71,0.08)"><span>&ldquo;plumber near me open now&rdquo;</span><span style="align-self:center;background:#003262;color:#fff;font-size:10px;padding:2px 8px">LOCAL</span></div>
+                <div style="display:flex;justify-content:space-between;gap:14px;font-family:'Poppins',sans-serif;font-size:12.5px;color:#003262;padding:9px 0"><span>&ldquo;is [business] plumbing legit&rdquo;</span><span style="align-self:center;background:#003262;color:#fff;font-size:10px;padding:2px 8px">BRAND</span></div>
+              </div>
+            </div>
+          </section>
+
+          <section id="s2" style="scroll-margin-top:80px;display:grid;grid-template-columns:5fr 6fr;gap:52px;padding:48px 0;border-bottom:1px solid rgba(46,59,71,0.08)">
+            <div>
+              <span style="display:inline-block;font-family:'Poppins',sans-serif;font-size:12px;font-weight:600;color:#fff;background:#003262;padding:6px 12px;letter-spacing:.06em;text-transform:uppercase">§2 — Sampling</span>
+              <h2 style="margin:14px 0 12px;max-width:360px;font-weight:700;font-size:28px;line-height:1.1;letter-spacing:-0.035em;color:#003262">Ten runs, not one screenshot</h2>
+              <p style="font-size:15.5px;line-height:1.6;color:#616b76">AI answers change between runs — <b style="color:#003262;font-weight:700">a single fetch is a coin flip</b>. We run every query <b style="color:#003262;font-weight:700">10× per engine</b> and report the rate; a single-run &ldquo;AI rank&rdquo; is just noise.<sup>1</sup></p>
+              <p style="margin-top:14px;font-size:12px;line-height:1.5;color:#8b95a0"><b style="color:#616b76">1.</b> 65–81% of results turn over between repeat runs of the same query. SE Ranking, 5,000-keyword study, 2025.</p>
+            </div>
+            <div style="border:1px solid rgba(46,59,71,0.14);background:#fff">
+              <div style="display:flex;justify-content:space-between;gap:12px;background:#003262;color:#fff;padding:9px 14px;font-family:'Poppins',sans-serif;font-size:11px"><span>sampling — &ldquo;best plumber near berkeley&rdquo;</span><span style="color:#9aa4af">10 runs/engine</span></div>
+              <div style="padding:16px 18px">
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;font-size:13px"><span style="width:88px;font-weight:700;font-size:12.5px">ChatGPT</span><span style="letter-spacing:2.5px;font-size:14px;color:#003262">●●●●<span style="color:#c7ccd6">●●●●●●</span></span><span style="margin-left:auto;font-family:'Poppins',sans-serif;font-size:12.5px;font-weight:600">4/10</span></div>
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;font-size:13px"><span style="width:88px;font-weight:700;font-size:12.5px">Google AI</span><span style="letter-spacing:2.5px;font-size:14px;color:#003262">●●<span style="color:#c7ccd6">●●●●●●●●</span></span><span style="margin-left:auto;font-family:'Poppins',sans-serif;font-size:12.5px;font-weight:600">2/10</span></div>
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;font-size:13px"><span style="width:88px;font-weight:700;font-size:12.5px">Perplexity</span><span style="letter-spacing:2.5px;font-size:14px;color:#003262">●<span style="color:#c7ccd6">●●●●●●●●●</span></span><span style="margin-left:auto;font-family:'Poppins',sans-serif;font-size:12.5px;font-weight:600">1/10</span></div>
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;font-size:13px"><span style="width:88px;font-weight:700;font-size:12.5px">Gemini</span><span style="letter-spacing:2.5px;font-size:14px;color:#003262">●●●<span style="color:#c7ccd6">●●●●●●●</span></span><span style="margin-left:auto;font-family:'Poppins',sans-serif;font-size:12.5px;font-weight:600">3/10</span></div>
+                <div style="display:flex;align-items:center;gap:12px;font-size:13px;color:#a86a00"><span style="width:88px;font-weight:700;font-size:12.5px">Competitor</span><span style="letter-spacing:2.5px;font-size:14px;color:#a86a00">●●●●●●●●<span style="color:#f0cabb">●●</span></span><span style="margin-left:auto;font-family:'Poppins',sans-serif;font-size:12.5px;font-weight:600">8/10</span></div>
+              </div>
+            </div>
+          </section>
+
+          <section id="s3" style="scroll-margin-top:80px;display:grid;grid-template-columns:5fr 6fr;gap:52px;padding:48px 0;border-bottom:1px solid rgba(46,59,71,0.08)">
+            <div>
+              <span style="display:inline-block;font-family:'Poppins',sans-serif;font-size:12px;font-weight:600;color:#fff;background:#003262;padding:6px 12px;letter-spacing:.06em;text-transform:uppercase">§3 — Judging</span>
+              <h2 style="margin:14px 0 12px;max-width:360px;font-weight:700;font-size:28px;line-height:1.1;letter-spacing:-0.035em;color:#003262">Every answer graded against ground truth</h2>
+              <p style="font-size:15.5px;line-height:1.6;color:#616b76">A mention isn&rsquo;t enough. Each answer is judged against <b style="color:#003262;font-weight:700">a fact sheet you approve</b>: present? prominent? <b style="color:#003262;font-weight:700">accurate?</b> &ldquo;AI says you close at 5 — you run 24/7&rdquo; is a finding, not a blind spot.</p>
+            </div>
+            <div style="border:1px solid rgba(46,59,71,0.14);background:#fff">
+              <div style="display:flex;justify-content:space-between;gap:12px;background:#003262;color:#fff;padding:9px 14px;font-family:'Poppins',sans-serif;font-size:11px"><span>judge verdict — run 7/10 · chatgpt</span><span style="color:#9aa4af">fact sheet v3</span></div>
+              <div style="padding:16px 18px">
+                <div style="display:grid;grid-template-columns:104px 1fr;gap:12px;padding:10px 0;border-bottom:1px dashed rgba(46,59,71,0.08);font-size:13.5px"><span style="font-family:'Poppins',sans-serif;font-size:11px;color:#8b95a0;padding-top:3px;text-transform:uppercase">presence</span><span style="color:#616b76"><b style="color:#003262;font-weight:700">Mentioned</b> — 2nd of 3 named</span></div>
+                <div style="display:grid;grid-template-columns:104px 1fr;gap:12px;padding:10px 0;border-bottom:1px dashed rgba(46,59,71,0.08);font-size:13.5px"><span style="font-family:'Poppins',sans-serif;font-size:11px;color:#8b95a0;padding-top:3px;text-transform:uppercase">prominence</span><span style="color:#616b76"><b style="color:#003262;font-weight:700">Secondary</b> — not the lead recommendation</span></div>
+                <div style="display:grid;grid-template-columns:104px 1fr;gap:12px;padding:10px 0;font-size:13.5px"><span style="font-family:'Poppins',sans-serif;font-size:11px;color:#8b95a0;padding-top:3px;text-transform:uppercase">accuracy</span><span style="color:#616b76"><b style="color:#003262;font-weight:700">1 error</b> — says weekdays only; you run 24/7 emergency<span style="display:inline-block;background:#FDB515;color:#003262;font-family:'Poppins',sans-serif;font-size:11px;padding:3px 9px;margin-top:6px">wrong_hours_or_availability · HIGH</span></span></div>
+              </div>
+            </div>
+          </section>
+
+          <section id="s4" style="scroll-margin-top:80px;display:grid;grid-template-columns:5fr 6fr;gap:52px;padding:48px 0;border-bottom:1px solid rgba(46,59,71,0.08)">
+            <div>
+              <span style="display:inline-block;font-family:'Poppins',sans-serif;font-size:12px;font-weight:600;color:#fff;background:#003262;padding:6px 12px;letter-spacing:.06em;text-transform:uppercase">§4 — The report</span>
+              <h2 style="margin:14px 0 12px;max-width:360px;font-weight:700;font-size:28px;line-height:1.1;letter-spacing:-0.035em;color:#003262">Numbers first, then the roadmap</h2>
+              <p style="font-size:15.5px;line-height:1.6;color:#616b76">Rates by engine and question type, <b style="color:#003262;font-weight:700">the queries you&rsquo;re losing</b>, who&rsquo;s named instead, and a fix list ranked by <b style="color:#003262;font-weight:700">what the evidence says moves answers</b>.</p>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(46,59,71,0.14);border:1px solid rgba(46,59,71,0.14)">
+              <div style="background:#fff;padding:16px 18px"><b style="display:block;font-size:14.5px;font-weight:700;margin-bottom:3px;letter-spacing:-0.01em;color:#003262">Mention rates</b><span style="font-size:12.5px;color:#616b76">per engine · per question type</span></div>
+              <div style="background:#fff;padding:16px 18px"><b style="display:block;font-size:14.5px;font-weight:700;margin-bottom:3px;letter-spacing:-0.01em;color:#003262">Losing queries</b><span style="font-size:12.5px;color:#616b76">where a rival is named, not you</span></div>
+              <div style="background:#fff;padding:16px 18px"><b style="display:block;font-size:14.5px;font-weight:700;margin-bottom:3px;letter-spacing:-0.01em;color:#003262">Source map</b><span style="font-size:12.5px;color:#616b76">the sites AI cites — where you&rsquo;re missing</span></div>
+              <div style="background:#fff;padding:16px 18px"><b style="display:block;font-size:14.5px;font-weight:700;margin-bottom:3px;letter-spacing:-0.01em;color:#003262">Roadmap</b><span style="font-size:12.5px;color:#616b76">prioritized, evidence-ranked fixes</span></div>
+            </div>
+          </section>
+
+          <section id="s5" style="scroll-margin-top:80px;display:grid;grid-template-columns:5fr 6fr;gap:52px;padding:48px 0 0">
+            <div>
+              <span style="display:inline-block;font-family:'Poppins',sans-serif;font-size:12px;font-weight:600;color:#003262;background:#FDB515;padding:6px 12px;letter-spacing:.06em;text-transform:uppercase">§5 — The fine print, up front</span>
+              <h2 style="margin:14px 0 12px;max-width:360px;font-weight:700;font-size:28px;line-height:1.1;letter-spacing:-0.035em;color:#003262">What we won&rsquo;t promise</h2>
+            </div>
+            <aside style="max-width:680px">
+              <div style="border-top:2px solid #003262;padding-top:20px">
+                <p style="font-size:21px;font-weight:500;line-height:1.45;letter-spacing:-0.02em;color:#616b76"><b style="color:#003262;font-weight:700">Nobody controls what ChatGPT says</b> — anyone who guarantees you a #1 spot in AI answers is selling something they can&rsquo;t deliver. <em style="font-style:normal;font-weight:700;color:#003262">What we deliver is measurement</em>: where you stand, how it changes over time, and which fixes have evidence behind them. Our reports show sampled rates with honest uncertainty, because that&rsquo;s the only claim that survives contact with how these systems actually behave.</p>
+                <p style="margin-top:16px;font-family:'Poppins',sans-serif;font-size:11.5px;color:#8b95a0;text-transform:uppercase"><span style="display:inline-block;font-size:12px;font-weight:600;color:#fff;background:#003262;padding:6px 12px;letter-spacing:.06em;margin-right:10px">No guarantees</span>Sampled rates · No theater</p>
+              </div>
+            </aside>
+          </section>
+        </div>
+      </div>
+
+      <section style="border-top:1px solid rgba(46,59,71,0.08)">
+        <div style="max-width:1120px;margin:0 auto;padding:88px 32px">
+          <h2 style="font-weight:700;font-size:clamp(28px,3.6vw,40px);letter-spacing:-0.03em;max-width:576px;color:#003262">See the protocol run on your business.</h2>
+          <p style="margin-top:14px;max-width:576px;font-size:16px;line-height:1.6;color:#616b76">The free check is a small version of exactly this — real queries, real engines, real answers.</p>
+          <div style="margin-top:30px"><button onClick="{{ goFree }}" style="display:inline-block;background:#003262;color:#fff;font-weight:600;font-size:15px;padding:12px 22px;border-radius:12px;border:none;cursor:pointer;font-family:inherit" style-hover="background:#24303a">Get your free visibility check</button></div>
+          <p style="margin-top:16px;font-family:'Poppins',sans-serif;font-size:11.5px;color:#8b95a0;text-transform:uppercase">No call required · No obligation · Real data from real AI answers</p>
+        </div>
+      </section>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ isPricing }}">
+    <div>
+      <div style="max-width:1120px;margin:0 auto;padding:64px 32px">
+        <div style="max-width:560px">
+          <h1 style="font-size:clamp(30px,4vw,36px);font-weight:700;letter-spacing:-0.02em;color:#003262">Pricing</h1>
+          <p style="margin-top:20px;font-size:16px;line-height:1.75;color:#616b76">Three tiers, ascending commitment. Every tier reports sampled rates with named sources — no tier, at any price, promises rankings.</p>
+        </div>
+
+        <div style="margin-top:48px;display:grid;grid-template-columns:repeat(3,1fr)">
+          <div style="display:flex;flex-direction:column;border:1px solid rgba(46,59,71,0.14);border-right:none;background:#fff">
+            <span style="display:block;padding:6px 14px;font-family:'Poppins',sans-serif;font-size:11px;color:#fff;background:#003262">01</span>
+            <div style="display:flex;flex:1;flex-direction:column;padding:16px 16px 20px">
+              <h2 style="font-size:16px;font-weight:700;letter-spacing:-0.01em;color:#003262">Free Visibility Check</h2>
+              <p style="margin-top:6px;font-family:'Poppins',sans-serif;font-size:24px;font-weight:600;letter-spacing:-0.02em;color:#003262">$0</p>
+              <p style="margin-top:14px;flex:1;font-size:14px;line-height:1.6;color:#616b76">The short report. Where you stand on the big three engines, and who&rsquo;s named instead of you.</p>
+              <button onClick="{{ goFree }}" style="margin-top:24px;align-self:flex-start;border-radius:12px;padding:10px 20px;font-size:14px;font-weight:600;color:#fff;background:#003262;border:none;cursor:pointer;font-family:inherit" style-hover="background:#003262">Get started</button>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;border:1px solid rgba(46,59,71,0.14);border-right:none;background:#fff">
+            <span style="display:block;padding:6px 14px;font-family:'Poppins',sans-serif;font-size:11px;color:#fff;background:#003262">02 · most popular</span>
+            <div style="display:flex;flex:1;flex-direction:column;padding:16px 16px 20px">
+              <h2 style="font-size:16px;font-weight:700;letter-spacing:-0.01em;color:#003262">Full AI Visibility Audit</h2>
+              <p style="margin-top:6px;font-family:'Poppins',sans-serif;font-size:24px;font-weight:600;letter-spacing:-0.02em;color:#003262">[$X] one-time</p>
+              <p style="margin-top:14px;flex:1;font-size:14px;line-height:1.6;color:#616b76">Full query set across all engines, sampled runs, judged answers, accuracy findings, site + off-site audit, prioritized roadmap. Delivered as a report + a walkthrough call.</p>
+              <button onClick="{{ goContact }}" style="margin-top:24px;align-self:flex-start;border-radius:12px;padding:10px 20px;font-size:14px;font-weight:600;color:#fff;background:#003262;border:none;cursor:pointer;font-family:inherit" style-hover="background:#24303a">Book a call</button>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;border:1px solid rgba(46,59,71,0.14);background:#fff">
+            <span style="display:block;padding:6px 14px;font-family:'Poppins',sans-serif;font-size:11px;color:#fff;background:#003262">03</span>
+            <div style="display:flex;flex:1;flex-direction:column;padding:16px 16px 20px">
+              <h2 style="font-size:16px;font-weight:700;letter-spacing:-0.01em;color:#003262">Ongoing Measurement</h2>
+              <p style="margin-top:6px;font-family:'Poppins',sans-serif;font-size:24px;font-weight:600;letter-spacing:-0.02em;color:#003262">[$X]/mo</p>
+              <p style="margin-top:14px;flex:1;font-size:14px;line-height:1.6;color:#616b76">We re-run your audit on a cadence and show what changed: before/after mention rates, new competitors, new sources. Because AI answers move — the point is the trend line.</p>
+              <button onClick="{{ goContact }}" style="margin-top:24px;align-self:flex-start;border-radius:12px;padding:10px 20px;font-size:14px;font-weight:600;color:#fff;background:#003262;border:none;cursor:pointer;font-family:inherit" style-hover="background:#003262">Book a call</button>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:80px;max-width:672px">
+          <div style="padding:0 0 32px"><h2 style="font-size:24px;font-weight:700;letter-spacing:-0.02em;color:#003262">Do you do the fixes too?</h2><p style="margin-top:12px;font-size:16px;line-height:1.75;color:#616b76">Our core service is measurement and the prioritized roadmap. For implementation, we work through the roadmap with you or hand it to your existing web team — every fix is written so a competent developer can execute it.</p></div>
+          <div style="padding:32px 0;border-top:1px solid rgba(46,59,71,0.08)"><h2 style="font-size:24px;font-weight:700;letter-spacing:-0.02em;color:#003262">How long until AI answers change?</h2><p style="margin-top:12px;font-size:16px;line-height:1.75;color:#616b76">Honestly: weeks to months, and it varies by engine and by fix. We measure the change rather than promise it — that&rsquo;s what the ongoing measurement tier is for.</p></div>
+          <div style="padding:32px 0 0;border-top:1px solid rgba(46,59,71,0.08)"><h2 style="font-size:24px;font-weight:700;letter-spacing:-0.02em;color:#003262">What do you need from me?</h2><p style="margin-top:12px;font-size:16px;line-height:1.75;color:#616b76">A fact sheet about your business (we send a template) and about 30 minutes of your time to approve it. Everything else runs on our side.</p></div>
+        </div>
+      </div>
+
+      <section style="border-top:1px solid rgba(46,59,71,0.08)">
+        <div style="max-width:1120px;margin:0 auto;padding:88px 32px">
+          <h2 style="font-weight:700;font-size:clamp(28px,3.6vw,40px);letter-spacing:-0.03em;max-width:576px;color:#003262">Find out what AI says about you. Free.</h2>
+          <p style="margin-top:14px;max-width:576px;font-size:16px;line-height:1.6;color:#616b76">Takes one minute. We&rsquo;ll email your report within 1–2 business days.</p>
+          <div style="margin-top:30px"><button onClick="{{ goFree }}" style="display:inline-block;background:#003262;color:#fff;font-weight:600;font-size:15px;padding:12px 22px;border-radius:12px;border:none;cursor:pointer;font-family:inherit" style-hover="background:#24303a">Get your free visibility check</button></div>
+          <p style="margin-top:16px;font-family:'Poppins',sans-serif;font-size:11.5px;color:#8b95a0;text-transform:uppercase">No call required · No obligation · Real data from real AI answers</p>
+        </div>
+      </section>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ isLearn }}">
+    <div>
+      <div style="max-width:672px;margin:0 auto;padding:64px 32px">
+        <h1 style="font-size:clamp(30px,4vw,36px);font-weight:700;letter-spacing:-0.02em;color:#003262">Learn</h1>
+        <p style="margin-top:20px;font-size:16px;line-height:1.75;color:#616b76">Plain answers to the questions business owners actually ask about AI search — each article opens with the answer, not a wind-up.</p>
+        <ul style="list-style:none;margin:48px 0 0;padding:0">
+          <sc-for list="{{ articles }}" as="article" hint-placeholder-count="5">
+            <li style="border-top:1px solid rgba(46,59,71,0.14)">
+              <button onClick="{{ article.open }}" style="display:block;width:100%;text-align:left;background:none;border:none;padding:28px 0;cursor:pointer;font-family:inherit">
+                <span style="display:block;font-size:20px;font-weight:700;letter-spacing:-0.02em;color:#003262">{{ article.title }}</span>
+                <span style="display:block;margin-top:8px;font-size:14px;line-height:1.6;color:#616b76">{{ article.description }}</span>
+                <span style="display:inline-block;margin-top:12px;font-size:14px;font-weight:600;color:#003262">Read the answer →</span>
+              </button>
+            </li>
+          </sc-for>
+        </ul>
+      </div>
+
+      <section style="border-top:1px solid rgba(46,59,71,0.08)">
+        <div style="max-width:1120px;margin:0 auto;padding:88px 32px">
+          <h2 style="font-weight:700;font-size:clamp(28px,3.6vw,40px);letter-spacing:-0.03em;max-width:576px;color:#003262">Find out what AI says about you. Free.</h2>
+          <p style="margin-top:14px;max-width:576px;font-size:16px;line-height:1.6;color:#616b76">Takes one minute. We&rsquo;ll email your report within 1–2 business days.</p>
+          <div style="margin-top:30px"><button onClick="{{ goFree }}" style="display:inline-block;background:#003262;color:#fff;font-weight:600;font-size:15px;padding:12px 22px;border-radius:12px;border:none;cursor:pointer;font-family:inherit" style-hover="background:#24303a">Get your free visibility check</button></div>
+          <p style="margin-top:16px;font-family:'Poppins',sans-serif;font-size:11.5px;color:#8b95a0;text-transform:uppercase">No call required · No obligation · Real data from real AI answers</p>
+        </div>
+      </section>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ isArticle }}">
+    <div>
+      <div style="max-width:672px;margin:0 auto;padding:64px 32px">
+        <button onClick="{{ goLearn }}" style="background:none;border:none;padding:0;font-family:inherit;font-size:14px;font-weight:600;color:#003262;cursor:pointer">← All articles</button>
+        <h1 style="margin-top:16px;font-size:clamp(30px,4vw,36px);font-weight:700;line-height:1.1;letter-spacing:-0.02em;color:#003262">{{ articleTitle }}</h1>
+        <p style="margin-top:12px;font-size:14px;color:#8b95a0">{{ articleDate }}</p>
+        <div style="margin-top:32px">
+          <p style="font-size:18px;line-height:1.75;color:#003262">{{ articleIntro }}</p>
+          <sc-for list="{{ articleSections }}" as="sec" hint-placeholder-count="4">
+            <h2 style="margin-top:40px;font-size:24px;line-height:2rem;font-weight:650;letter-spacing:-0.02em;color:#003262">{{ sec.h }}</h2>
+            <p style="margin-top:16px;font-size:16px;line-height:1.75;color:#616b76">{{ sec.body }}</p>
+          </sc-for>
+        </div>
+      </div>
+
+      <section style="border-top:1px solid rgba(46,59,71,0.08)">
+        <div style="max-width:1120px;margin:0 auto;padding:88px 32px">
+          <h2 style="font-weight:700;font-size:clamp(28px,3.6vw,40px);letter-spacing:-0.03em;max-width:576px;color:#003262">Find out what AI says about you. Free.</h2>
+          <p style="margin-top:14px;max-width:576px;font-size:16px;line-height:1.6;color:#616b76">Takes one minute. We&rsquo;ll email your report within 1–2 business days.</p>
+          <div style="margin-top:30px"><button onClick="{{ goFree }}" style="display:inline-block;background:#003262;color:#fff;font-weight:600;font-size:15px;padding:12px 22px;border-radius:12px;border:none;cursor:pointer;font-family:inherit" style-hover="background:#24303a">Get your free visibility check</button></div>
+          <p style="margin-top:16px;font-family:'Poppins',sans-serif;font-size:11.5px;color:#8b95a0;text-transform:uppercase">No call required · No obligation · Real data from real AI answers</p>
+        </div>
+      </section>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ isAbout }}">
+    <div>
+      <div style="max-width:672px;margin:0 auto;padding:64px 32px">
+        <h1 style="font-size:clamp(30px,4vw,36px);font-weight:700;line-height:1.1;letter-spacing:-0.02em;color:#003262">Two founders, measuring the thing everyone else is guessing about.</h1>
+        <p style="margin-top:20px;font-size:16px;line-height:1.75;color:#616b76">We&rsquo;re based in Berkeley, CA. One of us builds the measurement platform; the other sits with every client who uses it. The company exists because &ldquo;how visible am I in AI answers?&rdquo; deserves a measured answer, not a sales pitch.</p>
+        <div style="margin-top:56px">
+          <section style="border-top:1px solid rgba(46,59,71,0.14);padding:32px 0">
+            <h2 style="font-size:24px;font-weight:700;letter-spacing:-0.02em;color:#003262">Abhi</h2>
+            <p style="margin-top:4px;font-size:14px;color:#8b95a0">Co-founder — built the measurement platform</p>
+            <p style="margin-top:16px;font-size:16px;line-height:1.75;color:#616b76">Abhi built the measurement platform: the query runner, the sampling methodology, and the judging pipeline that grades every AI answer for presence, prominence, and accuracy. He started this because every &lsquo;AI rank tracker&rsquo; he tested was measuring single-run noise and calling it data.</p>
+            <a href="https://www.linkedin.com/in/abhi-placeholder" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:16px;font-size:14px;font-weight:600;color:#003262;text-decoration:none">Abhi on LinkedIn ↗</a>
+          </section>
+          <section style="border-top:1px solid rgba(46,59,71,0.14);padding:32px 0 0">
+            <h2 style="font-size:24px;font-weight:700;letter-spacing:-0.02em;color:#003262">Josh</h2>
+            <p style="margin-top:4px;font-size:14px;color:#8b95a0">Co-founder — works directly with every client</p>
+            <p style="margin-top:16px;font-size:16px;line-height:1.75;color:#616b76">Josh works directly with every client, from the first free check through the audit walkthrough. He started this after watching small businesses pay for SEO reports that never once mentioned the AI answers their customers were actually reading.</p>
+            <a href="https://www.linkedin.com/in/josh-placeholder" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:16px;font-size:14px;font-weight:600;color:#003262;text-decoration:none">Josh on LinkedIn ↗</a>
+          </section>
+        </div>
+      </div>
+
+      <section style="border-top:1px solid rgba(46,59,71,0.08)">
+        <div style="max-width:1120px;margin:0 auto;padding:88px 32px">
+          <h2 style="font-weight:700;font-size:clamp(28px,3.6vw,40px);letter-spacing:-0.03em;max-width:576px;color:#003262">Find out what AI says about you. Free.</h2>
+          <p style="margin-top:14px;max-width:576px;font-size:16px;line-height:1.6;color:#616b76">Takes one minute. We&rsquo;ll email your report within 1–2 business days.</p>
+          <div style="margin-top:30px;display:flex;flex-wrap:wrap;align-items:center;gap:24px">
+            <button onClick="{{ goFree }}" style="display:inline-block;background:#003262;color:#fff;font-weight:600;font-size:15px;padding:12px 22px;border-radius:12px;border:none;cursor:pointer;font-family:inherit" style-hover="background:#24303a">Get your free visibility check</button>
+            <button onClick="{{ goContact }}" style="font-size:15px;font-weight:600;border:none;border-bottom:1px solid rgba(46,59,71,0.14);padding:0 0 2px;background:none;cursor:pointer;color:#003262;font-family:inherit" style-hover="border-bottom-color:#003262">Book a call</button>
+          </div>
+          <p style="margin-top:16px;font-family:'Poppins',sans-serif;font-size:11.5px;color:#8b95a0;text-transform:uppercase">No call required · No obligation · Real data from real AI answers</p>
+        </div>
+      </section>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ isContact }}">
+    <div style="max-width:672px;margin:0 auto;padding:64px 32px">
+      <h1 style="font-size:clamp(30px,4vw,36px);font-weight:700;letter-spacing:-0.02em;color:#003262">Contact</h1>
+      <p style="margin-top:20px;font-size:16px;line-height:1.75;color:#616b76">The fastest route is a 20-minute call with Josh — no deck, just your questions and, if you&rsquo;ve run the free check, your numbers.</p>
+      <div style="margin-top:48px">
+        <section style="border-top:1px solid rgba(46,59,71,0.14);padding:28px 0">
+          <h2 style="font-size:16px;font-weight:600;color:#003262">Email</h2>
+          <a href="mailto:hello@example.com" style="display:inline-block;margin-top:8px;font-size:16px;font-weight:500;color:#003262;text-decoration:none">hello@example.com</a>
+          <p style="margin-top:8px;font-size:14px;line-height:1.6;color:#616b76">We reply within one business day.</p>
+        </section>
+        <section style="border-top:1px solid rgba(46,59,71,0.14);padding:28px 0">
+          <h2 style="font-size:16px;font-weight:600;color:#003262">Book a call</h2>
+          <p style="margin-top:8px;font-size:14px;line-height:1.6;color:#616b76">Scheduling link coming with launch — until then, email us and we&rsquo;ll send times for a 20-minute call with Josh.</p>
+        </section>
+        <section style="border-top:1px solid rgba(46,59,71,0.14);padding:28px 0">
+          <h2 style="font-size:16px;font-weight:600;color:#003262">Prefer to see your numbers first?</h2>
+          <p style="margin-top:8px;font-size:14px;line-height:1.6;color:#616b76">Run the free visibility check — your report lands in your inbox within 1–2 business days, no call required.</p>
+          <button onClick="{{ goFree }}" style="margin-top:16px;display:inline-block;border-radius:12px;background:#003262;color:#fff;padding:10px 20px;font-size:14px;font-weight:600;border:none;cursor:pointer;font-family:inherit" style-hover="background:#24303a">Get your free AI visibility check</button>
+        </section>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ isScore }}">
+    <div>
+      <div style="max-width:1120px;margin:0 auto;padding:64px 32px">
+        <h1 style="max-width:672px;font-size:clamp(30px,4vw,36px);font-weight:700;letter-spacing:-0.02em;color:#003262">We ran our own audit on this website. Here&rsquo;s the report.</h1>
+        <p style="margin-top:20px;max-width:672px;font-size:16px;line-height:1.75;color:#616b76">A company selling AI visibility audits should pass its own. Below are the Cat 1–6 results for this site — the same rubric, the same checks, published and dated. Mention-rate tracking for [Brand] queries starts once the brand launches, and gets published here on a cadence.</p>
+        <p style="margin-top:12px;font-size:14px;color:#8b95a0">Last audit: Pending first deploy</p>
+
+        <div style="margin-top:40px;overflow-x:auto">
+          <table style="width:100%;min-width:640px;border-collapse:collapse;text-align:left;font-size:14px">
+            <thead>
+              <tr style="border-bottom:2px solid #003262;font-size:12.5px;text-transform:uppercase;letter-spacing:0.07em;color:#8b95a0">
+                <th style="padding:12px 16px 12px 0;font-weight:600">Category</th>
+                <th style="padding:12px 16px 12px 0;font-weight:600">What we check</th>
+                <th style="padding:12px 0;font-weight:600">Result</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid rgba(46,59,71,0.08);vertical-align:top"><td style="white-space:nowrap;padding:16px 16px 16px 0;font-weight:600;color:#003262">Cat 1 — Bot access</td><td style="padding:16px 16px 16px 0;line-height:1.6;color:#616b76">GPTBot, ClaudeBot, PerplexityBot, Google-Extended fetch real pages (no challenge walls)<span style="display:block;margin-top:4px;font-size:12px;color:#8b95a0">robots.txt explicitly allows every major AI crawler; Vercel challenge mode off.</span></td><td style="padding:16px 0;font-weight:600;color:#003262">Pass</td></tr>
+              <tr style="border-bottom:1px solid rgba(46,59,71,0.08);vertical-align:top"><td style="white-space:nowrap;padding:16px 16px 16px 0;font-weight:600;color:#003262">Cat 2 — Rendering</td><td style="padding:16px 16px 16px 0;line-height:1.6;color:#616b76">Every word of copy and all schema present with JavaScript disabled<span style="display:block;margin-top:4px;font-size:12px;color:#8b95a0">The site is a pure static export — there is no client-rendered content to miss.</span></td><td style="padding:16px 0;font-weight:600;color:#003262">Pass</td></tr>
+              <tr style="border-bottom:1px solid rgba(46,59,71,0.08);vertical-align:top"><td style="white-space:nowrap;padding:16px 16px 16px 0;font-weight:600;color:#003262">Cat 3 — Content structure</td><td style="padding:16px 16px 16px 0;line-height:1.6;color:#616b76">Question-form headings with standalone, quotable first-sentence answers<span style="display:block;margin-top:4px;font-size:12px;color:#8b95a0">Enforced as a copy rule across /how-it-works, /pricing FAQ, and /learn.</span></td><td style="padding:16px 0;font-weight:600;color:#003262">Pass</td></tr>
+              <tr style="border-bottom:1px solid rgba(46,59,71,0.08);vertical-align:top"><td style="white-space:nowrap;padding:16px 16px 16px 0;font-weight:600;color:#003262">Cat 4 — Local presence</td><td style="padding:16px 16px 16px 0;line-height:1.6;color:#616b76">Consistent NAP on every page; founders named with profiles<span style="display:block;margin-top:4px;font-size:12px;color:#8b95a0">NAP renders site-wide from one source file — final business name and directory listings land with the brand decision.</span></td><td style="padding:16px 0;font-weight:600;color:#a86a00">Partial</td></tr>
+              <tr style="border-bottom:1px solid rgba(46,59,71,0.08);vertical-align:top"><td style="white-space:nowrap;padding:16px 16px 16px 0;font-weight:600;color:#003262">Cat 5 — Structured data</td><td style="padding:16px 16px 16px 0;line-height:1.6;color:#616b76">Organization, ProfessionalService, FAQPage, Service, Person schema — matching visible text<span style="display:block;margin-top:4px;font-size:12px;color:#8b95a0">Schema is generated from the same data structures that render the visible copy, so it cannot drift.</span></td><td style="padding:16px 0;font-weight:600;color:#003262">Pass</td></tr>
+              <tr style="border-bottom:1px solid rgba(46,59,71,0.08);vertical-align:top"><td style="white-space:nowrap;padding:16px 16px 16px 0;font-weight:600;color:#003262">Cat 6 — Hygiene</td><td style="padding:16px 16px 16px 0;line-height:1.6;color:#616b76">sitemap.xml, canonical URLs, unique titles and descriptions, OG tags<span style="display:block;margin-top:4px;font-size:12px;color:#8b95a0">Generated at build time; verified by the CI test suite on every deploy.</span></td><td style="padding:16px 0;font-weight:600;color:#003262">Pass</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <section style="border-top:1px solid rgba(46,59,71,0.08)">
+        <div style="max-width:1120px;margin:0 auto;padding:88px 32px">
+          <h2 style="font-weight:700;font-size:clamp(28px,3.6vw,40px);letter-spacing:-0.03em;max-width:576px;color:#003262">This is the exact report you&rsquo;d get.</h2>
+          <p style="margin-top:14px;max-width:576px;font-size:16px;line-height:1.6;color:#616b76">See where your own site stands — free, in your inbox within 1–2 business days.</p>
+          <div style="margin-top:30px"><button onClick="{{ goFree }}" style="display:inline-block;background:#003262;color:#fff;font-weight:600;font-size:15px;padding:12px 22px;border-radius:12px;border:none;cursor:pointer;font-family:inherit" style-hover="background:#24303a">Get your free visibility check</button></div>
+          <p style="margin-top:16px;font-family:'Poppins',sans-serif;font-size:11.5px;color:#8b95a0;text-transform:uppercase">No call required · No obligation · Real data from real AI answers</p>
+        </div>
+      </section>
+    </div>
+    </sc-if>
+
+    <!--PAGES_END-->
+
+  </main>
+
+  <footer style="border-top:1px solid rgba(46,59,71,0.08)">
+    <div style="max-width:1120px;margin:0 auto;padding:40px 32px;font-size:13px;color:#8b95a0">
+      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:32px 24px">
+        <div style="max-width:320px">
+          <p><span style="font-weight:700;color:#003262">[Brand]</span><span style="color:#616b76"> · Berkeley, CA · </span><a href="mailto:hello@example.com" style="color:#616b76;text-decoration:none">hello@example.com</a></p>
+          <p style="margin-top:12px;line-height:1.5">We measure whether AI engines mention your business — with sampled rates and named sources, never guarantees.</p>
+        </div>
+        <nav aria-label="Footer">
+          <p style="font-weight:600;color:#616b76">Pages</p>
+          <ul style="list-style:none;margin:10px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:6px 32px">
+            <sc-for list="{{ footerPages }}" as="pg" hint-placeholder-count="9">
+              <li><button onClick="{{ pg.go }}" style="background:none;border:none;padding:0;font:inherit;color:#616b76;cursor:pointer;text-align:left" style-hover="color:#003262">{{ pg.label }}</button></li>
+            </sc-for>
+          </ul>
+        </nav>
+        <div>
+          <p style="font-weight:600;color:#616b76">Founders</p>
+          <ul style="list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:6px">
+            <li><a href="https://www.linkedin.com/in/abhi-placeholder" target="_blank" rel="noopener noreferrer" style="color:#616b76;text-decoration:none" style-hover="color:#003262">Abhi on LinkedIn ↗</a></li>
+            <li><a href="https://www.linkedin.com/in/josh-placeholder" target="_blank" rel="noopener noreferrer" style="color:#616b76;text-decoration:none" style-hover="color:#003262">Josh on LinkedIn ↗</a></li>
+          </ul>
+        </div>
+      </div>
+      <p style="margin-top:40px;border-top:1px solid rgba(46,59,71,0.08);padding-top:20px">© {{ year }} [Brand]. We report measurements, not promises.</p>
+    </div>
+  </footer>
+
+  <div style="position:fixed;left:0;right:0;bottom:0;z-index:50;pointer-events:none">
+    <svg viewBox="0 0 1440 40" preserveAspectRatio="none" style="display:block;width:100%;height:32px"><path d="M0,26 C240,6 460,6 700,24 C940,42 1200,42 1440,16 L1440,40 L0,40 Z" fill="#e9edf7"></path></svg>
+    <div style="background:#e9edf7;padding:15px 20px;display:flex;justify-content:center;pointer-events:auto">
+      <button onClick="{{ goFree }}" style="display:inline-flex;align-items:center;gap:12px;background:none;border:none;cursor:pointer;font-family:inherit;font-size:14px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#003262" style-hover="color:#a86a00">
+        Get your free AI check
+      </button>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;keepIntroAfterSubmit&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Free check&quot;,&quot;label&quot;:&quot;Keep page title &amp; \&quot;What you'll get\&quot; visible after submitting&quot;}}">
+class Component extends DCLogic {
+  state = { page: 'home', slug: null, formStatus: 'idle' };
+
+  go(page, slug) {
+    this.setState({ page, slug: slug || null, formStatus: 'idle' });
+    requestAnimationFrame(() => { try { window.scrollTo(0, 0); } catch (e) {} });
+  }
+
+  submitForm(e) {
+    e.preventDefault();
+    this.setState({ formStatus: 'submitting' });
+    setTimeout(() => this.setState({ formStatus: 'done' }), 700);
+  }
+
+  renderVals() {
+    const p = this.state.page;
+    const navBase = "padding:27px 0;font-size:12.5px;font-weight:500;letter-spacing:.1em;white-space:nowrap;text-transform:uppercase;background:none;border:none;border-bottom:3px solid transparent;cursor:pointer;font-family:inherit;";
+    const navStyle = (on) => navBase + (on ? "color:#003262;font-weight:600;border-bottom-color:#FDB515;" : "color:#616b76;");
+
+    const ARTICLES = [
+      {
+        slug: 'what-is-geo',
+        title: 'What is GEO (Generative Engine Optimization)?',
+        date: '2026-07-19',
+        description: 'GEO is the practice of measuring and improving how often AI engines like ChatGPT, Google AI, and Perplexity mention and recommend your business.',
+        intro: "GEO — Generative Engine Optimization — is the practice of measuring and improving how often AI engines like ChatGPT, Google's AI answers, Gemini, and Perplexity mention and recommend your business when customers ask them questions. Where SEO optimized for a list of links, GEO deals with a written answer that names only a few businesses — and being one of them.",
+        sections: [
+          { h: 'How is GEO different from SEO?', body: 'SEO competes for position on a results page with ten or more slots; GEO competes for a mention inside a generated paragraph that typically names two or three options. Independent research from Sterling Sky and Places Scout across 322 markets found AI answers surface roughly 3× fewer businesses than traditional search results. The game is no longer "rank higher" — it\'s "be on the shortlist at all."' },
+          { h: 'What actually influences AI answers?', body: 'The engines lean on a mix of what their models learned in training and what they retrieve live: review sites, directories, press, and your own website. Three things consistently matter — whether AI crawlers can read your site at all, whether the sources the engines cite in your category know you exist, and whether your content directly answers the questions customers ask. None of it is exotic; most of it is measurable.' },
+          { h: 'Can GEO be measured?', body: 'Yes — but only with sampling. AI answers change from run to run, so a single query proves nothing. Meaningful GEO measurement asks the same real customer questions repeatedly across engines and reports rates: "named in 7 of 10 runs" is a measurement; a screenshot of one good answer is an anecdote.' },
+          { h: 'Can anyone guarantee a spot in AI answers?', body: "No. Nobody controls what ChatGPT says, and anyone guaranteeing a #1 spot in AI answers is selling something they can't deliver. What's honest and possible: measure where you stand, fix the things with evidence behind them, and measure again." },
+        ],
+      },
+      {
+        slug: 'why-doesnt-chatgpt-mention-my-business',
+        title: "Why doesn't ChatGPT mention my business?",
+        date: '2026-07-19',
+        description: 'The usual reasons: AI crawlers cannot read your site, the sources AI cites do not know you, or your content never answers what customers ask.',
+        intro: "ChatGPT usually omits a business for one of three measurable reasons: its crawlers can't read your website, the sources it leans on in your category don't list you, or nothing you've published answers the actual questions customers ask. It is rarely personal and almost never random — and each cause shows up clearly in a proper audit.",
+        sections: [
+          { h: 'Does ChatGPT even know my business exists?', body: 'Maybe not. AI engines learn about businesses from training data and from live retrieval — review platforms, directories, press, and your own site. If your web presence is thin or your site silently blocks AI crawlers (many firewalls and CDNs do this by default), you may simply be invisible to the systems writing the answers.' },
+          { h: 'Why does ChatGPT recommend my competitors instead?', body: 'Because the sources it cites mention them more, more consistently, or more recently. When an engine answers "best plumber in Berkeley," it synthesizes from pages it trusts in that category. Competitors who appear across those sources — with consistent name, location, and service details — get named. The fix starts with knowing which sources the engine actually cited; that\'s a thing you can measure, not guess.' },
+          { h: 'Could ChatGPT be wrong about my business?', body: 'Yes, and this is the overlooked half of the problem. An engine can mention you but state your prices, hours, or services incorrectly — which can be worse than absence. Any serious visibility check should grade accuracy, not just presence.' },
+          { h: 'What should I do first?', body: 'Measure before you fix. Run the same customer questions repeatedly across engines and record when you\'re named, who\'s named instead, and what sources were cited. That turns "ChatGPT ignores me" from a frustration into a prioritized to-do list.' },
+        ],
+      },
+      {
+        slug: 'which-sources-do-ai-engines-cite',
+        title: 'Which sources do AI engines actually cite?',
+        date: '2026-07-19',
+        description: 'AI engines repeatedly cite a small, consistent set of sources per category — review platforms, directories, and pages that answer questions directly.',
+        intro: "For any given category and city, AI engines cite a surprisingly small and consistent set of sources — typically major review platforms, one or two category-specific directories, local press, and individual business pages that answer questions directly. Which specific sources those are varies by category, and that's precisely why it has to be measured rather than assumed.",
+        sections: [
+          { h: 'Do all AI engines cite the same sources?', body: "No. Perplexity shows citations openly on nearly every answer; Google's AI answers draw heavily on its own index and business profiles; ChatGPT mixes what its model learned in training with live web results when it searches. The overlap is real but partial — being well-represented on the sources one engine trusts doesn't guarantee another engine sees you at all." },
+          { h: 'How do I find out which sources matter in my category?', body: 'Run the questions your customers ask, repeatedly, and record the citations. After enough sampled runs, the pattern is unmistakable: the same handful of domains keeps appearing for your category and area. That handful is your actual off-site to-do list — far more useful than a generic "get listed everywhere" checklist.' },
+          { h: 'What do I do with the list once I have it?', body: 'Check each cited source for three things: Are you present? Is your information accurate and consistent with your website? Is your entry substantial enough to be quoted? Presence on the two or three sources your engines actually lean on routinely beats thin listings on fifty directories nobody cites.' },
+          { h: 'Does my own website count as a source?', body: 'Yes — engines quote business websites directly when a page cleanly answers the question being asked. A page that states what you do, where, for whom, and at what price range, in plain language near the top, is quotable. Buried answers effectively don\'t exist to an engine assembling a response.' },
+        ],
+      },
+      {
+        slug: 'is-your-website-invisible-to-ai-crawlers',
+        title: 'Is your website invisible to AI crawlers?',
+        date: '2026-07-19',
+        description: 'Many websites block AI crawlers without knowing it — firewalls and CDN bot protection silently serve challenge pages to GPTBot and PerplexityBot.',
+        intro: "Many business websites are invisible to AI engines without their owners knowing it: firewalls and CDN bot-protection settings silently serve challenge pages or errors to crawlers like GPTBot, ClaudeBot, and PerplexityBot. If those crawlers can't read your site, the engines answering your customers' questions are working from everyone's content but yours.",
+        sections: [
+          { h: 'How does a website end up blocking AI crawlers by accident?', body: 'Bot protection is usually switched on for good reasons — scrapers, spam, attack traffic — and AI crawlers get caught in the same net. Common culprits: CDN "bot fight" or attack-challenge modes, web application firewalls with aggressive bot rules, and robots.txt files that disallow everything by default. Nobody sees it happen, because the site looks perfectly normal in a human browser.' },
+          { h: 'How can I check if AI bots can read my site?', body: 'Fetch your pages the way the bots do: request them with the user agents of GPTBot, ClaudeBot, and PerplexityBot and check what comes back. Real content and a 200 status means you\'re readable; a challenge page, CAPTCHA, 403, or an empty shell means you\'re blocked. Also check your robots.txt actually allows these crawlers by name.' },
+          { h: 'Does JavaScript-heavy rendering cause the same problem?', body: "It's a second, separate way to be invisible. Many AI crawlers read the raw HTML response and don't execute JavaScript — so if your content only appears after scripts run, the crawler sees an empty page even when it isn't blocked. Disable JavaScript in your browser and reload your site: what you can't see, many crawlers can't either." },
+          { h: 'Should I just allow every bot then?', body: 'Allow the crawlers of the engines you want naming you — for most businesses that\'s the AI crawlers from OpenAI, Anthropic, Google, and Perplexity — and keep protections for genuinely abusive traffic. It\'s a scalpel decision, not a switch, and the first step is knowing your current status rather than assuming it.' },
+        ],
+      },
+      {
+        slug: 'ai-search-vs-traditional-seo',
+        title: 'AI search vs. SEO: what actually changed?',
+        date: '2026-07-19',
+        description: 'The answer replaced the list: AI search names 2–3 businesses per answer, answers change run to run, and accuracy is now a visibility problem.',
+        intro: 'The core change: the answer replaced the list. Traditional search gave your customer ten links and let them choose; AI search hands them a written answer that names two or three businesses. Fewer winners per query, no page two, and the "result" varies from one run to the next — which changes both how visibility works and how it has to be measured.',
+        sections: [
+          { h: 'Is SEO dead, then?', body: 'No — much of what made sites rank still feeds the engines: crawlable pages, real content, consistent business information, presence on trusted sources. What died is the measurement model. A "rank" is a stable position on a page; an AI answer is a sample from a distribution. Google now shows an AI-generated answer on roughly 2 of 3 informational searches (Whitespark, 2025), so the paradigm shift is already the default experience.' },
+          { h: 'What matters more in AI search than it did in SEO?', body: 'Three things stand out. Being on the shortlist of sources engines cite in your category matters more than accumulating links broadly. Directly answering real customer questions matters more than keyword coverage — engines quote pages that answer plainly. And accuracy is now a visibility issue: an engine can name you and get your prices or services wrong, something a blue link could never do.' },
+          { h: 'How do I measure visibility when every answer is different?', body: 'By sampling. Run the same customer questions many times per engine and report rates — "named in 7 of 10 runs" — instead of a single-fetch "AI rank," which is a coin flip dressed up as data. Rates can be tracked over time, compared against competitors, and honestly show their own uncertainty.' },
+          { h: 'What should a business do differently this year?', body: "Verify AI crawlers can read your site, find out which sources your engines cite and make sure they know you, publish pages that answer your customers' actual questions in the first sentence — and measure before and after every change. The businesses that win AI search treat it as something to measure, not something to guess about." },
+        ],
+      },
+    ];
+
+    const bySlug = {};
+    ARTICLES.forEach((a) => { bySlug[a.slug] = a; });
+    const cur = bySlug[this.state.slug] || ARTICLES[0];
+    const articles = ARTICLES.map((a) => ({
+      slug: a.slug, title: a.title, description: a.description, date: a.date,
+      open: () => this.go('article', a.slug),
+    }));
+
+    return {
+      isHome: p === 'home', isFree: p === 'free', isSample: p === 'sample', isHow: p === 'how',
+      isPricing: p === 'pricing', isLearn: p === 'learn', isArticle: p === 'article',
+      isAbout: p === 'about', isContact: p === 'contact', isScore: p === 'score',
+      navHowStyle: navStyle(p === 'how'),
+      navSampleStyle: navStyle(p === 'sample'),
+      navPricingStyle: navStyle(p === 'pricing'),
+      navLearnStyle: navStyle(p === 'learn' || p === 'article'),
+      navAboutStyle: navStyle(p === 'about'),
+      goHome: () => this.go('home'), goFree: () => this.go('free'), goSample: () => this.go('sample'),
+      goHow: () => this.go('how'), goPricing: () => this.go('pricing'), goLearn: () => this.go('learn'),
+      goAbout: () => this.go('about'), goContact: () => this.go('contact'), goScore: () => this.go('score'),
+      articles,
+      articleTitle: cur.title, articleDate: cur.date, articleIntro: cur.intro, articleSections: cur.sections,
+      onSubmit: (e) => this.submitForm(e),
+      isSubmitting: this.state.formStatus === 'submitting',
+      isFormDone: this.state.formStatus === 'done',
+      isFormOpen: this.state.formStatus !== 'done',
+      showFreeIntro: this.state.formStatus !== 'done' || !!this.props.keepIntroAfterSubmit,
+      submitLabel: this.state.formStatus === 'submitting' ? 'Submitting…' : 'Run my free check',
+      footerPages: [
+        { label: 'Home', go: () => this.go('home') },
+        { label: 'Free AI Visibility Check', go: () => this.go('free') },
+        { label: 'Sample report', go: () => this.go('sample') },
+        { label: 'How it works', go: () => this.go('how') },
+        { label: 'Pricing', go: () => this.go('pricing') },
+        { label: 'Learn', go: () => this.go('learn') },
+        { label: 'About', go: () => this.go('about') },
+        { label: 'Contact', go: () => this.go('contact') },
+        { label: 'Our score', go: () => this.go('score') },
+      ],
+      year: new Date().getFullYear(),
+    };
+  }
+}
+</script>
+</body>
+</html>

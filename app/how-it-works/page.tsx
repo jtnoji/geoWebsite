@@ -87,7 +87,7 @@ const PIPELINE = [
     art: (
       <>
         <span className="text-ink">
-          ●●●●<span className="text-[#cfd1cc]">●●●●●●</span>
+          ●●●●<span className="text-dot">●●●●●●</span>
         </span>{" "}
         → 4/10 mention rate
       </>
@@ -213,8 +213,8 @@ export default function HowItWorks() {
                 className="border border-b-0 border-line-dark bg-white pb-4 last:border-b md:border-b md:border-r-0 md:last:border-r"
               >
                 <span
-                  className={`block px-3.5 py-1.5 font-mono text-[11px] text-white ${
-                    stage.hot ? "bg-bad" : "bg-ink"
+                  className={`block px-3.5 py-1.5 font-mono text-[11px] ${
+                    stage.hot ? "bg-gold text-ink" : "bg-ink text-white"
                   }`}
                 >
                   {stage.n}
@@ -229,7 +229,7 @@ export default function HowItWorks() {
                 </div>
                 <div
                   className={`mx-3.5 mt-3 min-h-[52px] px-2.5 py-2 font-mono text-[10.5px] leading-6 ${
-                    stage.hot ? "bg-[#fdf5f5] text-bad" : "bg-paper-dim text-ink-soft"
+                    stage.hot ? "bg-gold-soft text-bad" : "bg-paper-dim text-ink-soft"
                   }`}
                 >
                   {stage.art}
@@ -347,7 +347,7 @@ export default function HowItWorks() {
                       {row.rest}
                       {row.flag && (
                         <span className="mt-1.5 block">
-                          <span className="inline-block bg-bad px-2 py-0.5 font-mono text-[11px] text-white">
+                          <span className="inline-block bg-gold px-2 py-0.5 font-mono text-[11px] text-ink">
                             wrong_hours_or_availability · HIGH
                           </span>
                         </span>
@@ -388,7 +388,7 @@ export default function HowItWorks() {
           {/* §5 — the honesty pull-quote; the chip here is the page's one red chip */}
           <section id="s5" className="grid gap-6 py-12 pb-0 md:grid-cols-[5fr_6fr] md:gap-13">
             <div>
-              <Chip red>{SECTIONS[4].chip}</Chip>
+              <Chip gold>{SECTIONS[4].chip}</Chip>
               <h2 className="mb-3 mt-3.5 max-w-[360px] text-[28px] font-bold leading-[1.1] tracking-[-0.035em] text-ink">
                 {SECTIONS[4].heading}
               </h2>

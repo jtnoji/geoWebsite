@@ -13,10 +13,14 @@ contradicts them — change the doc first, then the code.
 ## Stack & commands
 
 Next.js (App Router) + TypeScript + Tailwind, **static export** (`output:
-'export'`), deployed on Vercel. **Design reference: `mockup/index.html` (home)
-and `mockup/how-it-works.html` — both in the final approved language; open
-them in a browser before styling anything.** They share `mockup/fonts-inline.css`
-(embedded Plex; the real build loads the same faces via `next/font`).
+'export'`), deployed on Vercel. **Design reference: `mockup/weir-style.html` —
+the full prototype (all 9 routes), imported from Claude Design 2026-07-20. Open
+it in a browser before styling anything.** `mockup/weir-{hero,badge,steps}.jpg`
+are the design-project screenshots.
+
+`mockup/index.html` + `mockup/how-it-works.html` (+ `mockup/fonts-inline.css`)
+are the **superseded** IBM Plex / editorial direction — kept for reference only.
+Do not style from them.
 
 ```bash
 npm run dev              # local dev
@@ -79,39 +83,60 @@ funnel.spec.ts, visual.spec.ts) · `public/`.
   option. If a feature seems to need a heavy dependency, it's probably the
   wrong feature.
 
-## Design system (locked 2026-07-20 — canonical: `mockup/how-it-works.html`)
+## Design system ("weir", locked 2026-07-20 — canonical: `mockup/weir-style.html`)
 
-**Typography.** IBM Plex Sans for everything; IBM Plex Mono for every number,
-label, and metadata string. Load via `next/font` (self-hosted; the mockups use
-`@fontsource/ibm-plex-sans` + `@fontsource/ibm-plex-mono` — same files). Plex
-has **no weight above 700** — never specify 800+. Headlines: 700, tracking
--0.03em to -0.04em, line-height ~1.0–1.1. Body: 15.5–18px on `--body`, one or
-two **bolded key phrases per paragraph in ink** (the "bold ration" — never
-more; if everything is bold, nothing is).
+**Typography.** Poppins for everything, loaded via `next/font/google` (Next
+self-hosts it at build time — never a Google Fonts CDN link, which would break
+the self-contained static export). Poppins has **no weight above 700** — never
+specify 800+. Display H1: weight **500**, `clamp(40px,6vw,74px)`, line-height
+1.03, tracking -0.02em. Section H2: 600–700, 26–34px, tracking -0.035em. Body:
+16–18px, line-height 1.55–1.65, one or two **bolded key phrases per paragraph
+in ink** (the "bold ration" — never more). Labels/eyebrows/nav/buttons: 500–600,
+11–14px, uppercase, tracking .06em–.14em. The `font-mono` class is the
+**label/metadata role**, not a different family — it also maps to Poppins.
 
-**Tokens** (in `app/globals.css`, from the mockup): ink `#0e1116` · body
-`#343b45` · faint `#8a929c` · bg `#fdfdfc` · dim `#f4f4f2` · accent `#1d4ed8`
-· bad `#b91c1c` · line `#e5e6e3` · line-dark `#c4c6c1`.
+**Tokens** (in `app/globals.css`): ink `#003262` (Berkeley blue) · body
+`#616b76` · faint `#8b95a0` · dim `#9aa4af` · paper `#fff` · paper-dim `#f6f3ea`
+(cream) · accent/bad `#a86a00` (gold-dark) · accent-dark `#24303a` · gold
+`#fdb515` · gold-soft `#fdf0cf` · line `rgba(46,59,71,.08)` · line-dark
+`rgba(46,59,71,.14)` · dot `#c7ccd6` · dot-bad `#f0cabb` · band `#e9edf7`.
 
-**Black is punctuation, never a fill.** Black backgrounds are allowed only on
-label-sized elements: section chips (`§2 — SAMPLING`), the thin header bar of
-artifact cards, pipeline stage-number tabs, tiny tags (LOCAL/COST/BRAND), and
-the nav CTA button. Never fill a content block, quote, or strip with black —
-the data-chips row and the honesty pull-quote are explicitly light (we tried
-black; rejected).
+**The page is a fixed pastel gradient** (`180deg #cfe0f5 → #dce7f1 → #eee7d6 →
+#f4ecd4`, `background-attachment: fixed`) — set once on `body`. Sections are
+transparent; only cards carry white/cream fills. Never give a section its own
+background colour.
 
-**Color discipline.** Red = loss/absence only (competitor rows, accuracy
-flags, "not mentioned", at most one red chip per page). Blue = CTAs, links,
-and at most one emphasized phrase per page. Everything else is ink on warm
-white with hairline rules. No shadows, no gradients, no border-radius except
-6px on buttons.
+**Berkeley blue is the ink AND the only fill.** Blue backgrounds are allowed on
+label-sized elements (section chips, artifact-card header bars, pipeline/step
+number tabs, tiny tags) and on buttons. Never fill a content block, quote, or
+strip — the data-chips row and the honesty pull-quote stay light.
+
+**Color discipline.** Gold is the *single* accent and it means loss/absence or
+emphasis: competitor sampling rows, "not mentioned" chips, accuracy flags, the
+active-nav underline, link hover, the hot pipeline stage — **at most one gold
+chip per page**. `--color-bad` and `--color-accent` are deliberately the same
+value; there is no red in this system. Everything else is ink on the gradient
+with hairline rules.
+
+**Shape.** Pills (`999px`) for hero/nav CTAs; `12px` for solid section buttons,
+inputs, and small chips; `18–22px` for product-mockup cards. **Data artifacts
+stay square** with a 1px border — the rounded, shadowed treatment is reserved
+for product mockups so measurement never reads as marketing. Shadows only on
+floating product cards/callouts.
+
+**Persistent bottom CTA bar** (`components/BottomBar.tsx`) is the signature
+element: fixed to the viewport bottom on every route, wave SVG on its top edge,
+routing to `/free-check`. `body` carries a 78px bottom padding to clear it.
+Note it renders mid-page in full-page screenshots — that's a capture artifact of
+`position: fixed`, not a bug; check viewport-sized shots to review it.
 
 **Recurring components** (build once in `components/`, reuse everywhere):
-black chip label · data-chips strip (bordered mono row: `n=32 · engines=5 ·
-runs=10×`) · artifact card (1px border, black mono header bar) · run-sampling
-dot row (`●●●●○○○○○○ 4/10`, competitor row in red) · §-numbered sticky rail ·
-pipeline stages · honesty pull-quote (top-rule, large type, `NO GUARANTEES`
-chip).
+chip label (navy, or gold once per page) · data-chips strip (bordered row:
+`n=32 · engines=5 · runs=10×`) · artifact card (1px border, navy header bar) ·
+run-sampling dot row (`●●●●○○○○○○ 4/10`, competitor row in gold) · §-numbered
+sticky rail · pipeline stages · honesty pull-quote (top-rule, large type,
+`NO GUARANTEES` chip) · pill/solid buttons (`.btn-pill`, `.btn-pill-outline`,
+`.btn-solid` in `globals.css`).
 
 **Claim + artifact rule.** No section ships as text-only. Every claim is
 paired with a concrete artifact (query set card, sampling card, judge verdict,

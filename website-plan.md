@@ -299,6 +299,15 @@ call bookings) so you know where the funnel leaks.
   repo; satisfies the Cat 2 SSR/static requirement.
 - /free-check submissions: **manual queue at launch.** Vet each submission, then
   run the teaser and email the report ("within 1–2 business days" promise).
+- Visual direction: **the "weir" system** (Poppins, fixed pastel gradient,
+  Berkeley blue `#003262` ink/fills, California gold `#fdb515` as the single
+  accent, pill buttons, persistent bottom CTA bar), imported from Claude Design
+  on 2026-07-20 and applied as a pure restyle. Reference: `mockup/weir-style.html`;
+  rules in CLAUDE.md "Design system". Supersedes the IBM Plex / editorial
+  direction in `mockup/index.html` + `mockup/how-it-works.html`. **All page copy
+  was left unchanged** — the prototype carries some reworded headlines (e.g.
+  "When AI recommends a business…") that were NOT adopted, since copy changes
+  need Josh's sign-off. If any of that wording is wanted, change it here first.
 
 **Still open:**
 

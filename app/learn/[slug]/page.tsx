@@ -41,7 +41,7 @@ export default async function Article({
       <div className="mx-auto max-w-2xl px-5 py-16 sm:px-8 md:py-20">
         <Link
           href="/learn/"
-          className="text-sm font-semibold text-accent hover:text-accent-dark"
+          className="text-sm font-semibold text-ink hover:text-accent"
         >
           ← All articles
         </Link>

@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 /**
- * Final CTA section (v2): rule-top, left-aligned, one accent button + quiet
+ * Final CTA section: rule-top, left-aligned, one navy button + quiet
  * text link. Primary always routes to /free-check (the ≤1-click funnel rule
  * enforced by funnel.spec.ts).
  */
@@ -28,7 +28,7 @@ export default function Cta({
         <div className="mt-8 flex flex-wrap items-center gap-6">
           <Link
             href="/free-check/"
-            className="rounded-md bg-accent px-5.5 py-3 text-[15px] font-semibold text-white transition-colors hover:bg-accent-dark"
+            className="btn-solid px-[22px] py-3 text-[15px]"
           >
             {primaryLabel}
           </Link>

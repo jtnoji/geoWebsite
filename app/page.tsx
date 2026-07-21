@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import ArtifactCard from "@/components/ArtifactCard";
 import Chip from "@/components/Chip";
 import Cta from "@/components/Cta";
 import HonestyBlock from "@/components/HonestyBlock";
@@ -71,55 +70,97 @@ const SAMPLE_ROWS = [
 export default function Home() {
   return (
     <>
-      {/* Hero — chip, headline, mock AI answer as an ArtifactCard */}
-      <section className="border-b border-line">
-        <div className="mx-auto max-w-[1120px] px-5 pb-[72px] pt-[84px] sm:px-8">
-          <div className="grid items-center gap-11 md:grid-cols-[7fr_5fr] md:gap-16">
-            <div>
-              <Chip>AI visibility, measured</Chip>
-              <h1 className="mt-5 max-w-[560px] text-4xl font-bold leading-[1.02] tracking-[-0.04em] text-ink md:text-[54px]">
-                When someone asks AI for a recommendation, does it say your name?
-              </h1>
-              <p className="mt-4 max-w-[480px] text-[17.5px] leading-7 text-ink-soft">
-                ChatGPT, Google AI, and Perplexity now answer your customers&rsquo;
-                questions directly — and they only name{" "}
-                <b className="font-bold text-ink">a few businesses per answer</b>.{" "}
-                {BRAND}{" "}measures whether you&rsquo;re one of them,{" "}
-                <b className="font-bold text-ink">who&rsquo;s named instead</b>,
-                and what&rsquo;s driving the answer.
-              </p>
-              <div className="mt-8 flex flex-wrap items-center gap-6">
-                <Link
-                  href="/free-check/"
-                  className="rounded-md bg-accent px-6 py-3 text-[15px] font-semibold text-white transition-colors hover:bg-accent-dark"
-                >
-                  Get your free AI visibility check
-                </Link>
-                <Link
-                  href="/sample-report/"
-                  className="border-b border-line-dark pb-0.5 text-[15px] font-semibold text-ink transition-colors hover:border-ink"
-                >
-                  See a sample report
-                </Link>
-              </div>
-            </div>
-
-            <ArtifactCard
-              title={<>chatgpt — &ldquo;best plumber near berkeley&rdquo;</>}
-              meta="run 3/10"
+      {/* Hero — centered badge, display headline, pill CTAs, bobbing chevron */}
+      <section>
+        <div className="mx-auto max-w-[920px] px-5 pb-6 pt-16 text-center sm:px-8">
+          <span className="inline-flex items-center gap-2.5 rounded-full border border-[rgba(46,59,71,0.22)] bg-white/40 px-[18px] py-2.5 text-[13px] font-medium text-ink">
+            <span
+              aria-hidden="true"
+              className="h-[7px] w-[7px] rounded-full bg-gold"
+            />
+            AI visibility, measured
+          </span>
+          <h1 className="mx-auto mt-6 max-w-[840px] text-[clamp(40px,6vw,74px)] font-medium leading-[1.03] tracking-[-0.02em] text-ink">
+            When someone asks AI for a recommendation, does it say your name?
+          </h1>
+          <p className="mx-auto mt-6 max-w-[560px] text-[18px] leading-[1.6] text-ink-soft">
+            ChatGPT, Google AI, and Perplexity now answer your customers&rsquo;
+            questions directly — and they only name{" "}
+            <b className="font-semibold text-ink">a few businesses per answer</b>.{" "}
+            {BRAND}{" "}measures whether you&rsquo;re one of them,{" "}
+            <b className="font-semibold text-ink">who&rsquo;s named instead</b>,
+            and what&rsquo;s driving the answer.
+          </p>
+          <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
+            <Link
+              href="/free-check/"
+              className="btn-pill px-[26px] py-[15px] text-[13.5px]"
             >
-              <p className="px-4 py-4 text-sm leading-6 text-ink-soft">
+              Get your free check <span className="text-base">&#10230;</span>
+            </Link>
+            <Link
+              href="/sample-report/"
+              className="btn-pill-outline px-[26px] py-[15px] text-[13.5px]"
+            >
+              See a sample report
+            </Link>
+          </div>
+          <div
+            aria-hidden="true"
+            className="weir-bob mt-[50px] flex justify-center text-ink"
+          >
+            <svg width="30" height="18" viewBox="0 0 30 18" fill="none">
+              <path
+                d="M3 3l12 12L27 3"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
+        </div>
+
+        {/* Product showcase — the cream answer card with its floating stat
+            callout anchored to the card's top-right corner. */}
+        <div className="mx-auto max-w-[1000px] px-5 pb-24 pt-14 sm:px-8">
+          <div className="relative mx-auto max-w-[660px]">
+            <div className="overflow-hidden rounded-[22px] bg-paper-dim shadow-[0_34px_70px_-26px_rgba(46,59,71,0.4)]">
+              <div className="flex justify-between gap-3 border-b border-line px-[22px] py-[15px] text-xs text-ink-faint">
+                <span className="font-semibold text-ink">
+                  chatgpt &nbsp;·&nbsp; &ldquo;best plumber near berkeley&rdquo;
+                </span>
+                <span>run 3/10</span>
+              </div>
+              <p className="px-6 pb-1.5 pt-[22px] text-base leading-[1.65] text-ink-soft">
                 Based on reviews and reputation, I&rsquo;d recommend{" "}
-                <b className="font-bold text-ink">Apex Plumbing Co.</b>,{" "}
-                <b className="font-bold text-ink">BayFlow Drains</b>, or{" "}
-                <b className="font-bold text-ink">Hartley &amp; Sons</b>. All
+                <b className="font-semibold text-ink">Apex Plumbing Co.</b>,{" "}
+                <b className="font-semibold text-ink">BayFlow Drains</b>, or{" "}
+                <b className="font-semibold text-ink">Hartley &amp; Sons</b>. All
                 three are well-reviewed for residential work in the Berkeley
                 area&hellip;
               </p>
-              <p className="mx-4 mb-4 border-l-2 border-bad bg-[#fdf5f5] px-3 py-2 font-mono text-[13px] font-semibold text-bad">
+              <div className="mx-6 mb-[22px] mt-2 inline-flex items-center gap-2.5 rounded-xl bg-gold-soft px-4 py-2.5 text-sm font-semibold text-bad">
+                <span
+                  aria-hidden="true"
+                  className="h-2 w-2 rounded-full bg-bad"
+                />
                 Your business — not mentioned
+              </div>
+            </div>
+
+            <div className="absolute -top-[54px] right-0 max-w-[212px] rounded-[18px] bg-white px-5 py-4 shadow-[0_24px_48px_-22px_rgba(46,59,71,0.45)] sm:-right-[34px]">
+              <p className="text-[28px] font-semibold leading-none text-ink">
+                4
+                <span className="text-[15px] font-medium text-ink-faint">
+                  {" "}/ 10 runs
+                </span>
               </p>
-            </ArtifactCard>
+              <p className="mt-1.5 text-[13px] leading-[1.4] text-ink-faint">
+                named on ChatGPT —{" "}
+                <span className="font-semibold text-bad">competitor: 8/10</span>
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -169,7 +210,7 @@ export default function Home() {
                 footer="n=32 queries · anonymized client · may 2026"
               />
               <p className="mt-3 font-mono text-[11px] text-ink-faint">
-                <Link href="/sample-report/" className="text-accent hover:text-accent-dark">
+                <Link href="/sample-report/" className="text-ink hover:text-accent">
                   see the full sample report →
                 </Link>
               </p>
@@ -190,7 +231,7 @@ export default function Home() {
             </div>
             <Link
               href="/how-it-works/"
-              className="text-sm font-semibold text-accent hover:text-accent-dark"
+              className="text-sm font-semibold text-ink hover:text-accent"
             >
               Full methodology →
             </Link>

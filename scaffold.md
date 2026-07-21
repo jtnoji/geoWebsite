@@ -14,15 +14,17 @@ JavaScript" check by construction), deployed on **Vercel**.
 
 ```bash
 npx create-next-app@latest . --typescript --tailwind --app --no-src-dir --eslint
-npm install @fontsource/ibm-plex-sans @fontsource/ibm-plex-mono   # site fonts (or use next/font/google)
+                                   # site font: Poppins via next/font/google (no install)
 npm run dev                        # local dev at localhost:3000
 npm run build                      # static export → out/
 npx playwright install chromium    # for the QA suite (dev machine)
 ```
 
-Fonts (locked): **IBM Plex Sans** (400/500/600/700) for all text, **IBM Plex
-Mono** (500) for data/labels/metadata. Load via `next/font` so they're
-self-hosted and subsetted at build time; Plex has no weight above 700.
+Font (locked 2026-07-20, "weir" system): **Poppins** (400/500/600/700) for all
+text — headings, body, and the label/metadata role alike. Loaded via
+`next/font/google` so it's self-hosted and subsetted at build time (a Google
+Fonts CDN `<link>` would break the self-contained static export). Poppins has
+no weight above 700.
 
 `next.config.ts`:
 
@@ -177,9 +179,9 @@ delete policies for anon.
 
 1. **Scaffold + design system** — create-next-app, config, `lib/site.ts`
    placeholders, fonts via `next/font`, and the locked tokens + components
-   from `mockup/how-it-works.html` (see CLAUDE.md "Design system"): palette
+   from `mockup/weir-style.html` (see CLAUDE.md "Design system"): palette
    vars in `globals.css`, Chip, artifact-card pattern, data-chips strip,
-   Header/Footer/Cta. → deploy preview on Vercel from day one.
+   Header/Footer/Cta/BottomBar. → deploy preview on Vercel from day one.
 2. **Home + /free-check** — the two pages that matter; copy from
    website-plan.md; FreeCheckForm wired to the queue. → screenshot review loop.
 3. **GEO layer** — robots.ts, sitemap.ts, schema builders, metadata pass.
