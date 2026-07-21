@@ -5,7 +5,7 @@ import { MentionRateCard, SourcesCard, VerbatimCard } from "@/components/ReportP
 export const metadata: Metadata = {
   title: "Sample AI Visibility Report",
   description:
-    "An anonymized real report: verbatim AI answers, the competitors named instead, mention-rate tables, cited sources, and the prioritized fix list.",
+    "What our report looks like: verbatim AI answers, the competitors named instead, mention-rate tables, cited sources, and the prioritized fix list.",
 };
 
 const FIX_LIST = [
@@ -40,9 +40,12 @@ export default function SampleReport() {
             This is what you actually get.
           </h1>
           <p className="mt-5 text-base leading-7 text-ink-soft">
-            Below is an anonymized real teaser — a Berkeley plumbing company,
-            May 2026 — shown exactly as the client received it, with margin
-            notes on how to read each section.
+            Below is an illustrative teaser for a fictional Berkeley plumbing
+            company, in exactly the format a client receives it — with margin
+            notes on how to read each section. The numbers are modeled on real
+            audit runs; we&rsquo;ll publish a real anonymized client report
+            here as soon as one is cleared for it. No theater — even in the
+            demo.
           </p>
         </div>
 

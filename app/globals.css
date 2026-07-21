@@ -1,34 +1,29 @@
 @import "tailwindcss";
 
-/* Design tokens — "weir" system (canonical: mockup/weir-style.html, imported
-   from Claude Design 2026-07-20; see CLAUDE.md "Design system").
-   Poppins throughout; Berkeley blue is the ink AND the only fill; California
-   gold is the single accent — it marks loss/absence, link hover, and at most
-   one emphasized element per page. Soft pastel page gradient, white/cream
-   cards, pill buttons. Light-only: one canonical appearance for the review
-   loop and AI-crawler rendering. */
+/* Design tokens — the "weir" system (locked 2026-07-20, imported from Claude
+   Design; see CLAUDE.md "Design system" + mockup/weir-style.html). Poppins
+   everywhere; Berkeley blue ink/fills; California gold as the single accent;
+   fixed pastel gradient ground; cream cards; 12px/999px radii. Light-only:
+   one canonical appearance for the review loop and AI-crawler rendering. */
 @theme inline {
   --font-sans: var(--font-poppins);
-  /* The "mono" role (labels, metadata, data cells) is Poppins in this system —
-     kept as a separate token so the label/metadata role stays nameable. */
-  --font-mono: var(--font-poppins);
+  --font-mono: var(--font-poppins); /* weir: one family for every role */
 
-  --color-ink: #003262; /* Berkeley blue — headings, fills, wordmark */
-  --color-ink-soft: #616b76; /* body text */
-  --color-ink-faint: #8b95a0; /* labels, card meta, footnotes */
-  --color-ink-dim: #9aa4af; /* secondary meta inside filled card headers */
-  --color-paper: #ffffff; /* cards sit on the page gradient */
-  --color-paper-dim: #f6f3ea; /* cream — product mockups, artifact boxes */
-  --color-accent: #a86a00; /* gold-dark — loss/absence, link hover, emphasis */
-  --color-accent-dark: #24303a; /* deep navy — solid-button hover */
-  --color-gold: #fdb515; /* California gold — chip fills, flags, left rules */
-  --color-gold-soft: #fdf0cf; /* soft gold — chip/callout backgrounds */
-  --color-line: rgba(46, 59, 71, 0.08);
-  --color-line-dark: rgba(46, 59, 71, 0.14);
-  --color-bad: #a86a00; /* loss/absence == the gold accent in this system */
-  --color-dot: #c7ccd6; /* unfilled sampling dots */
-  --color-dot-bad: #f0cabb; /* unfilled dots on the competitor (gold) row */
-  --color-band: #e9edf7; /* persistent bottom CTA bar + its wave */
+  --color-ink: #003262;        /* Berkeley blue — text AND fills */
+  --color-ink-soft: #616b76;
+  --color-ink-faint: #8b95a0;
+  --color-paper: #fdfcf7;      /* solid fallback / translucent header ground */
+  --color-paper-dim: #f6f3ea;  /* cream card fill */
+  --color-accent: #003262;     /* links are ink-blue… */
+  --color-accent-dark: #a86a00;/* …and hover amber (the weir hover) */
+  --color-line: #dfe3ea;
+  --color-line-dark: #c7ccd6;
+  --color-bad: #b91c1c;
+  --color-gold: #fdb515;       /* California gold — THE accent, rationed */
+  --color-gold-soft: #fdf0cf;  /* gold-tinted callout ground */
+  --color-dot: #c9d2dc;        /* unfilled sampling dots */
+  --color-dot-bad: #ecc4bc;    /* unfilled dots on the competitor row */
+  --color-ink-dim: #9fb3cd;    /* dim slot on Berkeley-blue card headers */
 }
 
 body {
@@ -40,12 +35,55 @@ body {
     #f4ecd4 100%
   );
   background-attachment: fixed;
+  min-height: 100vh;
   color: var(--color-ink);
-  /* Clear the fixed bottom CTA bar (BottomBar.tsx). */
-  padding-bottom: 78px;
 }
 
-/* Hero down-chevron: gentle infinite bob. */
+/* ---- weir buttons (pill = hero/nav; solid = in-flow CTAs) ---- */
+.btn-pill,
+.btn-solid {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--color-ink);
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: background-color 150ms ease;
+}
+.btn-pill {
+  border-radius: 999px;
+}
+.btn-solid {
+  border-radius: 12px;
+}
+.btn-pill:hover,
+.btn-solid:hover {
+  background: var(--color-accent-dark);
+}
+.btn-pill-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-ink);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1.5px solid var(--color-ink);
+  cursor: pointer;
+  transition: color 150ms ease, border-color 150ms ease;
+}
+.btn-pill-outline:hover {
+  color: var(--color-accent-dark);
+  border-color: var(--color-accent-dark);
+}
+
+/* ---- the bobbing scroll chevron ---- */
 @keyframes weirbob {
   0%,
   100% {
@@ -55,77 +93,13 @@ body {
     transform: translateY(7px);
   }
 }
-
 .weir-bob {
-  animation: weirbob 2.4s ease-in-out infinite;
+  animation: weirbob 2.6s ease-in-out infinite;
 }
-
 @media (prefers-reduced-motion: reduce) {
   .weir-bob {
     animation: none;
   }
-}
-
-/* Active nav link (applied by NavHighlighter) — gold underline at the header's
-   bottom edge. */
-.nav-on {
-  color: var(--color-ink);
-  font-weight: 600;
-  box-shadow: inset 0 -3px 0 var(--color-gold);
-}
-
-/* ---- Buttons -------------------------------------------------------------
-   Two shapes: the 999px uppercase pill (hero + nav CTA) and the 12px-radius
-   solid button (section CTAs, form submit). Both fill Berkeley blue. */
-
-.btn-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  white-space: nowrap;
-  border-radius: 999px;
-  background: var(--color-ink);
-  color: #fff;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  transition: background-color 150ms;
-}
-
-.btn-pill:hover {
-  background: var(--color-accent);
-  color: #fff;
-}
-
-.btn-pill-outline {
-  display: inline-flex;
-  align-items: center;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.45);
-  border: 1px solid rgba(46, 59, 71, 0.2);
-  color: var(--color-ink);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  transition: border-color 150ms;
-}
-
-.btn-pill-outline:hover {
-  border-color: var(--color-ink);
-}
-
-.btn-solid {
-  display: inline-block;
-  border-radius: 12px;
-  background: var(--color-ink);
-  color: #fff;
-  font-weight: 600;
-  transition: background-color 150ms;
-}
-
-.btn-solid:hover {
-  background: var(--color-accent-dark);
-  color: #fff;
 }
 
 /* Markdown article body (/learn/[slug]) — styled here since the HTML comes
@@ -172,23 +146,22 @@ body {
 }
 
 .article a {
-  color: var(--color-ink);
+  color: var(--color-accent);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
 
 .article a:hover {
-  color: var(--color-accent);
+  color: var(--color-accent-dark);
 }
 
 .article strong {
   color: var(--color-ink);
-  font-weight: 600;
 }
 
 .article blockquote {
   margin-top: 1rem;
-  border-left: 3px solid var(--color-gold);
+  border-left: 3px solid var(--color-line-dark);
   padding-left: 1rem;
   font-style: italic;
 }

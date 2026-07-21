@@ -8,6 +8,7 @@ import StatTile from "@/components/StatTile";
 import StepList from "@/components/StepList";
 import { HOME_STATS } from "@/lib/stats";
 import { BRAND } from "@/lib/site";
+import { SAMPLE_CALLOUT, SAMPLE_LABEL, SAMPLE_ROWS } from "@/lib/sample";
 
 export const metadata: Metadata = {
   title: `${BRAND} — Does AI recommend your business?`,
@@ -59,13 +60,7 @@ const METRICS = [
   },
 ] as const;
 
-const SAMPLE_ROWS = [
-  { engine: "ChatGPT", hits: 4, runs: 10 },
-  { engine: "Google AI", hits: 2, runs: 10 },
-  { engine: "Perplexity", hits: 1, runs: 10 },
-  { engine: "Gemini", hits: 3, runs: 10 },
-  { engine: "Competitor", hits: 8, runs: 10, competitor: true },
-] as const;
+
 
 export default function Home() {
   return (
@@ -151,14 +146,16 @@ export default function Home() {
 
             <div className="absolute -top-[54px] right-0 max-w-[212px] rounded-[18px] bg-white px-5 py-4 shadow-[0_24px_48px_-22px_rgba(46,59,71,0.45)] sm:-right-[34px]">
               <p className="text-[28px] font-semibold leading-none text-ink">
-                4
+                {SAMPLE_CALLOUT.hits}
                 <span className="text-[15px] font-medium text-ink-faint">
-                  {" "}/ 10 runs
+                  {" "}/ {SAMPLE_CALLOUT.runs} runs
                 </span>
               </p>
               <p className="mt-1.5 text-[13px] leading-[1.4] text-ink-faint">
-                named on ChatGPT —{" "}
-                <span className="font-semibold text-bad">competitor: 8/10</span>
+                named on {SAMPLE_CALLOUT.engine} —{" "}
+                <span className="font-semibold text-bad">
+                  competitor: {SAMPLE_CALLOUT.competitorHits}/{SAMPLE_CALLOUT.runs}
+                </span>
               </p>
             </div>
           </div>
@@ -207,7 +204,7 @@ export default function Home() {
                 title="mention rate by engine — sample"
                 meta="10 runs/engine"
                 rows={SAMPLE_ROWS}
-                footer="n=32 queries · anonymized client · may 2026"
+                footer={`n=32 queries · ${SAMPLE_LABEL}`}
               />
               <p className="mt-3 font-mono text-[11px] text-ink-faint">
                 <Link href="/sample-report/" className="text-ink hover:text-accent">
@@ -250,8 +247,8 @@ export default function Home() {
             The shortlist got smaller
           </h2>
           <p className="mt-4 max-w-[540px] text-base leading-7 text-ink-soft">
-            When a customer asks Google or ChatGPT &ldquo;best {"{your category}"}{" "}
-            near me&rdquo; or &ldquo;which {"{product}"}{" "}should I buy,&rdquo; the
+            When a customer asks Google or ChatGPT &ldquo;best plumber near
+            me&rdquo; or &ldquo;which budgeting app should I use,&rdquo; the
             answer isn&rsquo;t ten blue links anymore. It&rsquo;s{" "}
             <b className="font-bold text-ink">a paragraph that names two or three options</b>.
             If you&rsquo;re not in that paragraph, you&rsquo;re not in the

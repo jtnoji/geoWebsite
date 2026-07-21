@@ -1,20 +1,15 @@
 import ArtifactCard from "./ArtifactCard";
-import SamplingCard, { type SamplingRow } from "./SamplingCard";
+import SamplingCard from "./SamplingCard";
+import { SAMPLE_LABEL, SAMPLE_QUERY, SAMPLE_ROWS } from "@/lib/sample";
 
 /**
  * Report panels in the locked system: ArtifactCards (black mono header bars)
- * and the run-sampling dot rows. Red only where loss/absence is shown. Swap
- * for real anonymized report imagery when the sample run is picked (scaffold
- * §7 step 6). Data mirrors the anonymized "Berkeley plumbing company" teaser
- * from website-plan.md.
+ * and the run-sampling dot rows. Red only where loss/absence is shown. Data comes
+ * from lib/sample.ts (the ONE canonical illustrative dataset) — swap for real
+ * anonymized report imagery when the sample run is picked (scaffold §7 step 6).
  */
 
-const MENTION_ROWS: SamplingRow[] = [
-  { engine: "ChatGPT", hits: 2, runs: 10 },
-  { engine: "Google AI", hits: 0, runs: 10 },
-  { engine: "Perplexity", hits: 3, runs: 10 },
-  { engine: "Competitor", hits: 8, runs: 10, competitor: true },
-];
+
 
 const SOURCE_CHECKS = [
   { label: "AI crawlers can read your site", state: "Blocked by firewall", bad: true },
@@ -25,10 +20,10 @@ const SOURCE_CHECKS = [
 function MentionRateCard() {
   return (
     <SamplingCard
-      title={<>mention rate — &ldquo;best plumber near me&rdquo;</>}
+      title={<>mention rate — &ldquo;{SAMPLE_QUERY}&rdquo;</>}
       meta="10 runs/engine"
-      rows={MENTION_ROWS}
-      footer="anonymized client · may 2026"
+      rows={[...SAMPLE_ROWS]}
+      footer={SAMPLE_LABEL}
     />
   );
 }
@@ -36,7 +31,7 @@ function MentionRateCard() {
 function VerbatimCard() {
   return (
     <ArtifactCard
-      title={<>chatgpt — &ldquo;best plumber near me&rdquo;</>}
+      title={<>chatgpt — &ldquo;{SAMPLE_QUERY}&rdquo;</>}
       meta="run 3/10"
     >
       <p className="px-4 py-4 text-sm leading-6 text-ink-soft">

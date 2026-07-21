@@ -48,9 +48,10 @@ export const PAGES: PageSpec[] = [
     path: "/how-it-works/",
     mustContain: [
       "Measurement you can actually inspect.",
-      "Ten runs, not one screenshot",
+      "Why do you run every question ten times?",
+      "How do you judge the answers?",
+      "Can you guarantee results?",
       "Every audit, same five stages",
-      "What we won", // honesty heading; apostrophe HTML-escaped
     ],
     schemaTypes: ["FAQPage"],
   },

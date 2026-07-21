@@ -16,7 +16,7 @@ export default function Chip({
 }) {
   return (
     <span
-      className={`inline-block px-3 py-1.5 font-mono text-xs font-semibold uppercase tracking-[0.06em] ${
+      className={`inline-block rounded-full px-3 py-1.5 font-mono text-xs font-semibold uppercase tracking-[0.06em] ${
         gold ? "bg-gold text-ink" : "bg-ink text-white"
       } ${className}`}
     >
