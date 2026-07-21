@@ -31,7 +31,7 @@ export default function Learn() {
                 <p className="mt-2 text-sm leading-6 text-ink-soft">
                   {article.description}
                 </p>
-                <span className="mt-3 inline-block text-sm font-semibold text-accent group-hover:text-accent-dark">
+                <span className="mt-3 inline-block text-sm font-semibold text-ink group-hover:text-accent">
                   Read the answer →
                 </span>
               </Link>

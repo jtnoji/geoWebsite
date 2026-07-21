@@ -44,7 +44,7 @@ function VerbatimCard() {
         <b className="font-bold text-ink">Competitor A</b> and{" "}
         <b className="font-bold text-ink">Competitor B</b>&hellip;&rdquo;
       </p>
-      <p className="mx-4 mb-4 border-l-2 border-bad bg-[#fdf5f5] px-3 py-2 font-mono text-[13px] font-semibold text-bad">
+      <p className="mx-4 mb-4 border-l-2 border-gold bg-gold-soft px-3 py-2 font-mono text-[13px] font-semibold text-bad">
         The client was not mentioned.
       </p>
     </ArtifactCard>

@@ -37,7 +37,7 @@ export default function About() {
               <a
                 href={f.linkedin}
                 rel="noopener noreferrer"
-                className="mt-4 inline-block text-sm font-semibold text-accent hover:text-accent-dark"
+                className="mt-4 inline-block text-sm font-semibold text-ink hover:text-accent"
               >
                 {f.name} on LinkedIn ↗
               </a>

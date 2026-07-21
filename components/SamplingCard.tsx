@@ -1,10 +1,9 @@
 import ArtifactCard from "./ArtifactCard";
 
 /**
- * Run-sampling dot rows inside an ArtifactCard (mockup `.runrow`/`.dots`):
- * bold engine name, ● filled / ○-colored empty dots at 2.5px tracking, mono
- * rate right-aligned. The competitor row renders entirely in red (the ONLY
- * red usage: loss).
+ * Run-sampling dot rows inside an ArtifactCard: bold engine name, ● filled /
+ * dimmed empty dots at 2.5px tracking, rate right-aligned. The competitor row
+ * renders entirely in gold — the only place the accent marks data.
  */
 
 export type SamplingRow = {
@@ -21,7 +20,7 @@ function Dots({ hits, runs, competitor }: { hits: number; runs: number; competit
       className={`text-sm tracking-[2.5px] ${competitor ? "text-bad" : "text-ink"}`}
     >
       {"●".repeat(hits)}
-      <span className={competitor ? "text-bad/30" : "text-[#d5d7d2]"}>
+      <span className={competitor ? "text-dot-bad" : "text-dot"}>
         {"●".repeat(Math.max(0, runs - hits))}
       </span>
     </span>

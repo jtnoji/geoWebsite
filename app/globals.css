@@ -1,36 +1,131 @@
 @import "tailwindcss";
 
-/* Design tokens — locked system (see CLAUDE.md "Design system";
-   pixel reference: mockup/index.html + mockup/how-it-works.html).
-   IBM Plex; black is punctuation (chips/card headers/tags), never a fill;
-   red = loss/absence only; blue = CTAs/links. Light-only: one canonical
-   appearance for the review loop and AI-crawler rendering. */
+/* Design tokens — "weir" system (canonical: mockup/weir-style.html, imported
+   from Claude Design 2026-07-20; see CLAUDE.md "Design system").
+   Poppins throughout; Berkeley blue is the ink AND the only fill; California
+   gold is the single accent — it marks loss/absence, link hover, and at most
+   one emphasized element per page. Soft pastel page gradient, white/cream
+   cards, pill buttons. Light-only: one canonical appearance for the review
+   loop and AI-crawler rendering. */
 @theme inline {
-  --font-sans: var(--font-plex-sans);
-  --font-mono: var(--font-plex-mono);
+  --font-sans: var(--font-poppins);
+  /* The "mono" role (labels, metadata, data cells) is Poppins in this system —
+     kept as a separate token so the label/metadata role stays nameable. */
+  --font-mono: var(--font-poppins);
 
-  --color-ink: #0e1116;
-  --color-ink-soft: #343b45; /* body text — darker, not dull */
-  --color-ink-faint: #8a929c; /* mono metadata/sources only */
-  --color-paper: #fdfdfc;
-  --color-paper-dim: #f4f4f2;
-  --color-accent: #1d4ed8;
-  --color-accent-dark: #173db0;
-  --color-line: #e5e6e3;
-  --color-line-dark: #c4c6c1;
-  --color-bad: #b91c1c;
+  --color-ink: #003262; /* Berkeley blue — headings, fills, wordmark */
+  --color-ink-soft: #616b76; /* body text */
+  --color-ink-faint: #8b95a0; /* labels, card meta, footnotes */
+  --color-ink-dim: #9aa4af; /* secondary meta inside filled card headers */
+  --color-paper: #ffffff; /* cards sit on the page gradient */
+  --color-paper-dim: #f6f3ea; /* cream — product mockups, artifact boxes */
+  --color-accent: #a86a00; /* gold-dark — loss/absence, link hover, emphasis */
+  --color-accent-dark: #24303a; /* deep navy — solid-button hover */
+  --color-gold: #fdb515; /* California gold — chip fills, flags, left rules */
+  --color-gold-soft: #fdf0cf; /* soft gold — chip/callout backgrounds */
+  --color-line: rgba(46, 59, 71, 0.08);
+  --color-line-dark: rgba(46, 59, 71, 0.14);
+  --color-bad: #a86a00; /* loss/absence == the gold accent in this system */
+  --color-dot: #c7ccd6; /* unfilled sampling dots */
+  --color-dot-bad: #f0cabb; /* unfilled dots on the competitor (gold) row */
+  --color-band: #e9edf7; /* persistent bottom CTA bar + its wave */
 }
 
 body {
-  background: var(--color-paper);
+  background: linear-gradient(
+    180deg,
+    #cfe0f5 0%,
+    #dce7f1 38%,
+    #eee7d6 76%,
+    #f4ecd4 100%
+  );
+  background-attachment: fixed;
   color: var(--color-ink);
+  /* Clear the fixed bottom CTA bar (BottomBar.tsx). */
+  padding-bottom: 78px;
 }
 
-/* Active nav link (applied by NavHighlighter) — mockup nav.links a.on */
+/* Hero down-chevron: gentle infinite bob. */
+@keyframes weirbob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(7px);
+  }
+}
+
+.weir-bob {
+  animation: weirbob 2.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .weir-bob {
+    animation: none;
+  }
+}
+
+/* Active nav link (applied by NavHighlighter) — gold underline at the header's
+   bottom edge. */
 .nav-on {
   color: var(--color-ink);
-  font-weight: 700;
-  box-shadow: inset 0 -3px 0 var(--color-ink);
+  font-weight: 600;
+  box-shadow: inset 0 -3px 0 var(--color-gold);
+}
+
+/* ---- Buttons -------------------------------------------------------------
+   Two shapes: the 999px uppercase pill (hero + nav CTA) and the 12px-radius
+   solid button (section CTAs, form submit). Both fill Berkeley blue. */
+
+.btn-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+  border-radius: 999px;
+  background: var(--color-ink);
+  color: #fff;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: background-color 150ms;
+}
+
+.btn-pill:hover {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+.btn-pill-outline {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(46, 59, 71, 0.2);
+  color: var(--color-ink);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: border-color 150ms;
+}
+
+.btn-pill-outline:hover {
+  border-color: var(--color-ink);
+}
+
+.btn-solid {
+  display: inline-block;
+  border-radius: 12px;
+  background: var(--color-ink);
+  color: #fff;
+  font-weight: 600;
+  transition: background-color 150ms;
+}
+
+.btn-solid:hover {
+  background: var(--color-accent-dark);
+  color: #fff;
 }
 
 /* Markdown article body (/learn/[slug]) — styled here since the HTML comes
@@ -39,7 +134,7 @@ body {
   margin-top: 2.5rem;
   font-size: 1.5rem;
   line-height: 2rem;
-  font-weight: 650;
+  font-weight: 600;
   letter-spacing: -0.02em;
   color: var(--color-ink);
 }
@@ -77,18 +172,23 @@ body {
 }
 
 .article a {
-  color: var(--color-accent);
+  color: var(--color-ink);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
 
+.article a:hover {
+  color: var(--color-accent);
+}
+
 .article strong {
   color: var(--color-ink);
+  font-weight: 600;
 }
 
 .article blockquote {
   margin-top: 1rem;
-  border-left: 3px solid var(--color-line-dark);
+  border-left: 3px solid var(--color-gold);
   padding-left: 1rem;
   font-style: italic;
 }

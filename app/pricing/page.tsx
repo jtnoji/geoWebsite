@@ -90,11 +90,7 @@ export default function Pricing() {
               key={tier.name}
               className="flex flex-col border border-b-0 border-line-dark bg-white last:border-b md:border-b md:border-r-0 md:last:border-r"
             >
-              <span
-                className={`block px-3.5 py-1.5 font-mono text-[11px] text-white ${
-                  tier.featured ? "bg-accent" : "bg-ink"
-                }`}
-              >
+              <span className="block bg-ink px-3.5 py-1.5 font-mono text-[11px] text-white">
                 {String(i + 1).padStart(2, "0")}
                 {tier.featured && " · most popular"}
               </span>
@@ -110,11 +106,7 @@ export default function Pricing() {
                 </p>
                 <Link
                   href={tier.cta.href}
-                  className={`mt-6 self-start rounded-md px-5 py-2.5 text-sm font-semibold text-white transition-colors ${
-                    tier.featured
-                      ? "bg-accent hover:bg-accent-dark"
-                      : "bg-ink hover:bg-accent"
-                  }`}
+                  className="btn-solid mt-6 self-start px-5 py-2.5 text-sm"
                 >
                   {tier.cta.label}
                 </Link>
