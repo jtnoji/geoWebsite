@@ -55,7 +55,7 @@ const SECTIONS: readonly (Faq & { id: string; chip: string })[] = [
     chip: "§5 · The fine print, up front",
     question: "Can you guarantee results?",
     answer:
-      "No, and no one honest can. Nobody controls what ChatGPT says. What we deliver is measurement: where you stand, how it changes over time, and which fixes have evidence behind them.",
+      "No, and no one honest can. Nobody controls what ChatGPT says.",
   },
 ];
 
