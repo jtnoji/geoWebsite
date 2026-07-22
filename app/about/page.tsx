@@ -47,7 +47,7 @@ export default function About() {
         </div>
       </div>
 
-      <Cta secondaryLabel="Book a call" secondaryHref="/contact/" />
+      <Cta centered secondaryLabel="Book a call" secondaryHref="/contact/" />
     </>
   );
 }

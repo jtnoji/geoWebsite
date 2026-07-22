@@ -297,7 +297,7 @@ export default function Home() {
         </div>
       </section>
 
-      <Cta />
+      <Cta centered />
     </>
   );
 }
