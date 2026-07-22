@@ -173,13 +173,15 @@ export default function Home() {
       {/* What we do — metrics list + sampling card */}
       <section className="border-b border-line">
         <div className="mx-auto max-w-[1120px] px-5 py-20 sm:px-8">
-          <div className="grid items-start gap-11 md:grid-cols-[6fr_5fr] md:gap-[72px]">
+          <div className="text-center">
+            <Chip>What we do</Chip>
+            <h2 className="mx-auto mt-3.5 max-w-[560px] text-3xl font-bold tracking-[-0.035em] text-ink md:text-[34px]">
+              We measure it. Properly.
+            </h2>
+          </div>
+          <div className="mt-10 grid items-start gap-11 md:grid-cols-[6fr_5fr] md:gap-[72px]">
             <div>
-              <Chip>What we do</Chip>
-              <h2 className="mt-3.5 max-w-[560px] text-3xl font-bold tracking-[-0.035em] text-ink md:text-[34px]">
-                We measure it. Properly.
-              </h2>
-              <p className="mt-3.5 max-w-[520px] text-[16.5px] leading-7 text-ink-soft">
+              <p className="max-w-[520px] text-[16.5px] leading-7 text-ink-soft">
                 We run the questions your customers actually ask across
                 ChatGPT, Google&rsquo;s AI answers, Gemini, and Perplexity,{" "}
                 <b className="font-bold text-ink">multiple times each</b>,
@@ -218,23 +220,23 @@ export default function Home() {
       {/* How it works — joined step cells */}
       <section className="border-b border-line">
         <div className="mx-auto max-w-[1120px] px-5 py-20 sm:px-8">
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <div className="flex flex-wrap items-center gap-4">
-              <Chip>How it works</Chip>
-              <h2 className="text-3xl font-bold tracking-[-0.035em] text-ink md:text-[34px]">
-                Three steps, no theater
-              </h2>
-            </div>
+          <div className="text-center">
+            <Chip>How it works</Chip>
+            <h2 className="mt-3.5 text-3xl font-bold tracking-[-0.035em] text-ink md:text-[34px]">
+              Three steps, no theater
+            </h2>
+          </div>
+          <div className="mt-8">
+            <StepList steps={STEPS} />
+          </div>
+          <p className="mt-7 text-center">
             <Link
               href="/how-it-works/"
               className="text-sm font-semibold text-ink hover:text-accent"
             >
               Full methodology →
             </Link>
-          </div>
-          <div className="mt-8">
-            <StepList steps={STEPS} />
-          </div>
+          </p>
         </div>
       </section>
 

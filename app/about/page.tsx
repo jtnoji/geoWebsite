@@ -18,10 +18,10 @@ export default function About() {
       ))}
 
       <div className="mx-auto max-w-2xl px-5 py-16 sm:px-8 md:py-20">
-        <h1 className="text-4xl font-bold leading-[1.1] tracking-tight text-ink">
+        <h1 className="text-center text-4xl font-bold leading-[1.1] tracking-tight text-ink">
           Two founders, measuring the thing everyone else is guessing about.
         </h1>
-        <p className="mt-5 text-base leading-7 text-ink-soft">
+        <p className="mt-5 text-center text-base leading-7 text-ink-soft">
           We&rsquo;re based in {NAP.city}, {NAP.region}. One of us builds the
           measurement platform; the other sits with every client who uses it.
           The company exists because &ldquo;how visible am I in AI answers?&rdquo;
