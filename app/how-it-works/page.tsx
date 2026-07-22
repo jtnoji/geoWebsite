@@ -132,12 +132,12 @@ export default function HowItWorks() {
       <JsonLd data={faq(SECTIONS)} />
 
       {/* Head */}
-      <div className="mx-auto max-w-[1120px] px-5 pb-4 pt-16 sm:px-8 md:pt-20">
+      <div className="mx-auto max-w-[1120px] px-5 pb-4 pt-16 text-center sm:px-8 md:pt-20">
         <Chip>Methodology · public by design</Chip>
-        <h1 className="mt-5 max-w-[720px] text-[clamp(34px,4.6vw,54px)] font-semibold leading-[1.05] tracking-[-0.02em] text-ink">
+        <h1 className="mx-auto mt-5 max-w-[720px] text-[clamp(34px,4.6vw,54px)] font-semibold leading-[1.05] tracking-[-0.02em] text-ink">
           Measurement you can actually inspect.
         </h1>
-        <p className="mt-5 max-w-[560px] text-[17px] leading-[1.6] text-ink-soft">
+        <p className="mx-auto mt-5 max-w-[560px] text-[17px] leading-[1.6] text-ink-soft">
           The full protocol:{" "}
           <b className="font-semibold text-ink">what we run</b>,{" "}
           <b className="font-semibold text-ink">how often</b>, and{" "}
@@ -297,6 +297,7 @@ export default function HowItWorks() {
       </div>
 
       <Cta
+        centered
         heading="See the protocol run on your business."
         sub="The free check is a small version of exactly this: real queries, real engines, real answers."
         secondaryLabel="See a sample report"

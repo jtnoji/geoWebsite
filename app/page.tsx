@@ -179,7 +179,7 @@ export default function Home() {
               We measure it. Properly.
             </h2>
           </div>
-          <div className="mt-10 grid items-start gap-11 md:grid-cols-[6fr_5fr] md:gap-[72px]">
+          <div className="mt-10 grid items-center gap-11 md:grid-cols-[6fr_5fr] md:gap-[72px]">
             <div>
               <p className="max-w-[520px] text-[16.5px] leading-7 text-ink-soft">
                 We run the questions your customers actually ask across
