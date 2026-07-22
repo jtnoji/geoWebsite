@@ -20,7 +20,6 @@ export const PAGES: PageSpec[] = [
       "When someone asks AI for a recommendation, does it say your name?",
       "The shortlist got smaller",
       "We measure it. Properly.",
-      "What we won", // "What we won't promise" — apostrophe rendered as &rsquo;
       "of U.S. consumers used AI tools to find local businesses",
       "BrightLocal, 2026",
     ],

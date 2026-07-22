@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Chip from "@/components/Chip";
 import Cta from "@/components/Cta";
-import HonestyBlock from "@/components/HonestyBlock";
 import SamplingCard from "@/components/SamplingCard";
 import StatTile from "@/components/StatTile";
 import StepList from "@/components/StepList";
@@ -257,13 +256,6 @@ export default function Home() {
             everyone&rsquo;s answer looks different and nobody screenshots the AI
             that <em>didn&rsquo;t</em> mention them.
           </p>
-        </div>
-      </section>
-
-      {/* Honesty pull-quote */}
-      <section>
-        <div className="mx-auto max-w-[1120px] px-5 py-20 sm:px-8">
-          <HonestyBlock />
         </div>
       </section>
 
