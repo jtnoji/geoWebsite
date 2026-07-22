@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 const FIX_LIST = [
   {
     fix: "Unblock AI crawlers at the firewall",
-    why: "GPTBot and PerplexityBot were receiving challenge pages — the site is invisible to the engines being measured.",
+    why: "GPTBot and PerplexityBot were receiving challenge pages, leaving the site invisible to the engines being measured.",
   },
   {
     fix: "Get listed on the 4 missing directories AI actually cites",
@@ -41,10 +41,10 @@ export default function SampleReport() {
           </h1>
           <p className="mt-5 text-base leading-7 text-ink-soft">
             Below is an illustrative teaser for a fictional Berkeley plumbing
-            company, in exactly the format a client receives it — with margin
+            company, in exactly the format a client receives it, with margin
             notes on how to read each section. The numbers are modeled on real
             audit runs; we&rsquo;ll publish a real anonymized client report
-            here as soon as one is cleared for it. No theater — even in the
+            here as soon as one is cleared for it. No theater, even in the
             demo.
           </p>
         </div>
@@ -54,7 +54,7 @@ export default function SampleReport() {
             <VerbatimCard />
             <Annotation>
               Every report opens with verbatim AI answers. The bold names mark
-              who WAS named — the client&rsquo;s absence is the finding.
+              who WAS named; the client&rsquo;s absence is the finding.
             </Annotation>
           </section>
 
@@ -72,7 +72,7 @@ export default function SampleReport() {
             <SourcesCard />
             <Annotation>
               The cited-sources checklist: which websites the engines leaned on
-              when deciding, and whether you exist on them — what&rsquo;s
+              when deciding, and whether you exist on them: what&rsquo;s
               blocked, what&rsquo;s thin, what&rsquo;s fine.
             </Annotation>
           </section>
@@ -83,7 +83,7 @@ export default function SampleReport() {
             </h2>
             <p className="mt-3 max-w-[560px] text-base leading-7 text-ink-soft">
               The full audit closes with fixes ordered by what actually moves AI
-              answers — each tied to a finding in the data, never generic advice.
+              answers. Each one ties to a finding in the data, not generic advice.
             </p>
             <ol className="mt-7 max-w-3xl">
               {FIX_LIST.map((item, i) => (
@@ -105,7 +105,7 @@ export default function SampleReport() {
         </div>
       </div>
 
-      <Cta heading="Want yours?" sub="Free visibility check — takes one minute, report in your inbox within 1–2 business days." />
+      <Cta heading="Want yours?" sub="Free visibility check: takes one minute, report in your inbox within 1–2 business days." />
     </>
   );
 }

@@ -21,13 +21,13 @@ export const NAP = {
 export const FOUNDERS = [
   {
     name: "Abhi",
-    role: "Co-founder — built the measurement platform",
+    role: "Co-founder · built the measurement platform",
     linkedin: "https://www.linkedin.com/in/abhi-placeholder",
     bio: "Abhi built the measurement platform: the query runner, the sampling methodology, and the judging pipeline that grades every AI answer for presence, prominence, and accuracy. He started this because every 'AI rank tracker' he tested was measuring single-run noise and calling it data.",
   },
   {
     name: "Josh",
-    role: "Co-founder — works directly with every client",
+    role: "Co-founder · works directly with every client",
     linkedin: "https://www.linkedin.com/in/josh-placeholder",
     bio: "Josh works directly with every client, from the first free check through the audit walkthrough. He started this after watching small businesses pay for SEO reports that never once mentioned the AI answers their customers were actually reading.",
   },
@@ -79,9 +79,9 @@ export const ALL_PAGES = [
  */
 const HONESTY_PARTS = {
   opener: "Nobody controls what ChatGPT says",
-  mid: " — anyone who guarantees you a #1 spot in AI answers is selling something they can't deliver. ",
+  mid: ". Anyone who guarantees you a #1 spot in AI answers is selling something they can't deliver. ",
   accent: "What we deliver is measurement",
-  rest: ": where you stand, how it changes over time, and which fixes have evidence behind them. Our reports show sampled rates with honest uncertainty, because that's the only claim that survives contact with how these systems actually behave.",
+  rest: ": where you stand, how it changes over time, and which fixes have evidence behind them. Our reports show sampled rates with honest uncertainty, because that's the only kind of claim we can stand behind.",
 } as const;
 
 export const HONESTY_COPY = {

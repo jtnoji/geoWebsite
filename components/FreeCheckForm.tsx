@@ -102,7 +102,7 @@ export default function FreeCheckForm() {
     return (
       <div data-testid="free-check-confirmation" className="border-t-2 border-ink pt-6">
         <h2 className="text-2xl font-semibold tracking-tight text-ink">
-          Got it — we&rsquo;re running your check.
+          Got it. We&rsquo;re running your check.
         </h2>
         <p className="mt-3 text-base leading-7 text-ink-soft">
           Your report will land in your inbox within 1–2 business days.
@@ -110,7 +110,7 @@ export default function FreeCheckForm() {
 
         {phoneStatus === "done" ? (
           <p className="mt-6 text-sm leading-6 text-ink-soft">
-            Noted — Josh will call once your report is ready.
+            Noted. Josh will call once your report is ready.
           </p>
         ) : (
           <form onSubmit={handlePhone} className="mt-6 max-w-sm">
@@ -118,7 +118,7 @@ export default function FreeCheckForm() {
               Want Josh to walk you through the report? (optional)
             </label>
             <p className="mt-1 text-xs leading-5 text-ink-faint">
-              Leave a number and he&rsquo;ll call when it&rsquo;s ready — no
+              Leave a number and he&rsquo;ll call when it&rsquo;s ready. No
               sales calls otherwise.
             </p>
             <div className="mt-2 flex gap-2">
@@ -183,7 +183,7 @@ export default function FreeCheckForm() {
           name="description"
           required
           rows={3}
-          placeholder="Residential plumbing — repairs, water heaters, repiping."
+          placeholder="Residential plumbing: repairs, water heaters, repiping."
           className={INPUT_CLASS}
         />
       </div>
@@ -212,7 +212,7 @@ export default function FreeCheckForm() {
 
       {status === "error" && (
         <p role="alert" className="text-sm font-medium text-bad">
-          Something went wrong sending your details — please email us instead and
+          Something went wrong sending your details. Please email us instead and
           we&rsquo;ll run your check.
         </p>
       )}

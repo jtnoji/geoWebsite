@@ -10,7 +10,7 @@ import { SAMPLE_LABEL, SAMPLE_QUERY, SAMPLE_ROWS } from "@/lib/sample";
 import { SAMPLING_FOOTNOTE } from "@/lib/stats";
 
 export const metadata: Metadata = {
-  title: "How It Works — our AI visibility methodology",
+  title: "How It Works: our AI visibility methodology",
   description:
     "The full protocol: which engines we measure, why every question runs ten times, how answers are judged against a fact sheet, and what the report contains.",
 };
@@ -24,38 +24,38 @@ export const metadata: Metadata = {
 const SECTIONS: readonly (Faq & { id: string; chip: string })[] = [
   {
     id: "query-set",
-    chip: "§1 — The query set",
+    chip: "§1 · The query set",
     question: "What do you actually ask the AI engines?",
     answer:
-      "The questions your customers actually ask — cost, comparison, \"is this business legit\" — as a versioned query set that's locked per measurement cycle, so every before/after comparison is apples to apples.",
+      "The questions your customers actually ask: cost, comparison, \"is this business legit.\" The set is versioned and locked per measurement cycle, so every before/after comparison is apples to apples.",
   },
   {
     id: "sampling",
-    chip: "§2 — Sampling",
+    chip: "§2 · Sampling",
     question: "Why do you run every question ten times?",
     answer:
-      "AI answers change between runs — a single fetch is a coin flip. We run every query ten times per engine and report the rate. Anyone showing you a single-run \"AI rank\" is measuring noise.",
+      "AI answers change between runs; a single fetch is a coin flip. We run every query ten times per engine and report the rate. Anyone showing you a single-run \"AI rank\" is measuring noise.",
   },
   {
     id: "judging",
-    chip: "§3 — Judging",
+    chip: "§3 · Judging",
     question: "How do you judge the answers?",
     answer:
-      "Every answer is graded for presence, prominence, and accuracy against a fact sheet about your business that you approve — so \"the AI mentioned you but got your hours or services wrong\" is a finding, not a blind spot.",
+      "Every answer is graded for presence, prominence, and accuracy against a fact sheet about your business that you approve, so \"the AI mentioned you but got your hours or services wrong\" is a finding instead of a blind spot.",
   },
   {
     id: "report",
-    chip: "§4 — The report",
+    chip: "§4 · The report",
     question: "What do you get at the end?",
     answer:
       "Mention rates by engine and question type, the queries you're losing, who's named instead of you, the sources the engines cite, and a fix list ranked by what the evidence says actually moves AI answers.",
   },
   {
     id: "honesty",
-    chip: "§5 — The fine print, up front",
+    chip: "§5 · The fine print, up front",
     question: "Can you guarantee results?",
     answer:
-      "No — and no one honest can. Nobody controls what ChatGPT says. What we deliver is measurement: where you stand, how it changes over time, and which fixes have evidence behind them.",
+      "No, and no one honest can. Nobody controls what ChatGPT says. What we deliver is measurement: where you stand, how it changes over time, and which fixes have evidence behind them.",
   },
 ];
 
@@ -72,7 +72,7 @@ const PIPELINE = [
   },
   {
     title: "Ten runs",
-    body: "Sampled repeatedly — answers change run to run.",
+    body: "Sampled repeatedly, because answers change run to run.",
     artifact: "●●○○○○○○○○ → 2/10 mention rate",
   },
   {
@@ -97,7 +97,7 @@ const QUERY_CARD = [
 const DELIVERABLES = [
   { name: "Mention rates", detail: "per engine · per question type · sampled" },
   { name: "Losing queries", detail: "where a rival is named and you aren't" },
-  { name: "Source map", detail: "the sites AI cites — and where you're missing" },
+  { name: "Source map", detail: "the sites AI cites, and where you're missing" },
   { name: "Roadmap", detail: "prioritized, evidence-ranked fixes" },
 ] as const;
 
@@ -138,11 +138,11 @@ export default function HowItWorks() {
           Measurement you can actually inspect.
         </h1>
         <p className="mt-5 max-w-[560px] text-[17px] leading-[1.6] text-ink-soft">
-          The full protocol —{" "}
+          The full protocol:{" "}
           <b className="font-semibold text-ink">what we run</b>,{" "}
           <b className="font-semibold text-ink">how often</b>, and{" "}
           <b className="font-semibold text-ink">how every answer is judged</b>.
-          Public, because measurement you can&rsquo;t inspect is marketing.
+          It&rsquo;s public because measurement you can&rsquo;t inspect is marketing.
         </p>
         <div className="mt-7 inline-flex flex-wrap overflow-hidden rounded-xl border border-line-dark bg-white/70 text-[13px] text-ink-soft">
           {["n=32 queries", "engines=5", "runs=10× each", "judged vs fact sheet"].map(
@@ -193,7 +193,7 @@ export default function HowItWorks() {
       <div className="mx-auto max-w-[1120px] px-5 pb-8 pt-6 sm:px-8">
         <SectionShell {...SECTIONS[0]}>
           <ArtifactCard
-            title="query set — plumbing · berkeley"
+            title="query set: plumbing, berkeley"
             meta="v1 · locked"
           >
             <ul className="p-4">
@@ -212,20 +212,20 @@ export default function HowItWorks() {
 
         <SectionShell {...SECTIONS[1]}>
           <SamplingCard
-            title={<>sampling — &ldquo;{SAMPLE_QUERY}&rdquo;</>}
+            title={<>sampling: &ldquo;{SAMPLE_QUERY}&rdquo;</>}
             meta="10 runs/engine"
             rows={[...SAMPLE_ROWS]}
             footer={SAMPLE_LABEL}
           />
           <p className="mt-3 text-xs leading-5 text-ink-faint">
             <b className="font-semibold text-ink-soft">{SAMPLING_FOOTNOTE.value}</b>{" "}
-            {SAMPLING_FOOTNOTE.text} — {SAMPLING_FOOTNOTE.source}.
+            {SAMPLING_FOOTNOTE.text} ({SAMPLING_FOOTNOTE.source}).
           </p>
         </SectionShell>
 
         <SectionShell {...SECTIONS[2]}>
           <ArtifactCard
-            title="judge verdict — run 7/10 · chatgpt"
+            title="judge verdict: run 7/10 · chatgpt"
             meta="fact sheet v3"
           >
             <dl className="p-4 text-[13.5px]">
@@ -234,7 +234,7 @@ export default function HowItWorks() {
                   k: "presence",
                   v: (
                     <>
-                      <b className="font-semibold text-ink">Mentioned</b> — 2nd of
+                      <b className="font-semibold text-ink">Mentioned</b>, 2nd of
                       3 businesses named
                     </>
                   ),
@@ -243,7 +243,7 @@ export default function HowItWorks() {
                   k: "prominence",
                   v: (
                     <>
-                      <b className="font-semibold text-ink">Secondary</b> — not
+                      <b className="font-semibold text-ink">Secondary</b>, not
                       the lead recommendation
                     </>
                   ),
@@ -252,7 +252,7 @@ export default function HowItWorks() {
                   k: "accuracy",
                   v: (
                     <>
-                      <b className="font-semibold text-ink">1 error</b> — answer
+                      <b className="font-semibold text-ink">1 error</b>: answer
                       says weekdays only; the business runs 24/7 emergency
                       service
                       <span className="mt-1.5 block">
@@ -298,7 +298,7 @@ export default function HowItWorks() {
 
       <Cta
         heading="See the protocol run on your business."
-        sub="The free check is a small version of exactly this — real queries, real engines, real answers."
+        sub="The free check is a small version of exactly this: real queries, real engines, real answers."
         secondaryLabel="See a sample report"
         secondaryHref="/sample-report/"
       />

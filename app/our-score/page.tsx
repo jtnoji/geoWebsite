@@ -3,7 +3,7 @@ import Cta from "@/components/Cta";
 import { BRAND } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Our Score — we audited our own website",
+  title: "Our Score: we audited our own website",
   description:
     "The exact Cat 1–6 audit we sell, run against this site, results published and dated. No competitor publishes their own audit of themselves.",
 };
@@ -17,37 +17,37 @@ const AUDIT_DATE = "Pending first deploy";
 
 const RESULTS = [
   {
-    category: "Cat 1 — Bot access",
+    category: "Cat 1 · Bot access",
     check: "GPTBot, ClaudeBot, PerplexityBot, Google-Extended fetch real pages (no challenge walls)",
     status: "Pass",
     note: "robots.txt explicitly allows every major AI crawler; Vercel challenge mode off.",
   },
   {
-    category: "Cat 2 — Rendering",
+    category: "Cat 2 · Rendering",
     check: "Every word of copy and all schema present with JavaScript disabled",
     status: "Pass",
-    note: "The site is a pure static export — there is no client-rendered content to miss.",
+    note: "The site is a pure static export, so there is no client-rendered content to miss.",
   },
   {
-    category: "Cat 3 — Content structure",
+    category: "Cat 3 · Content structure",
     check: "Question-form headings with standalone, quotable first-sentence answers",
     status: "Pass",
     note: "Enforced as a copy rule across /how-it-works, /pricing FAQ, and /learn.",
   },
   {
-    category: "Cat 4 — Local presence",
+    category: "Cat 4 · Local presence",
     check: "Consistent NAP on every page; founders named with profiles",
     status: "Partial",
-    note: "NAP renders site-wide from one source file — final business name and directory listings land with the brand decision.",
+    note: "NAP renders site-wide from one source file; the final business name and directory listings land with the brand decision.",
   },
   {
-    category: "Cat 5 — Structured data",
-    check: "Organization, ProfessionalService, FAQPage, Service, Person schema — matching visible text",
+    category: "Cat 5 · Structured data",
+    check: "Organization, ProfessionalService, FAQPage, Service, Person schema, all matching visible text",
     status: "Pass",
     note: "Schema is generated from the same data structures that render the visible copy, so it cannot drift.",
   },
   {
-    category: "Cat 6 — Hygiene",
+    category: "Cat 6 · Hygiene",
     check: "sitemap.xml, canonical URLs, unique titles and descriptions, OG tags",
     status: "Pass",
     note: "Generated at build time; verified by the CI test suite on every deploy.",
@@ -63,8 +63,8 @@ export default function OurScore() {
         </h1>
         <p className="mt-5 max-w-2xl text-base leading-7 text-ink-soft">
           A company selling AI visibility audits should pass its own. Below are
-          the Cat 1–6 results for this site — the same rubric, the same checks,
-          published and dated. Mention-rate tracking for {BRAND}{" "}queries
+          the Cat 1–6 results for this site, using the same rubric and the same
+          checks, published and dated. Mention-rate tracking for {BRAND}{" "}queries
           starts once the brand launches, and gets published here on a cadence.
         </p>
         <p className="mt-3 text-sm text-ink-faint">Last audit: {AUDIT_DATE}</p>
@@ -104,7 +104,7 @@ export default function OurScore() {
 
       <Cta
         heading="This is the exact report you'd get."
-        sub="See where your own site stands — free, in your inbox within 1–2 business days."
+        sub="See where your own site stands. Free, in your inbox within 1–2 business days."
       />
     </>
   );

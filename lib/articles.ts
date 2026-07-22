@@ -14,7 +14,8 @@ export type ArticleMeta = {
   slug: string;
   title: string;
   description: string;
-  date: string; // ISO yyyy-mm-dd
+  date: string; // ISO yyyy-mm-dd (treated as "last updated")
+  author: string;
 };
 
 export function getArticleSlugs(): string[] {
@@ -32,6 +33,7 @@ export function getArticleMeta(slug: string): ArticleMeta {
     title: data.title,
     description: data.description,
     date: data.date,
+    author: data.author,
   };
 }
 
@@ -46,7 +48,13 @@ export function getArticleHtml(slug: string): { meta: ArticleMeta; html: string 
   const { data, content } = matter(raw);
   const html = marked.parse(content, { async: false });
   return {
-    meta: { slug, title: data.title, description: data.description, date: data.date },
+    meta: {
+      slug,
+      title: data.title,
+      description: data.description,
+      date: data.date,
+      author: data.author,
+    },
     html,
   };
 }

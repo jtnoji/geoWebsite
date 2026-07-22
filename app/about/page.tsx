@@ -5,7 +5,7 @@ import { person } from "@/lib/schema";
 import { FOUNDERS, NAP } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "About — two founders measuring, not guessing",
+  title: "About: two founders measuring, not guessing",
   description:
     "Abhi built the measurement platform; Josh works directly with every client. Berkeley, CA. Real names, real methodology, no guarantees sold.",
 };

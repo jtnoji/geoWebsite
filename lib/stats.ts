@@ -1,6 +1,6 @@
 /**
- * Cited statistics used by StatTiles. Every statistic carries a named source —
- * copy rule from website-plan.md: no numbers without attribution.
+ * Cited statistics used by StatTiles. Every statistic carries a named source
+ * (copy rule from website-plan.md: no numbers without attribution).
  * `value` is the big editorial number; `text` the remainder of the sentence;
  * `bold` is the ONE phrase inside `text` rendered in ink per the bold ration
  * (locked system, see CLAUDE.md "Design system").
@@ -17,7 +17,7 @@ export type Stat = {
 export const HOME_STATS: Stat[] = [
   {
     value: "45%",
-    text: "of U.S. consumers used AI tools to find local businesses last year — up from 6% the year before.",
+    text: "of U.S. consumers used AI tools to find local businesses last year, up from 6% the year before.",
     bold: "up from 6%",
     source: "BrightLocal, 2026",
     url: "https://www.brightlocal.com/research/lcrs-ai-trust/",
@@ -34,7 +34,7 @@ export const HOME_STATS: Stat[] = [
   },
   {
     // research-validation.md §1.3: 68% is the LOCAL-BUSINESS average
-    // (informational is 92%) — "local-business searches" is the wording
+    // (informational is 92%); "local-business searches" is the wording
     // that matches the 2-of-3 number.
     value: "2 of 3",
     text: "local-business searches now show an AI-generated answer above the results.",
@@ -47,10 +47,9 @@ export const HOME_STATS: Stat[] = [
 /**
  * Footnote stat for /how-it-works §2 (sampling). Lives here per the
  * every-stat-has-a-source rule.
- */
-/**
+ *
  * research-validation.md §1.4: the citable basis is SE Ranking's AI Mode
- * volatility test (5,000 keywords, 5 cities, 15 runs each) — general local
+ * volatility test (5,000 keywords, 5 cities, 15 runs each). General local
  * queries lose ~80% of URLs between same-city runs; explicit-city queries
  * are ~2× more stable. Do NOT cite the separate 10,000-keyword overlap study.
  */

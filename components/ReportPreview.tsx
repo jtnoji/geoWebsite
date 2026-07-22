@@ -20,7 +20,7 @@ const SOURCE_CHECKS = [
 function MentionRateCard() {
   return (
     <SamplingCard
-      title={<>mention rate — &ldquo;{SAMPLE_QUERY}&rdquo;</>}
+      title={<>mention rate: &ldquo;{SAMPLE_QUERY}&rdquo;</>}
       meta="10 runs/engine"
       rows={[...SAMPLE_ROWS]}
       footer={SAMPLE_LABEL}
@@ -31,7 +31,7 @@ function MentionRateCard() {
 function VerbatimCard() {
   return (
     <ArtifactCard
-      title={<>chatgpt — &ldquo;{SAMPLE_QUERY}&rdquo;</>}
+      title={<>chatgpt: &ldquo;{SAMPLE_QUERY}&rdquo;</>}
       meta="run 3/10"
     >
       <p className="px-4 py-4 text-sm leading-6 text-ink-soft">

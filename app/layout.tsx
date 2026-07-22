@@ -10,17 +10,17 @@ import { BRAND, DOMAIN, TAGLINE } from "@/lib/site";
 const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"], // weir: no weight above 700
+  weight: ["400", "500", "600", "700"], // weir system: no weight above 700
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL(DOMAIN),
   title: {
-    default: `${BRAND} — ${TAGLINE}`,
-    template: `%s — ${BRAND}`,
+    default: `${BRAND} · ${TAGLINE}`,
+    template: `%s · ${BRAND}`,
   },
   description:
-    "We measure whether ChatGPT, Google AI, Gemini, and Perplexity mention your business — sampled rates, named competitors, and the sources behind the answers.",
+    "We measure whether ChatGPT, Google AI, Gemini, and Perplexity mention your business: sampled rates, named competitors, and the sources behind the answers.",
   openGraph: {
     siteName: BRAND,
     type: "website",
