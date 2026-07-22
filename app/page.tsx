@@ -123,17 +123,17 @@ export default function Home() {
             <div className="overflow-hidden rounded-[22px] bg-paper-dim shadow-[0_34px_70px_-26px_rgba(46,59,71,0.4)]">
               <div className="flex justify-between gap-3 border-b border-line px-[22px] py-[15px] text-xs text-ink-faint">
                 <span className="font-semibold text-ink">
-                  chatgpt &nbsp;·&nbsp; &ldquo;best plumber near berkeley&rdquo;
+                  chatgpt &nbsp;·&nbsp; &ldquo;best b2b marketing agency for seed-stage startups&rdquo;
                 </span>
                 <span>run 3/10</span>
               </div>
               <p className="px-6 pb-1.5 pt-[22px] text-base leading-[1.65] text-ink-soft">
-                Based on reviews and reputation, I&rsquo;d recommend{" "}
-                <b className="font-semibold text-ink">Apex Plumbing Co.</b>,{" "}
-                <b className="font-semibold text-ink">BayFlow Drains</b>, or{" "}
-                <b className="font-semibold text-ink">Hartley &amp; Sons</b>. All
-                three are well-reviewed for residential work in the Berkeley
-                area&hellip;
+                For a seed-stage B2B startup, I&rsquo;d look at{" "}
+                <b className="font-semibold text-ink">Saltgrass Digital</b>,{" "}
+                <b className="font-semibold text-ink">Fathom &amp; Reed</b>, or{" "}
+                <b className="font-semibold text-ink">Pinelock Marketing</b>. All
+                three have strong track records with early-stage B2B
+                companies&hellip;
               </p>
               <div className="mx-6 mb-[22px] mt-2 inline-flex items-center gap-2.5 rounded-xl bg-gold-soft px-4 py-2.5 text-sm font-semibold text-bad">
                 <span
@@ -247,8 +247,9 @@ export default function Home() {
             The shortlist got smaller
           </h2>
           <p className="mt-4 max-w-[540px] text-base leading-7 text-ink-soft">
-            When a customer asks Google or ChatGPT &ldquo;best plumber near
-            me&rdquo; or &ldquo;which budgeting app should I use,&rdquo; the
+            When a customer asks Google or ChatGPT &ldquo;best marketing agency
+            for startups&rdquo; or &ldquo;which budgeting app should I
+            use,&rdquo; the
             answer isn&rsquo;t ten blue links anymore. It&rsquo;s{" "}
             <b className="font-bold text-ink">a paragraph that names two or three options</b>.
             If you&rsquo;re not in that paragraph, you&rsquo;re not in the

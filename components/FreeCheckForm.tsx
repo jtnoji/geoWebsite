@@ -19,8 +19,8 @@ import { FORM_ENDPOINT, SUPABASE_PUBLISHABLE_KEY } from "@/lib/site";
  */
 
 const FIELDS = [
-  { name: "business", label: "Business name", type: "text", placeholder: "Acme Plumbing" },
-  { name: "website", label: "Website", type: "url", placeholder: "https://acmeplumbing.com" },
+  { name: "business", label: "Business name", type: "text", placeholder: "Bluequarry Growth" },
+  { name: "website", label: "Website", type: "url", placeholder: "https://bluequarrygrowth.com" },
   { name: "area", label: "City / service area", type: "text", placeholder: "Berkeley, CA" },
 ] as const;
 
@@ -183,7 +183,7 @@ export default function FreeCheckForm() {
           name="description"
           required
           rows={3}
-          placeholder="Residential plumbing: repairs, water heaters, repiping."
+          placeholder="B2B marketing for seed-stage startups: positioning, content, demand gen."
           className={INPUT_CLASS}
         />
       </div>

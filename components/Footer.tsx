@@ -46,6 +46,7 @@ export default function Footer() {
                 <li key={f.name}>
                   <a
                     href={f.linkedin}
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="text-ink-soft transition-colors hover:text-ink"
                   >

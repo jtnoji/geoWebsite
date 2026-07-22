@@ -109,8 +109,8 @@ export const PAGES: PageSpec[] = [
     path: "/our-score/",
     mustContain: [
       "We ran our own audit on this website",
-      "Cat 1 — Bot access",
-      "Cat 6 — Hygiene",
+      "Cat 1 · Bot access",
+      "Cat 6 · Hygiene",
     ],
     schemaTypes: [],
   },

@@ -27,7 +27,7 @@ const SECTIONS: readonly (Faq & { id: string; chip: string })[] = [
     chip: "§1 · The query set",
     question: "What do you actually ask the AI engines?",
     answer:
-      "The questions your customers actually ask: cost, comparison, \"is this business legit.\" The set is versioned and locked per measurement cycle, so every before/after comparison is apples to apples.",
+      "The questions your customers actually ask: cost, comparison, \"is this agency worth it.\" The set is versioned and locked per measurement cycle, so every before/after comparison is apples to apples.",
   },
   {
     id: "sampling",
@@ -88,10 +88,10 @@ const PIPELINE = [
 ] as const;
 
 const QUERY_CARD = [
-  { query: `"${SAMPLE_QUERY}"`, tag: "local" },
-  { query: '"average cost to replace a water heater"', tag: "cost" },
-  { query: '"plumber near me open now"', tag: "local" },
-  { query: '"is [business] plumbing legit"', tag: "brand" },
+  { query: `"${SAMPLE_QUERY}"`, tag: "category" },
+  { query: '"how much should a startup spend on a marketing agency"', tag: "cost" },
+  { query: '"marketing agency vs making your first marketing hire"', tag: "comparison" },
+  { query: '"is [agency] worth it for a seed-stage company"', tag: "brand" },
 ] as const;
 
 const DELIVERABLES = [
@@ -193,7 +193,7 @@ export default function HowItWorks() {
       <div className="mx-auto max-w-[1120px] px-5 pb-8 pt-6 sm:px-8">
         <SectionShell {...SECTIONS[0]}>
           <ArtifactCard
-            title="query set: plumbing, berkeley"
+            title="query set: b2b marketing agency"
             meta="v1 · locked"
           >
             <ul className="p-4">
@@ -235,7 +235,7 @@ export default function HowItWorks() {
                   v: (
                     <>
                       <b className="font-semibold text-ink">Mentioned</b>, 2nd of
-                      3 businesses named
+                      3 agencies named
                     </>
                   ),
                 },
@@ -253,11 +253,11 @@ export default function HowItWorks() {
                   v: (
                     <>
                       <b className="font-semibold text-ink">1 error</b>: answer
-                      says weekdays only; the business runs 24/7 emergency
-                      service
+                      says they only run paid ads; they run full-funnel
+                      including SEO and lifecycle
                       <span className="mt-1.5 block">
                         <span className="inline-block rounded-full bg-gold-soft px-2.5 py-0.5 text-[11px] font-semibold text-bad">
-                          wrong_hours_or_availability · high
+                          missing_or_invented_feature · high
                         </span>
                       </span>
                     </>

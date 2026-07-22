@@ -12,7 +12,20 @@
 
 import type { SamplingRow } from "@/components/SamplingCard";
 
-export const SAMPLE_QUERY = "best plumber near berkeley";
+/**
+ * The fictional scenario cast (example-swap-plan.md §0). Names are INVENTED
+ * and verified against real agencies before shipping — never swap in real
+ * company names; we put words in AI's mouth about these businesses.
+ */
+export const SAMPLE_CLIENT = "Bluequarry Growth";
+export const SAMPLE_VERTICAL = "b2b marketing agency";
+export const SAMPLE_COMPETITORS = [
+  "Saltgrass Digital",
+  "Fathom & Reed",
+  "Pinelock Marketing",
+] as const;
+
+export const SAMPLE_QUERY = "best b2b marketing agency for seed-stage startups";
 
 export const SAMPLE_ROWS: readonly SamplingRow[] = [
   { engine: "ChatGPT", hits: 2, runs: 10 },

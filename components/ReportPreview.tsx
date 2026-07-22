@@ -13,7 +13,7 @@ import { SAMPLE_LABEL, SAMPLE_QUERY, SAMPLE_ROWS } from "@/lib/sample";
 
 const SOURCE_CHECKS = [
   { label: "AI crawlers can read your site", state: "Blocked by firewall", bad: true },
-  { label: "Listed on the sources AI cites", state: "2 of 6 directories", bad: false },
+  { label: "Listed on the sources AI cites", state: "2 of 6 best-agency lists", bad: false },
   { label: "Content readable without JavaScript", state: "Yes", bad: false },
 ] as const;
 
@@ -35,9 +35,9 @@ function VerbatimCard() {
       meta="run 3/10"
     >
       <p className="px-4 py-4 text-sm leading-6 text-ink-soft">
-        &ldquo;For plumbing in Berkeley, well-reviewed options include{" "}
-        <b className="font-bold text-ink">Competitor A</b> and{" "}
-        <b className="font-bold text-ink">Competitor B</b>&hellip;&rdquo;
+        &ldquo;For a seed-stage B2B startup, well-regarded agencies include{" "}
+        <b className="font-bold text-ink">Saltgrass Digital</b> and{" "}
+        <b className="font-bold text-ink">Fathom &amp; Reed</b>&hellip;&rdquo;
       </p>
       <p className="mx-4 mb-4 border-l-2 border-gold bg-gold-soft px-3 py-2 font-mono text-[13px] font-semibold text-bad">
         The client was not mentioned.

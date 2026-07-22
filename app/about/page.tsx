@@ -36,6 +36,7 @@ export default function About() {
               <p className="mt-4 text-base leading-7 text-ink-soft">{f.bio}</p>
               <a
                 href={f.linkedin}
+                target="_blank"
                 rel="noopener noreferrer"
                 className="mt-4 inline-block text-sm font-semibold text-ink hover:text-accent"
               >

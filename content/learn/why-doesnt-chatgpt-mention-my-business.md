@@ -13,7 +13,7 @@ Maybe not. AI engines learn about businesses from training data and from live re
 
 ## Why does ChatGPT recommend my competitors instead?
 
-Because the sources it cites mention them more, more consistently, or more recently. This matters more than most owners expect. In Foundation Marketing and AirOps' analysis of millions of AI answers, the brand's own website didn't appear at all in 68% of answers about it; roughly nine in ten citations went to third-party sources. When an engine answers "best plumber in Berkeley," it synthesizes from pages it trusts in that category, and the competitors who show up across those pages get named. The fix starts with knowing which sources the engine actually cited. That's something you measure, not guess.
+Because the sources it cites mention them more, more consistently, or more recently. This matters more than most owners expect. In Foundation Marketing and AirOps' analysis of millions of AI answers, the brand's own website didn't appear at all in 68% of answers about it; roughly nine in ten citations went to third-party sources. When an engine answers "best marketing agency for startups," it synthesizes from pages it trusts in that category, and the competitors who show up across those pages get named. The fix starts with knowing which sources the engine actually cited. That's something you measure, not guess.
 
 ## Could ChatGPT be wrong about my business?
 

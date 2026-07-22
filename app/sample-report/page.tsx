@@ -14,8 +14,8 @@ const FIX_LIST = [
     why: "GPTBot and PerplexityBot were receiving challenge pages, leaving the site invisible to the engines being measured.",
   },
   {
-    fix: "Get listed on the 4 missing directories AI actually cites",
-    why: "The engines cited the same 6 sources across runs; the client appears on 2 of them.",
+    fix: "Get onto the 4 missing best-agency lists AI actually cites",
+    why: "The engines cited the same 6 lists across runs; the client appears on 2 of them.",
   },
   {
     fix: "Publish answer-first service pages for the 3 losing queries",
@@ -40,8 +40,8 @@ export default function SampleReport() {
             This is what you actually get.
           </h1>
           <p className="mt-5 text-base leading-7 text-ink-soft">
-            Below is an illustrative teaser for a fictional Berkeley plumbing
-            company, in exactly the format a client receives it, with margin
+            Below is an illustrative teaser for a fictional B2B marketing
+            agency, in exactly the format a client receives it, with margin
             notes on how to read each section. The numbers are modeled on real
             audit runs; we&rsquo;ll publish a real anonymized client report
             here as soon as one is cleared for it. No theater, even in the
