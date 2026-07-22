@@ -241,21 +241,57 @@ export default function Home() {
       {/* The shortlist problem, folded into the honesty band (kept for the
           full problem framing from website-plan.md) */}
       <section className="border-b border-line">
-        <div className="mx-auto max-w-[1120px] px-5 py-20 sm:px-8">
-          <h2 className="max-w-[560px] text-3xl font-bold tracking-[-0.035em] text-ink">
-            The shortlist got smaller
-          </h2>
-          <p className="mt-4 max-w-[540px] text-base leading-7 text-ink-soft">
-            When a customer asks Google or ChatGPT &ldquo;best marketing agency
-            for startups&rdquo; or &ldquo;which budgeting app should I
-            use,&rdquo; the
-            answer isn&rsquo;t ten blue links anymore. It&rsquo;s{" "}
-            <b className="font-bold text-ink">a paragraph that names two or three options</b>.
-            If you&rsquo;re not in that paragraph, you&rsquo;re not in the
-            conversation. And you can&rsquo;t see it happening, because
-            everyone&rsquo;s answer looks different and nobody screenshots the AI
-            that <em>didn&rsquo;t</em> mention them.
-          </p>
+        <div className="mx-auto grid max-w-[1120px] items-center gap-10 px-5 py-20 sm:px-8 md:grid-cols-[6fr_5fr] md:gap-16">
+          <div>
+            <h2 className="max-w-[560px] text-3xl font-bold tracking-[-0.035em] text-ink">
+              The shortlist got smaller
+            </h2>
+            <p className="mt-4 max-w-[540px] text-base leading-7 text-ink-soft">
+              When a customer asks Google or ChatGPT &ldquo;best marketing agency
+              for startups&rdquo; or &ldquo;which budgeting app should I
+              use,&rdquo; the
+              answer isn&rsquo;t ten blue links anymore. It&rsquo;s{" "}
+              <b className="font-bold text-ink">a paragraph that names two or three options</b>.
+              If you&rsquo;re not in that paragraph, you&rsquo;re not in the
+              conversation. And you can&rsquo;t see it happening, because
+              everyone&rsquo;s answer looks different and nobody screenshots the AI
+              that <em>didn&rsquo;t</em> mention them.
+            </p>
+          </div>
+
+          {/* Then-vs-now artifact: ten blue links collapsing into a 3-name
+              answer — the claim, drawn (claim + artifact rule). */}
+          <div aria-hidden="true" className="grid grid-cols-2 gap-4">
+            <div className="rounded-xl bg-white/70 p-4">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-ink-faint">
+                Search, then
+              </p>
+              <div className="mt-3 space-y-2.5">
+                {[92, 78, 85, 70, 88, 64, 80, 74, 68, 58].map((w, i) => (
+                  <div key={i} className="h-2 rounded-full bg-line-dark/70" style={{ width: `${w}%` }} />
+                ))}
+              </div>
+              <p className="mt-3 text-[11px] text-ink-faint">10 results per page</p>
+            </div>
+            <div className="rounded-xl bg-paper-dim p-4">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-ink-faint">
+                AI answers, now
+              </p>
+              <div className="mt-3 space-y-2.5">
+                <div className="h-2 w-[90%] rounded-full bg-line-dark/50" />
+                <div className="h-2 w-[68%] rounded-full bg-line-dark/50" />
+                <div className="mt-1 flex flex-wrap gap-1.5 pt-1">
+                  {["A", "B", "C"].map((n) => (
+                    <span key={n} className="rounded-full bg-ink px-2.5 py-1 text-[10px] font-semibold text-white">
+                      Agency {n}
+                    </span>
+                  ))}
+                </div>
+                <div className="h-2 w-[80%] rounded-full bg-line-dark/50" />
+              </div>
+              <p className="mt-3 text-[11px] font-semibold text-bad">3 names per answer</p>
+            </div>
+          </div>
         </div>
       </section>
 
