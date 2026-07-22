@@ -5,7 +5,7 @@
 
 export const BRAND = "[Brand]"; // placeholder until the name is picked
 
-export const DOMAIN = "https://example.com"; // placeholder until the domain is picked
+export const DOMAIN = "https://geo-website-sepia.vercel.app"; // interim: Vercel URL — swap when the real domain is bought
 
 export const TAGLINE = "AI visibility measurement for your business";
 
@@ -20,15 +20,15 @@ export const NAP = {
 
 export const FOUNDERS = [
   {
-    name: "Abhi",
+    name: "Abhi Jinka",
     role: "Co-founder · built the measurement platform",
-    linkedin: "https://www.linkedin.com/in/abhi-placeholder",
+    linkedin: "https://www.linkedin.com/in/abhinavjinka/",
     bio: "Abhi built the measurement platform: the query runner, the sampling methodology, and the judging pipeline that grades every AI answer for presence, prominence, and accuracy. He started this because every 'AI rank tracker' he tested was measuring single-run noise and calling it data.",
   },
   {
-    name: "Josh",
+    name: "Josh Noji",
     role: "Co-founder · works directly with every client",
-    linkedin: "https://www.linkedin.com/in/josh-placeholder",
+    linkedin: "https://www.linkedin.com/in/joshuanoji/",
     bio: "Josh works directly with every client, from the first free check through the audit walkthrough. He started this after watching small businesses pay for SEO reports that never once mentioned the AI answers their customers were actually reading.",
   },
 ] as const;
