@@ -66,9 +66,9 @@ const PIPELINE = [
     artifact: `"${SAMPLE_QUERY}"`,
   },
   {
-    title: "Five engines",
+    title: "Four engines",
     body: "Chat models and live-search surfaces.",
-    artifact: "chatgpt · google ai · gemini · perplexity · claude",
+    artifact: "chatgpt · google ai · gemini · perplexity",
   },
   {
     title: "Ten runs",
@@ -145,7 +145,7 @@ export default function HowItWorks() {
           It&rsquo;s public because measurement you can&rsquo;t inspect is marketing.
         </p>
         <div className="mt-7 inline-flex flex-wrap overflow-hidden rounded-xl border border-line-dark bg-white/70 text-[13px] text-ink-soft">
-          {["n=32 queries", "engines=5", "runs=10× each", "judged vs fact sheet"].map(
+          {["n=32 queries", "engines=4", "runs=10× each", "judged vs fact sheet"].map(
             (chip) => (
               <span
                 key={chip}

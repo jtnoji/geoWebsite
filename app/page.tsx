@@ -12,7 +12,7 @@ import { SAMPLE_CALLOUT, SAMPLE_LABEL, SAMPLE_ROWS } from "@/lib/sample";
 export const metadata: Metadata = {
   title: `${BRAND} · Does AI recommend your business?`,
   description:
-    "ChatGPT, Google AI, and Perplexity name only a few businesses per answer. We measure whether you're one of them, and who's named instead.",
+    "ChatGPT, Google AI, Gemini, and Perplexity name only a few businesses per answer. We measure whether you're one of them, and who's named instead.",
 };
 
 const STEPS = [
@@ -78,7 +78,7 @@ export default function Home() {
             When someone asks AI for a recommendation, does it say your name?
           </h1>
           <p className="mx-auto mt-6 max-w-[560px] text-[18px] leading-[1.6] text-ink-soft">
-            ChatGPT, Google AI, and Perplexity now answer your customers&rsquo;
+            ChatGPT, Google AI, Gemini, and Perplexity now answer your customers&rsquo;
             questions directly, and they only name{" "}
             <b className="font-semibold text-ink">a few businesses per answer</b>.{" "}
             {BRAND}{" "}measures whether you&rsquo;re one of them,{" "}

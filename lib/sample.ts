@@ -27,12 +27,16 @@ export const SAMPLE_COMPETITORS = [
 
 export const SAMPLE_QUERY = "best b2b marketing agency for seed-stage startups";
 
+/**
+ * Per-engine pairs: the client (blue) vs the top competitor (red) on the SAME
+ * engine — four engines, matching the "Four engines" pipeline stage and the
+ * engines=4 data chip. ChatGPT pair must agree with SAMPLE_CALLOUT.
+ */
 export const SAMPLE_ROWS: readonly SamplingRow[] = [
-  { engine: "ChatGPT", hits: 2, runs: 10 },
-  { engine: "Google AI", hits: 0, runs: 10 },
-  { engine: "Perplexity", hits: 3, runs: 10 },
-  { engine: "Gemini", hits: 1, runs: 10 },
-  { engine: "Competitor", hits: 8, runs: 10, competitor: true },
+  { engine: "ChatGPT", you: 2, competitor: 8, runs: 10 },
+  { engine: "Google AI", you: 0, competitor: 6, runs: 10 },
+  { engine: "Perplexity", you: 3, competitor: 7, runs: 10 },
+  { engine: "Gemini", you: 1, competitor: 5, runs: 10 },
 ];
 
 /** The engine highlighted in the home hero callout. */
