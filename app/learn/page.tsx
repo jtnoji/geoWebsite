@@ -24,7 +24,10 @@ export default function Learn() {
         <ul className="mt-12">
           {articles.map((article) => (
             <li key={article.slug} className="border-t border-line-dark">
-              <Link href={`/learn/${article.slug}/`} className="group block py-7">
+              <Link
+                href={`/learn/${article.slug}/`}
+                className="group block py-7 text-center"
+              >
                 <h2 className="text-xl font-bold tracking-tight text-ink">
                   {article.title}
                 </h2>
