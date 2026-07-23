@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BottomBar from "@/components/BottomBar";
 import JsonLd from "@/components/JsonLd";
+import ScrollReveal from "@/components/ScrollReveal";
 import { org, professionalService } from "@/lib/schema";
 import { BRAND, DOMAIN, TAGLINE } from "@/lib/site";
 
@@ -38,8 +39,21 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${poppins.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col font-sans">
+        {/* Arms the scroll-reveal hidden state before first paint, so
+            above-the-fold sections never flash in at full opacity and then
+            drop to hidden on hydration. Synchronous and first in <body> on
+            purpose. The failsafe strips the class if ScrollReveal never mounts
+            — a JS error must never leave the copy invisible. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "(function(){var d=document.documentElement;d.classList.add('js-reveal');" +
+              "window.__revealFailsafe=setTimeout(function(){d.classList.remove('js-reveal')},2500)})()",
+          }}
+        />
         <JsonLd data={org()} />
         <JsonLd data={professionalService()} />
+        <ScrollReveal />
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />

@@ -66,6 +66,55 @@ body {
   }
 }
 
+/* ---- Scroll reveal -------------------------------------------------------
+   Sections fade and rise once as they enter the viewport. ScrollReveal.tsx
+   only toggles `.is-in`; everything else is here.
+
+   The hidden state is gated behind `.js-reveal`, which an inline script in
+   layout.tsx puts on <html> before first paint. Without JavaScript the class
+   never lands, so every word renders at full opacity — the raw HTML an AI
+   crawler reads is never animated away. Gating in CSS rather than defaulting
+   to opacity:0 is the whole trick. */
+
+.js-reveal [data-reveal] {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 700ms cubic-bezier(0.22, 0.61, 0.36, 1) var(--reveal-delay, 0ms),
+    transform 700ms cubic-bezier(0.22, 0.61, 0.36, 1) var(--reveal-delay, 0ms);
+}
+
+/* Variants — `data-reveal="fade"` carries no transform, which is what anything
+   already running its own animation (the hero chevron's bob) needs. */
+.js-reveal [data-reveal="fade"] {
+  transform: none;
+}
+
+.js-reveal [data-reveal="left"] {
+  transform: translateX(-26px);
+}
+
+.js-reveal [data-reveal="right"] {
+  transform: translateX(26px);
+}
+
+.js-reveal [data-reveal="scale"] {
+  transform: scale(0.975);
+}
+
+.js-reveal [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js-reveal [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
 /* Active nav link (applied by NavHighlighter) — gold underline at the header's
    bottom edge. */
 .nav-on {

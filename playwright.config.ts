@@ -12,6 +12,11 @@ export default defineConfig({
   reporter: [["list"]],
   use: {
     baseURL: BASE_URL,
+    // Scroll-reveal (globals.css + ScrollReveal.tsx) honours this by showing
+    // every [data-reveal] element immediately. Without it, full-page
+    // screenshots would capture below-the-fold sections still at opacity 0,
+    // since they never scrolled into view.
+    contextOptions: { reducedMotion: "reduce" },
   },
   webServer: process.env.BASE_URL
     ? undefined

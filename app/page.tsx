@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import Chip from "@/components/Chip";
@@ -67,23 +68,37 @@ const SAMPLE_ROWS = [
   { engine: "Competitor", hits: 8, runs: 10, competitor: true },
 ] as const;
 
+/** Stagger a `[data-reveal]` element — see the scroll-reveal block in globals.css. */
+const delay = (ms: number) => ({ "--reveal-delay": `${ms}ms` }) as CSSProperties;
+
 export default function Home() {
   return (
     <>
       {/* Hero — centered badge, display headline, pill CTAs, bobbing chevron */}
       <section>
         <div className="mx-auto max-w-[920px] px-5 pb-6 pt-16 text-center sm:px-8">
-          <span className="inline-flex items-center gap-2.5 rounded-full border border-[rgba(46,59,71,0.22)] bg-white/40 px-[18px] py-2.5 text-[13px] font-medium text-ink">
+          <span
+            data-reveal
+            className="inline-flex items-center gap-2.5 rounded-full border border-[rgba(46,59,71,0.22)] bg-white/40 px-[18px] py-2.5 text-[13px] font-medium text-ink"
+          >
             <span
               aria-hidden="true"
               className="h-[7px] w-[7px] rounded-full bg-gold"
             />
             AI visibility, measured
           </span>
-          <h1 className="mx-auto mt-6 max-w-[840px] text-[clamp(40px,6vw,74px)] font-medium leading-[1.03] tracking-[-0.02em] text-ink">
+          <h1
+            data-reveal
+            style={delay(80)}
+            className="mx-auto mt-6 max-w-[840px] text-[clamp(40px,6vw,74px)] font-medium leading-[1.03] tracking-[-0.02em] text-ink"
+          >
             When someone asks AI for a recommendation, does it say your name?
           </h1>
-          <p className="mx-auto mt-6 max-w-[560px] text-[18px] leading-[1.6] text-ink-soft">
+          <p
+            data-reveal
+            style={delay(160)}
+            className="mx-auto mt-6 max-w-[560px] text-[18px] leading-[1.6] text-ink-soft"
+          >
             ChatGPT, Google AI, and Perplexity now answer your customers&rsquo;
             questions directly — and they only name{" "}
             <b className="font-semibold text-ink">a few businesses per answer</b>.{" "}
@@ -91,7 +106,11 @@ export default function Home() {
             <b className="font-semibold text-ink">who&rsquo;s named instead</b>,
             and what&rsquo;s driving the answer.
           </p>
-          <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
+          <div
+            data-reveal
+            style={delay(240)}
+            className="mt-9 flex flex-wrap items-center justify-center gap-4"
+          >
             <Link
               href="/free-check/"
               className="btn-pill px-[26px] py-[15px] text-[13.5px]"
@@ -105,8 +124,11 @@ export default function Home() {
               See a sample report
             </Link>
           </div>
+          {/* "fade" (no transform) so the reveal can't fight the bob animation. */}
           <div
             aria-hidden="true"
+            data-reveal="fade"
+            style={delay(360)}
             className="weir-bob mt-[50px] flex justify-center text-ink"
           >
             <svg width="30" height="18" viewBox="0 0 30 18" fill="none">
@@ -125,7 +147,10 @@ export default function Home() {
             callout anchored to the card's top-right corner. */}
         <div className="mx-auto max-w-[1000px] px-5 pb-24 pt-14 sm:px-8">
           <div className="relative mx-auto max-w-[660px]">
-            <div className="overflow-hidden rounded-[22px] bg-paper-dim shadow-[0_34px_70px_-26px_rgba(46,59,71,0.4)]">
+            <div
+              data-reveal="scale"
+              className="overflow-hidden rounded-[22px] bg-paper-dim shadow-[0_34px_70px_-26px_rgba(46,59,71,0.4)]"
+            >
               <div className="flex justify-between gap-3 border-b border-line px-[22px] py-[15px] text-xs text-ink-faint">
                 <span className="font-semibold text-ink">
                   chatgpt &nbsp;·&nbsp; &ldquo;best plumber near berkeley&rdquo;
@@ -149,7 +174,11 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="absolute -top-[54px] right-0 max-w-[212px] rounded-[18px] bg-white px-5 py-4 shadow-[0_24px_48px_-22px_rgba(46,59,71,0.45)] sm:-right-[34px]">
+            <div
+              data-reveal="scale"
+              style={delay(220)}
+              className="absolute -top-[54px] right-0 max-w-[212px] rounded-[18px] bg-white px-5 py-4 shadow-[0_24px_48px_-22px_rgba(46,59,71,0.45)] sm:-right-[34px]"
+            >
               <p className="text-[28px] font-semibold leading-none text-ink">
                 4
                 <span className="text-[15px] font-medium text-ink-faint">
@@ -168,8 +197,10 @@ export default function Home() {
       {/* Stat row — editorial, every number with a named source */}
       <section className="border-b border-line">
         <div className="mx-auto grid max-w-[1120px] gap-7 px-5 py-14 sm:px-8 md:grid-cols-3 md:gap-12">
-          {HOME_STATS.map((stat) => (
-            <StatTile key={stat.source} stat={stat} />
+          {HOME_STATS.map((stat, i) => (
+            <div key={stat.source} data-reveal style={delay(i * 110)}>
+              <StatTile stat={stat} />
+            </div>
           ))}
         </div>
       </section>
@@ -178,7 +209,7 @@ export default function Home() {
       <section className="border-b border-line">
         <div className="mx-auto max-w-[1120px] px-5 py-20 sm:px-8">
           <div className="grid items-start gap-11 md:grid-cols-[6fr_5fr] md:gap-[72px]">
-            <div>
+            <div data-reveal>
               <Chip>What we do</Chip>
               <h2 className="mt-3.5 max-w-[560px] text-3xl font-bold tracking-[-0.035em] text-ink md:text-[34px]">
                 We measure it. Properly.
@@ -202,7 +233,7 @@ export default function Home() {
                 ))}
               </dl>
             </div>
-            <div>
+            <div data-reveal style={delay(140)}>
               <SamplingCard
                 title="mention rate by engine — sample"
                 meta="10 runs/engine"
@@ -222,7 +253,7 @@ export default function Home() {
       {/* How it works — joined step cells */}
       <section className="border-b border-line">
         <div className="mx-auto max-w-[1120px] px-5 py-20 sm:px-8">
-          <div className="flex flex-wrap items-center justify-between gap-4">
+          <div data-reveal className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex flex-wrap items-center gap-4">
               <Chip>How it works</Chip>
               <h2 className="text-3xl font-bold tracking-[-0.035em] text-ink md:text-[34px]">
@@ -236,7 +267,9 @@ export default function Home() {
               Full methodology →
             </Link>
           </div>
-          <div className="mt-8">
+          {/* Revealed as one block — the step cells share borders, so fading
+              them in individually would expose the seams. */}
+          <div data-reveal style={delay(120)} className="mt-8">
             <StepList steps={STEPS} />
           </div>
         </div>
@@ -246,10 +279,17 @@ export default function Home() {
           full problem framing from website-plan.md) */}
       <section className="border-b border-line">
         <div className="mx-auto max-w-[1120px] px-5 py-20 sm:px-8">
-          <h2 className="max-w-[560px] text-3xl font-bold tracking-[-0.035em] text-ink">
+          <h2
+            data-reveal
+            className="max-w-[560px] text-3xl font-bold tracking-[-0.035em] text-ink"
+          >
             The shortlist got smaller
           </h2>
-          <p className="mt-4 max-w-[540px] text-base leading-7 text-ink-soft">
+          <p
+            data-reveal
+            style={delay(120)}
+            className="mt-4 max-w-[540px] text-base leading-7 text-ink-soft"
+          >
             When a customer asks Google or ChatGPT &ldquo;best {"{your category}"}{" "}
             near me&rdquo; or &ldquo;which {"{product}"}{" "}should I buy,&rdquo; the
             answer isn&rsquo;t ten blue links anymore. It&rsquo;s{" "}
@@ -264,7 +304,7 @@ export default function Home() {
 
       {/* Honesty pull-quote */}
       <section>
-        <div className="mx-auto max-w-[1120px] px-5 py-20 sm:px-8">
+        <div data-reveal className="mx-auto max-w-[1120px] px-5 py-20 sm:px-8">
           <HonestyBlock />
         </div>
       </section>
