@@ -1,34 +1,29 @@
 import ArtifactCard from "./ArtifactCard";
-import SamplingCard, { type SamplingRow } from "./SamplingCard";
+import SamplingCard from "./SamplingCard";
+import { SAMPLE_LABEL, SAMPLE_QUERY, SAMPLE_ROWS } from "@/lib/sample";
 
 /**
  * Report panels in the locked system: ArtifactCards (black mono header bars)
- * and the run-sampling dot rows. Red only where loss/absence is shown. Swap
- * for real anonymized report imagery when the sample run is picked (scaffold
- * §7 step 6). Data mirrors the anonymized "Berkeley plumbing company" teaser
- * from website-plan.md.
+ * and the run-sampling dot rows. Red only where loss/absence is shown. Data comes
+ * from lib/sample.ts (the ONE canonical illustrative dataset) — swap for real
+ * anonymized report imagery when the sample run is picked (scaffold §7 step 6).
  */
 
-const MENTION_ROWS: SamplingRow[] = [
-  { engine: "ChatGPT", hits: 2, runs: 10 },
-  { engine: "Google AI", hits: 0, runs: 10 },
-  { engine: "Perplexity", hits: 3, runs: 10 },
-  { engine: "Competitor", hits: 8, runs: 10, competitor: true },
-];
+
 
 const SOURCE_CHECKS = [
   { label: "AI crawlers can read your site", state: "Blocked by firewall", bad: true },
-  { label: "Listed on the sources AI cites", state: "2 of 6 directories", bad: false },
+  { label: "Listed on the sources AI cites", state: "2 of 6 best-agency lists", bad: false },
   { label: "Content readable without JavaScript", state: "Yes", bad: false },
 ] as const;
 
 function MentionRateCard() {
   return (
     <SamplingCard
-      title={<>mention rate — &ldquo;best plumber near me&rdquo;</>}
+      title={<>mention rate: &ldquo;{SAMPLE_QUERY}&rdquo;</>}
       meta="10 runs/engine"
-      rows={MENTION_ROWS}
-      footer="anonymized client · may 2026"
+      rows={[...SAMPLE_ROWS]}
+      footer={SAMPLE_LABEL}
     />
   );
 }
@@ -36,13 +31,13 @@ function MentionRateCard() {
 function VerbatimCard() {
   return (
     <ArtifactCard
-      title={<>chatgpt — &ldquo;best plumber near me&rdquo;</>}
+      title={<>chatgpt: &ldquo;{SAMPLE_QUERY}&rdquo;</>}
       meta="run 3/10"
     >
       <p className="px-4 py-4 text-sm leading-6 text-ink-soft">
-        &ldquo;For plumbing in Berkeley, well-reviewed options include{" "}
-        <b className="font-bold text-ink">Competitor A</b> and{" "}
-        <b className="font-bold text-ink">Competitor B</b>&hellip;&rdquo;
+        &ldquo;For a seed-stage B2B startup, well-regarded agencies include{" "}
+        <b className="font-bold text-ink">Saltgrass Digital</b> and{" "}
+        <b className="font-bold text-ink">Fathom &amp; Reed</b>&hellip;&rdquo;
       </p>
       <p className="mx-4 mb-4 border-l-2 border-gold bg-gold-soft px-3 py-2 font-mono text-[13px] font-semibold text-bad">
         The client was not mentioned.

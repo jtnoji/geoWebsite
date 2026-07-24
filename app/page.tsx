@@ -3,23 +3,23 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Chip from "@/components/Chip";
 import Cta from "@/components/Cta";
-import HonestyBlock from "@/components/HonestyBlock";
 import SamplingCard from "@/components/SamplingCard";
 import StatTile from "@/components/StatTile";
 import StepList from "@/components/StepList";
 import { HOME_STATS } from "@/lib/stats";
 import { BRAND } from "@/lib/site";
+import { SAMPLE_CALLOUT, SAMPLE_LABEL, SAMPLE_ROWS } from "@/lib/sample";
 
 export const metadata: Metadata = {
-  title: `${BRAND} — Does AI recommend your business?`,
+  title: `${BRAND} · Does AI recommend your business?`,
   description:
-    "ChatGPT, Google AI, and Perplexity name only a few businesses per answer. We measure whether you're one of them — and who's named instead.",
+    "ChatGPT, Google AI, Gemini, and Perplexity name only a few businesses per answer. We measure whether you're one of them, and who's named instead.",
 };
 
 const STEPS = [
   {
     title: "We ask",
-    body: "A versioned set of real customer questions, run across every major AI engine — multiple times each, to average out the noise.",
+    body: "A versioned set of real customer questions, run across every major AI engine, multiple times each, to average out the noise.",
   },
   {
     title: "We judge",
@@ -36,7 +36,7 @@ const METRICS = [
     name: "Mention rate",
     detail: (
       <>
-        <b className="font-bold text-ink">Named in 7 of 10 runs</b> — rates, not
+        <b className="font-bold text-ink">Named in 7 of 10 runs</b>. Rates, not
         one-off screenshots.
       </>
     ),
@@ -60,13 +60,7 @@ const METRICS = [
   },
 ] as const;
 
-const SAMPLE_ROWS = [
-  { engine: "ChatGPT", hits: 4, runs: 10 },
-  { engine: "Google AI", hits: 2, runs: 10 },
-  { engine: "Perplexity", hits: 1, runs: 10 },
-  { engine: "Gemini", hits: 3, runs: 10 },
-  { engine: "Competitor", hits: 8, runs: 10, competitor: true },
-] as const;
+
 
 /** Stagger a `[data-reveal]` element — see the scroll-reveal block in globals.css. */
 const delay = (ms: number) => ({ "--reveal-delay": `${ms}ms` }) as CSSProperties;
@@ -153,24 +147,24 @@ export default function Home() {
             >
               <div className="flex justify-between gap-3 border-b border-line px-[22px] py-[15px] text-xs text-ink-faint">
                 <span className="font-semibold text-ink">
-                  chatgpt &nbsp;·&nbsp; &ldquo;best plumber near berkeley&rdquo;
+                  chatgpt &nbsp;·&nbsp; &ldquo;best b2b marketing agency for seed-stage startups&rdquo;
                 </span>
                 <span>run 3/10</span>
               </div>
               <p className="px-6 pb-1.5 pt-[22px] text-base leading-[1.65] text-ink-soft">
-                Based on reviews and reputation, I&rsquo;d recommend{" "}
-                <b className="font-semibold text-ink">Apex Plumbing Co.</b>,{" "}
-                <b className="font-semibold text-ink">BayFlow Drains</b>, or{" "}
-                <b className="font-semibold text-ink">Hartley &amp; Sons</b>. All
-                three are well-reviewed for residential work in the Berkeley
-                area&hellip;
+                For a seed-stage B2B startup, I&rsquo;d look at{" "}
+                <b className="font-semibold text-ink">Saltgrass Digital</b>,{" "}
+                <b className="font-semibold text-ink">Fathom &amp; Reed</b>, or{" "}
+                <b className="font-semibold text-ink">Pinelock Marketing</b>. All
+                three have strong track records with early-stage B2B
+                companies&hellip;
               </p>
               <div className="mx-6 mb-[22px] mt-2 inline-flex items-center gap-2.5 rounded-xl bg-gold-soft px-4 py-2.5 text-sm font-semibold text-bad">
                 <span
                   aria-hidden="true"
                   className="h-2 w-2 rounded-full bg-bad"
                 />
-                Your business — not mentioned
+                Your business: not mentioned
               </div>
             </div>
 
@@ -180,14 +174,16 @@ export default function Home() {
               className="absolute -top-[54px] right-0 max-w-[212px] rounded-[18px] bg-white px-5 py-4 shadow-[0_24px_48px_-22px_rgba(46,59,71,0.45)] sm:-right-[34px]"
             >
               <p className="text-[28px] font-semibold leading-none text-ink">
-                4
+                {SAMPLE_CALLOUT.hits}
                 <span className="text-[15px] font-medium text-ink-faint">
-                  {" "}/ 10 runs
+                  {" "}/ {SAMPLE_CALLOUT.runs} runs
                 </span>
               </p>
               <p className="mt-1.5 text-[13px] leading-[1.4] text-ink-faint">
-                named on ChatGPT —{" "}
-                <span className="font-semibold text-bad">competitor: 8/10</span>
+                named on {SAMPLE_CALLOUT.engine} ·{" "}
+                <span className="font-semibold text-bad">
+                  competitor: {SAMPLE_CALLOUT.competitorHits}/{SAMPLE_CALLOUT.runs}
+                </span>
               </p>
             </div>
           </div>
@@ -235,10 +231,10 @@ export default function Home() {
             </div>
             <div data-reveal style={delay(140)}>
               <SamplingCard
-                title="mention rate by engine — sample"
+                title="mention rate by engine · sample"
                 meta="10 runs/engine"
                 rows={SAMPLE_ROWS}
-                footer="n=32 queries · anonymized client · may 2026"
+                footer={`n=32 queries · ${SAMPLE_LABEL}`}
               />
               <p className="mt-3 font-mono text-[11px] text-ink-faint">
                 <Link href="/sample-report/" className="text-ink hover:text-accent">
@@ -309,7 +305,7 @@ export default function Home() {
         </div>
       </section>
 
-      <Cta />
+      <Cta centered />
     </>
   );
 }

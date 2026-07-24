@@ -21,7 +21,7 @@ export default function Footer() {
               </a>
             </p>
             <p className="mt-3 leading-5">
-              We measure whether AI engines mention your business — with sampled
+              We measure whether AI engines mention your business, with sampled
               rates and named sources, never guarantees.
             </p>
           </div>
@@ -46,6 +46,7 @@ export default function Footer() {
                 <li key={f.name}>
                   <a
                     href={f.linkedin}
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="text-ink-soft transition-colors hover:text-ink"
                   >

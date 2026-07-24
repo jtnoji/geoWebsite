@@ -4,8 +4,9 @@ import { HONESTY_COPY } from "@/lib/site";
 /**
  * The no-guarantees pull-quote: gold chip label (the page's ONE gold chip),
  * 2px ink top rule, 21px/500 quote with bold ink opener and one emphasized
- * ink phrase, footer with the navy NO GUARANTEES chip. Always on a light
- * ground — never a dark block. Copy renders verbatim from HONESTY_COPY parts.
+ * ink phrase. Always on a light ground — never a dark block. Copy renders
+ * verbatim from HONESTY_COPY parts. The old bottom chip row was removed
+ * (label + body + tagline all restated the same idea — say it once, well).
  */
 export default function HonestyBlock({ withLabel = true }: { withLabel?: boolean }) {
   const { heading, parts } = HONESTY_COPY;
@@ -18,10 +19,6 @@ export default function HonestyBlock({ withLabel = true }: { withLabel?: boolean
           {parts.mid}
           <em className="not-italic font-bold text-ink">{parts.accent}</em>
           {parts.rest}
-        </p>
-        <p className="mt-4 font-mono text-[11.5px] uppercase text-ink-faint">
-          <Chip className="mr-2.5">No guarantees</Chip>
-          Sampled rates · No theater
         </p>
       </div>
     </aside>

@@ -7,9 +7,9 @@ import { service, type Faq } from "@/lib/schema";
 import { PRICING } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Pricing — audit & ongoing measurement",
+  title: "Pricing: audit & ongoing measurement",
   description:
-    "Start with a free AI visibility check. The full audit and ongoing measurement are priced flat — reports show sampled rates, never guaranteed rankings.",
+    "Start with a free AI visibility check. The full audit and ongoing measurement are priced flat, and reports show sampled rates, never guaranteed rankings.",
 };
 
 const TIERS = [
@@ -33,7 +33,7 @@ const TIERS = [
     name: "Ongoing Measurement",
     price: PRICING.retainer,
     description:
-      "We re-run your audit on a cadence and show what changed: before/after mention rates, new competitors, new sources. Because AI answers move — the point is the trend line.",
+      "We re-run your audit on a cadence and show what changed: before/after mention rates, new competitors, new sources. AI answers move; the point is the trend line.",
     cta: { label: "Book a call", href: "/contact/" },
     featured: false,
   },
@@ -43,12 +43,12 @@ const FAQS: Faq[] = [
   {
     question: "Do you do the fixes too?",
     answer:
-      "Our core service is measurement and the prioritized roadmap. For implementation, we work through the roadmap with you or hand it to your existing web team — every fix is written so a competent developer can execute it.",
+      "Our core service is measurement and the prioritized roadmap. For implementation, we work through the roadmap with you or hand it to your existing web team. Every fix is written so a competent developer can execute it.",
   },
   {
     question: "How long until AI answers change?",
     answer:
-      "Honestly: weeks to months, and it varies by engine and by fix. We measure the change rather than promise it — that's what the ongoing measurement tier is for.",
+      "Honestly, weeks to months, and it varies by engine and by fix. We measure the change rather than promise it; that's what the ongoing measurement tier is for.",
   },
   {
     question: "What do you need from me?",
@@ -80,7 +80,7 @@ export default function Pricing() {
           <h1 className="text-4xl font-bold tracking-tight text-ink">Pricing</h1>
           <p className="mt-5 text-base leading-7 text-ink-soft">
             Three tiers, ascending commitment. Every tier reports sampled rates
-            with named sources — no tier, at any price, promises rankings.
+            with named sources. No tier, at any price, promises rankings.
           </p>
         </div>
 

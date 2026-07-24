@@ -13,14 +13,11 @@ contradicts them — change the doc first, then the code.
 ## Stack & commands
 
 Next.js (App Router) + TypeScript + Tailwind, **static export** (`output:
-'export'`), deployed on Vercel. **Design reference: `mockup/weir-style.html` —
-the full prototype (all 9 routes), imported from Claude Design 2026-07-20. Open
-it in a browser before styling anything.** `mockup/weir-{hero,badge,steps}.jpg`
-are the design-project screenshots.
-
-`mockup/index.html` + `mockup/how-it-works.html` (+ `mockup/fonts-inline.css`)
-are the **superseded** IBM Plex / editorial direction — kept for reference only.
-Do not style from them.
+'export'`), deployed on Vercel. **Design reference: `mockup/weir-style.html`
+(the "weir" system, imported from Claude Design 2026-07-20 — open it in a
+browser before styling anything; `weir-*.jpg` are its key screenshots).**
+`mockup/index.html` + `mockup/how-it-works.html` are the SUPERSEDED IBM Plex
+direction — kept for copy/structure reference only; don't style from them.
 
 ```bash
 npm run dev              # local dev
@@ -83,66 +80,57 @@ funnel.spec.ts, visual.spec.ts) · `public/`.
   option. If a feature seems to need a heavy dependency, it's probably the
   wrong feature.
 
-## Design system ("weir", locked 2026-07-20 — canonical: `mockup/weir-style.html`)
+## Design system (locked 2026-07-20 — the "weir" system; canonical: `mockup/weir-style.html`)
 
-**Typography.** Poppins for everything, loaded via `next/font/google` (Next
-self-hosts it at build time — never a Google Fonts CDN link, which would break
-the self-contained static export). Poppins has **no weight above 700** — never
-specify 800+. Display H1: weight **500**, `clamp(40px,6vw,74px)`, line-height
-1.03, tracking -0.02em. Section H2: 600–700, 26–34px, tracking -0.035em. Body:
-16–18px, line-height 1.55–1.65, one or two **bolded key phrases per paragraph
-in ink** (the "bold ration" — never more). Labels/eyebrows/nav/buttons: 500–600,
-11–14px, uppercase, tracking .06em–.14em. The `font-mono` class is the
-**label/metadata role**, not a different family — it also maps to Poppins.
+**Typography.** Poppins for everything — headings, body, labels, and data
+alike (one family, no mono face). Load via `next/font/google` (self-hosted at
+build; never a fonts CDN `<link>` — it would break the static export). Poppins
+has **no weight above 700** — never specify 800+. Headlines 500–600,
+tracking -0.02em; buttons/labels 600 uppercase with wide tracking (.06–.1em).
 
-**Tokens** (in `app/globals.css`): ink `#003262` (Berkeley blue) · body
-`#616b76` · faint `#8b95a0` · dim `#9aa4af` · paper `#fff` · paper-dim `#f6f3ea`
-(cream) · accent/bad `#a86a00` (gold-dark) · accent-dark `#24303a` · gold
-`#fdb515` · gold-soft `#fdf0cf` · line `rgba(46,59,71,.08)` · line-dark
-`rgba(46,59,71,.14)` · dot `#c7ccd6` · dot-bad `#f0cabb` · band `#e9edf7`.
+**Tokens** (in `app/globals.css`): ink `#003262` (Berkeley blue — text AND
+fills) · ink-soft `#616b76` · ink-faint `#8b95a0` · paper `#fdfcf7` ·
+paper-dim `#f6f3ea` (cream cards) · accent `#003262` / accent-dark `#a86a00`
+(links are ink; **hover is amber**) · line `#dfe3ea` · line-dark `#c7ccd6` ·
+bad `#b91c1c` · **gold `#fdb515` / gold-soft `#fdf0cf`** (California gold — the
+single accent) · dot `#c9d2dc` / dot-bad `#ecc4bc` · ink-dim `#9fb3cd`.
 
-**The page is a fixed pastel gradient** (`180deg #cfe0f5 → #dce7f1 → #eee7d6 →
-#f4ecd4`, `background-attachment: fixed`) — set once on `body`. Sections are
-transparent; only cards carry white/cream fills. Never give a section its own
-background colour.
+**Ground.** The body wears the fixed pastel gradient (`#cfe0f5 → #dce7f1 →
+#eee7d6 → #f4ecd4`, `background-attachment: fixed`). Sections sit transparent
+on it — never paint a full-bleed white section over the gradient; cards and
+surfaces (cream `paper-dim`, white/80) carry the contrast instead.
 
-**Berkeley blue is the ink AND the only fill.** Blue backgrounds are allowed on
-label-sized elements (section chips, artifact-card header bars, pipeline/step
-number tabs, tiny tags) and on buttons. Never fill a content block, quote, or
-strip — the data-chips row and the honesty pull-quote stay light.
+**Shapes.** Radii: 12px standard, 18–22px feature cards, 999px pills. Buttons
+are `.btn-pill` / `.btn-pill-outline` (hero/nav) and `.btn-solid` (in-flow) —
+blue fill, uppercase, amber hover; defined once in globals.css, never
+recomposed inline. Soft large shadows are allowed ONLY on product-mockup
+cards (the hero answer card); measurement artifacts (ArtifactCard,
+SamplingCard) stay square-cornered and shadowless so data never reads as
+marketing. One motion: `.weir-bob` on the hero chevron (reduced-motion safe).
 
-**Color discipline.** Gold is the *single* accent and it means loss/absence or
-emphasis: competitor sampling rows, "not mentioned" chips, accuracy flags, the
-active-nav underline, link hover, the hot pipeline stage — **at most one gold
-chip per page**. `--color-bad` and `--color-accent` are deliberately the same
-value; there is no red in this system. Everything else is ink on the gradient
-with hairline rules.
+**Color discipline.** Gold is the accent and it is rationed: chips'
+`gold` variant, the honesty block, ≤1 gold-marked element per page. Red
+(`bad`) only for loss/absence (competitor rows, accuracy flags, "not
+mentioned"). Everything else is Berkeley blue on the gradient/cream ground.
+Hover states go amber, not underline-blue.
 
-**Shape.** Pills (`999px`) for hero/nav CTAs; `12px` for solid section buttons,
-inputs, and small chips; `18–22px` for product-mockup cards. **Data artifacts
-stay square** with a 1px border — the rounded, shadowed treatment is reserved
-for product mockups so measurement never reads as marketing. Shadows only on
-floating product cards/callouts.
-
-**Persistent bottom CTA bar** (`components/BottomBar.tsx`) is the signature
-element: fixed to the viewport bottom on every route, wave SVG on its top edge,
-routing to `/free-check`. `body` carries a 78px bottom padding to clear it.
-Note it renders mid-page in full-page screenshots — that's a capture artifact of
-`position: fixed`, not a bug; check viewport-sized shots to review it.
-
-**Recurring components** (build once in `components/`, reuse everywhere):
-chip label (navy, or gold once per page) · data-chips strip (bordered row:
-`n=32 · engines=5 · runs=10×`) · artifact card (1px border, navy header bar) ·
-run-sampling dot row (`●●●●○○○○○○ 4/10`, competitor row in gold) · §-numbered
-sticky rail · pipeline stages · honesty pull-quote (top-rule, large type,
-`NO GUARANTEES` chip) · pill/solid buttons (`.btn-pill`, `.btn-pill-outline`,
-`.btn-solid` in `globals.css`).
+**Recurring components** (in `components/`, reuse — never fork): Chip (pill
+label, white-on-blue; gold variant rationed) · ArtifactCard (square, blue
+header bar) · SamplingCard (dot rows, competitor row in red) · DataChips ·
+StepList (joined cells, numbered tabs) · HonestyBlock · the cream
+product-mockup card (hero answer card pattern).
 
 **Claim + artifact rule.** No section ships as text-only. Every claim is
 paired with a concrete artifact (query set card, sampling card, judge verdict,
 deliverables grid). Section bodies are ≤2 sentences; the artifact does the
-explaining. Every page gets one signature element (home: the ChatGPT answer
-card; how-it-works: the pipeline).
+explaining. Every page gets one signature element (home: the answer card;
+how-it-works: the pipeline).
+
+**Sample data honesty.** All illustrative mention-rate numbers come from
+`lib/sample.ts` (ONE canonical dataset) and are labeled "illustrative
+example" wherever they render. Never label invented data as a real or
+anonymized client — swap in a real run via lib/sample.ts when one is cleared
+(website-plan §6).
 
 ## Process
 

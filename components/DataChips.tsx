@@ -19,7 +19,7 @@ export default function DataChips({ cells }: { cells: readonly DataChipCell[] })
         <span
           key={i}
           className={`border-b border-line-dark px-4 py-2.5 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0 ${
-            cell.accent ? "font-semibold text-accent" : ""
+            cell.accent ? "font-semibold text-ink" : ""
           }`}
         >
           {cell.label}

@@ -25,11 +25,11 @@ test("free-check form fills, submits, and confirms", async ({ page }) => {
   );
   await page.goto("/free-check/");
 
-  await page.fill("#business", "Acme Test Plumbing");
-  await page.fill("#website", "https://acme-test.example.com");
-  await page.fill("#area", "Berkeley, CA");
-  await page.fill("#description", "Residential plumbing repairs and water heaters.");
-  await page.fill("#email", "owner@acme-test.example.com");
+  await page.fill("#business", "Bluequarry Growth (test)");
+  await page.fill("#website", "https://bluequarry-test.example.com");
+  await page.fill("#area", "Oakland, CA");
+  await page.fill("#description", "B2B marketing for seed-stage startups.");
+  await page.fill("#email", "founder@bluequarry-test.example.com");
   await page.getByRole("button", { name: "Run my free check" }).click();
 
   const confirmation = page.getByTestId("free-check-confirmation");

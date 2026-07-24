@@ -14,7 +14,8 @@ export type ArticleMeta = {
   slug: string;
   title: string;
   description: string;
-  date: string; // ISO yyyy-mm-dd
+  date: string; // ISO yyyy-mm-dd (treated as "last updated")
+  author: string;
 };
 
 export function getArticleSlugs(): string[] {
@@ -32,6 +33,7 @@ export function getArticleMeta(slug: string): ArticleMeta {
     title: data.title,
     description: data.description,
     date: data.date,
+    author: data.author,
   };
 }
 
@@ -44,9 +46,19 @@ export function getAllArticles(): ArticleMeta[] {
 export function getArticleHtml(slug: string): { meta: ArticleMeta; html: string } {
   const raw = fs.readFileSync(path.join(ARTICLES_DIR, `${slug}.md`), "utf8");
   const { data, content } = matter(raw);
-  const html = marked.parse(content, { async: false });
+  // External citation links open in a new tab (internal links stay same-tab).
+  const html = (marked.parse(content, { async: false }) as string).replace(
+    /<a href="http/g,
+    '<a target="_blank" rel="noopener noreferrer" href="http',
+  );
   return {
-    meta: { slug, title: data.title, description: data.description, date: data.date },
+    meta: {
+      slug,
+      title: data.title,
+      description: data.description,
+      date: data.date,
+      author: data.author,
+    },
     html,
   };
 }

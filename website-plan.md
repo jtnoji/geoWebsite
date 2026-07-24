@@ -295,6 +295,14 @@ call bookings) so you know where the funnel leaks.
 
 **Decided:**
 
+- Audience (settled 2026-07-22, founders): **audience-general.** The company
+  serves any business type; the site keeps neutral "your business" copy with
+  mixed examples (local trade + software). Do NOT retilt the site to a single
+  vertical. Operational note for outreach (not site copy): the teaser pipeline
+  currently delivers end-to-end for consumer-product companies; B2B SaaS needs
+  one validation run; local SMBs need the geoPromptRunner smb-pivot refactor.
+  Aim outbound at what the pipeline can serve; inbound from any audience goes
+  to the manual queue as usual.
 - Stack: **Next.js static export, deployed on Vercel.** One framework across the
   repo; satisfies the Cat 2 SSR/static requirement.
 - /free-check submissions: **manual queue at launch.** Vet each submission, then
