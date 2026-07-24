@@ -203,7 +203,7 @@ export default function HowItWorks() {
             {PIPELINE.map((stage) => (
               <div
                 key={stage.n}
-                className="border border-b-0 border-line-dark bg-white pb-4 last:border-b md:border-b md:border-r-0 md:last:border-r"
+                className="flex flex-col border border-b-0 border-line-dark bg-white pb-4 last:border-b md:border-b md:border-r-0 md:last:border-r"
               >
                 <span
                   className={`block px-3.5 py-1.5 font-mono text-[11px] ${
@@ -212,7 +212,7 @@ export default function HowItWorks() {
                 >
                   {stage.n}
                 </span>
-                <div className="px-3.5 pt-3.5">
+                <div className="px-3.5 pb-3 pt-3.5">
                   <span className="block text-[15px] font-bold tracking-[-0.01em] text-ink">
                     {stage.title}
                   </span>
@@ -221,7 +221,7 @@ export default function HowItWorks() {
                   </span>
                 </div>
                 <div
-                  className={`mx-3.5 mt-3 min-h-[52px] px-2.5 py-2 font-mono text-[10.5px] leading-6 ${
+                  className={`mx-3.5 mt-auto min-h-[52px] px-2.5 py-2 font-mono text-[10.5px] leading-6 ${
                     stage.hot ? "bg-gold-soft text-bad" : "bg-paper-dim text-ink-soft"
                   }`}
                 >
