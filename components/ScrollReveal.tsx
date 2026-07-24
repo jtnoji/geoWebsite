@@ -27,24 +27,45 @@ export default function ScrollReveal() {
     const targets = document.querySelectorAll<HTMLElement>("[data-reveal]");
     if (targets.length === 0) return;
 
-    const reveal = (el: Element) => el.classList.add("is-in");
-
     // Reduced motion and no-IntersectionObserver both mean: just show it.
     if (
       window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
       !("IntersectionObserver" in window)
     ) {
-      targets.forEach(reveal);
+      targets.forEach((el) => el.classList.add("is-in"));
       return;
     }
+
+    const pending = new Set<Element>(targets);
+    const reveal = (el: Element) => {
+      el.classList.add("is-in");
+      observer.unobserve(el);
+      pending.delete(el);
+    };
+
+    /**
+     * Reveal anything already level with or above the trigger line, whether or
+     * not the observer reported it. An element that goes from below the fold to
+     * above it within a single scroll — a jump to an anchor, a browser-restored
+     * position, a hard flick — is never intersecting on either side of the
+     * jump, so it produces no callback at all and would stay hidden forever.
+     * Cheap: only runs when a callback already fired, over what's left.
+     */
+    const sweepPassed = () => {
+      const line = window.innerHeight * 0.88; // matches the -12% rootMargin
+      for (const el of [...pending]) {
+        if (el.getBoundingClientRect().top < line) reveal(el);
+      }
+    };
 
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (!entry.isIntersecting) continue;
-          reveal(entry.target);
-          observer.unobserve(entry.target);
+          if (entry.isIntersecting) reveal(entry.target);
         }
+        // IO delivers an initial callback for every observed target, so this
+        // also catches a page loaded at a restored scroll position.
+        sweepPassed();
       },
       // Hold the reveal until the element is a little way up from the bottom
       // edge, so it animates into a comfortable reading position rather than

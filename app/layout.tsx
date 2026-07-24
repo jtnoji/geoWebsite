@@ -33,10 +33,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // suppressHydrationWarning on <html>: the inline script below stamps
+  // `js-reveal` onto it before React hydrates, so the root's className is
+  // intentionally different from what the server rendered. This suppresses the
+  // warning for this one element only, not its children.
   return (
     <html
       lang="en"
       className={`${poppins.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
       <body className="flex min-h-full flex-col font-sans">
         {/* Arms the scroll-reveal hidden state before first paint, so

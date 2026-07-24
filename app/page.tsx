@@ -68,12 +68,16 @@ const delay = (ms: number) => ({ "--reveal-delay": `${ms}ms` }) as CSSProperties
 export default function Home() {
   return (
     <>
-      {/* Hero — centered badge, display headline, pill CTAs, bobbing chevron */}
-      <section>
-        <div className="mx-auto max-w-[920px] px-5 pb-6 pt-16 text-center sm:px-8">
+      {/* Hero — centered badge, display headline, pill CTAs, bobbing chevron.
+          Owns the whole first viewport (.screen), so the answer card below
+          starts off-screen and you scroll to meet it. */}
+      <section className="screen">
+        <div className="mx-auto flex w-full max-w-[920px] flex-1 flex-col justify-center px-5 text-center sm:px-8">
+          {/* self-center: this is a flex-column child now, so without it the
+              pill would stretch to the full 920px column width. */}
           <span
             data-reveal
-            className="inline-flex items-center gap-2.5 rounded-full border border-[rgba(46,59,71,0.22)] bg-white/40 px-[18px] py-2.5 text-[13px] font-medium text-ink"
+            className="inline-flex self-center items-center gap-2.5 rounded-full border border-[rgba(46,59,71,0.22)] bg-white/40 px-[18px] py-2.5 text-[13px] font-medium text-ink"
           >
             <span
               aria-hidden="true"
@@ -118,28 +122,34 @@ export default function Home() {
               See a sample report
             </Link>
           </div>
-          {/* "fade" (no transform) so the reveal can't fight the bob animation. */}
-          <div
-            aria-hidden="true"
-            data-reveal="fade"
-            style={delay(360)}
-            className="weir-bob mt-[50px] flex justify-center text-ink"
-          >
-            <svg width="30" height="18" viewBox="0 0 30 18" fill="none">
-              <path
-                d="M3 3l12 12L27 3"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </div>
         </div>
 
-        {/* Product showcase — the cream answer card with its floating stat
-            callout anchored to the card's top-right corner. */}
-        <div className="mx-auto max-w-[1000px] px-5 pb-24 pt-14 sm:px-8">
+        {/* Pinned to the foot of the screen rather than tucked under the CTAs —
+            it is the cue that there's more below the fold. Its entrance is CSS
+            (see .weir-bob), not [data-reveal]. */}
+        <div
+          aria-hidden="true"
+          className="weir-bob mt-10 flex justify-center text-ink"
+        >
+          <svg width="30" height="18" viewBox="0 0 30 18" fill="none">
+            <path
+              d="M3 3l12 12L27 3"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </div>
+      </section>
+
+      {/* Product showcase — the cream answer card with its floating stat
+          callout anchored to the card's top-right corner. Its own section now
+          that the hero is a full screen. pt-28 is load-bearing: the callout is
+          pulled 54px above the card, and this is what stops it peeking over
+          the bottom of the hero. */}
+      <section>
+        <div className="mx-auto max-w-[1000px] px-5 pb-24 pt-28 sm:px-8">
           <div className="relative mx-auto max-w-[660px]">
             <div
               data-reveal="scale"
