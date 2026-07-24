@@ -40,7 +40,7 @@ export default function Learn() {
         </ul>
       </div>
 
-      <Cta />
+      <Cta centered />
     </>
   );
 }

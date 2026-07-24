@@ -168,12 +168,12 @@ export default function HowItWorks() {
 
       {/* Head */}
       <section className="border-b border-line">
-        <div className="mx-auto max-w-[1120px] px-5 pb-[52px] pt-[72px] sm:px-8">
+        <div className="mx-auto max-w-[1120px] px-5 pb-[52px] pt-[72px] text-center sm:px-8">
           <Chip>Methodology · v2.1 · May 2026</Chip>
-          <h1 className="mb-4 mt-5 max-w-[720px] text-[40px] font-bold leading-[1.0] tracking-[-0.04em] text-ink md:text-[58px]">
+          <h1 className="mx-auto mb-4 mt-5 max-w-[720px] text-[40px] font-bold leading-[1.0] tracking-[-0.04em] text-ink md:text-[58px]">
             Measurement you can actually inspect.
           </h1>
-          <p className="mb-7 max-w-[540px] text-lg leading-7 text-ink-soft">
+          <p className="mx-auto mb-7 max-w-[540px] text-lg leading-7 text-ink-soft">
             The full protocol — <b className="font-bold text-ink">what we run</b>,{" "}
             <b className="font-bold text-ink">how often</b>, and{" "}
             <b className="font-bold text-ink">how every answer is judged</b>.
@@ -393,6 +393,7 @@ export default function HowItWorks() {
       </div>
 
       <Cta
+        centered
         heading="See the protocol run on your business."
         sub="The free check is a small version of exactly this — real queries, real engines, real answers."
       />
