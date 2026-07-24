@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Chip from "@/components/Chip";
 import Cta from "@/components/Cta";
+import HonestyBlock from "@/components/HonestyBlock";
 import SamplingCard from "@/components/SamplingCard";
 import StatTile from "@/components/StatTile";
 import StepList from "@/components/StepList";
