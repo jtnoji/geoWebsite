@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Chip from "@/components/Chip";
 import Cta from "@/components/Cta";
+import HonestyBlock from "@/components/HonestyBlock";
 import SamplingCard from "@/components/SamplingCard";
 import StatTile from "@/components/StatTile";
 import StepList from "@/components/StepList";
@@ -94,7 +95,7 @@ export default function Home() {
             className="mx-auto mt-6 max-w-[560px] text-[18px] leading-[1.6] text-ink-soft"
           >
             ChatGPT, Google AI, Gemini, and Perplexity now answer your customers&rsquo;
-            questions directly, and they only name{" "}
+            questions directly — and they only name{" "}
             <b className="font-semibold text-ink">a few businesses per answer</b>.{" "}
             {BRAND}{" "}measures whether you&rsquo;re one of them,{" "}
             <b className="font-semibold text-ink">who&rsquo;s named instead</b>,
@@ -204,16 +205,14 @@ export default function Home() {
       {/* What we do — metrics list + sampling card */}
       <section className="border-b border-line">
         <div className="mx-auto max-w-[1120px] px-5 py-20 sm:px-8">
-          <div data-reveal className="text-center">
-            <Chip>What we do</Chip>
-            <h2 className="mx-auto mt-3.5 max-w-[560px] text-3xl font-bold tracking-[-0.035em] text-ink md:text-[34px]">
-              We measure it. Properly.
-            </h2>
-          </div>
-          <div className="mt-10 grid items-center gap-11 md:grid-cols-[6fr_5fr] md:gap-[72px]">
+          <div className="grid items-start gap-11 md:grid-cols-[6fr_5fr] md:gap-[72px]">
             <div data-reveal>
-              <p className="max-w-[520px] text-[16.5px] leading-7 text-ink-soft">
-                We run the questions your customers actually ask across
+              <Chip>What we do</Chip>
+              <h2 className="mt-3.5 max-w-[560px] text-3xl font-bold tracking-[-0.035em] text-ink md:text-[34px]">
+                We measure it. Properly.
+              </h2>
+              <p className="mt-3.5 max-w-[520px] text-[16.5px] leading-7 text-ink-soft">
+                We run the questions your customers actually ask — across
                 ChatGPT, Google&rsquo;s AI answers, Gemini, and Perplexity,{" "}
                 <b className="font-bold text-ink">multiple times each</b>,
                 because AI answers change run to run. Then we judge every
@@ -251,87 +250,59 @@ export default function Home() {
       {/* How it works — joined step cells */}
       <section className="border-b border-line">
         <div className="mx-auto max-w-[1120px] px-5 py-20 sm:px-8">
-          <div data-reveal className="text-center">
-            <Chip>How it works</Chip>
-            <h2 className="mt-3.5 text-3xl font-bold tracking-[-0.035em] text-ink md:text-[34px]">
-              Three steps, no theater
-            </h2>
-          </div>
-          {/* Revealed as one block — the step cells share borders, so fading
-              them in individually would expose the seams. */}
-          <div data-reveal style={delay(120)} className="mt-8">
-            <StepList steps={STEPS} />
-          </div>
-          <p data-reveal style={delay(200)} className="mt-7 text-center">
+          <div data-reveal className="flex flex-wrap items-center justify-between gap-4">
+            <div className="flex flex-wrap items-center gap-4">
+              <Chip>How it works</Chip>
+              <h2 className="text-3xl font-bold tracking-[-0.035em] text-ink md:text-[34px]">
+                Three steps, no theater
+              </h2>
+            </div>
             <Link
               href="/how-it-works/"
               className="text-sm font-semibold text-ink hover:text-accent"
             >
               Full methodology →
             </Link>
-          </p>
+          </div>
+          {/* Revealed as one block — the step cells share borders, so fading
+              them in individually would expose the seams. */}
+          <div data-reveal style={delay(120)} className="mt-8">
+            <StepList steps={STEPS} />
+          </div>
         </div>
       </section>
 
       {/* The shortlist problem, folded into the honesty band (kept for the
           full problem framing from website-plan.md) */}
       <section className="border-b border-line">
-        <div className="mx-auto grid max-w-[1120px] items-center gap-10 px-5 py-20 sm:px-8 md:grid-cols-[6fr_5fr] md:gap-16">
-          <div data-reveal>
-            <h2 className="max-w-[560px] text-3xl font-bold tracking-[-0.035em] text-ink">
-              The shortlist got smaller
-            </h2>
-            <p className="mt-4 max-w-[540px] text-base leading-7 text-ink-soft">
-              When a customer asks Google or ChatGPT &ldquo;best marketing agency
-              for startups&rdquo; or &ldquo;which budgeting app should I
-              use,&rdquo; the
-              answer isn&rsquo;t ten blue links anymore. It&rsquo;s{" "}
-              <b className="font-bold text-ink">a paragraph that names two or three options</b>.
-              If you&rsquo;re not in that paragraph, you&rsquo;re not in the
-              conversation. And you can&rsquo;t see it happening, because
-              everyone&rsquo;s answer looks different and nobody screenshots the AI
-              that <em>didn&rsquo;t</em> mention them.
-            </p>
-          </div>
-
-          {/* Then-vs-now artifact: ten blue links collapsing into a 3-name
-              answer — the claim, drawn (claim + artifact rule). */}
-          <div
-            aria-hidden="true"
+        <div className="mx-auto max-w-[1120px] px-5 py-20 sm:px-8">
+          <h2
             data-reveal
-            style={delay(140)}
-            className="grid grid-cols-2 gap-4"
+            className="max-w-[560px] text-3xl font-bold tracking-[-0.035em] text-ink"
           >
-            <div className="rounded-xl bg-white/70 p-4">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-ink-faint">
-                Search, then
-              </p>
-              <div className="mt-3 space-y-2.5">
-                {[92, 78, 85, 70, 88, 64, 80, 74, 68, 58].map((w, i) => (
-                  <div key={i} className="h-2 rounded-full bg-line-dark/70" style={{ width: `${w}%` }} />
-                ))}
-              </div>
-              <p className="mt-3 text-[11px] text-ink-faint">10 results per page</p>
-            </div>
-            <div className="rounded-xl bg-paper-dim p-4">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-ink-faint">
-                AI answers, now
-              </p>
-              <div className="mt-3 space-y-2.5">
-                <div className="h-2 w-[90%] rounded-full bg-line-dark/50" />
-                <div className="h-2 w-[68%] rounded-full bg-line-dark/50" />
-                <div className="mt-1 flex flex-wrap gap-1.5 pt-1">
-                  {["A", "B", "C"].map((n) => (
-                    <span key={n} className="rounded-full bg-ink px-2.5 py-1 text-[10px] font-semibold text-white">
-                      Agency {n}
-                    </span>
-                  ))}
-                </div>
-                <div className="h-2 w-[80%] rounded-full bg-line-dark/50" />
-              </div>
-              <p className="mt-3 text-[11px] font-semibold text-bad">3 names per answer</p>
-            </div>
-          </div>
+            The shortlist got smaller
+          </h2>
+          <p
+            data-reveal
+            style={delay(120)}
+            className="mt-4 max-w-[540px] text-base leading-7 text-ink-soft"
+          >
+            When a customer asks Google or ChatGPT &ldquo;best marketing agency
+            for startups&rdquo; or &ldquo;which agency should I hire,&rdquo; the
+            answer isn&rsquo;t ten blue links anymore. It&rsquo;s{" "}
+            <b className="font-bold text-ink">a paragraph that names two or three options</b>.
+            If you&rsquo;re not in that paragraph, you&rsquo;re not in the
+            conversation — and you can&rsquo;t see it happening, because
+            everyone&rsquo;s answer looks different and nobody screenshots the AI
+            that <em>didn&rsquo;t</em> mention them.
+          </p>
+        </div>
+      </section>
+
+      {/* Honesty pull-quote */}
+      <section>
+        <div data-reveal className="mx-auto max-w-[1120px] px-5 py-20 sm:px-8">
+          <HonestyBlock />
         </div>
       </section>
 
