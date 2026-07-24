@@ -49,11 +49,7 @@ export default async function Article({
           {meta.title}
         </h1>
         <p className="mt-3 text-sm text-ink-faint">
-          By{" "}
-          <Link href="/about/" className="font-medium text-ink-soft hover:text-accent">
-            {meta.author}
-          </Link>{" "}
-          · Updated <time dateTime={meta.date}>{meta.date}</time>
+          <time dateTime={meta.date}>{meta.date}</time>
         </p>
         <div
           className="article mt-8"

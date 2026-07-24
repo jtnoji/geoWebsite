@@ -12,7 +12,7 @@ import { BRAND } from "@/lib/site";
 import { SAMPLE_CALLOUT, SAMPLE_LABEL, SAMPLE_ROWS } from "@/lib/sample";
 
 export const metadata: Metadata = {
-  title: `${BRAND} · Does AI recommend your business?`,
+  title: `${BRAND} — Does AI recommend your business?`,
   description:
     "ChatGPT, Google AI, Gemini, and Perplexity name only a few businesses per answer. We measure whether you're one of them, and who's named instead.",
 };
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 const STEPS = [
   {
     title: "We ask",
-    body: "A versioned set of real customer questions, run across every major AI engine, multiple times each, to average out the noise.",
+    body: "A versioned set of real customer questions, run across every major AI engine — multiple times each, to average out the noise.",
   },
   {
     title: "We judge",
@@ -37,7 +37,7 @@ const METRICS = [
     name: "Mention rate",
     detail: (
       <>
-        <b className="font-bold text-ink">Named in 7 of 10 runs</b>. Rates, not
+        <b className="font-bold text-ink">Named in 7 of 10 runs</b> — rates, not
         one-off screenshots.
       </>
     ),
@@ -60,8 +60,6 @@ const METRICS = [
     detail: <>The exact sites AI cites when it builds the answer.</>,
   },
 ] as const;
-
-
 
 /** Stagger a `[data-reveal]` element — see the scroll-reveal block in globals.css. */
 const delay = (ms: number) => ({ "--reveal-delay": `${ms}ms` }) as CSSProperties;
@@ -165,7 +163,7 @@ export default function Home() {
                   aria-hidden="true"
                   className="h-2 w-2 rounded-full bg-bad"
                 />
-                Your business: not mentioned
+                Your business — not mentioned
               </div>
             </div>
 
@@ -181,7 +179,7 @@ export default function Home() {
                 </span>
               </p>
               <p className="mt-1.5 text-[13px] leading-[1.4] text-ink-faint">
-                named on {SAMPLE_CALLOUT.engine} ·{" "}
+                named on {SAMPLE_CALLOUT.engine} —{" "}
                 <span className="font-semibold text-bad">
                   competitor: {SAMPLE_CALLOUT.competitorHits}/{SAMPLE_CALLOUT.runs}
                 </span>
@@ -232,7 +230,7 @@ export default function Home() {
             </div>
             <div data-reveal style={delay(140)}>
               <SamplingCard
-                title="mention rate by engine · sample"
+                title="mention rate by engine — sample"
                 meta="10 runs/engine"
                 rows={SAMPLE_ROWS}
                 footer={`n=32 queries · ${SAMPLE_LABEL}`}
@@ -306,7 +304,7 @@ export default function Home() {
         </div>
       </section>
 
-      <Cta centered />
+      <Cta />
     </>
   );
 }

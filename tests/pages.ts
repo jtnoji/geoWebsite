@@ -20,6 +20,7 @@ export const PAGES: PageSpec[] = [
       "When someone asks AI for a recommendation, does it say your name?",
       "The shortlist got smaller",
       "We measure it. Properly.",
+      "What we won", // "What we won't promise" — apostrophe rendered as &rsquo;
       "of U.S. consumers used AI tools to find local businesses",
       "BrightLocal, 2026",
     ],
@@ -47,10 +48,9 @@ export const PAGES: PageSpec[] = [
     path: "/how-it-works/",
     mustContain: [
       "Measurement you can actually inspect.",
-      "Why do you run every question ten times?",
-      "How do you judge the answers?",
-      "Can you guarantee results?",
+      "Ten runs, not one screenshot",
       "Every audit, same five stages",
+      "What we won", // honesty heading; apostrophe HTML-escaped
     ],
     schemaTypes: ["FAQPage"],
   },
@@ -108,8 +108,8 @@ export const PAGES: PageSpec[] = [
     path: "/our-score/",
     mustContain: [
       "We ran our own audit on this website",
-      "Cat 1 · Bot access",
-      "Cat 6 · Hygiene",
+      "Cat 1 — Bot access",
+      "Cat 6 — Hygiene",
     ],
     schemaTypes: [],
   },

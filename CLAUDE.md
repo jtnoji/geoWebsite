@@ -89,11 +89,14 @@ has **no weight above 700** — never specify 800+. Headlines 500–600,
 tracking -0.02em; buttons/labels 600 uppercase with wide tracking (.06–.1em).
 
 **Tokens** (in `app/globals.css`): ink `#003262` (Berkeley blue — text AND
-fills) · ink-soft `#616b76` · ink-faint `#8b95a0` · paper `#fdfcf7` ·
-paper-dim `#f6f3ea` (cream cards) · accent `#003262` / accent-dark `#a86a00`
-(links are ink; **hover is amber**) · line `#dfe3ea` · line-dark `#c7ccd6` ·
-bad `#b91c1c` · **gold `#fdb515` / gold-soft `#fdf0cf`** (California gold — the
-single accent) · dot `#c9d2dc` / dot-bad `#ecc4bc` · ink-dim `#9fb3cd`.
+fills) · ink-soft `#616b76` · ink-faint `#8b95a0` · paper `#ffffff` ·
+paper-dim `#f6f3ea` (cream cards) · accent `#a86a00` (gold-dark — link hover,
+loss, emphasis) / accent-dark `#24303a` (deep navy — solid-button hover) ·
+line `rgba(46,59,71,.08)` · line-dark `rgba(46,59,71,.14)` · bad `#a86a00`
+(loss == the gold-dark accent, NOT red) · **gold `#fdb515` / gold-soft
+`#fdf0cf`** (California gold — the single accent) · dot `#c7ccd6` / dot-bad
+`#f0cabb` · ink-dim `#9aa4af` · band `#e9edf7` (persistent bottom CTA bar,
+BottomBar.tsx — body reserves 78px for it).
 
 **Ground.** The body wears the fixed pastel gradient (`#cfe0f5 → #dce7f1 →
 #eee7d6 → #f4ecd4`, `background-attachment: fixed`). Sections sit transparent
@@ -109,15 +112,17 @@ SamplingCard) stay square-cornered and shadowless so data never reads as
 marketing. One motion: `.weir-bob` on the hero chevron (reduced-motion safe).
 
 **Color discipline.** Gold is the accent and it is rationed: chips'
-`gold` variant, the honesty block, ≤1 gold-marked element per page. Red
-(`bad`) only for loss/absence (competitor rows, accuracy flags, "not
-mentioned"). Everything else is Berkeley blue on the gradient/cream ground.
-Hover states go amber, not underline-blue.
+`gold` variant, the honesty block, ≤1 gold-marked element per page. Amber
+gold-dark (`bad` == `accent`, #a86a00) only for loss/absence (competitor
+rows, accuracy flags, "not mentioned") — never red. Everything else is
+Berkeley blue on the gradient/cream ground. Link hover goes amber; solid
+buttons hover deep navy (`accent-dark`).
 
-**Recurring components** (in `components/`, reuse — never fork): Chip (pill
+**Recurring components** (in `components/`, reuse — never fork): Chip (square
 label, white-on-blue; gold variant rationed) · ArtifactCard (square, blue
-header bar) · SamplingCard (dot rows, competitor row in red) · DataChips ·
-StepList (joined cells, numbered tabs) · HonestyBlock · the cream
+header bar) · SamplingCard (side-by-side you-vs-competitor dot rows,
+competitor half in amber) · DataChips · StepList (joined cells, numbered
+tabs) · HonestyBlock · BottomBar (persistent bottom CTA band) · the cream
 product-mockup card (hero answer card pattern).
 
 **Claim + artifact rule.** No section ships as text-only. Every claim is
