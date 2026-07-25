@@ -1,0 +1,57 @@
+import Link from "next/link";
+import { ALL_PAGES } from "@/lib/site";
+
+/**
+ * Custom 404. Under `output: 'export'` this renders to out/404.html, which is
+ * what Vercel serves for an unmatched path on a static deploy.
+ *
+ * A server component with no `metadata` export: Next gives 404s a noindex
+ * robots tag automatically, and a dead URL should not compete in search or
+ * turn up in an AI answer.
+ *
+ * It still routes to /free-check in one click, which is the funnel rule every
+ * other page follows (funnel.spec.ts). A mistyped URL is a real visitor.
+ */
+export default function NotFound() {
+  return (
+    <div className="mx-auto max-w-2xl px-5 py-24 text-center sm:px-8 md:py-32">
+      <p className="font-mono text-xs font-semibold uppercase tracking-[0.08em] text-ink-faint">
+        404
+      </p>
+      <h1 className="mt-4 text-4xl font-bold leading-[1.1] tracking-tight text-ink">
+        That page isn&rsquo;t here.
+      </h1>
+      <p className="mx-auto mt-5 max-w-md text-base leading-7 text-ink-soft">
+        The link may be old, or we may have moved something. Everything on the
+        site is one click away below.
+      </p>
+
+      <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
+        <Link href="/free-check/" className="btn-pill px-[26px] py-[15px] text-[13.5px]">
+          Get your free check <span className="text-base">&#10230;</span>
+        </Link>
+        <Link href="/" className="btn-pill-outline px-[26px] py-[15px] text-[13.5px]">
+          Back to home
+        </Link>
+      </div>
+
+      <nav aria-label="All pages" className="mt-16 border-t-2 border-ink pt-5">
+        <h2 className="font-mono text-xs font-semibold uppercase tracking-[0.06em] text-ink-faint">
+          Every page
+        </h2>
+        <ul className="mt-4 flex flex-wrap justify-center gap-x-6 gap-y-2.5 text-sm">
+          {ALL_PAGES.map((page) => (
+            <li key={page.href}>
+              <Link
+                href={page.href}
+                className="font-semibold text-ink transition-colors hover:text-accent"
+              >
+                {page.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+  );
+}

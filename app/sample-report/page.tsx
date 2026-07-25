@@ -35,7 +35,7 @@ export default function SampleReport() {
   return (
     <>
       <div className="mx-auto max-w-[1120px] px-5 py-16 sm:px-8 md:py-20">
-        <div className="max-w-[560px]">
+        <div className="mx-auto max-w-[560px] text-center">
           <h1 className="text-4xl font-bold tracking-tight text-ink">
             This is what you actually get.
           </h1>
@@ -102,7 +102,11 @@ export default function SampleReport() {
         </div>
       </div>
 
-      <Cta heading="Want yours?" sub="The free check takes one minute. Report in your inbox within 1–2 business days." />
+      <Cta
+        centered
+        heading="Want yours?"
+        sub="The free check takes one minute. Report in your inbox within 1–2 business days."
+      />
     </>
   );
 }

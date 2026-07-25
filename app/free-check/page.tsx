@@ -22,15 +22,18 @@ const DELIVERABLES = [
 export default function FreeCheck() {
   return (
     <div className="mx-auto max-w-2xl px-5 py-16 sm:px-8 md:py-20">
-      <h1 className="text-3xl font-bold leading-[1.1] tracking-tight text-ink md:text-4xl">
-        What does AI say when customers ask about businesses like yours?
-      </h1>
-      <p className="mt-5 text-base leading-7 text-ink-soft">
-        Tell us who you are. We&rsquo;ll run real customer questions through
-        ChatGPT, Google&rsquo;s AI answers, and Perplexity, then email you a
-        short report: whether you&rsquo;re mentioned, who&rsquo;s named
-        instead, and which sources shaped the answer. Free, no call required.
-      </p>
+      {/* Head centres; the form below keeps left-aligned labels and inputs. */}
+      <div className="text-center">
+        <h1 className="text-3xl font-bold leading-[1.1] tracking-tight text-ink md:text-4xl">
+          What does AI say when customers ask about businesses like yours?
+        </h1>
+        <p className="mt-5 text-base leading-7 text-ink-soft">
+          Tell us who you are. We&rsquo;ll run real customer questions through
+          ChatGPT, Google&rsquo;s AI answers, and Perplexity, then email you a
+          short report: whether you&rsquo;re mentioned, who&rsquo;s named
+          instead, and which sources shaped the answer. Free, no call required.
+        </p>
+      </div>
 
       <div className="mt-10">
         <FreeCheckForm />

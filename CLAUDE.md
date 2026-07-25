@@ -186,6 +186,15 @@ competitor half in amber) · DataChips · StepList (joined cells, numbered
 tabs) · HonestyBlock · BottomBar (persistent bottom CTA band) · the cream
 product-mockup card (hero answer card pattern).
 
+**Alignment (settled 2026-07-25).** One rule, applied everywhere: **the page
+head centres, the body does not.** The head is the h1, the lede under it, and
+the closing `<Cta centered />`. Everything below stays left-aligned, because
+it is content people read or scan: founder bios, article lists, tier cards,
+FAQ answers, the /our-score table, and every form label and input. Centring
+multi-line body copy costs readability and buys nothing. Two pages are fully
+centred by founder decision because they are short one-line sections rather
+than body copy: `/contact` and `/our-score`. `/404` is fully centred too.
+
 **Claim + artifact rule.** No section ships as text-only. Every claim is
 paired with a concrete artifact (query set card, sampling card, judge verdict,
 deliverables grid). Section bodies are ≤2 sentences; the artifact does the

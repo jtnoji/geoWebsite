@@ -79,14 +79,18 @@ const POLICY: Faq[] = [
 export default function Privacy() {
   return (
     <div className="mx-auto max-w-2xl px-5 py-16 sm:px-8 md:py-20">
-      <h1 className="text-4xl font-bold tracking-tight text-ink">Privacy</h1>
-      <p className="mt-5 text-base leading-7 text-ink-soft">
-        {BRAND} runs AI visibility checks from {NAP.city}, {NAP.region}. The
-        only personal information we hold is what you send through the free
-        check. This page says exactly what that is, in the same plain language
-        as the rest of the site.
-      </p>
-      <p className="mt-3 text-sm text-ink-faint">In effect since {EFFECTIVE}</p>
+      {/* Head centres; the policy Q&A below stays left-aligned so the answers
+          read as body copy (CLAUDE.md "Alignment"). */}
+      <div className="text-center">
+        <h1 className="text-4xl font-bold tracking-tight text-ink">Privacy</h1>
+        <p className="mt-5 text-base leading-7 text-ink-soft">
+          {BRAND} runs AI visibility checks from {NAP.city}, {NAP.region}. The
+          only personal information we hold is what you send through the free
+          check. This page says exactly what that is, in the same plain
+          language as the rest of the site.
+        </p>
+        <p className="mt-3 text-sm text-ink-faint">In effect since {EFFECTIVE}</p>
+      </div>
 
       <div className="mt-12">
         {/* withSchema={false}: FAQPage markup on a legal page would claim these

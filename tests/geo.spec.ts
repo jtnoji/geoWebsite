@@ -205,3 +205,24 @@ test("rendered articles carry no raw HTML from markdown", async ({ request }) =>
     );
   }
 });
+
+test("404 is custom, noindex, and still one click from /free-check", async ({ request }) => {
+  const res = await request.get("/404.html");
+  expect(res.status()).toBe(200);
+  const html = await res.text();
+
+  expect(html, "should not be Next's stock 404").not.toContain(
+    "This page could not be found"
+  );
+  // &rsquo; in the JSX renders as the literal character, not an entity.
+  expect(html).toContain("That page isn’t here.");
+  // A dead URL must not compete in search or surface in an AI answer.
+  expect(html).toMatch(/<meta name="robots" content="[^"]*noindex/);
+  // The funnel rule applies here too: a mistyped URL is a real visitor.
+  expect(html).toContain('href="/free-check/"');
+});
+
+test("404 is absent from the sitemap", async ({ request }) => {
+  const xml = await (await request.get("/sitemap.xml")).text();
+  expect(xml).not.toContain("/404");
+});

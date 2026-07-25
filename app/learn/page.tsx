@@ -15,11 +15,15 @@ export default function Learn() {
   return (
     <>
       <div className="mx-auto max-w-2xl px-5 py-16 sm:px-8 md:py-20">
-        <h1 className="text-4xl font-bold tracking-tight text-ink">Learn</h1>
-        <p className="mt-5 text-base leading-7 text-ink-soft">
-          Plain answers to the questions business owners ask about AI search.
-          Each article opens with the answer.
-        </p>
+        {/* Head centres; the article list below stays left-aligned so the
+            titles and descriptions scan down a single edge. */}
+        <div className="text-center">
+          <h1 className="text-4xl font-bold tracking-tight text-ink">Learn</h1>
+          <p className="mt-5 text-base leading-7 text-ink-soft">
+            Plain answers to the questions business owners ask about AI search.
+            Each article opens with the answer.
+          </p>
+        </div>
 
         <ul className="mt-12">
           {articles.map((article) => (

@@ -18,6 +18,9 @@ export default function About() {
       ))}
 
       <div className="mx-auto max-w-2xl px-5 py-16 sm:px-8 md:py-20">
+        {/* Head centres; the founder bios below stay left-aligned, because
+            centring multi-line body copy hurts readability. */}
+        <div className="text-center">
         <h1 className="text-4xl font-bold leading-[1.1] tracking-tight text-ink">
           Two founders, measuring the thing everyone else is guessing about.
           Then doing something about it.
@@ -29,6 +32,7 @@ export default function About() {
           deserves a measured answer, not a sales pitch. Now we work the fix
           list too, and measure what it changed.
         </p>
+        </div>
 
         <div className="mt-14">
           {FOUNDERS.map((f) => (
