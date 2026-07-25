@@ -14,7 +14,7 @@ import { SAMPLING_FOOTNOTE } from "@/lib/stats";
 export const metadata: Metadata = {
   title: "How it works: our AI visibility methodology",
   description:
-    "Which engines we measure, why every question runs ten times, how answers are judged, and what the audit covers. The whole protocol, in public.",
+    "Which engines we measure, why every question runs ten times, how answers are judged, and how we implement the fixes. The whole protocol, in public.",
 };
 
 /**
@@ -51,10 +51,10 @@ const SECTIONS = [
   {
     id: "s4",
     rail: "§4  What you get",
-    chip: "§4 · The report",
-    heading: "Numbers first, then the roadmap",
-    body: "Rates by engine and question type, the queries you're losing, who's named instead, and a fix list ranked by what the evidence says moves answers.",
-    bolds: ["the queries you're losing", "what the evidence says moves answers"],
+    chip: "§4 · The report and the work",
+    heading: "Numbers first, then the roadmap, then the work",
+    body: "Rates by engine and question type, the queries you're losing, who's named instead, and a fix list ranked by what the evidence says moves answers. On the ongoing tier we implement that list and run the whole protocol again, so every change is measured rather than assumed.",
+    bolds: ["the queries you're losing", "we implement that list"],
   },
   {
     id: "s5",
@@ -107,6 +107,16 @@ const PIPELINE = [
     title: "Reported",
     desc: "Rates, gaps, roadmap.",
     art: "losing queries → who's named instead → why",
+    hot: false,
+  },
+  {
+    // The gold marker moved here from 05 with the Ongoing GEO reframe: the
+    // emphasised endpoint of the protocol is the work, not the report. Labelled
+    // "ongoing tier" so nobody reads implementation into the one-time audit.
+    n: "06",
+    title: "Implemented",
+    desc: "Ongoing tier: we make the fixes, then re-run.",
+    art: "fix → re-run → before / after",
     hot: true,
   },
 ] as const;
@@ -197,14 +207,17 @@ export default function HowItWorks() {
           <div className="mb-6 flex flex-wrap items-center gap-4">
             <Chip>The pipeline</Chip>
             <h2 className="text-[22px] font-bold tracking-[-0.03em] text-ink">
-              Every audit, same five stages
+              Five stages to the report, then the work
             </h2>
           </div>
-          <div className="grid md:grid-cols-5">
+          {/* gap-px over a line-dark ground: one clean seam in every layout,
+              which the old per-cell borders could not do once this wrapped to
+              two rows. Same pattern as the §4 deliverables grid. */}
+          <div className="grid gap-px border border-line-dark bg-line-dark sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
             {PIPELINE.map((stage) => (
               <div
                 key={stage.n}
-                className="flex flex-col border border-b-0 border-line-dark bg-white pb-4 last:border-b md:border-b md:border-r-0 md:last:border-r"
+                className="flex flex-col bg-white pb-4"
               >
                 <span
                   className={`block px-3.5 py-1.5 font-mono text-[11px] ${

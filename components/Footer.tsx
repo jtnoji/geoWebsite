@@ -21,8 +21,9 @@ export default function Footer() {
               </a>
             </p>
             <p className="mt-3 leading-5">
-              We measure whether AI engines mention your business. Sampled
-              rates, named sources, no guarantees.
+              We measure whether AI engines mention your business, then do the
+              work the measurements point to. Sampled rates, named sources, no
+              guarantees.
             </p>
           </div>
 

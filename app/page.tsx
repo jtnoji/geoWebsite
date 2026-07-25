@@ -32,7 +32,7 @@ const STEPS = [
   },
   {
     title: "You get a roadmap",
-    body: "Your numbers, your gaps, and a fix list ordered by what moves AI answers.",
+    body: "Your numbers, your gaps, and a fix list ordered by what moves AI answers. We can implement it for you and measure again.",
   },
 ] as const;
 

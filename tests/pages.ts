@@ -48,7 +48,7 @@ export const PAGES: PageSpec[] = [
     mustContain: [
       "Measurement you can actually inspect.",
       "Ten runs, not one screenshot",
-      "Every audit, same five stages",
+      "Five stages to the report, then the work",
       "What we won", // honesty heading; apostrophe HTML-escaped
     ],
     schemaTypes: ["FAQPage"],
