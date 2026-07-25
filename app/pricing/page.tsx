@@ -34,6 +34,9 @@ const TIERS = [
     price: PRICING.retainer,
     description:
       "We work the roadmap ourselves: implement the fixes on your site and off it, then re-run the audit so you can see what each change did. Before and after mention rates, new competitors, new sources.",
+    // Implementation is the newest part of the offering, so it says so rather
+    // than implying a running book of clients (website-plan §6, 2026-07-25).
+    note: "Now booking our first implementation clients.",
     cta: { label: "Book a call", href: "/contact/" },
     featured: false,
   },
@@ -43,7 +46,7 @@ const FAQS: Faq[] = [
   {
     question: "Do you do the fixes too?",
     answer:
-      "Yes, on the ongoing tier. We implement the roadmap on your site and off it, then re-measure so you can see what each change did. If you'd rather your own web team execute, every fix is written so a competent developer can pick it up.",
+      "Yes, on the ongoing tier. We implement the roadmap on your site and off it, then re-measure so you can see what each change did. It's the newest part of what we do and we're booking our first implementation clients now. If you'd rather your own web team execute, every fix is written so a competent developer can pick it up.",
   },
   {
     question: "How long until AI answers change?",
@@ -101,8 +104,11 @@ export default function Pricing() {
                 <p className="mt-1.5 font-mono text-2xl font-semibold tracking-tight text-ink">
                   {tier.price}
                 </p>
-                <p className="mt-3.5 flex-1 text-sm leading-6 text-ink-soft">
+                <p className="mt-3.5 text-sm leading-6 text-ink-soft">
                   {tier.description}
+                </p>
+                <p className="mt-3 flex-1 text-xs leading-5 text-ink-faint">
+                  {"note" in tier ? tier.note : null}
                 </p>
                 <Link
                   href={tier.cta.href}

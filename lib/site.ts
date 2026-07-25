@@ -81,8 +81,8 @@ export const ALL_PAGES = [
 const HONESTY_PARTS = {
   opener: "Nobody controls what ChatGPT says",
   mid: ". Anyone who guarantees you a #1 spot in AI answers is selling something they can't deliver. ",
-  accent: "What we deliver is measurement",
-  rest: ": where you stand, how it changes, and which fixes have evidence behind them. Our reports show sampled rates, because that's the only claim we can stand behind.",
+  accent: "What we deliver is the work, and honest measurement of what it changed",
+  rest: ": where you stand, which fixes the evidence supports, and what moved after we made them. Our reports show sampled rates, because that's the only claim we can stand behind.",
 } as const;
 
 export const HONESTY_COPY = {

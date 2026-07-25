@@ -88,9 +88,14 @@ competitors, accuracy against the facts, and the sources behind the answers.
 **Honesty block — "What we won't promise"**
 
 Nobody controls what ChatGPT says. Anyone who guarantees you a #1 spot in AI
-answers is selling something they can't deliver. What we deliver is measurement:
-where you stand, how it changes, and which fixes have evidence behind them. Our
-reports show sampled rates, because that's the only claim we can stand behind.
+answers is selling something they can't deliver. What we deliver is the work, and
+honest measurement of what it changed: where you stand, which fixes the evidence
+supports, and what moved after we made them. Our reports show sampled rates,
+because that's the only claim we can stand behind.
+
+Updated 2026-07-25 alongside the Ongoing GEO reframe: the previous wording ("what
+we deliver is measurement") understated the offering once implementation became
+the product. The no-guaranteed-placement posture is unchanged and non-negotiable.
 
 **Sample report strip** — 2–3 report screenshots, link to /sample-report.
 
@@ -181,7 +186,9 @@ Three tiers, ascending commitment:
    off-site audit. You get a report and a walkthrough call.
 3. **Ongoing GEO — [$X]/mo.** We work the roadmap ourselves: implement the fixes
    on-site and off-site, then re-run the audit so the client sees what each change
-   did. Before/after mention rates, new competitors, new sources. This is the tier
+   did. Before/after mention rates, new competitors, new sources. Carries the line
+   "Now booking our first implementation clients" until there is a book of them.
+   This is the tier
    the business is actually aimed at (decision 2026-07-25, Josh): the audit is the
    way in, the implementation is the product. Copy still promises WORK, never an
    outcome — no tier may imply a ranking or placement result.
