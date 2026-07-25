@@ -35,7 +35,7 @@ export const FOUNDERS = [
 
 export const PRICING = {
   audit: "[$X]", // one-time Full AI Visibility Audit
-  retainer: "[$X]/mo", // Ongoing Measurement
+  retainer: "[$X]/mo", // Ongoing GEO (implementation + re-measurement)
 } as const;
 
 /**

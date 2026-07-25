@@ -58,7 +58,7 @@ export const PAGES: PageSpec[] = [
     mustContain: [
       "Free Visibility Check",
       "Full AI Visibility Audit",
-      "Ongoing Measurement",
+      "Ongoing GEO",
       "Do you do the fixes too?",
     ],
     schemaTypes: ["Service", "Service", "FAQPage"],

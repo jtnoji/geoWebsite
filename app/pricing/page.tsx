@@ -7,9 +7,9 @@ import { service, type Faq } from "@/lib/schema";
 import { PRICING } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Pricing: audit and ongoing measurement",
+  title: "Pricing: audit and ongoing GEO",
   description:
-    "Start with a free AI visibility check. The full audit and ongoing measurement are priced flat. Reports show sampled rates, never guaranteed rankings.",
+    "Start with a free AI visibility check. The full audit and the ongoing work are priced flat. Reports show sampled rates, never guaranteed rankings.",
 };
 
 const TIERS = [
@@ -30,10 +30,10 @@ const TIERS = [
     featured: true,
   },
   {
-    name: "Ongoing Measurement",
+    name: "Ongoing GEO",
     price: PRICING.retainer,
     description:
-      "We re-run your audit on a schedule and show what changed: mention rates, new competitors, new sources. AI answers move, so the trend line is the point.",
+      "We work the roadmap ourselves: implement the fixes on your site and off it, then re-run the audit so you can see what each change did. Before and after mention rates, new competitors, new sources.",
     cta: { label: "Book a call", href: "/contact/" },
     featured: false,
   },
@@ -43,12 +43,12 @@ const FAQS: Faq[] = [
   {
     question: "Do you do the fixes too?",
     answer:
-      "We measure, and we hand you the roadmap. From there we either work through it with you or hand it to your web team. Every fix is written so a competent developer can execute it.",
+      "Yes, on the ongoing tier. We implement the roadmap on your site and off it, then re-measure so you can see what each change did. If you'd rather your own web team execute, every fix is written so a competent developer can pick it up.",
   },
   {
     question: "How long until AI answers change?",
     answer:
-      "Weeks to months, and it varies by engine and by fix. We measure the change rather than promise it, which is what the ongoing tier is for.",
+      "Weeks to months, and it varies by engine and by fix. We measure the change rather than promise it, which is why the ongoing tier pairs the work with a re-run of the audit.",
   },
   {
     question: "What do you need from me?",
@@ -69,9 +69,9 @@ export default function Pricing() {
       />
       <JsonLd
         data={service({
-          name: "Ongoing Measurement",
+          name: "Ongoing GEO",
           description:
-            "Recurring AI visibility measurement: audits re-run on a cadence with before/after mention rates, new competitors, and new sources.",
+            "Recurring generative engine optimization: we implement the audit's prioritized fixes on-site and off-site, then re-run the audit to measure what each change did, reporting before and after mention rates, new competitors, and new sources.",
         })}
       />
 

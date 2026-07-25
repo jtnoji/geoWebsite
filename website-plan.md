@@ -179,9 +179,12 @@ Three tiers, ascending commitment:
 2. **Full AI Visibility Audit — [$X] one-time.** Full query set across all
    engines, sampled runs, judged answers, accuracy findings, and a site and
    off-site audit. You get a report and a walkthrough call.
-3. **Ongoing Measurement — [$X]/mo.** We re-run your audit on a schedule and show
-   what changed: mention rates, new competitors, new sources. AI answers move, so
-   the trend line is the point.
+3. **Ongoing GEO — [$X]/mo.** We work the roadmap ourselves: implement the fixes
+   on-site and off-site, then re-run the audit so the client sees what each change
+   did. Before/after mention rates, new competitors, new sources. This is the tier
+   the business is actually aimed at (decision 2026-07-25, Josh): the audit is the
+   way in, the implementation is the product. Copy still promises WORK, never an
+   outcome — no tier may imply a ranking or placement result.
 
 FAQ under pricing: "Do you do the fixes too?" (answer per your current service
 scope) · "How long until AI answers change?" (honest: weeks-to-months, and we
@@ -280,7 +283,7 @@ Cold email / LinkedIn / AI citation / word of mouth
         → email report (1–2 days; teaser pipeline + manual vet)
         → Josh follow-up: "want the full picture?" → /pricing or call
         → Full Audit [$X]
-        → walkthrough call → Ongoing Measurement [$X]/mo
+        → walkthrough call → Ongoing GEO [$X]/mo
 ```
 
 Instrument each step (simple analytics: form submits, report-email link clicks,
