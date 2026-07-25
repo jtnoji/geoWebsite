@@ -339,6 +339,11 @@ call bookings) so you know where the funnel leaks.
       anyone holding the (public by design) publishable key can POST rows of
       any size straight past the form and its honeypot. Verified still safe
       today: anon SELECT and DELETE both return 401.
+- [ ] **Re-run `scripts/make-brand-assets.py`** after the brand name lands. The
+      OG image and favicon are generated from `BRAND`, so until then every link
+      shared on LinkedIn or Slack previews as "[Brand]". Needs pillow, fonttools
+      and brotli (`python3 -m venv .venv && .venv/bin/pip install pillow
+      fonttools brotli`), and `npm run build` run first so the font is present.
 - [ ] **Swap `EMAIL` in lib/site.ts** — `/security.txt` publishes it as the
       disclosure contact, and it is still `hello@example.com`.
 - [ ] **SPF, DKIM and DMARC** on the sending domain before the first teaser

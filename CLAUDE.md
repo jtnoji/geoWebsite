@@ -122,6 +122,16 @@ funnel.spec.ts, visual.spec.ts) · `public/`.
   legitimately emits (Next flight payload, Next bootstrap, the layout reveal
   failsafe) plus `ld+json`. Anything else fails the build. If a Next upgrade
   changes the shape, add it deliberately; never widen the pattern to "any".
+- **Brand images are generated, not hand-drawn.** `app/opengraph-image.png`,
+  `app/icon.png` and `app/favicon.ico` come from
+  `scripts/make-brand-assets.py`, which reads `BRAND` from `lib/site.ts` and
+  pulls Poppins out of the woff2 `next/font` already downloaded into `out/`.
+  **Re-run it when the brand name lands**, or every link shared anywhere will
+  keep saying `[Brand]`. Next emits the `og:image`, `twitter:image` and icon
+  tags from the file names alone, so nothing else needs editing. It is NOT in
+  `npm run build` on purpose: Vercel's build image has no guaranteed Python,
+  and `next/og` `ImageResponse` cannot be used here at all (it needs a
+  request-time runtime and fails the static export).
 - **`.npmrc` sets `ignore-scripts=true`.** Install hooks are how essentially
   every recent npm worm executed, and this build needs none (verified: `npm ci
   && npm run build` passes with it set). Don't remove it to make a dependency
