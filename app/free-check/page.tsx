@@ -36,7 +36,7 @@ export default function FreeCheck() {
         <FreeCheckForm />
       </div>
 
-      <div className="mt-14 border-t-2 border-ink pt-5">
+      <div className="mt-14 border-t-2 border-ink pt-5 text-center">
         <h2 className="font-mono text-xs font-semibold uppercase tracking-[0.06em] text-ink-faint">
           What you&rsquo;ll get
         </h2>
