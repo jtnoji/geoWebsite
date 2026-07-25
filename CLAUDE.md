@@ -16,8 +16,9 @@ Next.js (App Router) + TypeScript + Tailwind, **static export** (`output:
 'export'`), deployed on Vercel. **Design reference: `mockup/weir-style.html`
 (the "weir" system, imported from Claude Design 2026-07-20 — open it in a
 browser before styling anything; `weir-*.jpg` are its key screenshots).**
-`mockup/index.html` + `mockup/how-it-works.html` are the SUPERSEDED IBM Plex
-direction — kept for copy/structure reference only; don't style from them.
+`mockup/` holds the weir system and nothing else. The superseded IBM Plex
+mockups were deleted 2026-07-25 once the copy pass replaced the last of what
+they were kept for; `git show 5ad0939:mockup/index.html` still has them.
 
 ```bash
 npm run dev              # local dev

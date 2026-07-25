@@ -306,11 +306,12 @@ call bookings) so you know where the funnel leaks.
   Berkeley blue `#003262` ink/fills, California gold `#fdb515` as the single
   accent, pill buttons, persistent bottom CTA bar), imported from Claude Design
   on 2026-07-20 and applied as a pure restyle. Reference: `mockup/weir-style.html`;
-  rules in CLAUDE.md "Design system". Supersedes the IBM Plex / editorial
-  direction in `mockup/index.html` + `mockup/how-it-works.html`. **All page copy
-  was left unchanged** — the prototype carries some reworded headlines (e.g.
-  "When AI recommends a business…") that were NOT adopted, since copy changes
-  need Josh's sign-off. If any of that wording is wanted, change it here first.
+  rules in CLAUDE.md "Design system". Superseded the IBM Plex / editorial
+  mockups, which were deleted 2026-07-25 (recoverable at
+  `git show 5ad0939:mockup/index.html`) once the copy pass below replaced the
+  last thing they were being kept for. The restyle itself changed no copy; the
+  prototype's reworded headlines (e.g. "When AI recommends a business…") were
+  never adopted.
 - Copy voice (settled 2026-07-25, Josh): **plain-language pass across every page.**
   Three standing rules, applied site-wide and binding on new copy: (1) **no em
   dashes anywhere in visible copy** — use a period, comma, colon, or `·`; en

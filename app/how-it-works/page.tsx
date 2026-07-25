@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 };
 
 /**
- * The flagship page (mockup/how-it-works.html). Section bodies are ≤2
+ * The flagship page. Section bodies are ≤2
  * sentences; the artifact does the explaining. `body` is the plain visible
  * text; `bolds` phrases are styled by splitting — so the FAQPage JSON-LD
  * built from {heading, body} always matches the rendered copy exactly.
