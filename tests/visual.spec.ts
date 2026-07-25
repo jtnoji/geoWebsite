@@ -11,16 +11,20 @@ const WIDTHS = [390, 768, 1440] as const;
 
 for (const page of PAGES) {
   for (const width of WIDTHS) {
-    test(`screenshot ${page.path} @ ${width}px`, async ({ page: pw }) => {
+    test(`screenshot ${page.path} @ ${width}px`, async ({ page: pw }, testInfo) => {
       await pw.setViewportSize({ width, height: 900 });
       await pw.goto(page.path);
       await pw.waitForLoadState("networkidle");
       const slug =
         page.path === "/" ? "home" : page.path.replaceAll("/", " ").trim().replaceAll(" ", "-");
-      await pw.screenshot({
-        path: `tests/screenshots/${slug}-${width}.png`,
-        fullPage: true,
-      });
+      // Chromium keeps the flat paths the design-critique loop expects;
+      // WebKit lands in its own directory so the two never overwrite each
+      // other. Compare the pair when touching anything position:fixed.
+      const dir =
+        testInfo.project.name === "chromium"
+          ? "tests/screenshots"
+          : `tests/screenshots/${testInfo.project.name}`;
+      await pw.screenshot({ path: `${dir}/${slug}-${width}.png`, fullPage: true });
     });
   }
 }

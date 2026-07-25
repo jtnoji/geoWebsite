@@ -31,8 +31,26 @@ import { fileURLToPath } from "node:url";
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = join(ROOT, "out");
 
-/** Directives the CSP spec ignores inside <meta http-equiv>; keep them header-only. */
-const META_INVALID = new Set(["frame-ancestors", "report-uri", "report-to", "sandbox"]);
+/**
+ * Directives that must stay header-only.
+ *
+ * The first four are ignored inside <meta http-equiv> per spec and only earn a
+ * console warning. `upgrade-insecure-requests` is different and was a real bug:
+ * WebKit honours it in <meta> and upgrades EVERY subresource to https,
+ * including on an http://127.0.0.1 origin, where the TLS handshake fails and
+ * the page loads with no CSS and no JS. Chromium exempts localhost, so this was
+ * invisible until the WebKit project was added (2026-07-25).
+ *
+ * Dropping it from the meta copy costs nothing in production: the vercel.json
+ * header still carries it, and one policy asking for the upgrade is enough.
+ */
+const META_INVALID = new Set([
+  "frame-ancestors",
+  "report-uri",
+  "report-to",
+  "sandbox",
+  "upgrade-insecure-requests",
+]);
 
 /** Every inline <script> (any type, including ld+json — CSP governs those too). */
 const INLINE_SCRIPT = /<script(?![^>]*\ssrc=)([^>]*)>([\s\S]*?)<\/script>/g;

@@ -30,6 +30,21 @@ npm run lint             # eslint
 `npm run build` runs `scripts/harden-export.mjs` after `next build`; `out/` is
 not deployable without it (no meta CSP, no /.well-known/security.txt).
 
+`npm test` runs three projects: **chromium, webkit (Desktop Safari) and
+mobile-safari (iPhone)**. WebKit is not optional here: `BottomBar` is
+`position: fixed` on every page and the ground is a `background-attachment:
+fixed` gradient, and Safari treats both differently. `visual.spec.ts` writes
+chromium shots to `tests/screenshots/` (the design-critique loop) and WebKit
+shots to `tests/screenshots/webkit/`; diff the pair when touching anything
+fixed-position. New browsers install with
+`./node_modules/.bin/playwright install webkit`.
+
+**Never put `upgrade-insecure-requests` in the `<meta>` CSP.** WebKit honours
+it there and upgrades every subresource to https even on `http://127.0.0.1`,
+where TLS fails and the page renders with no CSS and no JS. Chromium exempts
+localhost, so it looks fine until you run WebKit. It is header-only in
+`vercel.json`, and `META_INVALID` in `harden-export.mjs` keeps it out.
+
 Gate for every change: `npm run build && npm test && npm run lint`.
 **Never `npx playwright test`** — `npx` resolves from the registry at run time,
 which defeats the lockfile. `npm test` uses the local binary.
