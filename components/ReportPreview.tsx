@@ -20,7 +20,7 @@ const SOURCE_CHECKS = [
 function MentionRateCard() {
   return (
     <SamplingCard
-      title={<>mention rate: &ldquo;{SAMPLE_QUERY}&rdquo;</>}
+      title={<>mention rate · &ldquo;{SAMPLE_QUERY}&rdquo;</>}
       meta="10 runs/engine"
       rows={[...SAMPLE_ROWS]}
       footer={SAMPLE_LABEL}

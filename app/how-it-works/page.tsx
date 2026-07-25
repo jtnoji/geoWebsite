@@ -12,9 +12,9 @@ import { HONESTY_COPY } from "@/lib/site";
 import { SAMPLING_FOOTNOTE } from "@/lib/stats";
 
 export const metadata: Metadata = {
-  title: "How It Works — our AI visibility methodology",
+  title: "How it works: our AI visibility methodology",
   description:
-    "Which engines we measure, why every question runs multiple times, how answers are judged, and what the audit covers. Transparency is the methodology.",
+    "Which engines we measure, why every question runs ten times, how answers are judged, and what the audit covers. The whole protocol, in public.",
 };
 
 /**
@@ -27,31 +27,31 @@ const SECTIONS = [
   {
     id: "s1",
     rail: "§1  What we ask",
-    chip: "§1 — The query set",
+    chip: "§1 · The query set",
     heading: "The questions your customers actually ask",
-    body: 'Real phrasings across the whole funnel — cost, comparison, "is this agency worth it." Locked per cycle, so every before/after is apples to apples.',
+    body: 'Real phrasings from across the funnel: cost, comparison, "is this agency worth it." Locked per cycle, so every before and after is apples to apples.',
     bolds: ['"is this agency worth it."', "apples to apples"],
   },
   {
     id: "s2",
     rail: "§2  How we sample",
-    chip: "§2 — Sampling",
+    chip: "§2 · Sampling",
     heading: "Ten runs, not one screenshot",
-    body: 'AI answers change between runs — a single fetch is a coin flip. We run every query 10× per engine and report the rate; a single-run "AI rank" is just noise.',
+    body: 'AI answers change between runs, so a single fetch is a coin flip. We run every query 10× per engine and report the rate. A single-run "AI rank" is noise.',
     bolds: ["a single fetch is a coin flip", "10× per engine"],
   },
   {
     id: "s3",
     rail: "§3  How we judge",
-    chip: "§3 — Judging",
+    chip: "§3 · Judging",
     heading: "Every answer graded against ground truth",
-    body: `A mention isn't enough. Each answer is judged against a fact sheet you approve: present? prominent? accurate? "AI says you only run paid ads — you run full-funnel" is a finding, not a blind spot.`,
+    body: `A mention isn't enough. Each answer is judged against a fact sheet you approve: present? prominent? accurate? If AI says you only run paid ads when you run full-funnel, that's a finding, not a blind spot.`,
     bolds: ["a fact sheet you approve", "accurate?"],
   },
   {
     id: "s4",
     rail: "§4  What you get",
-    chip: "§4 — The report",
+    chip: "§4 · The report",
     heading: "Numbers first, then the roadmap",
     body: "Rates by engine and question type, the queries you're losing, who's named instead, and a fix list ranked by what the evidence says moves answers.",
     bolds: ["the queries you're losing", "what the evidence says moves answers"],
@@ -59,7 +59,7 @@ const SECTIONS = [
   {
     id: "s5",
     rail: "§5  What we won't promise",
-    chip: "§5 — The fine print, up front",
+    chip: "§5 · The fine print, up front",
     heading: HONESTY_COPY.heading,
     body: HONESTY_COPY.body,
     bolds: [],
@@ -84,7 +84,7 @@ const PIPELINE = [
   {
     n: "03",
     title: "Ten runs",
-    desc: "Sampled — answers change run to run.",
+    desc: "Answers change run to run.",
     art: (
       <>
         <span className="text-ink">
@@ -119,12 +119,12 @@ const QUERY_ROWS = [
 ] as const;
 
 const VERDICT_ROWS = [
-  { k: "presence", bold: "Mentioned", rest: " — 2nd of 3 named", flag: false },
-  { k: "prominence", bold: "Secondary", rest: " — not the lead recommendation", flag: false },
+  { k: "presence", bold: "Mentioned", rest: ": 2nd of 3 named", flag: false },
+  { k: "prominence", bold: "Secondary", rest: ": not the lead recommendation", flag: false },
   {
     k: "accuracy",
     bold: "1 error",
-    rest: " — says they only run paid ads; they run full-funnel",
+    rest: ": says they only run paid ads; they run full-funnel",
     flag: true,
   },
 ] as const;
@@ -132,7 +132,7 @@ const VERDICT_ROWS = [
 const DELIVERABLES = [
   { title: "Mention rates", desc: "per engine · per question type" },
   { title: "Losing queries", desc: "where a rival is named, not you" },
-  { title: "Source map", desc: "the sites AI cites — where you're missing" },
+  { title: "Source map", desc: "the sites AI cites, and where you're missing" },
   { title: "Roadmap", desc: "prioritized, evidence-ranked fixes" },
 ] as const;
 
@@ -174,10 +174,11 @@ export default function HowItWorks() {
             Measurement you can actually inspect.
           </h1>
           <p className="mx-auto mb-7 max-w-[540px] text-lg leading-7 text-ink-soft">
-            The full protocol — <b className="font-bold text-ink">what we run</b>,{" "}
+            The full protocol: <b className="font-bold text-ink">what we run</b>,{" "}
             <b className="font-bold text-ink">how often</b>, and{" "}
             <b className="font-bold text-ink">how every answer is judged</b>.
-            Public, because measurement you can&rsquo;t inspect is marketing.
+            Public, because measurement you can&rsquo;t inspect is just
+            marketing.
           </p>
           <DataChips
             cells={[
@@ -267,7 +268,7 @@ export default function HowItWorks() {
                 <BodyWithBolds body={SECTIONS[0].body} bolds={SECTIONS[0].bolds} />
               </p>
             </div>
-            <ArtifactCard title="query set — b2b marketing agency" meta="v1 · locked">
+            <ArtifactCard title="query set · b2b marketing agency" meta="v1 · locked">
               <div className="px-4 py-2">
                 {QUERY_ROWS.map((row) => (
                   <div
@@ -304,7 +305,7 @@ export default function HowItWorks() {
               </p>
             </div>
             <ArtifactCard
-              title={<>sampling — &ldquo;{SAMPLE_QUERY}&rdquo;</>}
+              title={<>sampling: &ldquo;{SAMPLE_QUERY}&rdquo;</>}
               meta="10 runs/engine"
               footer={SAMPLE_LABEL}
             >
@@ -326,7 +327,7 @@ export default function HowItWorks() {
                 <BodyWithBolds body={SECTIONS[2].body} bolds={SECTIONS[2].bolds} />
               </p>
             </div>
-            <ArtifactCard title="judge verdict — run 7/10 · chatgpt" meta="fact sheet v3">
+            <ArtifactCard title="judge verdict · run 7/10 · chatgpt" meta="fact sheet v3">
               <div className="px-4 py-2">
                 {VERDICT_ROWS.map((row) => (
                   <div
@@ -395,7 +396,7 @@ export default function HowItWorks() {
       <Cta
         centered
         heading="See the protocol run on your business."
-        sub="The free check is a small version of exactly this — real queries, real engines, real answers."
+        sub="The free check is a small version of exactly this: real queries, real engines, real answers."
       />
     </>
   );

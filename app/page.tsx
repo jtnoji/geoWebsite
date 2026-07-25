@@ -11,23 +11,23 @@ import { BRAND } from "@/lib/site";
 import { SAMPLE_CALLOUT, SAMPLE_LABEL, SAMPLE_ROWS } from "@/lib/sample";
 
 export const metadata: Metadata = {
-  title: `${BRAND} — Does AI recommend your business?`,
+  title: { absolute: `${BRAND}: does AI recommend your business?` },
   description:
-    "ChatGPT, Google AI, Gemini, and Perplexity name only a few businesses per answer. We measure whether you're one of them, and who's named instead.",
+    "ChatGPT, Google AI, Gemini, and Perplexity name only a few businesses per answer. We measure whether you're one of them, and who gets named instead.",
 };
 
 const STEPS = [
   {
     title: "We ask",
-    body: "A versioned set of real customer questions, run across every major AI engine — multiple times each, to average out the noise.",
+    body: "Real customer questions, run across every major AI engine, multiple times each.",
   },
   {
     title: "We judge",
-    body: "Every answer graded for your presence, prominence, and accuracy against a fact sheet you approve.",
+    body: "Every answer graded for presence, prominence, and accuracy against a fact sheet you approve.",
   },
   {
     title: "You get a roadmap",
-    body: "Your numbers, your gaps, and a prioritized fix list ordered by what actually moves AI answers.",
+    body: "Your numbers, your gaps, and a fix list ordered by what moves AI answers.",
   },
 ] as const;
 
@@ -36,14 +36,14 @@ const METRICS = [
     name: "Mention rate",
     detail: (
       <>
-        <b className="font-bold text-ink">Named in 7 of 10 runs</b> — rates, not
+        <b className="font-bold text-ink">Named in 7 of 10 runs.</b> Rates, not
         one-off screenshots.
       </>
     ),
   },
   {
     name: "Share of voice",
-    detail: <>You vs. the competitors AI names instead of you.</>,
+    detail: <>You vs. the competitors named instead of you.</>,
   },
   {
     name: "Accuracy",
@@ -56,7 +56,7 @@ const METRICS = [
   },
   {
     name: "Sources",
-    detail: <>The exact sites AI cites when it builds the answer.</>,
+    detail: <>The sites AI cites when it builds the answer.</>,
   },
 ] as const;
 
@@ -91,12 +91,11 @@ export default function Home() {
             style={delay(160)}
             className="mx-auto mt-6 max-w-[560px] text-[18px] leading-[1.6] text-ink-soft"
           >
-            ChatGPT, Google AI, Gemini, and Perplexity now answer your customers&rsquo;
-            questions directly — and they only name{" "}
-            <b className="font-semibold text-ink">a few businesses per answer</b>.{" "}
-            {BRAND}{" "}measures whether you&rsquo;re one of them,{" "}
-            <b className="font-semibold text-ink">who&rsquo;s named instead</b>,
-            and what&rsquo;s driving the answer.
+            ChatGPT, Google AI, Gemini, and Perplexity answer your customers
+            directly, and each answer names{" "}
+            <b className="font-semibold text-ink">only a few businesses</b>.{" "}
+            {BRAND}{" "}measures whether you&rsquo;re one of them and{" "}
+            <b className="font-semibold text-ink">who gets named instead</b>.
           </p>
           <div
             data-reveal
@@ -162,7 +161,7 @@ export default function Home() {
                   aria-hidden="true"
                   className="h-2 w-2 rounded-full bg-bad"
                 />
-                Your business — not mentioned
+                Your business: not mentioned
               </div>
             </div>
 
@@ -178,9 +177,9 @@ export default function Home() {
                 </span>
               </p>
               <p className="mt-1.5 text-[13px] leading-[1.4] text-ink-faint">
-                named on {SAMPLE_CALLOUT.engine} —{" "}
+                named on {SAMPLE_CALLOUT.engine} ·{" "}
                 <span className="font-semibold text-bad">
-                  competitor: {SAMPLE_CALLOUT.competitorHits}/{SAMPLE_CALLOUT.runs}
+                  competitor {SAMPLE_CALLOUT.competitorHits}/{SAMPLE_CALLOUT.runs}
                 </span>
               </p>
             </div>
@@ -209,11 +208,11 @@ export default function Home() {
                 We measure it. Properly.
               </h2>
               <p className="mt-3.5 max-w-[520px] text-[16.5px] leading-7 text-ink-soft">
-                We run the questions your customers actually ask — across
-                ChatGPT, Google&rsquo;s AI answers, Gemini, and Perplexity,{" "}
+                We run your customers&rsquo; real questions across ChatGPT,
+                Google&rsquo;s AI answers, Gemini, and Perplexity,{" "}
                 <b className="font-bold text-ink">multiple times each</b>,
-                because AI answers change run to run. Then we judge every
-                answer. You get numbers, not vibes.
+                because the answers change run to run. Then we grade every one.
+                You get numbers, not vibes.
               </p>
               <dl className="mt-8">
                 {METRICS.map((metric) => (
@@ -229,7 +228,7 @@ export default function Home() {
             </div>
             <div data-reveal style={delay(140)}>
               <SamplingCard
-                title="mention rate by engine — sample"
+                title="mention rate by engine · sample"
                 meta="10 runs/engine"
                 rows={SAMPLE_ROWS}
                 footer={`n=32 queries · ${SAMPLE_LABEL}`}
@@ -278,14 +277,13 @@ export default function Home() {
               The shortlist got smaller
             </h2>
             <p className="mt-4 max-w-[540px] text-base leading-7 text-ink-soft">
-              When a customer asks Google or ChatGPT &ldquo;best marketing agency
-              for startups&rdquo; or &ldquo;which agency should I hire,&rdquo; the
-              answer isn&rsquo;t ten blue links anymore. It&rsquo;s{" "}
+              Ask Google or ChatGPT &ldquo;which marketing agency should I
+              hire&rdquo; and you don&rsquo;t get ten blue links. You get{" "}
               <b className="font-bold text-ink">a paragraph that names two or three options</b>.
-              If you&rsquo;re not in that paragraph, you&rsquo;re not in the
-              conversation — and you can&rsquo;t see it happening, because
-              everyone&rsquo;s answer looks different and nobody screenshots the AI
-              that <em>didn&rsquo;t</em> mention them.
+              If you&rsquo;re not in it, you&rsquo;re not in the conversation.
+              And you never find out, because everyone&rsquo;s answer is
+              different and nobody screenshots the AI that{" "}
+              <em>didn&rsquo;t</em> mention them.
             </p>
           </div>
 

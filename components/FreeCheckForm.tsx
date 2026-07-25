@@ -212,8 +212,8 @@ export default function FreeCheckForm() {
 
       {status === "error" && (
         <p role="alert" className="text-sm font-medium text-bad">
-          Something went wrong sending your details. Please email us instead and
-          we&rsquo;ll run your check.
+          That didn&rsquo;t send. Email us instead and we&rsquo;ll run your
+          check.
         </p>
       )}
     </form>

@@ -23,13 +23,13 @@ export const FOUNDERS = [
     name: "Abhi Jinka",
     role: "Co-founder · built the measurement platform",
     linkedin: "https://www.linkedin.com/in/abhinavjinka/",
-    bio: "Abhi built the measurement platform: the query runner, the sampling methodology, and the judging pipeline that grades every AI answer for presence, prominence, and accuracy. He started this because every 'AI rank tracker' he tested was measuring single-run noise and calling it data.",
+    bio: "Abhi built the measurement platform: the query runner, the sampling method, and the pipeline that grades every AI answer for presence, prominence, and accuracy. He started this because every 'AI rank tracker' he tested was measuring single-run noise and calling it data.",
   },
   {
     name: "Josh Noji",
     role: "Co-founder · works directly with every client",
     linkedin: "https://www.linkedin.com/in/joshuanoji/",
-    bio: "Josh works directly with every client, from the first free check through the audit walkthrough. He started this after watching small businesses pay for SEO reports that never once mentioned the AI answers their customers were actually reading.",
+    bio: "Josh works with every client, from the first free check through the audit walkthrough. He started this after watching small businesses pay for SEO reports that never mentioned the AI answers their customers were reading.",
   },
 ] as const;
 
@@ -81,7 +81,7 @@ const HONESTY_PARTS = {
   opener: "Nobody controls what ChatGPT says",
   mid: ". Anyone who guarantees you a #1 spot in AI answers is selling something they can't deliver. ",
   accent: "What we deliver is measurement",
-  rest: ": where you stand, how it changes over time, and which fixes have evidence behind them. Our reports show sampled rates with honest uncertainty, because that's the only kind of claim we can stand behind.",
+  rest: ": where you stand, how it changes, and which fixes have evidence behind them. Our reports show sampled rates, because that's the only claim we can stand behind.",
 } as const;
 
 export const HONESTY_COPY = {

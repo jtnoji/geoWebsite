@@ -4,9 +4,9 @@ import Cta from "@/components/Cta";
 import { getAllArticles } from "@/lib/articles";
 
 export const metadata: Metadata = {
-  title: "Learn — plain answers about AI search visibility",
+  title: "Learn: plain answers about AI search",
   description:
-    "What GEO is, why ChatGPT doesn't mention your business, which sources AI engines cite, and what actually changed since traditional SEO.",
+    "What GEO is, why ChatGPT doesn't mention your business, which sources AI engines cite, and what changed since traditional SEO.",
 };
 
 export default function Learn() {
@@ -17,8 +17,8 @@ export default function Learn() {
       <div className="mx-auto max-w-2xl px-5 py-16 sm:px-8 md:py-20">
         <h1 className="text-4xl font-bold tracking-tight text-ink">Learn</h1>
         <p className="mt-5 text-base leading-7 text-ink-soft">
-          Plain answers to the questions business owners actually ask about AI
-          search — each article opens with the answer, not a wind-up.
+          Plain answers to the questions business owners ask about AI search.
+          Each article opens with the answer.
         </p>
 
         <ul className="mt-12">

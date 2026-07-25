@@ -63,7 +63,7 @@ export default function Cta({
           )}
         </div>
         <p className="mt-4 font-mono text-[11.5px] uppercase text-ink-faint">
-          No call required · No obligation · Real data from real AI answers
+          No call required · No obligation
         </p>
       </div>
     </section>

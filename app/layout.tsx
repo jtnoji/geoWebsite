@@ -20,11 +20,11 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   metadataBase: new URL(DOMAIN),
   title: {
-    default: `${BRAND} — ${TAGLINE}`,
-    template: `%s — ${BRAND}`,
+    default: `${BRAND}: ${TAGLINE}`,
+    template: `%s · ${BRAND}`,
   },
   description:
-    "We measure whether ChatGPT, Google AI, Gemini, and Perplexity mention your business — sampled rates, named competitors, and the sources behind the answers.",
+    "We measure whether ChatGPT, Google AI, Gemini, and Perplexity mention your business: sampled rates, named competitors, and the sources behind the answers.",
   openGraph: {
     siteName: BRAND,
     type: "website",

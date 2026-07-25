@@ -45,9 +45,9 @@ header button), and no page is more than one click from /free-check or /contact.
 
 > ## When someone asks AI for a recommendation, does it say your name?
 >
-> ChatGPT, Google AI, and Perplexity now answer your customers' questions directly —
-> and they only name a few businesses per answer. [Brand] measures whether you're
-> one of them, who's being named instead, and what's driving the answer.
+> ChatGPT, Google AI, Gemini, and Perplexity answer your customers directly, and
+> each answer names only a few businesses. [Brand] measures whether you're one of
+> them and who gets named instead.
 >
 > [ Get your free AI visibility check ]   [ See a sample report ]
 
@@ -62,40 +62,35 @@ header button), and no page is more than one click from /free-check or /contact.
 
 **Problem section — "The shortlist got smaller"**
 
-When a customer asks Google or ChatGPT "best {your category} near me" or "which
-{product} should I buy," the answer isn't ten blue links anymore. It's a paragraph
-that names two or three options. If you're not in that paragraph, you're not in the
-conversation — and you can't see it happening, because everyone's answer looks
-different and nobody screenshots the AI that *didn't* mention them.
+Ask Google or ChatGPT "which {your category} should I hire" and you don't get ten
+blue links. You get a paragraph that names two or three options. If you're not in
+it, you're not in the conversation. And you never find out, because everyone's
+answer is different and nobody screenshots the AI that *didn't* mention them.
 
 **What we do — "We measure it. Properly."**
 
-We run the questions your customers actually ask across ChatGPT, Google's AI
-answers, Gemini, and Perplexity — each question multiple times, because AI answers
-change run to run. Then we judge every answer: Were you mentioned? How prominently?
-Was what the AI said about you *accurate*? Who got recommended instead? And which
-websites is the AI citing when it decides?
+We run your customers' real questions across ChatGPT, Google's AI answers, Gemini,
+and Perplexity, multiple times each, because the answers change run to run. Then we
+grade every one. You get numbers, not vibes.
 
-You get numbers, not vibes: mention rates ("named in 7 of 10 runs"), share of voice
-against named competitors, the queries you're losing, and the exact sources behind
-the answers.
+Metrics list: mention rate ("named in 7 of 10 runs"), share of voice against named
+competitors, accuracy against the facts, and the sources behind the answers.
 
 **How it works (3 steps)** — condensed from /how-it-works, with link
 
-1. **We ask** — a versioned set of real customer questions, run across every major
-   AI engine, multiple times each.
-2. **We judge** — every answer graded for your presence, prominence, and accuracy
+1. **We ask** — real customer questions, run across every major AI engine,
+   multiple times each.
+2. **We judge** — every answer graded for presence, prominence, and accuracy
    against a fact sheet you approve.
-3. **You get a roadmap** — a report with your numbers, your gaps, and a prioritized
-   list of fixes ordered by what actually moves AI answers.
+3. **You get a roadmap** — your numbers, your gaps, and a fix list ordered by what
+   moves AI answers.
 
 **Honesty block — "What we won't promise"**
 
-Nobody controls what ChatGPT says — anyone who guarantees you a #1 spot in AI
+Nobody controls what ChatGPT says. Anyone who guarantees you a #1 spot in AI
 answers is selling something they can't deliver. What we deliver is measurement:
-where you stand, how it changes over time, and which fixes have evidence behind
-them. Our reports show sampled rates with honest uncertainty, because that's the
-only claim that survives contact with how these systems actually behave.
+where you stand, how it changes, and which fixes have evidence behind them. Our
+reports show sampled rates, because that's the only claim we can stand behind.
 
 **Sample report strip** — 2–3 report screenshots, link to /sample-report.
 
@@ -114,18 +109,18 @@ This is where cold-email links land. Minimal nav, zero distractions.
 > ## What does AI say when customers ask about businesses like yours?
 >
 > Tell us who you are. We'll run real customer questions through ChatGPT, Google's
-> AI answers, and Perplexity, and email you a short report: whether you're
-> mentioned, who's named instead of you, and which sources are shaping the answer.
-> Free, no call required.
+> AI answers, and Perplexity, then email you a short report: whether you're
+> mentioned, who's named instead, and which sources shaped the answer. Free, no
+> call required.
 
 **Form fields:** Business name · Website · City / service area · What do you do?
 (short free text) · Email. One button: **Run my free check**.
 
-**Under the form ("What you'll get"):** verbatim excerpts of what the AI engines
-said · the competitors named instead of you, by name · the sources the AI cited ·
-whether AI bots can even read your website.
+**Under the form ("What you'll get"):** what the AI engines said, word for word ·
+the competitors named instead of you · the sources the AI cited · whether AI bots
+can even read your website.
 
-**Confirmation state:** "Got it — we're running your check. Your report will land
+**Confirmation state:** "Got it. We're running your check. Your report will land
 in your inbox within 1–2 business days." (Buys time for the teaser pipeline +
 manual review; captures the email regardless.)
 
@@ -182,11 +177,11 @@ Three tiers, ascending commitment:
 1. **Free Visibility Check — $0.** The short report. Where you stand on the big
    three engines, who's named instead of you. *[Get started]*
 2. **Full AI Visibility Audit — [$X] one-time.** Full query set across all
-   engines, sampled runs, judged answers, accuracy findings, site + off-site
-   audit, prioritized roadmap. Delivered as a report + a walkthrough call.
-3. **Ongoing Measurement — [$X]/mo.** We re-run your audit on a cadence and show
-   what changed: before/after mention rates, new competitors, new sources.
-   Because AI answers move — the point is the trend line.
+   engines, sampled runs, judged answers, accuracy findings, and a site and
+   off-site audit. You get a report and a walkthrough call.
+3. **Ongoing Measurement — [$X]/mo.** We re-run your audit on a schedule and show
+   what changed: mention rates, new competitors, new sources. AI answers move, so
+   the trend line is the point.
 
 FAQ under pricing: "Do you do the fixes too?" (answer per your current service
 scope) · "How long until AI answers change?" (honest: weeks-to-months, and we
@@ -316,6 +311,15 @@ call bookings) so you know where the funnel leaks.
   was left unchanged** — the prototype carries some reworded headlines (e.g.
   "When AI recommends a business…") that were NOT adopted, since copy changes
   need Josh's sign-off. If any of that wording is wanted, change it here first.
+- Copy voice (settled 2026-07-25, Josh): **plain-language pass across every page.**
+  Three standing rules, applied site-wide and binding on new copy: (1) **no em
+  dashes anywhere in visible copy** — use a period, comma, colon, or `·`; en
+  dashes stay for ranges ("1–2 business days", "Cat 1–6"). Metadata titles use
+  `Page: subtitle`, and the layout title template is `%s · [Brand]`. (2) Sentences
+  stay short; two clauses max, and prefer two sentences to one long one. (3) Cut
+  filler intensifiers ("actually", "exactly", "properly" outside the locked H2,
+  "real X, real Y, real Z" triads) and hedges. Section bodies are still ≤2
+  sentences per the claim-and-artifact rule; the copy above reflects the pass.
 
 **Still open:**
 

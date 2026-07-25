@@ -5,9 +5,9 @@ import { person } from "@/lib/schema";
 import { FOUNDERS, NAP } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "About — two founders measuring, not guessing",
+  title: "About: two founders measuring, not guessing",
   description:
-    "Abhi built the measurement platform; Josh works directly with every client. Berkeley, CA. Real names, real methodology, no guarantees sold.",
+    "Abhi built the measurement platform. Josh works with every client. Berkeley, CA. Real names, real methodology, no guarantees sold.",
 };
 
 export default function About() {
@@ -23,8 +23,8 @@ export default function About() {
         </h1>
         <p className="mt-5 text-base leading-7 text-ink-soft">
           We&rsquo;re based in {NAP.city}, {NAP.region}. One of us builds the
-          measurement platform; the other sits with every client who uses it.
-          The company exists because &ldquo;how visible am I in AI answers?&rdquo;
+          measurement platform, the other sits with every client who uses it.
+          We started this because &ldquo;how visible am I in AI answers?&rdquo;
           deserves a measured answer, not a sales pitch.
         </p>
 

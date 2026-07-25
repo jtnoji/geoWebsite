@@ -69,6 +69,12 @@ funnel.spec.ts, visual.spec.ts) · `public/`.
   never point-in-time ranks; every statistic carries a named source; no
   llms.txt (we'd flag it as theater in a client audit). New marketing copy
   follows website-plan.md or gets Josh's sign-off first.
+- **Voice: plain and short (locked 2026-07-25, website-plan §6).** No em dashes
+  in any visible copy, including metadata titles and card headers — use a
+  period, comma, colon, or `·`. En dashes stay for ranges ("1–2 business days",
+  "Cat 1–6"). Two clauses per sentence max; prefer two sentences to one long
+  one. No filler intensifiers ("actually", "exactly") or "real X, real Y, real
+  Z" triads. `npm run build && grep -r "—" out/` must return nothing.
 - **Every stat lives in `lib/stats.ts`** with text + source + URL. No unsourced
   numbers anywhere on the site.
 - **Forms:** `/free-check` submissions go to the manual-queue backend (Supabase

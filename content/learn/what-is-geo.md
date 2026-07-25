@@ -9,11 +9,11 @@ GEO, short for Generative Engine Optimization, is the practice of measuring and 
 
 ## How is GEO different from SEO?
 
-SEO competes for position on a results page with ten or more slots. GEO competes for a mention inside a generated paragraph that usually names two or three options. The compression is real and measured: a [Sterling Sky and Places Scout study](https://www.sterlingsky.ca/) across 322 markets counted 5,943 unique businesses in AI local answers against 18,330 in traditional map packs, roughly three times fewer winners. Adoption keeps climbing too. [BrightLocal's 2026 survey](https://www.brightlocal.com/research/lcrs-ai-trust/) found 45% of U.S. consumers used AI tools to find local businesses in the past year, up from 6% the year before. So the game is no longer "rank higher." It's "make the shortlist at all."
+SEO competes for position on a page with ten or more slots. GEO competes for a mention inside a paragraph that usually names two or three. The shortlist is measurably shorter: a [Sterling Sky and Places Scout study](https://www.sterlingsky.ca/) across 322 markets counted 5,943 unique businesses in AI local answers against 18,330 in traditional map packs, roughly three times fewer winners. And more people are asking. [BrightLocal's 2026 survey](https://www.brightlocal.com/research/lcrs-ai-trust/) found 45% of U.S. consumers used AI tools to find local businesses last year, up from 6% the year before. The game is no longer "rank higher." It's "make the shortlist at all."
 
-## What actually influences AI answers?
+## What influences AI answers?
 
-A mix of what the models learned in training and what they retrieve live: review sites, directories, press, and your own website. In our audits, three things come up over and over. Can AI crawlers read your site at all? Do the sources the engines cite in your category know you exist? And does anything you've published answer the questions customers actually ask? None of this is exotic. Most of it is measurable.
+A mix of what the models learned in training and what they retrieve live: review sites, directories, press, and your own website. Three things come up in almost every audit we run. Can AI crawlers read your site? Do the sources the engines cite in your category know you exist? Does anything you've published answer the questions customers ask? None of it is exotic, and all of it is measurable.
 
 ## Can GEO be measured?
 

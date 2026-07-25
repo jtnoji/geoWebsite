@@ -5,21 +5,21 @@ import { MentionRateCard, SourcesCard, VerbatimCard } from "@/components/ReportP
 export const metadata: Metadata = {
   title: "Sample AI Visibility Report",
   description:
-    "What our report looks like: verbatim AI answers, the competitors named instead, mention-rate tables, cited sources, and the prioritized fix list.",
+    "What the report looks like: verbatim AI answers, the competitors named instead, mention-rate tables, cited sources, and the prioritized fix list.",
 };
 
 const FIX_LIST = [
   {
     fix: "Unblock AI crawlers at the firewall",
-    why: "GPTBot and PerplexityBot were receiving challenge pages — the site is invisible to the engines being measured.",
+    why: "GPTBot and PerplexityBot were getting challenge pages, so the site is invisible to the engines we measure.",
   },
   {
-    fix: "Get listed on the 4 missing directories AI actually cites",
+    fix: "Get listed on the 4 missing directories AI cites",
     why: "The engines cited the same 6 sources across runs; the client appears on 2 of them.",
   },
   {
     fix: "Publish answer-first service pages for the 3 losing queries",
-    why: "Competitors' pages were quoted verbatim in answers; the client had no page addressing those questions.",
+    why: "Competitors' pages were quoted verbatim in the answers. The client had no page on those questions.",
   },
 ] as const;
 
@@ -40,11 +40,10 @@ export default function SampleReport() {
             This is what you actually get.
           </h1>
           <p className="mt-5 text-base leading-7 text-ink-soft">
-            Below is an illustrative teaser for a fictional B2B marketing
-            agency — in exactly the format a client receives it, with margin
-            notes on how to read each section. The numbers are modeled on real
-            audit runs; we&rsquo;ll publish a real anonymized client report
-            here as soon as one is cleared for it. No theater, even in the demo.
+            Below is a teaser for a fictional B2B marketing agency, in the exact
+            format a client gets, with notes on how to read each section. The
+            numbers are modeled on real audit runs. We&rsquo;ll publish a real
+            anonymized client report here as soon as one is cleared.
           </p>
         </div>
 
@@ -52,27 +51,26 @@ export default function SampleReport() {
           <section className="grid items-start gap-6 md:grid-cols-[2fr_1fr]">
             <VerbatimCard />
             <Annotation>
-              Every report opens with verbatim AI answers. The bold names mark
-              who WAS named — the client&rsquo;s absence is the finding.
+              Every report opens with verbatim AI answers. The bold names are
+              who got mentioned. The client&rsquo;s absence is the finding.
             </Annotation>
           </section>
 
           <section className="grid items-start gap-6 md:grid-cols-[2fr_1fr]">
             <MentionRateCard />
             <Annotation>
-              Rates, not ranks: each question runs multiple times per engine,
-              because a single fetch is a coin flip. &ldquo;Mentioned in 2 of 10
-              runs on ChatGPT, 0 of 10 on Google AI&rdquo; is a measurement you
-              can re-run next month and compare.
+              Rates, not ranks. Each question runs ten times per engine, because
+              a single fetch is a coin flip. &ldquo;2 of 10 runs on ChatGPT, 0
+              of 10 on Google AI&rdquo; is something you can re-run next month
+              and compare.
             </Annotation>
           </section>
 
           <section className="grid items-start gap-6 md:grid-cols-[2fr_1fr]">
             <SourcesCard />
             <Annotation>
-              The cited-sources checklist: which websites the engines leaned on
-              when deciding, and whether you exist on them — what&rsquo;s
-              blocked, what&rsquo;s thin, what&rsquo;s fine.
+              The cited-sources checklist: which websites the engines leaned on,
+              and whether you exist on them.
             </Annotation>
           </section>
 
@@ -81,8 +79,8 @@ export default function SampleReport() {
               The prioritized fix list
             </h2>
             <p className="mt-3 max-w-[560px] text-base leading-7 text-ink-soft">
-              The full audit closes with fixes ordered by what actually moves AI
-              answers — each tied to a finding in the data, never generic advice.
+              The full audit closes with fixes ordered by what moves AI answers.
+              Each one ties back to a finding in the data.
             </p>
             <ol className="mt-7 max-w-3xl">
               {FIX_LIST.map((item, i) => (
@@ -104,7 +102,7 @@ export default function SampleReport() {
         </div>
       </div>
 
-      <Cta heading="Want yours?" sub="Free visibility check — takes one minute, report in your inbox within 1–2 business days." />
+      <Cta heading="Want yours?" sub="The free check takes one minute. Report in your inbox within 1–2 business days." />
     </>
   );
 }

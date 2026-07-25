@@ -8,8 +8,8 @@ export const metadata: Metadata = {
 };
 
 const DELIVERABLES = [
-  "Verbatim excerpts of what the AI engines said",
-  "The competitors named instead of you, by name",
+  "What the AI engines said, word for word",
+  "The competitors named instead of you",
   "The sources the AI cited",
   "Whether AI bots can even read your website",
 ] as const;
@@ -27,9 +27,9 @@ export default function FreeCheck() {
       </h1>
       <p className="mt-5 text-base leading-7 text-ink-soft">
         Tell us who you are. We&rsquo;ll run real customer questions through
-        ChatGPT, Google&rsquo;s AI answers, and Perplexity, and email you a short
-        report: whether you&rsquo;re mentioned, who&rsquo;s named instead of
-        you, and which sources are shaping the answer. Free, no call required.
+        ChatGPT, Google&rsquo;s AI answers, and Perplexity, then email you a
+        short report: whether you&rsquo;re mentioned, who&rsquo;s named
+        instead, and which sources shaped the answer. Free, no call required.
       </p>
 
       <div className="mt-10">
