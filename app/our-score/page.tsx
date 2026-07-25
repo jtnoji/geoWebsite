@@ -57,11 +57,11 @@ const RESULTS = [
 export default function OurScore() {
   return (
     <>
-      <div className="mx-auto max-w-[1120px] px-5 py-16 sm:px-8 md:py-20">
-        <h1 className="max-w-2xl text-4xl font-bold tracking-tight text-ink">
+      <div className="mx-auto max-w-[1120px] px-5 py-16 text-center sm:px-8 md:py-20">
+        <h1 className="mx-auto max-w-2xl text-4xl font-bold tracking-tight text-ink">
           We ran our own audit on this website. Here&rsquo;s the report.
         </h1>
-        <p className="mt-5 max-w-2xl text-base leading-7 text-ink-soft">
+        <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-ink-soft">
           A company selling AI visibility audits should pass its own. Below are
           the Cat 1–6 results for this site: same rubric, same checks, published
           and dated. Mention-rate tracking for {BRAND}{" "}queries starts at
@@ -103,6 +103,7 @@ export default function OurScore() {
       </div>
 
       <Cta
+        centered
         heading="This is the exact report you'd get."
         sub="See where your own site stands. Free, in your inbox within 1–2 business days."
       />
