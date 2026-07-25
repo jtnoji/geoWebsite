@@ -8,7 +8,12 @@ import StatTile from "@/components/StatTile";
 import StepList from "@/components/StepList";
 import { HOME_STATS } from "@/lib/stats";
 import { BRAND } from "@/lib/site";
-import { SAMPLE_CALLOUT, SAMPLE_LABEL, SAMPLE_ROWS } from "@/lib/sample";
+import {
+  SAMPLE_CALLOUT,
+  SAMPLE_COMPETITORS,
+  SAMPLE_LABEL,
+  SAMPLE_ROWS,
+} from "@/lib/sample";
 
 export const metadata: Metadata = {
   title: { absolute: `${BRAND}: does AI recommend your business?` },
@@ -150,9 +155,9 @@ export default function Home() {
               </div>
               <p className="px-6 pb-1.5 pt-[22px] text-base leading-[1.65] text-ink-soft">
                 For a seed-stage B2B startup, I&rsquo;d look at{" "}
-                <b className="font-semibold text-ink">Saltgrass Digital</b>,{" "}
-                <b className="font-semibold text-ink">Fathom &amp; Reed</b>, or{" "}
-                <b className="font-semibold text-ink">Pinelock Marketing</b>. All
+                <b className="font-semibold text-ink">{SAMPLE_COMPETITORS[0]}</b>,{" "}
+                <b className="font-semibold text-ink">{SAMPLE_COMPETITORS[1]}</b>, or{" "}
+                <b className="font-semibold text-ink">{SAMPLE_COMPETITORS[2]}</b>. All
                 three have strong track records with early-stage B2B
                 companies&hellip;
               </p>

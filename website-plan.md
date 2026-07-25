@@ -321,6 +321,26 @@ call bookings) so you know where the funnel leaks.
   "real X, real Y, real Z" triads) and hedges. Section bodies are still ≤2
   sentences per the claim-and-artifact rule; the copy above reflects the pass.
 
+**Security launch checklist (added 2026-07-25) — must clear before go-live:**
+
+- [ ] **Run `scripts/harden-leads-rls.sql`** in the Supabase SQL editor. The
+      shipped policy is `with check (true)` with unbounded `text` columns, so
+      anyone holding the (public by design) publishable key can POST rows of
+      any size straight past the form and its honeypot. Verified still safe
+      today: anon SELECT and DELETE both return 401.
+- [ ] **Swap `EMAIL` in lib/site.ts** — `/security.txt` publishes it as the
+      disclosure contact, and it is still `hello@example.com`.
+- [ ] **SPF, DKIM and DMARC** on the sending domain before the first teaser
+      email. Report delivery is the product; unauthenticated mail lands in
+      spam and the domain gets burned for outbound.
+- [ ] **DNS CAA record** once the domain is bought, so only the intended CA
+      can issue for it.
+- [ ] **HSTS preload**: the header ships `preload`, but the domain is only
+      actually preloaded after submitting it at hstspreload.org. Do that only
+      once the apex + subdomains are definitely HTTPS-only.
+- [ ] Re-run `npm audit` at launch. As of 2026-07-25 the 9 remaining highs are
+      all in the eslint dev chain and ship in nothing.
+
 **Still open:**
 
 - Brand name + domain (blocks: logo, NAP, schema, sending-domain setup from the

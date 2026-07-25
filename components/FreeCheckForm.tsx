@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { SAMPLE_CLIENT } from "@/lib/sample";
 import { FORM_ENDPOINT, SUPABASE_PUBLISHABLE_KEY } from "@/lib/site";
 
 /**
@@ -19,7 +20,7 @@ import { FORM_ENDPOINT, SUPABASE_PUBLISHABLE_KEY } from "@/lib/site";
  */
 
 const FIELDS = [
-  { name: "business", label: "Business name", type: "text", placeholder: "Bluequarry Growth" },
+  { name: "business", label: "Business name", type: "text", placeholder: SAMPLE_CLIENT },
   { name: "website", label: "Website", type: "url", placeholder: "https://bluequarrygrowth.com" },
   { name: "area", label: "City / service area", type: "text", placeholder: "Berkeley, CA" },
 ] as const;

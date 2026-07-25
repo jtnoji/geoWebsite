@@ -21,10 +21,13 @@ direction — kept for copy/structure reference only; don't style from them.
 
 ```bash
 npm run dev              # local dev
-npm run build            # static export → out/  — must stay warning-free
-npx playwright test      # geo + funnel + visual suites — gate for every change
+npm run build            # static export → out/ + harden-export.mjs — warning-free
+npx playwright test      # geo + funnel + visual + security — gate for every change
 npm run lint             # eslint
 ```
+
+`npm run build` runs `scripts/harden-export.mjs` after `next build`; `out/` is
+not deployable without it (no meta CSP, no /.well-known/security.txt).
 
 Gate for every change: `npm run build && npx playwright test && npm run lint`.
 A failing geo spec blocks merge/deploy — a GEO-audit company cannot ship a site
@@ -81,6 +84,22 @@ funnel.spec.ts, visual.spec.ts) · `public/`.
   insert-only `leads` table — see scaffold.md §6). No auto-triggering of the
   teaser pipeline, no client-side secrets; the anon key + RLS insert-only
   policy is the only browser-facing credential.
+- **Security headers live in `vercel.json` — nowhere else.** `next.config.ts`
+  `headers()` is inert under `output: 'export'` (Next lists Headers as an
+  unsupported feature), so the CDN config is the only header layer. Every
+  header there is browser-side and **none of them gate a crawler** — that is
+  what keeps Cat 1 green, and `tests/security.spec.ts` re-checks bot fetches
+  after every change.
+- **The CSP is two layers, on purpose.** `vercel.json` carries the header
+  policy (it reaches non-HTML responses and is the only place
+  `frame-ancestors` works). `scripts/harden-export.mjs` then adds a stricter
+  `<meta>` policy per page, listing sha256 hashes of that page's inline
+  scripts instead of `'unsafe-inline'` — Next inlines ~16 hydration scripts per
+  page and a static export has no request cycle in which to mint a nonce.
+  Browsers enforce every policy they are given, so the intersection is
+  hash-only. The meta policy is DERIVED from `vercel.json`; never write it out
+  twice. **Adding any third-party script or fetch destination means editing
+  `connect-src`/`script-src` in `vercel.json` first, or it silently fails.**
 - **No new dependencies without need.** This is a static marketing site: no UI
   kits, no animation libraries, no analytics beyond the one chosen lightweight
   option. If a feature seems to need a heavy dependency, it's probably the

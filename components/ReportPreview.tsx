@@ -1,6 +1,11 @@
 import ArtifactCard from "./ArtifactCard";
 import SamplingCard from "./SamplingCard";
-import { SAMPLE_LABEL, SAMPLE_QUERY, SAMPLE_ROWS } from "@/lib/sample";
+import {
+  SAMPLE_COMPETITORS,
+  SAMPLE_LABEL,
+  SAMPLE_QUERY,
+  SAMPLE_ROWS,
+} from "@/lib/sample";
 
 /**
  * Report panels in the locked system: ArtifactCards (black mono header bars)
@@ -36,8 +41,8 @@ function VerbatimCard() {
     >
       <p className="px-4 py-4 text-sm leading-6 text-ink-soft">
         &ldquo;For a seed-stage B2B startup, well-regarded agencies include{" "}
-        <b className="font-bold text-ink">Saltgrass Digital</b> and{" "}
-        <b className="font-bold text-ink">Fathom &amp; Reed</b>&hellip;&rdquo;
+        <b className="font-bold text-ink">{SAMPLE_COMPETITORS[0]}</b> and{" "}
+        <b className="font-bold text-ink">{SAMPLE_COMPETITORS[1]}</b>&hellip;&rdquo;
       </p>
       <p className="mx-4 mb-4 border-l-2 border-gold bg-gold-soft px-3 py-2 font-mono text-[13px] font-semibold text-bad">
         The client was not mentioned.
@@ -67,16 +72,6 @@ function SourcesCard() {
         ))}
       </ul>
     </ArtifactCard>
-  );
-}
-
-export default function ReportPreview() {
-  return (
-    <div className="grid gap-4 md:grid-cols-3">
-      <MentionRateCard />
-      <VerbatimCard />
-      <SourcesCard />
-    </div>
   );
 }
 

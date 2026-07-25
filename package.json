@@ -4,17 +4,22 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && node scripts/harden-export.mjs",
     "start": "next start",
     "lint": "eslint",
     "test": "playwright test"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
-    "marked": "^18.0.6",
-    "next": "16.2.10",
-    "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "marked": "^18.0.7",
+    "next": "^16.2.11",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "overrides": {
+    "postcss": "^8.5.23",
+    "sharp": "^0.35.3",
+    "brace-expansion": "^2.0.2"
   },
   "devDependencies": {
     "@playwright/test": "^1.61.1",
@@ -23,7 +28,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.2.10",
+    "eslint-config-next": "^16.2.11",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
