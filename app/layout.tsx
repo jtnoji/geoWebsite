@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -58,6 +59,24 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <Footer />
         <BottomBar />
+        {/* Vercel Web Analytics. Cookieless and first-party: the script and the
+            beacon both live under /_vercel/insights on our own origin, so the
+            CSP's `script-src 'self'` and `connect-src 'self'` already cover it
+            and no directive changes.
+
+            It measures HUMANS ONLY. It is a JS beacon, and AI crawlers do not
+            execute JavaScript (Vercel + MERJ, 500M GPTBot fetches, zero JS
+            executions — cited in content/learn/is-your-website-invisible-to-ai-crawlers.md).
+            So this answers "did visitors convert", never "is GPTBot fetching
+            us". That second question needs request logs, not a beacon.
+
+            Gated on VERCEL, which only Vercel's builder sets. /_vercel/insights
+            exists solely on Vercel's edge, so in a local build the script 404s
+            on every page load: it took the Playwright suite from 44s to 11
+            minutes of waiting on a request that can never succeed, and a gate
+            that slow is a gate people stop running. Production is unaffected;
+            the branch resolves at build time, so nothing ships to decide it. */}
+        {process.env.VERCEL ? <Analytics /> : null}
       </body>
     </html>
   );

@@ -147,7 +147,18 @@ funnel.spec.ts, visual.spec.ts) · `public/`.
   `npm run build` on purpose: Vercel's build image has no guaranteed Python,
   and `next/og` `ImageResponse` cannot be used here at all (it needs a
   request-time runtime and fails the static export).
-- **`.npmrc` sets `ignore-scripts=true`.** Install hooks are how essentially
+- **Analytics is `process.env.VERCEL`-gated, and `/privacy` must track it.**
+  `<Analytics />` in `app/layout.tsx` renders only on Vercel's builder.
+  `/_vercel/insights` exists only on Vercel's edge, so an ungated local build
+  404s on every page load and took the suite from 44s to 11 minutes. It counts
+  HUMANS ONLY: a JS beacon cannot see AI crawlers, which never execute
+  JavaScript, so it can never answer "is GPTBot fetching us" — that needs
+  request logs. **`/privacy` states exactly what is collected; any change to
+  analytics changes that page in the same commit.**
+- **`.npmrc` sets `ignore-scripts=true`.** Note `min-release-age` makes
+  `npm install <new-pkg>` fail with `ENOVERSIONS` for some packages; `npm ci`
+  (what Vercel runs) is unaffected. Add new deps with
+  `npm install <pkg> --min-release-age=0` after checking the release date. Install hooks are how essentially
   every recent npm worm executed, and this build needs none (verified: `npm ci
   && npm run build` passes with it set). Don't remove it to make a dependency
   install; use `npm rebuild <pkg>` for that one package.

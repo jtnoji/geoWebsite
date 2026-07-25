@@ -54,12 +54,12 @@ const POLICY: Faq[] = [
   {
     question: "Does this site use cookies or trackers?",
     answer:
-      "No. This site sets no cookies, runs no analytics, and loads no third-party scripts. Fonts are served from our own domain rather than a font CDN, so nothing about your visit reaches anyone else.",
+      "No cookies, and nothing that follows you from site to site. We count page views with Vercel Web Analytics, which stores no identifier on your device and builds no profile of you. Its script and our fonts are both served from our own domain, so loading a page contacts nobody else.",
   },
   {
     question: "Who else can see my details?",
     answer:
-      "Two companies, both acting as our infrastructure: Vercel hosts the site, and Supabase stores the submission. We do not sell your details, share them with advertisers, or add you to a marketing list.",
+      "Two companies, both acting as our infrastructure: Vercel hosts the site and counts page views, and Supabase stores your submission. We do not sell your details, share them with advertisers, or add you to a marketing list.",
   },
   {
     question: "How long do you keep it?",
