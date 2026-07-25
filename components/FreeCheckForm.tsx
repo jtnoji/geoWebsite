@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Link from "next/link";
 import { SAMPLE_CLIENT } from "@/lib/sample";
 import { FORM_ENDPOINT, SUPABASE_PUBLISHABLE_KEY } from "@/lib/site";
 
@@ -119,8 +120,8 @@ export default function FreeCheckForm() {
               Want Josh to walk you through the report? (optional)
             </label>
             <p className="mt-1 text-xs leading-5 text-ink-faint">
-              Leave a number and he&rsquo;ll call when it&rsquo;s ready. No
-              sales calls otherwise.
+              Leave a number and he&rsquo;ll call once, when it&rsquo;s ready.
+              No texts, no dialler, no sales calls otherwise.
             </p>
             <div className="mt-2 flex gap-2">
               <input
@@ -210,6 +211,17 @@ export default function FreeCheckForm() {
       >
         {status === "submitting" ? "Submitting…" : "Run my free check"}
       </button>
+
+      {/* Notice at the point of collection. Kept to one sentence so it informs
+          without reading as a legal wall; /privacy carries the detail. */}
+      <p className="text-xs leading-5 text-ink-faint">
+        We use these details only to run your check and email the report. No
+        marketing list, no cookies, nothing sold.{" "}
+        <Link href="/privacy/" className="font-semibold text-ink-soft hover:text-accent">
+          How we handle your data
+        </Link>
+        .
+      </p>
 
       {status === "error" && (
         <p role="alert" className="text-sm font-medium text-bad">

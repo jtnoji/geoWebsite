@@ -112,6 +112,16 @@ export const PAGES: PageSpec[] = [
     ],
     schemaTypes: [],
   },
+  {
+    path: "/privacy/",
+    mustContain: [
+      "What does the free check collect?",
+      "Does this site use cookies or trackers?",
+      "How do I get my data deleted?",
+    ],
+    // No FAQPage here on purpose: these are a legal notice, not the site's FAQs.
+    schemaTypes: [],
+  },
 ];
 
 export const AI_USER_AGENTS = [

@@ -69,6 +69,7 @@ export const ALL_PAGES = [
   { href: "/about/", label: "About" },
   { href: "/contact/", label: "Contact" },
   { href: "/our-score/", label: "Our score" },
+  { href: "/privacy/", label: "Privacy" },
 ] as const;
 
 /**
