@@ -60,9 +60,19 @@ create policy "anon can insert leads"
     and audit_run_id is null
   );
 
--- 4. Anon keeps INSERT and nothing else, even if a policy is edited later.
+-- 4. Anon keeps INSERT and nothing else, even if a policy is edited later, and
+--    the INSERT is COLUMN-SCOPED to the fields the form actually posts.
+--
+--    Verified 2026-07-25 against the live project: without this, a plain
+--    `grant insert on public.leads` let an anonymous caller POST
+--    status='disqualified', notes, teaser_url, audit_run_id and sent_at and
+--    get HTTP 201. Those are queue-management columns that staff read as
+--    trusted, so a forged row can plant an attacker URL where Josh expects a
+--    generated report link. The policy in §3 blocks this too; the grant is the
+--    belt to that braces, because a grant cannot be bypassed by a policy edit.
 revoke all on public.leads from anon;
-grant insert on public.leads to anon;
+grant insert (business, website, area, description, email, phone, source, referrer)
+  on public.leads to anon;
 
 -- 5. Cheap flood brake: one row per email per minute. A scripted flood has to
 --    mint a fresh address for every insert instead of hammering one endpoint.

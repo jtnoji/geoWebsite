@@ -37,6 +37,51 @@ const META_INVALID = new Set(["frame-ancestors", "report-uri", "report-to", "san
 /** Every inline <script> (any type, including ld+json — CSP governs those too). */
 const INLINE_SCRIPT = /<script(?![^>]*\ssrc=)([^>]*)>([\s\S]*?)<\/script>/g;
 
+/**
+ * Shapes of inline script this build is allowed to emit. Anything else fails
+ * the build instead of being hashed.
+ *
+ * WHY THIS IS FAIL-CLOSED: without it, this script hashes whatever inline
+ * scripts it finds and writes them into the allowlist — so a <script> planted
+ * upstream (e.g. through the markdown pipeline) would be inspected, hashed,
+ * and granted a CSP exemption by the very control meant to stop it. Hashing
+ * only works if the input set is vetted, so the input set is pinned here.
+ */
+const ALLOWED_INLINE = [
+  // Next.js flight payload + runtime bootstrap.
+  /^\(self\.__next_f\s*=\s*self\.__next_f\s*\|\|\s*\[\]\)/,
+  /^self\.__next_f\.push\(/,
+  // The scroll-reveal failsafe in app/layout.tsx (the one hand-written inline
+  // script on the site). Pinned by its opening statement.
+  /^\(function\(\)\{var d=document\.documentElement;d\.classList\.add\('js-reveal'\)/,
+];
+
+/** ld+json is data, not code — but it must be parseable and must not break out. */
+function checkJsonLd(body, page) {
+  if (body.includes("<")) {
+    throw new Error(
+      `${page}: JSON-LD contains a raw "<" — components/JsonLd.tsx must escape it as \\u003c`
+    );
+  }
+  try {
+    JSON.parse(body);
+  } catch (err) {
+    throw new Error(`${page}: JSON-LD does not parse (${err.message})`);
+  }
+}
+
+function assertVetted(attrs, body, page) {
+  if (/application\/ld\+json/.test(attrs)) return checkJsonLd(body, page);
+  if (ALLOWED_INLINE.some((re) => re.test(body.trim()))) return;
+  throw new Error(
+    `${page}: unrecognised inline <script> — refusing to add it to the CSP allowlist.\n` +
+      `  attrs: ${attrs.trim() || "(none)"}\n` +
+      `  starts: ${body.trim().slice(0, 120)}\n` +
+      `  If this is a legitimate new build output, add its shape to ALLOWED_INLINE ` +
+      `in scripts/harden-export.mjs. If you did not expect it, treat it as an injection.`
+  );
+}
+
 function walk(dir, ext, found = []) {
   for (const entry of readdirSync(dir)) {
     const path = join(dir, entry);
@@ -79,9 +124,11 @@ for (const page of pages) {
 
   const hashes = [
     ...new Set(
-      [...html.matchAll(INLINE_SCRIPT)].map((m) =>
-        createHash("sha256").update(m[2], "utf8").digest("base64")
-      )
+      [...html.matchAll(INLINE_SCRIPT)].map((m) => {
+        // Vet BEFORE hashing: an unvetted script must never reach the allowlist.
+        assertVetted(m[1], m[2], page);
+        return createHash("sha256").update(m[2], "utf8").digest("base64");
+      })
     ),
   ];
   totalHashes += hashes.length;

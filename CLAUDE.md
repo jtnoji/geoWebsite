@@ -23,14 +23,16 @@ they were kept for; `git show 5ad0939:mockup/index.html` still has them.
 ```bash
 npm run dev              # local dev
 npm run build            # static export → out/ + harden-export.mjs — warning-free
-npx playwright test      # geo + funnel + visual + security — gate for every change
+npm test                 # geo + funnel + visual + security — gate for every change
 npm run lint             # eslint
 ```
 
 `npm run build` runs `scripts/harden-export.mjs` after `next build`; `out/` is
 not deployable without it (no meta CSP, no /.well-known/security.txt).
 
-Gate for every change: `npm run build && npx playwright test && npm run lint`.
+Gate for every change: `npm run build && npm test && npm run lint`.
+**Never `npx playwright test`** — `npx` resolves from the registry at run time,
+which defeats the lockfile. `npm test` uses the local binary.
 A failing geo spec blocks merge/deploy — a GEO-audit company cannot ship a site
 that fails its own audit.
 
@@ -101,6 +103,29 @@ funnel.spec.ts, visual.spec.ts) · `public/`.
   hash-only. The meta policy is DERIVED from `vercel.json`; never write it out
   twice. **Adding any third-party script or fetch destination means editing
   `connect-src`/`script-src` in `vercel.json` first, or it silently fails.**
+- **Markdown is untrusted input, not documentation.** `content/learn/*.md` is
+  production copy served to GPTBot, ClaudeBot, PerplexityBot and CCBot, and
+  anyone with commit access can edit it. `marked` does NOT sanitize: by default
+  it passes raw HTML straight through, so an off-screen `<div>` in an article
+  would be invisible in review and in the browser and fully readable by every
+  crawler we invite — the exact prompt injection we'd flag in a client audit.
+  The sanitising renderer in `lib/articles.ts` drops every raw-HTML token and
+  rejects non-http(s)/mailto/relative link targets. **Never swap it for a plain
+  `marked.parse`.** Gated by the hidden-text and raw-HTML tests in
+  `tests/geo.spec.ts`, which check the RAW response bytes — React deletes
+  injected nodes on hydration, so a DOM-based check is blind to this and
+  crawlers read the bytes anyway.
+- **`scripts/harden-export.mjs` is fail-closed.** It hashes inline scripts into
+  the CSP allowlist, so it must only ever hash *vetted* ones — otherwise a
+  planted `<script>` gets inspected, hashed, and granted an exemption by the
+  control meant to stop it. `ALLOWED_INLINE` pins the three shapes this build
+  legitimately emits (Next flight payload, Next bootstrap, the layout reveal
+  failsafe) plus `ld+json`. Anything else fails the build. If a Next upgrade
+  changes the shape, add it deliberately; never widen the pattern to "any".
+- **`.npmrc` sets `ignore-scripts=true`.** Install hooks are how essentially
+  every recent npm worm executed, and this build needs none (verified: `npm ci
+  && npm run build` passes with it set). Don't remove it to make a dependency
+  install; use `npm rebuild <pkg>` for that one package.
 - **No new dependencies without need.** This is a static marketing site: no UI
   kits, no animation libraries, no analytics beyond the one chosen lightweight
   option. If a feature seems to need a heavy dependency, it's probably the
@@ -165,8 +190,7 @@ anonymized client — swap in a real run via lib/sample.ts when one is cleared
 
 ## Process
 
-- Validation loop for every change: write → `npm run build` → `npx playwright
-  test` → screenshot review (visual.spec.ts emits 390/768/1440px full-page
+- Validation loop for every change: write → `npm run build` → `npm test` → screenshot review (visual.spec.ts emits 390/768/1440px full-page
   shots to `tests/screenshots/`) → commit.
 - Build order follows scaffold.md §7. Steps 1–5 have no open-item
   dependencies; `/sample-report`, `/learn` content, and the launch pass wait on
