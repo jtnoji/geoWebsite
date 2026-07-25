@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function Contact() {
   return (
-    <div className="mx-auto max-w-2xl px-5 py-16 sm:px-8 md:py-20">
+    <div className="mx-auto max-w-2xl px-5 py-16 text-center sm:px-8 md:py-20">
       <h1 className="text-4xl font-bold tracking-tight text-ink">Contact</h1>
       <p className="mt-5 text-base leading-7 text-ink-soft">
         The fastest route is a 20-minute call with Josh. No deck, just your
