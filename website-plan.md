@@ -334,7 +334,11 @@ call bookings) so you know where the funnel leaks.
 
 **Security launch checklist (added 2026-07-25) — must clear before go-live:**
 
-- [ ] **Run `scripts/harden-leads-rls.sql`** in the Supabase SQL editor. The
+- [ ] **Run `scripts/harden-leads-rls.sql`** in the Supabase SQL editor. Verify
+      with `node scripts/verify-leads-hardening.mjs` (exit 0 = hardened; it
+      creates no rows in either state). Confirmed STILL UNRUN on 2026-07-27:
+      the probe returns 23514 leads_status_check, not 42501, so anon can still
+      write status/notes/teaser_url/audit_run_id. The
       shipped policy is `with check (true)` with unbounded `text` columns, so
       anyone holding the (public by design) publishable key can POST rows of
       any size straight past the form and its honeypot. Verified still safe
