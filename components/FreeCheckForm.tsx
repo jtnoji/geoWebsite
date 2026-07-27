@@ -48,7 +48,9 @@ async function postLead(lead: Lead): Promise<void> {
 
 export default function FreeCheckForm() {
   const [status, setStatus] = useState<"idle" | "submitting" | "done" | "error">("idle");
-  const [phoneStatus, setPhoneStatus] = useState<"idle" | "sending" | "done">("idle");
+  const [phoneStatus, setPhoneStatus] = useState<
+    "idle" | "sending" | "done" | "error"
+  >("idle");
   const submitted = useRef<Lead | null>(null);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -88,14 +90,22 @@ export default function FreeCheckForm() {
     setPhoneStatus("sending");
     try {
       // RLS is insert-only, so the opt-in is a second row (same email) that
-      // the manual queue merges. notes marks it for Josh.
-      await postLead({
-        ...submitted.current,
-        phone,
-        notes: "phone follow-up opt-in (post-submit)",
-      });
+      // the manual queue merges. A non-null `phone` IS the marker: the first
+      // row never carries one.
+      //
+      // Deliberately does NOT set `notes`. That column is Josh's vetting field
+      // and staff read it as staff-authored, so harden-leads-rls.sql keeps it
+      // out of the anon grant. Sending it here would fail with 42501, and the
+      // catch below would swallow it — the opt-in would break silently and
+      // look like nobody wanted a call.
+      await postLead({ ...submitted.current, phone });
     } catch {
-      // Non-blocking: the lead itself already landed.
+      // Still non-blocking — the lead itself already landed — but say so.
+      // Silently showing "Josh will call" after a failed write promises a call
+      // nobody scheduled, and it is how a broken opt-in stays invisible: the
+      // symptom is Josh concluding that nobody wants one.
+      setPhoneStatus("error");
+      return;
     }
     setPhoneStatus("done");
   }
@@ -110,7 +120,12 @@ export default function FreeCheckForm() {
           Your report will land in your inbox within 1–2 business days.
         </p>
 
-        {phoneStatus === "done" ? (
+        {phoneStatus === "error" ? (
+          <p className="mt-6 text-sm leading-6 text-bad">
+            We couldn&rsquo;t save that number, so reply to your report if
+            you&rsquo;d like a call. Your check is running either way.
+          </p>
+        ) : phoneStatus === "done" ? (
           <p className="mt-6 text-sm leading-6 text-ink-soft">
             Noted. Josh will call once your report is ready.
           </p>

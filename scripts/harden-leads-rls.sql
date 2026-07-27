@@ -58,6 +58,10 @@ create policy "anon can insert leads"
     and sent_at is null
     and teaser_url is null
     and audit_run_id is null
+    -- `notes` is Josh's vetting field. Staff read it as authored by staff, so
+    -- an anon-writable `notes` is a direct route to putting attacker text in
+    -- front of the person triaging the queue.
+    and notes is null
   );
 
 -- 4. Anon keeps INSERT and nothing else, even if a policy is edited later, and
@@ -74,11 +78,23 @@ revoke all on public.leads from anon;
 grant insert (business, website, area, description, email, phone, source, referrer)
   on public.leads to anon;
 
--- 5. Cheap flood brake: one row per email per minute. A scripted flood has to
---    mint a fresh address for every insert instead of hammering one endpoint.
---    Not a substitute for a real rate limit (see the note below).
-create unique index if not exists leads_email_per_minute
-  on public.leads (email, date_trunc('minute', created_at));
+-- 5. REMOVED 2026-07-27. This was a unique index on (email, minute) as a flood
+--    brake. It was wrong twice over:
+--
+--    a) It does not run. `date_trunc('minute', timestamptz)` is STABLE, not
+--       IMMUTABLE, because the result depends on the session TimeZone, and
+--       Postgres refuses STABLE functions in an index expression:
+--         ERROR: 42P17 functions in index expression must be marked IMMUTABLE
+--
+--    b) Worse, had it run it would have silently broken the product. The
+--       post-submit phone opt-in in FreeCheckForm.tsx inserts a SECOND row with
+--       the SAME email, from the confirmation screen, so inside the same
+--       minute. That is a unique violation, and the client swallows the error
+--       ("Non-blocking: the lead itself already landed"). Josh would simply
+--       never receive phone numbers and would conclude nobody wanted a call.
+--
+--    It was also low value: a flood just varies the email address. Real rate
+--    limiting needs to see the IP, which is the note below.
 
 -- STILL OPEN (needs a decision, not SQL):
 -- PostgREST has no per-IP rate limit on the free plan. If the form gets
