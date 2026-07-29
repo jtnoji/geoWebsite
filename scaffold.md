@@ -246,8 +246,12 @@ fetching us") was the one thing the site could not see.
 3. `npm run build && npm test`.
 4. **Update `/privacy` in the same commit.** A Log Drain ships every request
    log, including human IPs, to a new destination. That is a new subprocessor
-   and a processing change, and `/privacy` currently names only Vercel and
-   Supabase. This is the same rule the analytics invariant states in CLAUDE.md.
+   and a processing change, which is the same rule the analytics invariant
+   states in CLAUDE.md. `/privacy` already carries a **"Do you keep server
+   logs?"** entry describing the logs Vercel keeps as host; it ends with a
+   promise that we will name any destination *before* forwarding starts. So
+   activation means naming the drain there and deleting that last sentence,
+   and doing it in the commit that enables the drain, not after.
 
 **The roster is single-source.** `AI_BOTS` lives in `lib/crawlers.ts` and
 `app/robots.ts` imports it. The list of bots we allow and the list we publish

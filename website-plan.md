@@ -372,6 +372,9 @@ call bookings) so you know where the funnel leaks.
   nothing, which is deliberate: invented crawler counts on the dogfood page
   would contradict the page. **Turning it on requires a `/privacy` edit in the
   same commit**, because a drain sends every request log to a new subprocessor.
+  `/privacy` now answers "Do you keep server logs?" and promises to name any
+  destination before forwarding begins, so activation means naming the drain
+  there and removing that promise.
 
 **Security launch checklist (added 2026-07-25) — must clear before go-live:**
 

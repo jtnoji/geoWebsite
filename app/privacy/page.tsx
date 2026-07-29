@@ -58,6 +58,16 @@ const POLICY: Faq[] = [
       "No cookies, and nothing that follows you from site to site. We count page views with Vercel Web Analytics, which stores no identifier on your device and builds no profile of you. Its script and our fonts are both served from our own domain, so loading a page contacts nobody else.",
   },
   {
+    // Accurate as of the crawler-log build (scaffold.md 6c): the panel on
+    // /our-score is dormant and no Log Drain exists, so nothing leaves Vercel.
+    // ENABLING A DRAIN CHANGES THIS ANSWER. It sends every request log to a new
+    // destination, which is a new subprocessor, so name it here in the same
+    // commit and drop the last sentence.
+    question: "Do you keep server logs?",
+    answer:
+      "Vercel records a standard request log when your browser asks for a page: your IP address, which page, and your browser's user agent. Every web server does this, and it is separate from the page-view count above. We do not forward those logs to anyone else, and we never use them to work out who you are. If that changes, for example to count which AI crawlers visit us, this page will name where they go before it happens.",
+  },
+  {
     question: "Who else can see my details?",
     answer:
       "Two companies, both acting as our infrastructure: Vercel hosts the site and counts page views, and Supabase stores your submission. We do not sell your details, share them with advertisers, or add you to a marketing list.",
