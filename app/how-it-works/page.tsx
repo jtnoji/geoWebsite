@@ -235,7 +235,7 @@ export default function HowItWorks() {
                   </span>
                 </div>
                 <div
-                  className={`mx-3.5 mt-auto min-h-[52px] px-2.5 py-2 font-mono text-[10.5px] leading-6 ${
+                  className={`mx-3.5 mt-auto min-h-[52px] px-2.5 py-2 text-center font-mono text-[10.5px] leading-6 ${
                     stage.hot ? "bg-gold-soft text-bad" : "bg-paper-dim text-ink-soft"
                   }`}
                 >
