@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { delay } from "@/lib/reveal";
 import { ALL_PAGES, OFFER_CTA } from "@/lib/site";
 
 /**
@@ -15,18 +16,20 @@ import { ALL_PAGES, OFFER_CTA } from "@/lib/site";
 export default function NotFound() {
   return (
     <div className="mx-auto max-w-2xl px-5 py-24 text-center sm:px-8 md:py-32">
-      <p className="font-mono text-xs font-semibold uppercase tracking-[0.08em] text-ink-faint">
-        404
-      </p>
-      <h1 className="mt-4 text-4xl font-bold leading-[1.1] tracking-tight text-ink">
-        That page isn&rsquo;t here.
-      </h1>
-      <p className="mx-auto mt-5 max-w-md text-base leading-7 text-ink-soft">
-        The link may be old, or we may have moved something. Everything on the
-        site is one click away below.
-      </p>
+      <div data-reveal>
+        <p className="font-mono text-xs font-semibold uppercase tracking-[0.08em] text-ink-faint">
+          404
+        </p>
+        <h1 className="mt-4 text-4xl font-bold leading-[1.1] tracking-tight text-ink">
+          That page isn&rsquo;t here.
+        </h1>
+        <p className="mx-auto mt-5 max-w-md text-base leading-7 text-ink-soft">
+          The link may be old, or we may have moved something. Everything on the
+          site is one click away below.
+        </p>
+      </div>
 
-      <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
+      <div data-reveal style={delay(110)} className="mt-9 flex flex-wrap items-center justify-center gap-4">
         <Link href="/free-check/" className="btn-pill px-[26px] py-[15px] text-[13.5px]">
           {OFFER_CTA} <span className="text-base">&#10230;</span>
         </Link>
@@ -35,7 +38,7 @@ export default function NotFound() {
         </Link>
       </div>
 
-      <nav aria-label="All pages" className="mt-16 border-t-2 border-ink pt-5">
+      <nav data-reveal style={delay(220)} aria-label="All pages" className="mt-16 border-t-2 border-ink pt-5">
         <h2 className="font-mono text-xs font-semibold uppercase tracking-[0.06em] text-ink-faint">
           Every page
         </h2>

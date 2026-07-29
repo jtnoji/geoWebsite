@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import FaqSection from "@/components/FaqSection";
+import { delay } from "@/lib/reveal";
 import { type Faq } from "@/lib/schema";
 import { BRAND, EMAIL, NAP } from "@/lib/site";
 
@@ -81,7 +82,7 @@ export default function Privacy() {
     <div className="mx-auto max-w-2xl px-5 py-16 sm:px-8 md:py-20">
       {/* Head centres; the policy Q&A below stays left-aligned so the answers
           read as body copy (CLAUDE.md "Alignment"). */}
-      <div className="text-center">
+      <div data-reveal className="text-center">
         <h1 className="text-4xl font-bold tracking-tight text-ink">Privacy</h1>
         <p className="mt-5 text-base leading-7 text-ink-soft">
           {BRAND} runs AI visibility checks from {NAP.city}, {NAP.region}. The
@@ -92,13 +93,13 @@ export default function Privacy() {
         <p className="mt-3 text-sm text-ink-faint">In effect since {EFFECTIVE}</p>
       </div>
 
-      <div className="mt-12">
+      <div data-reveal style={delay(110)} className="mt-12">
         {/* withSchema={false}: FAQPage markup on a legal page would claim these
             are the site's FAQs. The visible copy is the whole point here. */}
         <FaqSection faqs={POLICY} withSchema={false} />
       </div>
 
-      <div className="mt-12 border-t-2 border-ink pt-6">
+      <div data-reveal className="mt-12 border-t-2 border-ink pt-6">
         <h2 className="text-2xl font-bold tracking-tight text-ink">
           Questions, or a request?
         </h2>

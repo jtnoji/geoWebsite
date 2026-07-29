@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Cta from "@/components/Cta";
+import { delay } from "@/lib/reveal";
 import { MentionRateCard, SourcesCard, VerbatimCard } from "@/components/ReportPreview";
 
 export const metadata: Metadata = {
@@ -35,7 +36,7 @@ export default function SampleReport() {
   return (
     <>
       <div className="mx-auto max-w-[1120px] px-5 py-16 sm:px-8 md:py-20">
-        <div className="mx-auto max-w-[560px] text-center">
+        <div data-reveal className="mx-auto max-w-[560px] text-center">
           <h1 className="text-4xl font-bold tracking-tight text-ink">
             This is what you actually get.
           </h1>
@@ -48,7 +49,7 @@ export default function SampleReport() {
         </div>
 
         <div className="mt-12 space-y-12">
-          <section className="grid items-start gap-6 md:grid-cols-[2fr_1fr]">
+          <section data-reveal className="grid items-start gap-6 md:grid-cols-[2fr_1fr]">
             <VerbatimCard />
             <Annotation>
               Every report opens with verbatim AI answers. The bold names are
@@ -56,7 +57,7 @@ export default function SampleReport() {
             </Annotation>
           </section>
 
-          <section className="grid items-start gap-6 md:grid-cols-[2fr_1fr]">
+          <section data-reveal style={delay(110)} className="grid items-start gap-6 md:grid-cols-[2fr_1fr]">
             <MentionRateCard />
             <Annotation>
               Rates, not ranks. Each question runs ten times per engine, because
@@ -66,7 +67,7 @@ export default function SampleReport() {
             </Annotation>
           </section>
 
-          <section className="grid items-start gap-6 md:grid-cols-[2fr_1fr]">
+          <section data-reveal style={delay(220)} className="grid items-start gap-6 md:grid-cols-[2fr_1fr]">
             <SourcesCard />
             <Annotation>
               The cited-sources checklist: which websites the engines leaned on,
@@ -74,7 +75,7 @@ export default function SampleReport() {
             </Annotation>
           </section>
 
-          <section>
+          <section data-reveal>
             <h2 className="text-2xl font-bold tracking-tight text-ink">
               The prioritized fix list
             </h2>

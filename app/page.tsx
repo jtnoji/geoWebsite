@@ -1,4 +1,3 @@
-import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import Chip from "@/components/Chip";
@@ -6,6 +5,7 @@ import Cta from "@/components/Cta";
 import SamplingCard from "@/components/SamplingCard";
 import StatTile from "@/components/StatTile";
 import StepList from "@/components/StepList";
+import { delay } from "@/lib/reveal";
 import { HOME_STATS } from "@/lib/stats";
 import { BRAND, OFFER_CTA } from "@/lib/site";
 import {
@@ -64,9 +64,6 @@ const METRICS = [
     detail: <>The sites AI cites when it builds the answer.</>,
   },
 ] as const;
-
-/** Stagger a `[data-reveal]` element — see the scroll-reveal block in globals.css. */
-const delay = (ms: number) => ({ "--reveal-delay": `${ms}ms` }) as CSSProperties;
 
 export default function Home() {
   return (

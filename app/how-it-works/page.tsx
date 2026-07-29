@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import ArtifactCard from "@/components/ArtifactCard";
+import { delay } from "@/lib/reveal";
 import Chip from "@/components/Chip";
 import Cta from "@/components/Cta";
 import DataChips from "@/components/DataChips";
@@ -178,7 +179,7 @@ export default function HowItWorks() {
 
       {/* Head */}
       <section className="border-b border-line">
-        <div className="mx-auto max-w-[1120px] px-5 pb-[52px] pt-[72px] text-center sm:px-8">
+        <div data-reveal className="mx-auto max-w-[1120px] px-5 pb-[52px] pt-[72px] text-center sm:px-8">
           <Chip>Methodology · v2.1 · May 2026</Chip>
           <h1 className="mx-auto mb-4 mt-5 max-w-[720px] text-[40px] font-bold leading-[1.0] tracking-[-0.04em] text-ink md:text-[58px]">
             Measurement you can actually inspect.
@@ -204,7 +205,7 @@ export default function HowItWorks() {
       {/* Pipeline */}
       <section className="border-b border-line">
         <div className="mx-auto max-w-[1120px] px-5 py-14 sm:px-8">
-          <div className="mb-6 flex flex-wrap items-center gap-4">
+          <div data-reveal className="mb-6 flex flex-wrap items-center gap-4">
             <Chip>The pipeline</Chip>
             <h2 className="text-[22px] font-bold tracking-[-0.03em] text-ink">
               Five stages to the report, then the work
@@ -213,7 +214,9 @@ export default function HowItWorks() {
           {/* gap-px over a line-dark ground: one clean seam in every layout,
               which the old per-cell borders could not do once this wrapped to
               two rows. Same pattern as the §4 deliverables grid. */}
-          <div className="grid gap-px border border-line-dark bg-line-dark sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+          {/* One block: the gap-px seam is shared, so per-cell reveals would
+              tear it open as they fade. */}
+          <div data-reveal style={delay(120)} className="grid gap-px border border-line-dark bg-line-dark sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
             {PIPELINE.map((stage) => (
               <div
                 key={stage.n}
@@ -277,6 +280,7 @@ export default function HowItWorks() {
           {/* §1 */}
           <section
             id="s1"
+            data-reveal
             className="grid gap-6 border-b border-line py-12 pt-0 md:grid-cols-[5fr_6fr] md:gap-13"
           >
             <div>
@@ -308,6 +312,7 @@ export default function HowItWorks() {
           {/* §2 */}
           <section
             id="s2"
+            data-reveal
             className="grid gap-6 border-b border-line py-12 md:grid-cols-[5fr_6fr] md:gap-13"
           >
             <div>
@@ -336,6 +341,7 @@ export default function HowItWorks() {
           {/* §3 */}
           <section
             id="s3"
+            data-reveal
             className="grid gap-6 border-b border-line py-12 md:grid-cols-[5fr_6fr] md:gap-13"
           >
             <div>
@@ -377,6 +383,7 @@ export default function HowItWorks() {
           {/* §4 */}
           <section
             id="s4"
+            data-reveal
             className="grid gap-6 border-b border-line py-12 md:grid-cols-[5fr_6fr] md:gap-13"
           >
             <div>
@@ -401,7 +408,7 @@ export default function HowItWorks() {
           </section>
 
           {/* §5 — the honesty pull-quote; the chip here is the page's one red chip */}
-          <section id="s5" className="grid gap-6 py-12 pb-0 md:grid-cols-[5fr_6fr] md:gap-13">
+          <section id="s5" data-reveal className="grid gap-6 py-12 pb-0 md:grid-cols-[5fr_6fr] md:gap-13">
             <div>
               <Chip gold>{SECTIONS[4].chip}</Chip>
               <h2 className="mb-3 mt-3.5 max-w-[360px] text-[28px] font-bold leading-[1.1] tracking-[-0.035em] text-ink">

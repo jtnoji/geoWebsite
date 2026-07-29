@@ -3,6 +3,7 @@ import Link from "next/link";
 import Cta from "@/components/Cta";
 import FaqSection from "@/components/FaqSection";
 import JsonLd from "@/components/JsonLd";
+import { delay } from "@/lib/reveal";
 import { service, type Faq } from "@/lib/schema";
 import { OFFER_TITLE, PRICING } from "@/lib/site";
 
@@ -79,7 +80,7 @@ export default function Pricing() {
       />
 
       <div className="mx-auto max-w-[1120px] px-5 py-16 sm:px-8 md:py-20">
-        <div className="mx-auto max-w-[560px] text-center">
+        <div data-reveal className="mx-auto max-w-[560px] text-center">
           <h1 className="text-4xl font-bold tracking-tight text-ink">Pricing</h1>
           <p className="mt-5 text-base leading-7 text-ink-soft">
             Three tiers. Every one reports sampled rates with named sources.
@@ -87,7 +88,10 @@ export default function Pricing() {
           </p>
         </div>
 
-        <div className="mt-12 grid md:grid-cols-3">
+        {/* Revealed as one block: the tier cells share borders, so fading
+            them in individually would expose the seams (same reason the home
+            StepList reveals whole). */}
+        <div data-reveal style={delay(120)} className="mt-12 grid md:grid-cols-3">
           {TIERS.map((tier, i) => (
             <div
               key={tier.name}
@@ -121,7 +125,7 @@ export default function Pricing() {
           ))}
         </div>
 
-        <div className="mt-20 max-w-2xl">
+        <div data-reveal className="mt-20 max-w-2xl">
           <FaqSection faqs={FAQS} />
         </div>
       </div>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Cta from "@/components/Cta";
+import { delay } from "@/lib/reveal";
 import { BRAND } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -58,6 +59,7 @@ export default function OurScore() {
   return (
     <>
       <div className="mx-auto max-w-[1120px] px-5 py-16 text-center sm:px-8 md:py-20">
+        <div data-reveal>
         <h1 className="mx-auto max-w-2xl text-4xl font-bold tracking-tight text-ink">
           We ran our own audit on this website. Here&rsquo;s the report.
         </h1>
@@ -68,8 +70,11 @@ export default function OurScore() {
           launch and gets published here too.
         </p>
         <p className="mt-3 text-sm text-ink-faint">Last audit: {AUDIT_DATE}</p>
+        </div>
 
-        <div className="mt-10 overflow-x-auto">
+        {/* The table reveals whole. Row-by-row would ripple the shared
+            horizontal rules, and this is a data artifact, not marketing. */}
+        <div data-reveal style={delay(120)} className="mt-10 overflow-x-auto">
           <table className="w-full min-w-[640px] border-collapse text-left text-sm">
             <thead>
               <tr className="border-b-2 border-ink text-[12.5px] uppercase tracking-[0.07em] text-ink-faint">

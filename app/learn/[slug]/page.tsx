@@ -4,6 +4,7 @@ import Cta from "@/components/Cta";
 import JsonLd from "@/components/JsonLd";
 import { article } from "@/lib/schema";
 import { getArticleHtml, getArticleSlugs } from "@/lib/articles";
+import { delay } from "@/lib/reveal";
 
 export function generateStaticParams() {
   return getArticleSlugs().map((slug) => ({ slug }));
@@ -45,16 +46,28 @@ export default async function Article({
         >
           ← All articles
         </Link>
-        <h1 className="mt-4 text-4xl font-bold leading-[1.1] tracking-tight text-ink">
-          {meta.title}
-        </h1>
-        <p className="mt-3 text-sm text-ink-faint">
-          <time dateTime={meta.date}>{meta.date}</time>
-        </p>
-        <div
-          className="article mt-8"
-          dangerouslySetInnerHTML={{ __html: html }}
-        />
+        <div data-reveal>
+          <h1 className="mt-4 text-4xl font-bold leading-[1.1] tracking-tight text-ink">
+            {meta.title}
+          </h1>
+          <p className="mt-3 text-sm text-ink-faint">
+            <time dateTime={meta.date}>{meta.date}</time>
+          </p>
+        </div>
+        {/* The article body reveals as one block. Its HTML comes from
+            lib/articles.ts, so there are no per-element hooks to stagger, and
+            fading paragraphs in one by one would fight the act of reading.
+            The attribute goes on a WRAPPER, never on .article itself: the
+            raw-HTML test in geo.spec.ts locates the body with
+            /<div class="article[^"]*">/ and asserts the markup inside carries
+            no class= or style=. Extra attributes on that div break the match
+            and silently blind a security check on untrusted markdown. */}
+        <div data-reveal style={delay(110)}>
+          <div
+            className="article mt-8"
+            dangerouslySetInnerHTML={{ __html: html }}
+          />
+        </div>
       </div>
 
       <Cta />

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import FreeCheckForm from "@/components/FreeCheckForm";
+import { delay } from "@/lib/reveal";
 import { OFFER_TITLE } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -26,7 +27,7 @@ export default function FreeCheck() {
   return (
     <div className="mx-auto max-w-2xl px-5 py-16 sm:px-8 md:py-20">
       {/* Head centres; the form below keeps left-aligned labels and inputs. */}
-      <div className="text-center">
+      <div data-reveal className="text-center">
         <h1 className="text-3xl font-bold leading-[1.1] tracking-tight text-ink md:text-4xl">
           What does AI say when customers ask about businesses like yours?
         </h1>
@@ -38,11 +39,13 @@ export default function FreeCheck() {
         </p>
       </div>
 
-      <div className="mt-10">
+      {/* The form itself reveals as one block. Staggering the fields would
+          delay the thing the visitor came here to use. */}
+      <div data-reveal style={delay(110)} className="mt-10">
         <FreeCheckForm />
       </div>
 
-      <div className="mt-14 border-t-2 border-ink pt-5 text-center">
+      <div data-reveal style={delay(220)} className="mt-14 border-t-2 border-ink pt-5 text-center">
         <h2 className="font-mono text-xs font-semibold uppercase tracking-[0.06em] text-ink-faint">
           What you&rsquo;ll get
         </h2>
