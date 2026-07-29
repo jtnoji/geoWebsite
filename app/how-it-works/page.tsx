@@ -234,12 +234,19 @@ export default function HowItWorks() {
                     {stage.desc}
                   </span>
                 </div>
+                {/* min-h fits the tallest artifact (stage 01 wraps to three
+                    24px lines at the lg 6-column width: 72px + 16px padding),
+                    so every box in the row is the same height and the tops
+                    line up instead of only the mt-auto bottoms. The inner span
+                    keeps the artifact a single flex child, otherwise stage
+                    03's dot run and its label become separate flex items and
+                    stop wrapping as one line of text. */}
                 <div
-                  className={`mx-3.5 mt-auto min-h-[52px] px-2.5 py-2 text-center font-mono text-[10.5px] leading-6 ${
+                  className={`mx-3.5 mt-auto flex min-h-[88px] items-center justify-center px-2.5 py-2 text-center font-mono text-[10.5px] leading-6 ${
                     stage.hot ? "bg-gold-soft text-bad" : "bg-paper-dim text-ink-soft"
                   }`}
                 >
-                  {stage.art}
+                  <span>{stage.art}</span>
                 </div>
               </div>
             ))}
