@@ -364,6 +364,15 @@ call bookings) so you know where the funnel leaks.
   in both its metadata and body, and `/pricing` said "the big three engines",
   while the rest of the site says four. **Engine count is four everywhere.**
 
+- Crawler log (2026-07-28, Abhi): `/our-score` can publish how often each AI
+  crawler actually fetched this site. Pipeline and panel are built; the data
+  source is not available yet. **Needs a Vercel Pro plan and a Log Drain** (a
+  static export emits no runtime logs, so CDN access logs are the only source).
+  Full setup and the reasoning in scaffold.md 6c. Until then the panel renders
+  nothing, which is deliberate: invented crawler counts on the dogfood page
+  would contradict the page. **Turning it on requires a `/privacy` edit in the
+  same commit**, because a drain sends every request log to a new subprocessor.
+
 **Security launch checklist (added 2026-07-25) — must clear before go-live:**
 
 - [ ] **Run `scripts/harden-leads-rls.sql`** in the Supabase SQL editor. Verify

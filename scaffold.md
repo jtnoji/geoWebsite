@@ -212,6 +212,48 @@ Wiring a real alert needs a destination URL plus `pg_net` (available on the
 project, not installed). It would hang off an AFTER INSERT trigger on `leads`
 and off `record_lead_sla_breaches()`. Nothing else in this design changes.
 
+## 6c. Crawler log (`/our-score`) — built 2026-07-28, NOT YET FED
+
+**The panel renders nothing today, on purpose.** `lib/crawler-hits.ts` exports
+`null` until real logs are ingested, and `CrawlerLogSection` returns `null` when
+there is no data. Placeholder counts are not an option here: they would be
+invented numbers about third-party crawlers, on the page whose entire argument
+is that measurement should be inspectable.
+
+**Why it exists.** Vercel Web Analytics counts humans only. A JS beacon cannot
+see an AI crawler, because crawlers do not execute JavaScript, so the one
+question this company exists to answer about its own site ("is GPTBot actually
+fetching us") was the one thing the site could not see.
+
+**Why it is not fed yet (verified 2026-07-29):**
+
+- This site is a **static export**, so it runs no serverless or edge functions
+  and emits **no Vercel runtime logs at all**. The runtime-log API returns zero
+  rows for `prj_IOOQvIqOph6ouyETt2uMpp8UqNmA`, and that is structural, not a
+  retention window.
+- CDN **access logs** are the only place a crawler page fetch appears, and
+  reaching them needs a **Log Drain**, which is Pro and above. The account is
+  currently Hobby (the API returns the `Hobby 1h` retention notice).
+
+**To turn it on:**
+
+1. Upgrade to Pro and add a Log Drain delivering **NDJSON**.
+2. `node scripts/ingest-crawler-hits.mjs <logs.ndjson>` — rewrites
+   `lib/crawler-hits.ts`. It reads the bot roster out of `lib/crawlers.ts`, so
+   the script cannot drift from the site, and it **fails closed**: if nothing
+   matches a roster bot it writes nothing and exits 1, rather than publishing
+   zeroes it did not measure.
+3. `npm run build && npm test`.
+4. **Update `/privacy` in the same commit.** A Log Drain ships every request
+   log, including human IPs, to a new destination. That is a new subprocessor
+   and a processing change, and `/privacy` currently names only Vercel and
+   Supabase. This is the same rule the analytics invariant states in CLAUDE.md.
+
+**The roster is single-source.** `AI_BOTS` lives in `lib/crawlers.ts` and
+`app/robots.ts` imports it. The list of bots we allow and the list we publish
+traffic for must be the same list, or the page reports on a bot we quietly
+stopped allowing. `robots.txt` output is byte-identical after the move.
+
 ## 7. Build sequence (each step ships something reviewable)
 
 1. **Scaffold + design system** — create-next-app, config, `lib/site.ts`

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { CrawlerLogSection } from "@/components/CrawlerLog";
 import Cta from "@/components/Cta";
 import { delay } from "@/lib/reveal";
 import { BRAND } from "@/lib/site";
@@ -105,6 +106,11 @@ export default function OurScore() {
             </tbody>
           </table>
         </div>
+
+        {/* Renders nothing until a crawler log is ingested (lib/crawler-hits.ts).
+            The page argues that measurement should be inspectable, so a
+            placeholder panel here would argue against itself. */}
+        <CrawlerLogSection />
       </div>
 
       <Cta
