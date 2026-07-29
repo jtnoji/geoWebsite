@@ -74,7 +74,12 @@ export default function SampleReport() {
             </Annotation>
           </section>
 
-          <section>
+          {/* The block is capped at 3xl for line length, so it needs mx-auto
+              or it hugs the container's left edge and leaves a ~320px gutter
+              on the right at 1440 (the sections above are full-width grids).
+              Centring the BLOCK only; the text inside stays left-aligned per
+              the alignment rule in CLAUDE.md. */}
+          <section className="mx-auto w-full max-w-3xl">
             <h2 className="text-2xl font-bold tracking-tight text-ink">
               The prioritized fix list
             </h2>
@@ -82,7 +87,7 @@ export default function SampleReport() {
               The full audit closes with fixes ordered by what moves AI answers.
               Each one ties back to a finding in the data.
             </p>
-            <ol className="mt-7 max-w-3xl">
+            <ol className="mt-7">
               {FIX_LIST.map((item, i) => (
                 <li
                   key={item.fix}
