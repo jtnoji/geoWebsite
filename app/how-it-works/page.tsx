@@ -409,7 +409,7 @@ export default function HowItWorks() {
       <Cta
         centered
         heading="See the protocol run on your business."
-        sub="The free check is a small version of exactly this: real queries, real engines, real answers."
+        sub="The free AI visibility check is a small version of exactly this: real queries, real engines, real answers."
       />
     </>
   );

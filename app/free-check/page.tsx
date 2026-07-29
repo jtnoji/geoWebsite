@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import FreeCheckForm from "@/components/FreeCheckForm";
+import { OFFER_TITLE } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Free AI Visibility Check",
+  title: OFFER_TITLE,
   description:
-    "Tell us who you are. We run real customer questions through ChatGPT, Google AI, and Perplexity, and email you a short report. Free, no call required.",
+    // Adding Gemini pushed this past the 155-char meta-description limit that
+    // geo.spec.ts enforces; "then email a short report" buys the 4 chars back.
+    "Tell us who you are. We run real customer questions through ChatGPT, Google AI, Gemini, and Perplexity, then email a short report. Free, no call required.",
 };
 
 const DELIVERABLES = [
@@ -29,8 +32,8 @@ export default function FreeCheck() {
         </h1>
         <p className="mt-5 text-base leading-7 text-ink-soft">
           Tell us who you are. We&rsquo;ll run real customer questions through
-          ChatGPT, Google&rsquo;s AI answers, and Perplexity, then email you a
-          short report: whether you&rsquo;re mentioned, who&rsquo;s named
+          ChatGPT, Google&rsquo;s AI answers, Gemini, and Perplexity, then email
+          you a short report: whether you&rsquo;re mentioned, who&rsquo;s named
           instead, and which sources shaped the answer. Free, no call required.
         </p>
       </div>

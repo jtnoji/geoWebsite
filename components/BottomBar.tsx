@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { OFFER_CTA } from "@/lib/site";
 
 /**
  * The persistent bottom CTA bar — the signature element of this system
@@ -28,7 +29,7 @@ export default function BottomBar() {
           href="/free-check/"
           className="inline-flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.14em] text-ink transition-colors hover:text-accent"
         >
-          Get your free AI check
+          {OFFER_CTA}
         </Link>
       </div>
     </div>

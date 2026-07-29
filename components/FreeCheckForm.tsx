@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import Link from "next/link";
 import { SAMPLE_CLIENT } from "@/lib/sample";
-import { FORM_ENDPOINT, SUPABASE_PUBLISHABLE_KEY } from "@/lib/site";
+import { FORM_ENDPOINT, OFFER, SUPABASE_PUBLISHABLE_KEY } from "@/lib/site";
 
 /**
  * The ONE interactive island besides the nav toggle (scaffold §1 rule).
@@ -224,7 +224,7 @@ export default function FreeCheckForm() {
         disabled={status === "submitting"}
         className="btn-solid w-full justify-center px-6 py-3 text-[13px] disabled:opacity-60"
       >
-        {status === "submitting" ? "Submitting…" : "Run my free check"}
+        {status === "submitting" ? "Submitting…" : `Run my ${OFFER}`}
       </button>
 
       {/* Notice at the point of collection. Kept to one sentence so it informs

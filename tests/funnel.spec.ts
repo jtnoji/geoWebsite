@@ -36,7 +36,7 @@ test("free-check form fills, submits, and confirms", async ({ page }) => {
   await page.fill("#area", "Oakland, CA");
   await page.fill("#description", "B2B marketing for seed-stage startups.");
   await page.fill("#email", "founder@bluequarry-test.example.com");
-  await page.getByRole("button", { name: "Run my free check" }).click();
+  await page.getByRole("button", { name: "Run my free AI visibility check" }).click();
 
   const confirmation = page.getByTestId("free-check-confirmation");
   await expect(confirmation).toBeVisible();

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { OFFER_CTA } from "@/lib/site";
 
 /**
  * Final CTA section: rule-top, one navy button + quiet text link. Primary
@@ -9,7 +10,7 @@ import Link from "next/link";
 export default function Cta({
   heading = "Find out what AI says about you. Free.",
   sub = "Takes one minute. We'll email your report within 1–2 business days.",
-  primaryLabel = "Get your free visibility check",
+  primaryLabel = OFFER_CTA,
   secondaryLabel,
   secondaryHref,
   centered = false,

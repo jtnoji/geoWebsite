@@ -19,7 +19,7 @@ export const PAGES: PageSpec[] = [
     mustContain: [
       "When someone asks AI for a recommendation, does it say your name?",
       "The shortlist got smaller",
-      "We measure it. Properly.",
+      "We measure your AI visibility. Properly.",
       "of U.S. consumers used AI tools to find local businesses",
       "BrightLocal, 2026",
     ],
@@ -29,7 +29,7 @@ export const PAGES: PageSpec[] = [
     path: "/free-check/",
     mustContain: [
       "What does AI say when customers ask about businesses like yours?",
-      "Run my free check",
+      "Run my free AI visibility check",
       "you", // sanity
     ],
     schemaTypes: [],
@@ -56,7 +56,7 @@ export const PAGES: PageSpec[] = [
   {
     path: "/pricing/",
     mustContain: [
-      "Free Visibility Check",
+      "Free AI Visibility Check",
       "Full AI Visibility Audit",
       "Ongoing GEO",
       "Do you do the fixes too?",

@@ -50,6 +50,23 @@ export const SUPABASE_PUBLISHABLE_KEY =
   "sb_publishable_-eUBJsJhX_-TCJXvj8TeoQ_h7PGeQc7"; // browser-safe: RLS insert-only
 export const FORM_ENDPOINT = `${SUPABASE_URL}/rest/v1/leads`;
 
+/**
+ * THE name of the primary offer. Six competing strings used to ship at once
+ * ("Free check", "free AI check", "free visibility check", "Free AI Visibility
+ * Check", "Get your free check", "Run my free check"), so a reader could not
+ * tell whether the header button, the bottom bar and the closing CTA were the
+ * same thing. They are.
+ *
+ * `OFFER_SHORT` exists only because the full name physically cannot fit in the
+ * header pill beside the logo and the menu button at 390px. Both forms keep
+ * the distinctive words ("free AI ... check") so they read as one offer.
+ * Use the long form everywhere else, including every primary button.
+ */
+export const OFFER = "free AI visibility check";
+export const OFFER_TITLE = "Free AI Visibility Check";
+export const OFFER_SHORT = "Free AI check";
+export const OFFER_CTA = "Get your free AI visibility check";
+
 export const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/how-it-works/", label: "How it works" },
@@ -61,7 +78,7 @@ export const NAV_LINKS = [
 
 export const ALL_PAGES = [
   { href: "/", label: "Home" },
-  { href: "/free-check/", label: "Free AI Visibility Check" },
+  { href: "/free-check/", label: OFFER_TITLE },
   { href: "/sample-report/", label: "Sample report" },
   { href: "/how-it-works/", label: "How it works" },
   { href: "/pricing/", label: "Pricing" },

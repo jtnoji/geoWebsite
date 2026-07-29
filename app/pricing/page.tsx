@@ -4,7 +4,7 @@ import Cta from "@/components/Cta";
 import FaqSection from "@/components/FaqSection";
 import JsonLd from "@/components/JsonLd";
 import { service, type Faq } from "@/lib/schema";
-import { PRICING } from "@/lib/site";
+import { OFFER_TITLE, PRICING } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Pricing: audit and ongoing GEO",
@@ -14,10 +14,10 @@ export const metadata: Metadata = {
 
 const TIERS = [
   {
-    name: "Free Visibility Check",
+    name: OFFER_TITLE,
     price: "$0",
     description:
-      "The short report. Where you stand on the big three engines, and who's named instead of you.",
+      "The short report. Where you stand on all four engines, and who's named instead of you.",
     cta: { label: "Get started", href: "/free-check/" },
     featured: false,
   },

@@ -7,7 +7,7 @@ import SamplingCard from "@/components/SamplingCard";
 import StatTile from "@/components/StatTile";
 import StepList from "@/components/StepList";
 import { HOME_STATS } from "@/lib/stats";
-import { BRAND } from "@/lib/site";
+import { BRAND, OFFER_CTA } from "@/lib/site";
 import {
   SAMPLE_CALLOUT,
   SAMPLE_COMPETITORS,
@@ -101,6 +101,7 @@ export default function Home() {
             <b className="font-semibold text-ink">only a few businesses</b>.{" "}
             {BRAND}{" "}measures whether you&rsquo;re one of them and{" "}
             <b className="font-semibold text-ink">who gets named instead</b>.
+            {" "}Then we do the work the numbers point to.
           </p>
           <div
             data-reveal
@@ -111,7 +112,7 @@ export default function Home() {
               href="/free-check/"
               className="btn-pill px-[26px] py-[15px] text-[13.5px]"
             >
-              Get your free check <span className="text-base">&#10230;</span>
+              {OFFER_CTA} <span className="text-base">&#10230;</span>
             </Link>
             <Link
               href="/sample-report/"
@@ -203,6 +204,75 @@ export default function Home() {
         </div>
       </section>
 
+      {/* The shortlist problem. Sits directly after the stat row, per
+          website-plan.md §2's page order: the reader needs the problem before
+          the method. It shipped second-to-last until 2026-07-28, so the page
+          explained how we measure before saying why it matters. */}
+      <section className="border-b border-line">
+        <div className="mx-auto grid max-w-[1120px] items-center gap-10 px-5 py-20 sm:px-8 md:grid-cols-[6fr_5fr] md:gap-16">
+          <div data-reveal>
+            <h2 className="max-w-[560px] text-3xl font-bold tracking-[-0.035em] text-ink">
+              The shortlist got smaller
+            </h2>
+            {/* Two example queries, local trade + software, per the settled
+                audience decision in website-plan.md §6 ("mixed examples").
+                They deliberately do NOT match the B2B-agency scenario in the
+                hero card: the stat tiles above cite local-business research,
+                so an agency-only page reads as if it serves only agencies.
+                The single agency example here was a 2026-07-28 clarity fix. */}
+            <p className="mt-4 max-w-[540px] text-base leading-7 text-ink-soft">
+              When a customer asks Google or ChatGPT &ldquo;best electrician
+              near me&rdquo; or &ldquo;which budgeting app should I use,&rdquo;
+              the answer isn&rsquo;t ten blue links. It&rsquo;s{" "}
+              <b className="font-bold text-ink">a paragraph that names two or three options</b>.
+              If you&rsquo;re not in it, you&rsquo;re not in the conversation.
+              And you never find out, because everyone&rsquo;s answer is
+              different and nobody screenshots the AI that{" "}
+              <em>didn&rsquo;t</em> mention them.
+            </p>
+          </div>
+
+          {/* Then-vs-now artifact: ten blue links collapsing into a 3-name
+              answer — the claim, drawn (claim + artifact rule). */}
+          <div
+            aria-hidden="true"
+            data-reveal
+            style={delay(140)}
+            className="grid grid-cols-2 gap-4"
+          >
+            <div className="rounded-xl bg-white/70 p-4">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-ink-faint">
+                Search, then
+              </p>
+              <div className="mt-3 space-y-2.5">
+                {[92, 78, 85, 70, 88, 64, 80, 74, 68, 58].map((w, i) => (
+                  <div key={i} className="h-2 rounded-full bg-line-dark/70" style={{ width: `${w}%` }} />
+                ))}
+              </div>
+              <p className="mt-3 text-[11px] text-ink-faint">10 results per page</p>
+            </div>
+            <div className="rounded-xl bg-paper-dim p-4">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-ink-faint">
+                AI answers, now
+              </p>
+              <div className="mt-3 space-y-2.5">
+                <div className="h-2 w-[90%] rounded-full bg-line-dark/50" />
+                <div className="h-2 w-[68%] rounded-full bg-line-dark/50" />
+                <div className="mt-1 flex flex-wrap gap-1.5 pt-1">
+                  {["A", "B", "C"].map((n) => (
+                    <span key={n} className="rounded-full bg-ink px-2.5 py-1 text-[10px] font-semibold text-white">
+                      Option {n}
+                    </span>
+                  ))}
+                </div>
+                <div className="h-2 w-[80%] rounded-full bg-line-dark/50" />
+              </div>
+              <p className="mt-3 text-[11px] font-semibold text-bad">3 names per answer</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* What we do — metrics list + sampling card */}
       <section className="border-b border-line">
         <div className="mx-auto max-w-[1120px] px-5 py-20 sm:px-8">
@@ -210,7 +280,7 @@ export default function Home() {
             <div data-reveal>
               <Chip>What we do</Chip>
               <h2 className="mt-3.5 max-w-[560px] text-3xl font-bold tracking-[-0.035em] text-ink md:text-[34px]">
-                We measure it. Properly.
+                We measure your AI visibility. Properly.
               </h2>
               <p className="mt-3.5 max-w-[520px] text-[16.5px] leading-7 text-ink-soft">
                 We run your customers&rsquo; real questions across ChatGPT,
@@ -269,66 +339,6 @@ export default function Home() {
               them in individually would expose the seams. */}
           <div data-reveal style={delay(120)} className="mt-8">
             <StepList steps={STEPS} />
-          </div>
-        </div>
-      </section>
-
-      {/* The shortlist problem, folded into the honesty band (kept for the
-          full problem framing from website-plan.md) */}
-      <section className="border-b border-line">
-        <div className="mx-auto grid max-w-[1120px] items-center gap-10 px-5 py-20 sm:px-8 md:grid-cols-[6fr_5fr] md:gap-16">
-          <div data-reveal>
-            <h2 className="max-w-[560px] text-3xl font-bold tracking-[-0.035em] text-ink">
-              The shortlist got smaller
-            </h2>
-            <p className="mt-4 max-w-[540px] text-base leading-7 text-ink-soft">
-              Ask Google or ChatGPT &ldquo;which marketing agency should I
-              hire&rdquo; and you don&rsquo;t get ten blue links. You get{" "}
-              <b className="font-bold text-ink">a paragraph that names two or three options</b>.
-              If you&rsquo;re not in it, you&rsquo;re not in the conversation.
-              And you never find out, because everyone&rsquo;s answer is
-              different and nobody screenshots the AI that{" "}
-              <em>didn&rsquo;t</em> mention them.
-            </p>
-          </div>
-
-          {/* Then-vs-now artifact: ten blue links collapsing into a 3-name
-              answer — the claim, drawn (claim + artifact rule). */}
-          <div
-            aria-hidden="true"
-            data-reveal
-            style={delay(140)}
-            className="grid grid-cols-2 gap-4"
-          >
-            <div className="rounded-xl bg-white/70 p-4">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-ink-faint">
-                Search, then
-              </p>
-              <div className="mt-3 space-y-2.5">
-                {[92, 78, 85, 70, 88, 64, 80, 74, 68, 58].map((w, i) => (
-                  <div key={i} className="h-2 rounded-full bg-line-dark/70" style={{ width: `${w}%` }} />
-                ))}
-              </div>
-              <p className="mt-3 text-[11px] text-ink-faint">10 results per page</p>
-            </div>
-            <div className="rounded-xl bg-paper-dim p-4">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-ink-faint">
-                AI answers, now
-              </p>
-              <div className="mt-3 space-y-2.5">
-                <div className="h-2 w-[90%] rounded-full bg-line-dark/50" />
-                <div className="h-2 w-[68%] rounded-full bg-line-dark/50" />
-                <div className="mt-1 flex flex-wrap gap-1.5 pt-1">
-                  {["A", "B", "C"].map((n) => (
-                    <span key={n} className="rounded-full bg-ink px-2.5 py-1 text-[10px] font-semibold text-white">
-                      Agency {n}
-                    </span>
-                  ))}
-                </div>
-                <div className="h-2 w-[80%] rounded-full bg-line-dark/50" />
-              </div>
-              <p className="mt-3 text-[11px] font-semibold text-bad">3 names per answer</p>
-            </div>
           </div>
         </div>
       </section>

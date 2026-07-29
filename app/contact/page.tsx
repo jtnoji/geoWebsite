@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { EMAIL } from "@/lib/site";
+import { EMAIL, OFFER_CTA } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Contact: email or book a 20-minute call",
@@ -14,7 +14,8 @@ export default function Contact() {
       <h1 className="text-4xl font-bold tracking-tight text-ink">Contact</h1>
       <p className="mt-5 text-base leading-7 text-ink-soft">
         The fastest route is a 20-minute call with Josh. No deck, just your
-        questions and, if you&rsquo;ve run the free check, your numbers.
+        questions and, if you&rsquo;ve run the free AI visibility check, your
+        numbers.
       </p>
 
       <div className="mt-12">
@@ -46,14 +47,14 @@ export default function Contact() {
             Prefer to see your numbers first?
           </h2>
           <p className="mt-2 text-sm leading-6 text-ink-soft">
-            Run the free visibility check. Your report lands in your inbox
+            Run the free AI visibility check. Your report lands in your inbox
             within 1–2 business days, no call required.
           </p>
           <Link
             href="/free-check/"
             className="btn-solid mt-4 px-5 py-2.5 text-sm"
           >
-            Get your free AI visibility check
+            {OFFER_CTA}
           </Link>
         </section>
       </div>

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ALL_PAGES } from "@/lib/site";
+import { ALL_PAGES, OFFER_CTA } from "@/lib/site";
 
 /**
  * Custom 404. Under `output: 'export'` this renders to out/404.html, which is
@@ -28,7 +28,7 @@ export default function NotFound() {
 
       <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
         <Link href="/free-check/" className="btn-pill px-[26px] py-[15px] text-[13.5px]">
-          Get your free check <span className="text-base">&#10230;</span>
+          {OFFER_CTA} <span className="text-base">&#10230;</span>
         </Link>
         <Link href="/" className="btn-pill-outline px-[26px] py-[15px] text-[13.5px]">
           Back to home

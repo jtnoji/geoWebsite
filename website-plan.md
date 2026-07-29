@@ -332,6 +332,38 @@ call bookings) so you know where the funnel leaks.
   "real X, real Y, real Z" triads) and hedges. Section bodies are still ≤2
   sentences per the claim-and-artifact rule; the copy above reflects the pass.
 
+- Message clarity pass (2026-07-28, Abhi): a reader outside the project could
+  not tell what the company sells. Five fixes, all on the "is this for me / what
+  do I get" axis:
+  1. **The offer has ONE name.** Six competing strings shipped at once ("Free
+     check", "free AI check", "free visibility check", "Free AI Visibility
+     Check", "Get your free check", "Run my free check"). Canonical forms now
+     live in `lib/site.ts` as `OFFER` / `OFFER_TITLE` / `OFFER_SHORT` /
+     `OFFER_CTA`. **Never hardcode the offer name in a page.** `OFFER_SHORT`
+     ("Free AI check") exists only for the header pills, where the full name
+     cannot fit beside the logo and menu button at 390px.
+  2. **Home section order now matches §2 above.** "The shortlist got smaller"
+     shipped second-to-last, so the page explained the method before the
+     problem. It now sits directly after the stat row.
+  3. **The hero states the business model.** Added "Then we do the work the
+     numbers point to." Previously the only plain statement that we do the
+     work, not just the measuring, was one subordinate clause in step 3 and
+     the footer tagline.
+  4. **"We measure it. Properly." → "We measure your AI visibility. Properly."**
+     "It" had no antecedent at that point in the page. This edits a locked H2;
+     the locked word ("Properly.") is retained.
+  5. **Mixed examples restored** in the shortlist paragraph (local trade +
+     software), per the settled audience decision above. **Note for Josh:**
+     this overrides `example-swap-plan.md` §2, which specified an agency
+     example there. All three home stat tiles cite local-business research, so
+     an agency-only home page contradicts both the stats and "do not retilt to
+     a single vertical". The B2B-agency *scenario* (hero card, sample report,
+     how-it-works) is untouched.
+
+  Also fixed in the same pass: `/free-check` listed three engines (no Gemini)
+  in both its metadata and body, and `/pricing` said "the big three engines",
+  while the rest of the site says four. **Engine count is four everywhere.**
+
 **Security launch checklist (added 2026-07-25) — must clear before go-live:**
 
 - [ ] **Run `scripts/harden-leads-rls.sql`** in the Supabase SQL editor. Verify

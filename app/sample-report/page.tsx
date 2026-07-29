@@ -105,7 +105,7 @@ export default function SampleReport() {
       <Cta
         centered
         heading="Want yours?"
-        sub="The free check takes one minute. Report in your inbox within 1–2 business days."
+        sub="The free AI visibility check takes one minute. Report in your inbox within 1–2 business days."
       />
     </>
   );

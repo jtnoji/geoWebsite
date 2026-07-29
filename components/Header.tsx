@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BRAND, NAV_LINKS } from "@/lib/site";
+import { BRAND, NAV_LINKS, OFFER_SHORT } from "@/lib/site";
 import MobileNav from "./MobileNav";
 import NavHighlighter from "./NavHighlighter";
 
@@ -46,7 +46,7 @@ export default function Header() {
             href="/free-check/"
             className="btn-pill px-[22px] py-[13px] text-[12.5px] tracking-[0.12em]"
           >
-            Free check <span className="text-[15px]">&#10230;</span>
+            {OFFER_SHORT} <span className="text-[15px]">&#10230;</span>
           </Link>
         </nav>
 
@@ -55,7 +55,7 @@ export default function Header() {
             href="/free-check/"
             className="btn-pill px-4 py-2.5 text-[12px] tracking-[0.1em]"
           >
-            Free check <span className="text-[14px]">&#10230;</span>
+            {OFFER_SHORT} <span className="text-[14px]">&#10230;</span>
           </Link>
           <MobileNav />
         </div>
