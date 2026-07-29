@@ -9,7 +9,13 @@ import { PAGES } from "./pages";
 for (const page of PAGES) {
   test(`${page.path} links to /free-check/ in one click`, async ({ page: pw }) => {
     await pw.goto(page.path);
-    const links = pw.locator('a[href*="/free-check"]');
+    // Filter to visible BEFORE .first(): in DOM order the first /free-check
+    // link is Header's desktop `btn-pill`, which is correctly hidden behind
+    // the hamburger at mobile width. Asserting on it failed all 15 pages on
+    // mobile-safari while BottomBar's CTA sat visible further down the page.
+    // The rule is "≤1 click from every page", so ANY visible link satisfies
+    // it; zero visible links still fails, which is the regression we want.
+    const links = pw.locator('a[href*="/free-check"]').filter({ visible: true });
     await expect(
       links.first(),
       `${page.path} should have a visible link to /free-check/`

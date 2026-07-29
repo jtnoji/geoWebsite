@@ -175,6 +175,43 @@ the key, table, or policies change. Expected RLS: enable RLS on `leads`,
 one policy `FOR INSERT TO anon WITH CHECK (true)`, and NO select/update/
 delete policies for anon.
 
+### 6a. Reading the queue (`scripts/leads-visibility.sql`, applied 2026-07-28)
+
+**Nothing pushes a notification anywhere. Someone has to look.** That is a
+deliberate interim state, not an oversight: the outbound channel is still
+undecided (see §6b). Until one exists, the 1-2 business day promise on
+/free-check's confirmation screen is only as good as the habit of checking.
+
+Read the queue with the **`leads_reader`** role — never the `postgres`
+superuser string. Password is out-of-band (password manager, not git):
+
+```sql
+select * from public.leads_queue order by created_at desc;   -- age + sla_state per lead
+select * from public.lead_sla_events order by recorded_at desc;  -- what blew the promise
+```
+
+`leads_queue` adds `age` and `sla_state` (`ok` / `due` at 24h / `overdue` at
+48h / `worked` once status leaves `new`). Thresholds are wall-clock hours, not
+business days, so a Friday lead flags on Sunday — early is the safe direction.
+
+An hourly `pg_cron` job, `record-lead-sla-breaches`, writes one
+`lead_sla_events` row per lead per level, so a missed lead leaves a permanent
+record instead of just aging quietly. It is idempotent (`unique (lead_id,
+level)`), verified end to end 2026-07-28.
+
+**The default-privilege footgun.** This project carries Supabase's stock
+`pg_default_acl`, which grants ALL to `anon` and `authenticated` on every new
+table/view `postgres` creates in `public`. That is where `leads`' unused
+`authenticated` grants came from — not from any script here. **Any new table
+starts fully exposed and is safe only by RLS accident.** Revoke explicitly, as
+`leads-visibility.sql` does for every object it creates.
+
+### 6b. STILL OPEN: no outbound notification
+
+Wiring a real alert needs a destination URL plus `pg_net` (available on the
+project, not installed). It would hang off an AFTER INSERT trigger on `leads`
+and off `record_lead_sla_breaches()`. Nothing else in this design changes.
+
 ## 7. Build sequence (each step ships something reviewable)
 
 1. **Scaffold + design system** — create-next-app, config, `lib/site.ts`
