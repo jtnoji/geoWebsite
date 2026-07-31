@@ -17,8 +17,11 @@ export const metadata: Metadata = {
  *   - fields come from FIELDS + the post-submit phone ask in FreeCheckForm.tsx
  *   - `source`/`referrer` are set in FreeCheckForm.tsx handleSubmit
  *   - the honeypot is deleted before the POST, never stored
- *   - the only network destination is the Supabase project in lib/site.ts,
- *     which is also the only non-self origin in vercel.json `connect-src`
+ *   - the only network destination the BROWSER has is the Supabase project in
+ *     lib/site.ts, which is also the only non-self origin in vercel.json
+ *     `connect-src`. Supabase then posts the alert email to Resend server-side
+ *     (scripts/lead-email-alerts.sql), which is why "who else can see my
+ *     details" names three companies and `connect-src` still names one
  *   - no cookie, localStorage or sessionStorage use anywhere in the source
  *   - fonts are self-hosted by next/font, so there is no font CDN request
  *
@@ -68,9 +71,14 @@ const POLICY: Faq[] = [
       "Vercel records a standard request log when your browser asks for a page: your IP address, which page, and your browser's user agent. Every web server does this, and it is separate from the page-view count above. We do not forward those logs to anyone else, and we never use them to work out who you are. If that changes, for example to count which AI crawlers visit us, this page will name where they go before it happens.",
   },
   {
+    // Resend was added 2026-07-30 with scripts/lead-email-alerts.sql. It is a
+    // subprocessor: your submission is in the body of the alert email we send
+    // ourselves. It is contacted by Supabase, never by your browser, so it is
+    // NOT a `connect-src` entry in vercel.json. Any further destination for
+    // this data gets named here in the same commit that adds it.
     question: "Who else can see my details?",
     answer:
-      "Two companies, both acting as our infrastructure: Vercel hosts the site and counts page views, and Supabase stores your submission. We do not sell your details, share them with advertisers, or add you to a marketing list.",
+      "Three companies, all acting as our infrastructure: Vercel hosts the site and counts page views, Supabase stores your submission, and Resend delivers the email that tells us your check arrived. We do not sell your details, share them with advertisers, or add you to a marketing list.",
   },
   {
     question: "How long do you keep it?",

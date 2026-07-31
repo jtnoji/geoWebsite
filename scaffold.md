@@ -177,12 +177,8 @@ delete policies for anon.
 
 ### 6a. Reading the queue (`scripts/leads-visibility.sql`, applied 2026-07-28)
 
-**Nothing pushes a notification anywhere. Someone has to look.** That is a
-deliberate interim state, not an oversight: the outbound channel is still
-undecided (see §6b). Until one exists, the 1-2 business day promise on
-/free-check's confirmation screen is only as good as the habit of checking.
-
-Read the queue with the **`leads_reader`** role — never the `postgres`
+Both founders now get an email when a lead lands (§6b), but **the queue is the
+record and the email is only a prompt to look at it.** Read the queue with the **`leads_reader`** role — never the `postgres`
 superuser string. Password is out-of-band (password manager, not git):
 
 ```sql
@@ -206,11 +202,41 @@ table/view `postgres` creates in `public`. That is where `leads`' unused
 starts fully exposed and is safe only by RLS accident.** Revoke explicitly, as
 `leads-visibility.sql` does for every object it creates.
 
-### 6b. STILL OPEN: no outbound notification
+### 6b. Email alerts (`scripts/lead-email-alerts.sql`, built 2026-07-30)
 
-Wiring a real alert needs a destination URL plus `pg_net` (available on the
-project, not installed). It would hang off an AFTER INSERT trigger on `leads`
-and off `record_lead_sla_breaches()`. Nothing else in this design changes.
+`pg_net` + an AFTER INSERT trigger on `leads` + a send from
+`record_lead_sla_breaches()`, all going through **Resend** to both founders.
+Four alert kinds: `new_lead`, `phone_optin` (the second row the confirmation
+screen inserts), `sla_due` at 24h, `sla_overdue` at 48h.
+
+Four things that are load-bearing, not incidental:
+
+- **The trigger can never cost us a lead.** It catches every exception and
+  still returns `NEW`. A missing Vault key raising inside the INSERT would
+  give PostgREST a 500, and FreeCheckForm would show "That didn't send" to a
+  prospect whose details we then would not have.
+- **There is an hourly cap of 20 alerts.** The publishable key is public and
+  PostgREST has no per-IP rate limit on the free plan, so the insert path is
+  otherwise a button for burning our Resend quota. Past the cap, sends are
+  recorded as `kind='flood'` instead.
+- **pg_net is fire-and-forget, so failures are reconciled.** `send_lead_alert`
+  logs the request id to `public.lead_alert_log`; a 5-minute cron job
+  (`reconcile-lead-alerts`) joins it to `net._http_response` and fills in
+  `status_code` / `error`. **Any row with a non-null `error` is an alert that
+  did not arrive.** Without this the channel fails silently, which is worse
+  than no channel because you stop checking by hand.
+- **No verified sending domain yet.** `DOMAIN` in `lib/site.ts` is still the
+  interim Vercel URL, so the sender is Resend's shared `onboarding@resend.dev`
+  and Resend will only deliver to addresses on the account. When the real
+  domain lands, verify it with Resend and change `sender` in §4 of the script.
+
+The Resend API key lives in Supabase Vault as `resend_api_key`, never in git.
+Recipients live in one place: the `recipients` constant in
+`public.send_lead_alert`.
+
+**Resend is a subprocessor and `/privacy` names it** ("Who else can see my
+details?"). It is contacted by Supabase, not by the browser, so it is **not** a
+`connect-src` entry in `vercel.json`.
 
 ## 6c. Crawler log (`/our-score`) — built 2026-07-28, NOT YET FED
 

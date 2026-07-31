@@ -130,6 +130,10 @@ grant select on public.leads_queue to leads_reader;
 -- flagging early is the safe direction for a promise we made in public.
 create extension if not exists pg_cron;
 
+-- SUPERSEDED 2026-07-30 by scripts/lead-email-alerts.sql §6, which replaces
+-- this function with one that also emails each newly recorded breach.
+-- RE-RUNNING THIS FILE SILENTLY TURNS THOSE EMAILS OFF. If you do, re-run
+-- lead-email-alerts.sql afterwards.
 create or replace function public.record_lead_sla_breaches()
 returns integer
 language plpgsql
@@ -179,8 +183,7 @@ select cron.schedule(
 --   select * from public.leads_queue order by created_at desc;
 --   select * from public.lead_sla_events order by recorded_at desc;
 --
--- STILL OPEN (a decision, not SQL): nothing is pushed anywhere. Someone has to
--- look. The 1-2 business day promise on /free-check is only as good as that
--- habit. Wiring a real channel means pg_net (available, not installed) plus a
--- destination URL, called from record_lead_sla_breaches() and from an AFTER
--- INSERT trigger on leads.
+-- CLOSED 2026-07-30 by scripts/lead-email-alerts.sql: pg_net plus an AFTER
+-- INSERT trigger on leads and a send from record_lead_sla_breaches(), both
+-- mailing both founders via Resend. Reading the queue by hand still works and
+-- is still the source of truth. The email is a prompt to look, not the record.
