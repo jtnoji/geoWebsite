@@ -100,7 +100,15 @@ set search_path = public, net, vault, extensions
 as $fn$
 declare
   -- Change recipients HERE. Both functions below call this one.
-  recipients constant text[] := array['joshuanoji@gmail.com', 'abhinavjinka@gmail.com'];
+  --
+  -- ONE address on purpose, verified against the live account 2026-07-30.
+  -- The Resend account is owned by abhinavjinka@gmail.com and no domain is
+  -- verified yet, so Resend refuses any send whose `to` contains another
+  -- address: HTTP 403 validation_error, and the WHOLE send fails. Adding
+  -- joshuanoji@gmail.com back today does not give Josh the mail, it stops Abhi
+  -- getting it too. Add him back in the same edit that sets a verified
+  -- `sender` below, not before.
+  recipients constant text[] := array['abhinavjinka@gmail.com'];
   sender     constant text   := 'AI visibility alerts <onboarding@resend.dev>';
   -- Flood brake, see below.
   hourly_cap constant integer := 20;
@@ -193,30 +201,33 @@ begin
     else format('New free check: %s (%s)', new.business, new.area)
   end;
 
+  -- Chunks are joined with an explicit ||. Postgres rejects an E'...' chunk in
+  -- an implicit (whitespace) string continuation, and a plain '...' chunk
+  -- would render \n literally under standard_conforming_strings.
   body := case when is_optin then
     format(
-      E'%s left a number for a walkthrough call.\n\n'
-      'Phone:    %s\n'
-      'Email:    %s\n'
-      'Website:  %s\n\n'
-      'This is the opt-in row, not a second lead. Merge it into the original '
-      E'submission from the same email.\n\n'
-      'Lead id:  %s',
+      E'%s left a number for a walkthrough call.\n\n' ||
+      E'Phone:    %s\n' ||
+      E'Email:    %s\n' ||
+      E'Website:  %s\n\n' ||
+      E'This is the opt-in row, not a second lead. Merge it into the ' ||
+      E'original submission from the same email.\n\n' ||
+      E'Lead id:  %s',
       new.business, new.phone, new.email, new.website, new.id)
   else
     format(
-      E'New /free-check submission.\n\n'
-      'Business: %s\n'
-      'Website:  %s\n'
-      'Area:     %s\n'
-      'Email:    %s\n'
-      E'Does:     %s\n\n'
-      'Source:   %s\n'
-      E'Referrer: %s\n\n'
-      'The confirmation screen has already promised a report in 1-2 business '
-      E'days. Clock started %s UTC.\n\n'
-      'Lead id:  %s\n'
-      'Queue:    select * from public.leads_queue order by created_at desc;',
+      E'New /free-check submission.\n\n' ||
+      E'Business: %s\n' ||
+      E'Website:  %s\n' ||
+      E'Area:     %s\n' ||
+      E'Email:    %s\n' ||
+      E'Does:     %s\n\n' ||
+      E'Source:   %s\n' ||
+      E'Referrer: %s\n\n' ||
+      E'The confirmation screen has already promised a report in 1-2 ' ||
+      E'business days. Clock started %s UTC.\n\n' ||
+      E'Lead id:  %s\n' ||
+      E'Queue:    select * from public.leads_queue order by created_at desc;',
       new.business, new.website, new.area, new.email, new.description,
       coalesce(new.source, '(none)'), coalesce(new.referrer, '(direct)'),
       to_char(new.created_at at time zone 'UTC', 'YYYY-MM-DD HH24:MI'), new.id)
@@ -297,15 +308,15 @@ begin
              upper(ev.level), ev.business,
              case when ev.level = 'overdue' then '48 hours' else '24 hours' end),
       format(
-        E'This lead is still status=new.\n\n'
-        'Business: %s\n'
-        'Email:    %s\n'
-        'Website:  %s\n'
-        'Arrived:  %s UTC\n'
-        E'Waiting:  %s\n\n'
-        'The /free-check confirmation screen promised a report in 1-2 business '
-        E'days.\n\n'
-        'Lead id:  %s',
+        E'This lead is still status=new.\n\n' ||
+        E'Business: %s\n' ||
+        E'Email:    %s\n' ||
+        E'Website:  %s\n' ||
+        E'Arrived:  %s UTC\n' ||
+        E'Waiting:  %s\n\n' ||
+        E'The /free-check confirmation screen promised a report in 1-2 ' ||
+        E'business days.\n\n' ||
+        E'Lead id:  %s',
         ev.business, ev.email, ev.website,
         to_char(ev.created_at at time zone 'UTC', 'YYYY-MM-DD HH24:MI'),
         justify_interval(ev.age_at_record), ev.id)
