@@ -407,6 +407,13 @@ call bookings) so you know where the funnel leaks.
 
 **Still open:**
 
+- **Apply `scripts/lead-canary.sql` in the Supabase SQL editor, then enable the
+  hourly workflow** (added 2026-07-31, scaffold §6d). The probe and the workflow
+  are built and verified green against production, but the SQL that keeps probe
+  rows out of the alert email and the SLA sweep is NOT applied yet. Until it is,
+  every canary run mails Abhi a fake lead and spends 1 of the 20 hourly Resend
+  sends real leads need. Apply first, enable second. Josh does not need to do
+  anything here; it is one paste.
 - Brand name + domain (blocks: logo, NAP, schema, sending-domain setup from the
   GTM doc — same domain decision). Build with `[Brand]` placeholders meanwhile.
 - Pricing numbers for tiers 2 and 3. Build /pricing with `[$X]` placeholders.

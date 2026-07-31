@@ -51,6 +51,24 @@ export const SUPABASE_PUBLISHABLE_KEY =
 export const FORM_ENDPOINT = `${SUPABASE_URL}/rest/v1/leads`;
 
 /**
+ * The `source` value that marks a row as an automated liveness probe rather
+ * than a prospect. ONE writer of this string: `scripts/canary-leads.mjs` and
+ * `scripts/verify-leads-backend.mjs` post it, and `scripts/lead-canary.sql`
+ * matches on it to suppress the alert email and to reap the row.
+ *
+ * It is deliberately not a plausible `?src=` campaign code. The publishable
+ * key is public, so anyone can POST this value and have their row hidden from
+ * the queue — but anyone who wants their submission ignored can simply not
+ * submit it, so that buys an attacker nothing. What the odd shape does buy is
+ * that a REAL visitor can never arrive carrying it by accident, which is the
+ * failure that would actually cost us a lead.
+ *
+ * Changing this string means changing lead-canary.sql in the same commit, or
+ * the canary starts emailing Abhi a fake lead every hour.
+ */
+export const LEAD_CANARY_SOURCE = "canary:leads-probe";
+
+/**
  * THE name of the primary offer. Six competing strings used to ship at once
  * ("Free check", "free AI check", "free visibility check", "Free AI Visibility
  * Check", "Get your free check", "Run my free check"), so a reader could not

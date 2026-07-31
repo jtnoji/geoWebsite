@@ -296,6 +296,57 @@ fetching us") was the one thing the site could not see.
 traffic for must be the same list, or the page reports on a bot we quietly
 stopped allowing. `robots.txt` output is byte-identical after the move.
 
+### 6d. Liveness canary (`scripts/canary-leads.mjs`, built 2026-07-31, SQL NOT YET APPLIED)
+
+**The problem it exists for: every failure of the lead path is silent.** When
+the publishable key stopped working, PostgREST returned 401, so there was no
+row, no `lead_alert_log` entry and no email, while `FreeCheckForm` still showed
+the prospect "your report is on the way". Nothing anywhere went red. It was
+found only because someone ran `verify-leads-backend.mjs` by hand, and we still
+cannot say how long it had been broken or how many leads it ate.
+
+**What runs.** `.github/workflows/leads-canary.yml`, hourly at :30 UTC, runs
+`npm run canary:leads`. The probe fetches the deployed `/free-check`, extracts
+the Supabase URL + publishable key **from the JavaScript Vercel is actually
+serving**, POSTs a submission with them, and asserts 201 plus a still-blocked
+SELECT. Alerting is GitHub's own workflow-failure email, deliberately: the
+thing most likely to be broken in an incident is the Supabase + Resend path we
+would otherwise alert through.
+
+Reading the key off the live bundle rather than `lib/site.ts` is the whole
+point. Checking the repo's key proves the repo is fine, which is not the
+question. The two differ whenever a deploy is stale, a build is misconfigured,
+or a key is rotated in Supabase but not shipped. Verified 2026-07-31: the key
+appears **only** in `/_next/static/chunks/*.js`, never in the HTML, and those
+URLs carry Vercel's `?dpl=` suffix, so the chunk scan is load-bearing.
+
+**`scripts/lead-canary.sql` MUST be applied before the schedule is enabled.**
+A canary writes a real row to `public.leads`, so it hits every mechanism built
+for prospects: the `lead_arrived` trigger mails a fake lead (24/day, each one
+counting against the 20/hour Resend cap that real leads need), and
+`record_lead_sla_breaches()` mails an "overdue" alert at 24h because it selects
+`from public.leads where status = 'new'` — the table, not `leads_queue`. The
+SQL suppresses the first with a `WHEN` clause on the trigger and the second by
+reaping probe rows every 15 minutes, long before they can age into a breach.
+
+It marks rows with `source = LEAD_CANARY_SOURCE`, **not** a new `status` value.
+Tagging by status cannot work: the anon INSERT policy asserts `status = 'new'`
+(`harden-leads-rls.sql:57`) and RLS `WITH CHECK` runs *after* BEFORE-INSERT
+triggers, so a trigger setting `status := 'canary'` makes the policy reject the
+row and the canary reports 403 forever. `status` is also outside the
+column-scoped anon INSERT grant. `source` is inside it and needs no policy
+change.
+
+The SQL recreates one trigger and adds one reaper. It does **not** rewrite
+`notify_new_lead()`, `send_lead_alert()`, `record_lead_sla_breaches()` or
+`leads_queue`, because those have drifted from git once already (the recipient
+list, commit `1f88724`) and replacing a body to add one predicate would
+silently revert whatever else changed live.
+
+`verify-leads-backend.mjs` now posts the same marker, so it no longer mails a
+fake lead on every run and its row is reaped too. That is what makes it safe to
+run routinely as the pre-deploy gate `npm run verify:leads`.
+
 ## 7. Build sequence (each step ships something reviewable)
 
 1. **Scaffold + design system** — create-next-app, config, `lib/site.ts`

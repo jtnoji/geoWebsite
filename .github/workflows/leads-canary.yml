@@ -1,0 +1,68 @@
+# Hourly liveness probe for the /free-check lead path.
+#
+# Every failure mode of that path is silent: when the publishable key stops
+# working, PostgREST returns 401, so there is no row, no lead_alert_log entry
+# and no email, while the prospect still sees "your report is on the way". The
+# only signal that the form is dropping leads is this job going red.
+#
+# ALERTING is GitHub's own "workflow run failed" email to the repo owner. That
+# is deliberate: the alternative is a Resend key in Actions secrets, and the
+# thing most likely to be broken during an incident here is exactly the Supabase
+# + Resend path we would be alerting through.
+#
+# PREREQUISITE: scripts/lead-canary.sql must be applied to the Supabase project
+# first. Without it every run emails a fake lead and spends 1 of the 20 hourly
+# Resend sends real leads need. See that file's header.
+name: leads canary
+
+on:
+  # ⚠️ THE SCHEDULE IS INTENTIONALLY COMMENTED OUT UNTIL scripts/lead-canary.sql
+  # IS APPLIED. A scheduled workflow starts firing the moment it lands on the
+  # default branch, and every run before that SQL exists mails Abhi a fake lead
+  # and spends 1 of the 20 hourly Resend sends real leads need. Apply the SQL,
+  # confirm with `npm run canary:leads` that no lead_alert_log row is written,
+  # then uncomment these two lines in a one-line commit.
+  #
+  # schedule:
+  #   # Hourly, on the half hour (UTC). Off the hour on purpose: GitHub delays
+  #   # scheduled runs under load at popular times, and :00 is the worst of them.
+  #   - cron: "30 * * * *"
+  #
+  # Note for later: GitHub disables scheduled workflows in a repo with no pushes
+  # for 60 days. If this repo goes quiet after launch, the canary stops silently
+  # -- which is the failure mode it was built to prevent, so check it is still
+  # running whenever the site has been untouched for a while.
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Site to probe (defaults to DOMAIN in lib/site.ts, e.g. a preview URL)"
+        required: false
+        type: string
+
+# A probe run is pure read + one insert; overlapping runs would just write two
+# rows, but there is no reason to queue them up if a run hangs on a fetch.
+concurrency:
+  group: leads-canary
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # No `npm ci`. The probe uses only node builtins (fetch, fs), so there is
+      # nothing to install -- which also means an npm registry outage cannot
+      # make the canary report a false failure of the lead form.
+      - name: Probe the live /free-check insert path
+        env:
+          CANARY_TARGET: ${{ inputs.target }}
+        run: npm run canary:leads

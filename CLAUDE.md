@@ -25,7 +25,14 @@ npm run dev              # local dev
 npm run build            # static export → out/ + harden-export.mjs — warning-free
 npm test                 # geo + funnel + visual + security — gate for every change
 npm run lint             # eslint
+npm run verify:leads     # PRE-DEPLOY: live check that /free-check still accepts a lead
+npm run canary:leads     # the hourly probe, by hand (CANARY_TARGET=<url> for a preview)
 ```
+
+`npm run verify:leads` needs network and writes to the live queue, so it is
+deliberately not part of `npm test`. **Run it after any change to `lib/site.ts`,
+the Supabase keys, or the form** — a dead key is invisible from inside this
+repo, and shipping one loses leads silently until someone checks by hand.
 
 `npm run build` runs `scripts/harden-export.mjs` after `next build`; `out/` is
 not deployable without it (no meta CSP, no /.well-known/security.txt).
@@ -101,6 +108,21 @@ funnel.spec.ts, visual.spec.ts) · `public/`.
 - **Forms:** `/free-check` submissions go to the manual-queue backend (Supabase
   insert-only `leads` table — see scaffold.md §6). No client-side secrets; the
   anon key + RLS insert-only policy is the only browser-facing credential.
+  - **A broken form must never be silent again (added 2026-07-31, scaffold §6d).**
+    A dead key makes PostgREST return 401: no row, no `lead_alert_log` entry, no
+    email, and the prospect still sees "your report is on the way". The hourly
+    `.github/workflows/leads-canary.yml` probe is the only thing that goes red.
+    It reads the key out of the **deployed** bundle, not `lib/site.ts`, because
+    testing the repo's key proves the repo is fine, which is not the question.
+    Never point it at `lib/site.ts` as a fallback: that turns a red canary green.
+  - **`scripts/lead-canary.sql` must stay applied.** Probe rows are real rows in
+    `leads`. Without it the canary mails a fake lead every hour and spends the
+    20/hour Resend cap real leads need, and unreaped probe rows raise "overdue"
+    SLA alerts at 24h. It marks rows by `source`, never by a new `status` value:
+    the anon INSERT policy asserts `status = 'new'` and RLS `WITH CHECK` runs
+    after BEFORE-INSERT triggers, so tagging by status makes the insert fail.
+    `LEAD_CANARY_SOURCE` in `lib/site.ts` and the literal in that SQL are two
+    copies of one string. Change them together.
   - **No auto-triggering of the teaser pipeline.** A teaser is engine spend and
     a document we send a stranger; it stays behind a human. Unchanged.
   - **AMENDED 2026-07-31 — one narrow exception: Tier-1 fact-sheet generation
