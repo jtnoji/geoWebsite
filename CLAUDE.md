@@ -99,9 +99,28 @@ funnel.spec.ts, visual.spec.ts) · `public/`.
 - **Every stat lives in `lib/stats.ts`** with text + source + URL. No unsourced
   numbers anywhere on the site.
 - **Forms:** `/free-check` submissions go to the manual-queue backend (Supabase
-  insert-only `leads` table — see scaffold.md §6). No auto-triggering of the
-  teaser pipeline, no client-side secrets; the anon key + RLS insert-only
-  policy is the only browser-facing credential.
+  insert-only `leads` table — see scaffold.md §6). No client-side secrets; the
+  anon key + RLS insert-only policy is the only browser-facing credential.
+  - **No auto-triggering of the teaser pipeline.** A teaser is engine spend and
+    a document we send a stranger; it stays behind a human. Unchanged.
+  - **AMENDED 2026-07-31 — one narrow exception: Tier-1 fact-sheet generation
+    may run automatically on an admitted lead.** It is not the teaser pipeline
+    and does not start one: it crawls the lead's own website and extracts quoted
+    claims (L0 + L1), calls no model, spends no engine budget, and produces a
+    DRAFT nothing may send until a human reviews it. The rule it exists to
+    preserve — nothing reaches a prospect without a person deciding — is
+    untouched, because a fact sheet reaches no prospect.
+    - It runs as a **polling worker in geoPromptRunner**, never as a trigger
+      here: `factsheet_jobs` lives in the platform project, so this project's
+      trigger could not write to it even if we wanted that (see
+      `geoPromptRunner/docs/factsheet-autogen-plan.md` §12.1/§12.3).
+    - **No prospect PII crosses projects.** The worker carries `leads.id` as
+      `lead_ref` and nothing else — never email, never phone. The report is still
+      sent from the queue that already holds the address.
+    - Reads go through the `leads_reader` role from `scripts/leads-visibility.sql`
+      (SELECT-only, RLS-scoped). The browser keeps the anon insert-only key.
+    - Widening this to Tier 2 (which does call models and does spend) is a
+      **separate amendment**, not covered here.
 - **Security headers live in `vercel.json` — nowhere else.** `next.config.ts`
   `headers()` is inert under `output: 'export'` (Next lists Headers as an
   unsupported feature), so the CDN config is the only header layer. Every
