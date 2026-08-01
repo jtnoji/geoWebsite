@@ -99,16 +99,29 @@ here — when the name and prices land, they change in ONE file.
 
 | Page | Composition | Schema (JSON-LD) |
 |---|---|---|
-| layout | Header, Footer | Organization + ProfessionalService (site-wide) |
-| / | Hero, StatTile×3, problem section, what-we-do, StepList, HonestyBlock, ReportPreview, Cta | — (inherits Org) |
-| /free-check | Slim header, FreeCheckForm, what-you'll-get list | — |
-| /sample-report | ReportPreview (full), annotations, Cta | — |
-| /how-it-works | FaqSection (question-form H2s), HonestyBlock, Cta | FAQPage |
-| /pricing | 3 tier cards, FaqSection, Cta | Service ×2 + FAQPage |
-| /learn, /learn/[slug] | article index / markdown render, Cta | Article (+ FAQPage where Q&A) |
-| /about | founder bios, Cta | Person ×2 |
-| /our-score | audit-results table (hand-authored JSON at first), Cta | — |
-| /contact | email, scheduling embed, Cta | — |
+| layout | Header, Footer | Organization + WebSite + ProfessionalService (site-wide) |
+| / | Hero, StatTile×3, problem section, what-we-do, StepList, HonestyBlock, ReportPreview, Cta | WebPage (inherits Org/WebSite/Service) |
+| /free-check | Slim header, FreeCheckForm, what-you'll-get list | WebPage + BreadcrumbList |
+| /sample-report | ReportPreview (full), annotations, Cta | WebPage + BreadcrumbList |
+| /how-it-works | FaqSection (question-form H2s), HonestyBlock, Cta | WebPage + BreadcrumbList + FAQPage |
+| /pricing | 3 tier cards, FaqSection, Cta | WebPage + BreadcrumbList + Service ×2 + FAQPage |
+| /learn | article index, Cta | CollectionPage + BreadcrumbList |
+| /learn/[slug] | markdown render, byline, Cta | WebPage + BreadcrumbList + Article |
+| /about | founder bios, Cta | AboutPage + BreadcrumbList + Person ×2 |
+| /our-score | audit-results table (hand-authored JSON at first), Cta | WebPage + BreadcrumbList |
+| /contact | email, scheduling embed, Cta | ContactPage + BreadcrumbList |
+| /privacy | legal notice | WebPage + BreadcrumbList |
+
+**The graph is `@id`-linked (2026-07-31).** Before this, Organization and
+ProfessionalService were two same-named, same-URL nodes with no `@id` and no
+relation, which is an entity an engine cannot resolve to one company.
+`lib/schema.ts` now exports `ORG_ID`, `SITE_ID` and `SERVICE_ID`; every node
+that refers to the company points at `ORG_ID` instead of restating it, both
+founders get stable Person `@id`s, and each page's WebPage node declares
+`isPartOf: SITE_ID`. `Organization.logo` points at the generated
+`app/icon.png`. `Organization.sameAs` is still empty and stays that way until
+real company profiles exist (open item) — an invented profile URL is worse
+than none.
 
 `FaqSection` is the key pattern: one data structure `{question, answer}[]` renders
 both the visible H2/paragraph content AND the FAQPage JSON-LD — schema can never
@@ -118,13 +131,32 @@ drift from visible text (the thing your own Cat 5 validator checks for).
 
 ## 4. GEO wiring (rubric → code)
 
-- **robots.ts** — explicit `Allow: /` groups for: GPTBot, ClaudeBot,
-  Claude-SearchBot, PerplexityBot, Google-Extended, Bingbot, CCBot, plus `*`.
-  Point at sitemap.xml.
+- **robots.ts** — explicit `Allow: /` groups for every token in
+  `lib/crawlers.ts`, plus `*`. Point at sitemap.xml. **The roster was widened
+  2026-07-31** from seven tokens to the full answer-engine set: the original
+  list was all *training* crawlers, and named none of the bots that fetch a
+  page in order to answer a live question (OAI-SearchBot, ChatGPT-User,
+  Claude-User, Perplexity-User, Googlebot, and friends). `*: Allow: /` did
+  cover them, but the whole reason the explicit list exists is that it survives
+  a later `*` change — and it is the same list /our-score publishes traffic
+  against. geo.spec.ts now iterates `AI_BOT_TOKENS` rather than hardcoding
+  names, so robots.txt and the roster cannot drift apart.
 - **Metadata** — per-page `export const metadata` (unique title ≤60 chars,
-  description ≤155, OG tags). Canonical via `metadataBase` in layout.
+  description ≤155, OG tags). **Canonical is `alternates.canonical` on each
+  page, NOT `metadataBase`** — `metadataBase` only resolves relative metadata
+  URLs and emits no canonical tag at all. This doc asserted otherwise until
+  2026-07-31 and the site shipped with zero canonicals as a result. Site-wide
+  `robots` metadata sets `max-snippet:-1` / `max-image-preview:large` /
+  `max-video-preview:-1`; `/404` overrides with noindex.
 - **JSON-LD** — emitted as `<script type="application/ld+json">` from server
-  components via `lib/schema.ts` builders; present in raw exported HTML.
+  components via `lib/schema.ts` builders; present in raw exported HTML. The
+  per-page WebPage + BreadcrumbList block comes from `components/PageSchema.tsx`,
+  which is handed **the page's own `metadata` object** rather than a second copy
+  of the title and description. That is the FaqSection pattern applied to page
+  metadata: there is no second string to drift.
+- **/feed.xml** — RSS 2.0 over `getAllArticles()`, a Route Handler with
+  `dynamic = "force-static"` (same pattern as `app/security.txt/route.ts`).
+  Linked from /learn and the article pages via `alternates.types`.
 - **Answer-first content rule** — every H2 that poses a question is immediately
   followed by a 1–2 sentence standalone answer (enforced by review, encoded in
   the copy from website-plan.md).

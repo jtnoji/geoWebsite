@@ -16,14 +16,65 @@
  * audit clients for.
  */
 
-/** UA token, matched case-insensitively against the request user agent. */
+/**
+ * UA token, matched case-insensitively against the request user agent.
+ *
+ * WIDENED 2026-07-31, and the reason matters more than the additions.
+ *
+ * The original roster (GPTBot, ClaudeBot, Claude-SearchBot, PerplexityBot,
+ * Google-Extended, Bingbot, CCBot) was a list of TRAINING crawlers. Not one of
+ * the bots that fetches a page in order to answer a question someone is asking
+ * right now was on it:
+ *
+ *   - GPTBot trains models. `OAI-SearchBot` builds the index ChatGPT search
+ *     cites from, and `ChatGPT-User` is the fetch that happens when a user's
+ *     question sends ChatGPT to a URL. Those two decide whether a page can show
+ *     up in a ChatGPT answer; GPTBot does not.
+ *   - `Google-Extended` is a training/grounding opt-out token. It is not a
+ *     fetcher and has no crawl behaviour of its own. AI Overviews and AI Mode
+ *     read what plain `Googlebot` fetched, which the old list never named.
+ *   - Same split at Anthropic (Claude-User), Perplexity (Perplexity-User),
+ *     Apple (Applebot / Applebot-Extended) and Mistral (MistralAI-User).
+ *
+ * `User-Agent: *  Allow: /` did permit all of them, so nothing was blocked.
+ * The point of the explicit per-bot list is that it survives a later change to
+ * the `*` group, and that it is the same list /our-score publishes traffic
+ * against. A roster that omits OAI-SearchBot cannot report on the crawler that
+ * actually decides ChatGPT visibility, which is the product.
+ *
+ * Deliberately NOT here: Bytespider, Diffbot, Timpibot, YouBot. They feed no
+ * answer surface a US local business is measured in, so listing them would pad
+ * the /our-score table with rows that mean nothing. `*` still allows them.
+ */
 export const AI_BOTS = [
-  { token: "GPTBot", label: "GPTBot", engine: "ChatGPT" },
-  { token: "ClaudeBot", label: "ClaudeBot", engine: "Claude" },
-  { token: "Claude-SearchBot", label: "Claude-SearchBot", engine: "Claude" },
+  // OpenAI: train / index / live fetch are three different bots.
+  { token: "GPTBot", label: "GPTBot", engine: "ChatGPT (training)" },
+  { token: "OAI-SearchBot", label: "OAI-SearchBot", engine: "ChatGPT (search)" },
+  { token: "ChatGPT-User", label: "ChatGPT-User", engine: "ChatGPT (browsing)" },
+  // Anthropic.
+  { token: "ClaudeBot", label: "ClaudeBot", engine: "Claude (training)" },
+  { token: "Claude-SearchBot", label: "Claude-SearchBot", engine: "Claude (search)" },
+  { token: "Claude-User", label: "Claude-User", engine: "Claude (browsing)" },
+  // Perplexity.
   { token: "PerplexityBot", label: "PerplexityBot", engine: "Perplexity" },
-  { token: "Google-Extended", label: "Google-Extended", engine: "Gemini" },
+  { token: "Perplexity-User", label: "Perplexity-User", engine: "Perplexity (browsing)" },
+  // Google: Googlebot is what AI Overviews read. Google-Extended is a
+  // grounding/training opt-out token, kept so an allow stays explicit.
+  { token: "Googlebot", label: "Googlebot", engine: "Google AI Overviews" },
+  { token: "Google-Extended", label: "Google-Extended", engine: "Gemini (grounding)" },
+  { token: "Google-CloudVertexBot", label: "Google-CloudVertexBot", engine: "Vertex AI" },
+  // Microsoft.
   { token: "Bingbot", label: "Bingbot", engine: "Bing / Copilot" },
+  // Apple.
+  { token: "Applebot", label: "Applebot", engine: "Siri / Spotlight" },
+  { token: "Applebot-Extended", label: "Applebot-Extended", engine: "Apple Intelligence" },
+  // The rest of the answer surfaces.
+  { token: "meta-externalagent", label: "meta-externalagent", engine: "Meta AI" },
+  { token: "Amazonbot", label: "Amazonbot", engine: "Alexa" },
+  { token: "DuckAssistBot", label: "DuckAssistBot", engine: "DuckDuckGo" },
+  { token: "MistralAI-User", label: "MistralAI-User", engine: "Le Chat" },
+  { token: "cohere-ai", label: "cohere-ai", engine: "Cohere" },
+  // Corpus everyone downstream trains on.
   { token: "CCBot", label: "CCBot", engine: "Common Crawl" },
 ] as const;
 

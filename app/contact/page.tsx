@@ -1,17 +1,26 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import PageSchema from "@/components/PageSchema";
 import { delay } from "@/lib/reveal";
+import { crumb } from "@/lib/schema";
 import { EMAIL, OFFER_CTA } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Contact: email or book a 20-minute call",
   description:
     "Email us or book a 20-minute call with Josh. Prefer to see your numbers first? Start with the free AI visibility check.",
+  alternates: { canonical: "/contact/" },
 };
 
 export default function Contact() {
   return (
     <div className="mx-auto max-w-2xl px-5 py-16 text-center sm:px-8 md:py-20">
+      <PageSchema
+        meta={metadata}
+        path="/contact/"
+        type="ContactPage"
+        trail={[crumb("/contact/")]}
+      />
       <div data-reveal>
         <h1 className="text-4xl font-bold tracking-tight text-ink">Contact</h1>
         <p className="mt-5 text-base leading-7 text-ink-soft">

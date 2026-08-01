@@ -1,17 +1,18 @@
 /**
  * Shared page fixture for the QA suite: every route, a copy string that must
  * exist in the RAW HTML (the JS-disabled check), and the JSON-LD @types
- * expected per the scaffold §3 table. Organization + ProfessionalService come
- * from the root layout on every page.
+ * expected per the scaffold §3 table. Organization + WebSite +
+ * ProfessionalService come from the root layout on every page; the WebPage (or
+ * its subtype) and the BreadcrumbList come from components/PageSchema.tsx.
  */
 
 export type PageSpec = {
   path: string;
   mustContain: string[];
-  schemaTypes: string[]; // beyond the site-wide Organization + ProfessionalService
+  schemaTypes: string[]; // beyond SITE_WIDE_SCHEMA
 };
 
-export const SITE_WIDE_SCHEMA = ["Organization", "ProfessionalService"];
+export const SITE_WIDE_SCHEMA = ["Organization", "WebSite", "ProfessionalService"];
 
 export const PAGES: PageSpec[] = [
   {
@@ -23,7 +24,9 @@ export const PAGES: PageSpec[] = [
       "of U.S. consumers used AI tools to find local businesses",
       "BrightLocal, 2026",
     ],
-    schemaTypes: [],
+    // No BreadcrumbList: home is the root of every trail, so a one-rung
+    // breadcrumb would say nothing.
+    schemaTypes: ["WebPage"],
   },
   {
     path: "/free-check/",
@@ -32,7 +35,7 @@ export const PAGES: PageSpec[] = [
       "Run my free AI visibility check",
       "you", // sanity
     ],
-    schemaTypes: [],
+    schemaTypes: ["WebPage", "BreadcrumbList"],
   },
   {
     path: "/sample-report/",
@@ -41,7 +44,7 @@ export const PAGES: PageSpec[] = [
       "The prioritized fix list",
       "mention rate", // ArtifactCard header bars are lowercase mono
     ],
-    schemaTypes: [],
+    schemaTypes: ["WebPage", "BreadcrumbList"],
   },
   {
     path: "/how-it-works/",
@@ -51,7 +54,7 @@ export const PAGES: PageSpec[] = [
       "Five stages to the report, then the work",
       "What we won", // honesty heading; apostrophe HTML-escaped
     ],
-    schemaTypes: ["FAQPage"],
+    schemaTypes: ["WebPage", "BreadcrumbList", "FAQPage"],
   },
   {
     path: "/pricing/",
@@ -61,47 +64,47 @@ export const PAGES: PageSpec[] = [
       "Ongoing GEO",
       "Do you do the fixes too?",
     ],
-    schemaTypes: ["Service", "Service", "FAQPage"],
+    schemaTypes: ["WebPage", "BreadcrumbList", "Service", "Service", "FAQPage"],
   },
   {
     path: "/learn/",
     mustContain: ["Learn", "What is GEO"],
-    schemaTypes: [],
+    schemaTypes: ["CollectionPage", "BreadcrumbList"],
   },
   {
     path: "/learn/what-is-geo/",
-    mustContain: ["GEO", "Generative Engine Optimization"],
-    schemaTypes: ["Article"],
+    mustContain: ["GEO", "Generative Engine Optimization", "Josh Noji"],
+    schemaTypes: ["WebPage", "BreadcrumbList", "Article"],
   },
   {
     path: "/learn/why-doesnt-chatgpt-mention-my-business/",
-    mustContain: ["three measurable reasons"],
-    schemaTypes: ["Article"],
+    mustContain: ["three measurable reasons", "Josh Noji"],
+    schemaTypes: ["WebPage", "BreadcrumbList", "Article"],
   },
   {
     path: "/learn/which-sources-do-ai-engines-cite/",
-    mustContain: ["consistent set of sources"],
-    schemaTypes: ["Article"],
+    mustContain: ["consistent set of sources", "Abhi Jinka"],
+    schemaTypes: ["WebPage", "BreadcrumbList", "Article"],
   },
   {
     path: "/learn/is-your-website-invisible-to-ai-crawlers/",
-    mustContain: ["challenge pages"],
-    schemaTypes: ["Article"],
+    mustContain: ["challenge pages", "Abhi Jinka"],
+    schemaTypes: ["WebPage", "BreadcrumbList", "Article"],
   },
   {
     path: "/learn/ai-search-vs-traditional-seo/",
-    mustContain: ["the answer replaced the list"],
-    schemaTypes: ["Article"],
+    mustContain: ["the answer replaced the list", "Josh Noji"],
+    schemaTypes: ["WebPage", "BreadcrumbList", "Article"],
   },
   {
     path: "/about/",
     mustContain: ["Two founders", "Abhi", "Josh"],
-    schemaTypes: ["Person", "Person"],
+    schemaTypes: ["AboutPage", "BreadcrumbList", "Person", "Person"],
   },
   {
     path: "/contact/",
     mustContain: ["Contact", "20-minute call"],
-    schemaTypes: [],
+    schemaTypes: ["ContactPage", "BreadcrumbList"],
   },
   {
     path: "/our-score/",
@@ -110,7 +113,7 @@ export const PAGES: PageSpec[] = [
       "Cat 1: Bot access",
       "Cat 6: Hygiene",
     ],
-    schemaTypes: [],
+    schemaTypes: ["WebPage", "BreadcrumbList"],
   },
   {
     path: "/privacy/",
@@ -120,13 +123,25 @@ export const PAGES: PageSpec[] = [
       "How do I get my data deleted?",
     ],
     // No FAQPage here on purpose: these are a legal notice, not the site's FAQs.
-    schemaTypes: [],
+    schemaTypes: ["WebPage", "BreadcrumbList"],
   },
 ];
 
+/**
+ * User agents the bot-access checks fetch as.
+ *
+ * Deliberately includes the LIVE-ANSWER fetchers, not just the training
+ * crawlers: OAI-SearchBot and ChatGPT-User are what decide whether a page can
+ * appear in a ChatGPT answer, and Googlebot is what AI Overviews read. A suite
+ * that only tested GPTBot and Google-Extended was testing the bots that matter
+ * least to the product.
+ */
 export const AI_USER_AGENTS = [
   "GPTBot/1.0 (+https://openai.com/gptbot)",
+  "Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko); compatible; OAI-SearchBot/1.0; +https://openai.com/searchbot",
+  "Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko); compatible; ChatGPT-User/1.0; +https://openai.com/bot",
   "ClaudeBot/1.0 (+claudebot@anthropic.com)",
   "PerplexityBot/1.0 (+https://perplexity.ai/perplexitybot)",
+  "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
   "Mozilla/5.0 (compatible; Google-Extended)",
 ] as const;

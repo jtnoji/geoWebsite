@@ -7,7 +7,7 @@ import Footer from "@/components/Footer";
 import BottomBar from "@/components/BottomBar";
 import JsonLd from "@/components/JsonLd";
 import ScrollReveal from "@/components/ScrollReveal";
-import { org, professionalService } from "@/lib/schema";
+import { org, professionalService, website } from "@/lib/schema";
 import { BRAND, DOMAIN, TAGLINE } from "@/lib/site";
 
 // Self-hosted at build time by next/font — no external CDN request, so the
@@ -29,6 +29,24 @@ export const metadata: Metadata = {
   openGraph: {
     siteName: BRAND,
     type: "website",
+  },
+  /**
+   * Snippet permissions, stated rather than defaulted.
+   *
+   * Engines cap how much of a page they will quote unless told otherwise, and
+   * a company whose product is "get quoted in AI answers" should not be
+   * shipping the default cap on its own pages. `-1` means no limit.
+   *
+   * This is index/follow for the whole site. `app/not-found.tsx` overrides it
+   * with noindex, which geo.spec.ts asserts: a dead URL must never compete in
+   * search or surface in an AI answer.
+   */
+  robots: {
+    index: true,
+    follow: true,
+    "max-snippet": -1,
+    "max-image-preview": "large",
+    "max-video-preview": -1,
   },
 };
 
@@ -52,7 +70,11 @@ export default function RootLayout({
               "window.__revealFailsafe=setTimeout(function(){d.classList.remove('js-reveal')},2500)})()",
           }}
         />
+        {/* The three site-wide entity nodes, @id-linked: WebSite is published
+            by Organization, and ProfessionalService names Organization as its
+            parent. Per-page WebPage nodes hang off SITE_ID from PageSchema. */}
         <JsonLd data={org()} />
+        <JsonLd data={website()} />
         <JsonLd data={professionalService()} />
         <ScrollReveal />
         <Header />

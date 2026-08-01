@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import FaqSection from "@/components/FaqSection";
+import PageSchema from "@/components/PageSchema";
 import { delay } from "@/lib/reveal";
-import { type Faq } from "@/lib/schema";
+import { crumb, type Faq } from "@/lib/schema";
 import { BRAND, EMAIL, NAP } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Privacy: what we collect and why",
   description:
     "What the free check collects, who stores it, and how to have it deleted. No cookies, no trackers, nothing sold.",
+  alternates: { canonical: "/privacy/" },
 };
 
 /**
@@ -98,6 +100,8 @@ const POLICY: Faq[] = [
 export default function Privacy() {
   return (
     <div className="mx-auto max-w-2xl px-5 py-16 sm:px-8 md:py-20">
+      <PageSchema meta={metadata} path="/privacy/" trail={[crumb("/privacy/")]} />
+
       {/* Head centres; the policy Q&A below stays left-aligned so the answers
           read as body copy (CLAUDE.md "Alignment"). */}
       <div data-reveal className="text-center">

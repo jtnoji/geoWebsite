@@ -253,13 +253,29 @@ fallback. "Prefer to see your numbers first? → Free visibility check."
 - **Rendering (Cat 2):** Fully static / server-rendered HTML. Every word of copy
   and all schema present in the raw HTML response with JavaScript disabled. No
   client-only rendering for content.
-- **Bot access (Cat 1):** robots.txt explicitly allows GPTBot, ClaudeBot,
-  Claude-SearchBot, PerplexityBot, Google-Extended, Bingbot, CCBot. Verify the
-  host/CDN (Vercel) isn't challenge-blocking them. Add to CI (see §4).
-- **Schema (Cat 5):** Organization + ProfessionalService on home; FAQPage on
-  /how-it-works, /pricing FAQ, /learn articles; Service on /pricing; Person
-  (both founders) on /about; Article on /learn posts. Schema content must match
-  visible text (your own validator checks this).
+- **Bot access (Cat 1):** robots.txt explicitly allows every roster crawler in
+  `lib/crawlers.ts`. **Widened 2026-07-31.** The original seven named GPTBot,
+  ClaudeBot, Claude-SearchBot, PerplexityBot, Google-Extended, Bingbot and
+  CCBot, which is a *training-crawler* list. The bots that fetch a page to
+  answer a live question are different ones and none of them were named:
+  **OAI-SearchBot** and **ChatGPT-User** (not GPTBot) are what put a page in a
+  ChatGPT answer, **Googlebot** (not Google-Extended) is what fetches for AI
+  Overviews, and Claude-User, Perplexity-User, Applebot-Extended,
+  meta-externalagent, Amazonbot, DuckAssistBot, MistralAI-User and
+  Google-CloudVertexBot cover the rest. Verify the host/CDN (Vercel) isn't
+  challenge-blocking them. Add to CI (see §4).
+- **Schema (Cat 5):** an `@id`-linked graph, not a pile of loose blocks.
+  **Revised 2026-07-31.** Organization is the canonical entity node
+  (`/#organization`), WebSite (`/#website`) names it publisher,
+  ProfessionalService (`/#service`) points back at it via `parentOrganization`,
+  and both founders get stable Person `@id`s so the founder in the org block
+  and the one on /about are one entity, not two. Every page carries a WebPage
+  node (ContactPage / AboutPage / CollectionPage where the subtype fits) plus a
+  BreadcrumbList. Then: FAQPage on /how-it-works, /pricing FAQ; Service ×2 on
+  /pricing; Person ×2 on /about; Article on /learn posts, **authored by the
+  named founder in the markdown frontmatter, not by the Organization**. Schema
+  content must match visible text (your own validator checks this), which is
+  why the article byline had to become visible in the same change.
 - **Content structure (Cat 3/4):** Question-form H2s; answer-first paragraphs
   (the first sentence under each heading is the standalone, quotable answer);
   cited statistics with named sources (citation bait); consistent NAP in the
@@ -267,6 +283,27 @@ fallback. "Prefer to see your numbers first? → Free visibility check."
 - **Hygiene:** sitemap.xml, canonical URLs, unique titles/meta descriptions, OG
   tags, fast static pages. Per your own research discipline: no llms.txt (Google
   has said it doesn't use it — don't ship theater you'd flag in a client audit).
+  - **Canonicals shipped 2026-07-31, and were genuinely missing before that.**
+    Zero of 16 built pages carried a `<link rel="canonical">`. The old scaffold
+    §4 line "canonical via `metadataBase`" was simply wrong: `metadataBase` only
+    resolves *relative* metadata URLs and never emits the tag. Each page now
+    sets `alternates.canonical`, and geo.spec.ts asserts every page's canonical
+    equals `DOMAIN + path` so it cannot drift.
+  - **Snippet permissions are explicit** (`max-snippet:-1`,
+    `max-image-preview:large`, `max-video-preview:-1`, site-wide from the root
+    layout). A company selling "get quoted in AI answers" should not leave the
+    quotable length at the engine's default.
+  - **`/feed.xml`** — an RSS 2.0 feed of /learn, built from the same
+    `getAllArticles()` the index and the sitemap use. A machine-readable
+    discovery surface that costs nothing and is not theater, unlike llms.txt:
+    feeds are a format consumers actually poll.
+  - **Sitemap `lastModified` stays OFF for the ten static pages, on purpose.**
+    Articles carry it because `content/learn/*.md` has a real `date`. The static
+    pages have no honest source for one: file mtimes on a fresh Vercel checkout
+    are the build time, so emitting them would tell every engine that all ten
+    pages change on every deploy. That is a fabricated freshness signal, which
+    is exactly the kind of thing this rubric flags in a client audit. Revisit
+    only if a real per-page edit date exists.
 
 ## 4. Playwright QA loop (build + CI)
 

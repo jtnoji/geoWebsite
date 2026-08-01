@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import FreeCheckForm from "@/components/FreeCheckForm";
+import PageSchema from "@/components/PageSchema";
 import { delay } from "@/lib/reveal";
+import { crumb } from "@/lib/schema";
 import { OFFER_TITLE } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -9,6 +11,7 @@ export const metadata: Metadata = {
     // Adding Gemini pushed this past the 155-char meta-description limit that
     // geo.spec.ts enforces; "then email a short report" buys the 4 chars back.
     "Tell us who you are. We run real customer questions through ChatGPT, Google AI, Gemini, and Perplexity, then email a short report. Free, no call required.",
+  alternates: { canonical: "/free-check/" },
 };
 
 const DELIVERABLES = [
@@ -26,6 +29,8 @@ const DELIVERABLES = [
 export default function FreeCheck() {
   return (
     <div className="mx-auto max-w-2xl px-5 py-16 sm:px-8 md:py-20">
+      <PageSchema meta={metadata} path="/free-check/" trail={[crumb("/free-check/")]} />
+
       {/* Head centres; the form below keeps left-aligned labels and inputs. */}
       <div data-reveal className="text-center">
         <h1 className="text-3xl font-bold leading-[1.1] tracking-tight text-ink md:text-4xl">

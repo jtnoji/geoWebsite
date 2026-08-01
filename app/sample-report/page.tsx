@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
 import Cta from "@/components/Cta";
+import PageSchema from "@/components/PageSchema";
 import { delay } from "@/lib/reveal";
+import { crumb } from "@/lib/schema";
 import { MentionRateCard, SourcesCard, VerbatimCard } from "@/components/ReportPreview";
 
 export const metadata: Metadata = {
   title: "Sample AI Visibility Report",
   description:
     "What the report looks like: verbatim AI answers, the competitors named instead, mention-rate tables, cited sources, and the prioritized fix list.",
+  alternates: { canonical: "/sample-report/" },
 };
 
 const FIX_LIST = [
@@ -35,6 +38,12 @@ function Annotation({ children }: { children: React.ReactNode }) {
 export default function SampleReport() {
   return (
     <>
+      <PageSchema
+        meta={metadata}
+        path="/sample-report/"
+        trail={[crumb("/sample-report/")]}
+      />
+
       <div className="mx-auto max-w-[1120px] px-5 py-16 sm:px-8 md:py-20">
         <div data-reveal className="mx-auto max-w-[560px] text-center">
           <h1 className="text-4xl font-bold tracking-tight text-ink">

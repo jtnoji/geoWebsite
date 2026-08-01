@@ -1,5 +1,8 @@
 import { test, expect, type APIRequestContext } from "@playwright/test";
 import { AI_USER_AGENTS, PAGES, SITE_WIDE_SCHEMA } from "./pages";
+import { AI_BOT_TOKENS } from "../lib/crawlers";
+import { ORG_ID, SERVICE_ID, SITE_ID } from "../lib/schema";
+import { DOMAIN } from "../lib/site";
 
 /**
  * The dogfood mini-audit (scaffold §5). All checks run against the RAW HTML
@@ -18,6 +21,21 @@ function extractJsonLd(html: string): Record<string, unknown>[] {
 
 function extractTag(html: string, re: RegExp): string | undefined {
   return html.match(re)?.[1];
+}
+
+/**
+ * Raw HTML escapes text-node characters (`Why doesn&#x27;t ...`) while the same
+ * string inside a JSON-LD block keeps the literal (`Why doesn't ...`). Comparing
+ * the two without decoding fails on every title with an apostrophe.
+ */
+function decodeEntities(s: string): string {
+  return s
+    .replace(/&#x27;|&apos;|&#39;/g, "'")
+    .replace(/&quot;|&#34;/g, '"')
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&#x2F;/g, "/")
+    .replace(/&amp;/g, "&");
 }
 
 async function fetchHtml(request: APIRequestContext, path: string) {
@@ -110,19 +128,208 @@ test("robots.txt allows every AI crawler and points at the sitemap", async ({
   const res = await request.get("/robots.txt");
   expect(res.status()).toBe(200);
   const body = await res.text();
-  for (const bot of [
-    "GPTBot",
-    "ClaudeBot",
-    "Claude-SearchBot",
-    "PerplexityBot",
-    "Google-Extended",
-    "Bingbot",
-    "CCBot",
-  ]) {
+  // Iterates the roster rather than a hardcoded list, so robots.txt and
+  // lib/crawlers.ts cannot drift apart. That list is also what /our-score
+  // publishes traffic against: publishing a number for a bot we quietly
+  // stopped allowing is the unverifiable claim we audit clients for.
+  for (const bot of AI_BOT_TOKENS) {
     expect(body, `robots.txt should name ${bot}`).toContain(`User-Agent: ${bot}`);
   }
   expect(body).toContain("Sitemap:");
   expect(body).not.toContain("Disallow: /");
+});
+
+/**
+ * The roster must name the crawlers that fetch to ANSWER, not only the ones
+ * that fetch to TRAIN. Shipping without these is invisible: `*: Allow: /`
+ * still lets them in, so nothing breaks, and the explicit list silently stops
+ * covering the bots that actually decide whether a page can be cited.
+ */
+test("robots.txt names the live-answer fetchers, not just training crawlers", async ({
+  request,
+}) => {
+  const body = await (await request.get("/robots.txt")).text();
+  for (const bot of [
+    "OAI-SearchBot", // the index ChatGPT search cites from
+    "ChatGPT-User", // the fetch a user's question triggers
+    "Googlebot", // what AI Overviews actually read
+    "Claude-User",
+    "Perplexity-User",
+  ]) {
+    expect(body, `robots.txt should name ${bot}`).toContain(`User-Agent: ${bot}`);
+  }
+});
+
+/**
+ * Canonicals. Zero pages had one until 2026-07-31, because scaffold.md claimed
+ * `metadataBase` emitted them and it does not — it only resolves relative
+ * metadata URLs. Asserting the exact URL, not just the tag's presence, is what
+ * makes this catch a copy-pasted path on a new page.
+ */
+test("every page declares its own canonical URL", async ({ request }) => {
+  for (const page of PAGES) {
+    const html = await fetchHtml(request, page.path);
+    const canonical = extractTag(
+      html,
+      /<link rel="canonical" href="([^"]+)"/
+    );
+    expect(canonical, `${page.path} should have a canonical link`).toBeTruthy();
+    expect(canonical, `${page.path} canonical points at the wrong URL`).toBe(
+      `${DOMAIN}${page.path}`
+    );
+  }
+});
+
+/**
+ * Snippet permissions. A company selling "get quoted in AI answers" should not
+ * leave the quotable length at the engine's default cap.
+ */
+test("every page permits full-length snippets and large image previews", async ({
+  request,
+}) => {
+  for (const page of PAGES) {
+    const html = await fetchHtml(request, page.path);
+    const robots = extractTag(html, /<meta name="robots" content="([^"]+)"/);
+    expect(robots, `${page.path} should declare robots directives`).toBeTruthy();
+    expect(robots, `${page.path} must stay indexable`).toContain("index");
+    expect(robots, `${page.path} caps snippet length`).toContain("max-snippet:-1");
+    expect(robots, `${page.path} caps image previews`).toContain(
+      "max-image-preview:large"
+    );
+  }
+});
+
+/**
+ * The graph has to resolve to ONE company. Two same-named, same-URL nodes with
+ * no `@id` and no relation between them is an entity an engine cannot merge,
+ * which is what this site shipped until 2026-07-31.
+ */
+test("the site-wide schema graph is @id-linked to one entity", async ({
+  request,
+}) => {
+  const html = await fetchHtml(request, "/");
+  const blocks = extractJsonLd(html);
+  const byType = (t: string) => blocks.find((b) => b["@type"] === t);
+
+  const organization = byType("Organization");
+  const site = byType("WebSite");
+  const svc = byType("ProfessionalService");
+
+  expect(organization?.["@id"], "Organization needs a stable @id").toBe(ORG_ID);
+  expect(site?.["@id"], "WebSite needs a stable @id").toBe(SITE_ID);
+  expect(svc?.["@id"], "ProfessionalService needs a stable @id").toBe(SERVICE_ID);
+
+  // WebSite is published by the Organization, and the service belongs to it.
+  expect(site?.publisher, "WebSite should reference the Organization").toEqual({
+    "@id": ORG_ID,
+  });
+  expect(
+    svc?.parentOrganization,
+    "ProfessionalService should reference the Organization, not restate it"
+  ).toEqual({ "@id": ORG_ID });
+
+  // The brand mark, so the entity has a logo to attach.
+  expect(organization?.logo, "Organization should carry a logo").toMatchObject({
+    "@type": "ImageObject",
+  });
+});
+
+test("every page's WebPage node is part of the site and matches its title", async ({
+  request,
+}) => {
+  for (const page of PAGES) {
+    const html = await fetchHtml(request, page.path);
+    const blocks = extractJsonLd(html);
+    const node = blocks.find((b) =>
+      ["WebPage", "AboutPage", "ContactPage", "CollectionPage"].includes(
+        String(b["@type"])
+      )
+    );
+
+    expect(node, `${page.path} should emit a WebPage node`).toBeTruthy();
+    expect(node?.url, `${page.path} WebPage url`).toBe(`${DOMAIN}${page.path}`);
+    expect(node?.isPartOf, `${page.path} WebPage should be part of the site`).toEqual({
+      "@id": SITE_ID,
+    });
+
+    // PageSchema is fed the page's own metadata object, so its name is the
+    // page title minus the " · [Brand]" suffix the layout template appends.
+    // If someone hand-types a name instead, this catches it.
+    const title = decodeEntities(extractTag(html, /<title>([^<]+)<\/title>/) ?? "");
+    expect(
+      title,
+      `${page.path}: WebPage name "${node?.name}" is not in <title> "${title}"`
+    ).toContain(String(node?.name));
+  }
+});
+
+/**
+ * E-E-A-T: articles are written by a named founder. The markdown frontmatter
+ * has carried `author` since the articles were written, but until 2026-07-31
+ * the schema credited the Organization and the page rendered no byline at all.
+ * Schema must never state what the page does not show, so this checks both.
+ */
+test("articles are credited to a named person, visibly and in schema", async ({
+  request,
+}) => {
+  const articles = PAGES.filter(
+    (p) => p.path.startsWith("/learn/") && p.path !== "/learn/"
+  );
+  expect(articles.length, "expected article pages to test").toBeGreaterThan(0);
+
+  for (const page of articles) {
+    const html = await fetchHtml(request, page.path);
+    const node = extractJsonLd(html).find((b) => b["@type"] === "Article");
+    const author = node?.author as Record<string, unknown> | undefined;
+
+    expect(author?.["@type"], `${page.path} author should be a Person`).toBe("Person");
+    expect(author?.["@id"], `${page.path} author needs a stable @id`).toContain(
+      "/about/#"
+    );
+    expect(node?.dateModified, `${page.path} needs a dateModified`).toBeTruthy();
+    expect(node?.mainEntityOfPage, `${page.path} should link its WebPage node`).toEqual(
+      { "@id": `${DOMAIN}${page.path}#webpage` }
+    );
+
+    // The visible byline, in the raw bytes a crawler reads.
+    const name = String(author?.name);
+    const body = html.slice(html.indexOf("<body"));
+    expect(body, `${page.path}: schema credits ${name} but the page shows no byline`).toContain(name);
+  }
+});
+
+test("the /learn feed exists, is valid RSS, and lists every article", async ({
+  request,
+}) => {
+  const res = await request.get("/feed.xml");
+  expect(res.status()).toBe(200);
+  const xml = await res.text();
+
+  expect(xml).toContain('<rss version="2.0"');
+  expect(xml).toContain(`<link>${DOMAIN}/learn/</link>`);
+
+  const articles = PAGES.filter(
+    (p) => p.path.startsWith("/learn/") && p.path !== "/learn/"
+  );
+  for (const page of articles) {
+    expect(xml, `feed should list ${page.path}`).toContain(
+      `<guid isPermaLink="true">${DOMAIN}${page.path}</guid>`
+    );
+  }
+
+  // Unescaped markup in a title would break every reader that parses this.
+  const titles = [...xml.matchAll(/<title>([\s\S]*?)<\/title>/g)].map((m) => m[1]);
+  expect(titles.length).toBeGreaterThan(articles.length); // channel + items
+  for (const t of titles) {
+    expect(t, `feed title is not XML-escaped: ${t}`).not.toMatch(/[<>]/);
+  }
+});
+
+test("/learn links the feed for discovery", async ({ request }) => {
+  const html = await fetchHtml(request, "/learn/");
+  expect(html).toMatch(
+    /<link[^>]+rel="alternate"[^>]+type="application\/rss\+xml"[^>]*>/
+  );
 });
 
 test("sitemap.xml exists, parses, and covers every page", async ({ request }) => {

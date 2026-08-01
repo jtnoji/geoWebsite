@@ -1,13 +1,17 @@
 import type { Metadata } from "next";
 import { CrawlerLogSection } from "@/components/CrawlerLog";
 import Cta from "@/components/Cta";
+import PageSchema from "@/components/PageSchema";
+import { AI_BOTS } from "@/lib/crawlers";
 import { delay } from "@/lib/reveal";
+import { crumb } from "@/lib/schema";
 import { BRAND } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Our score: we audited our own website",
   description:
     "The exact Cat 1–6 audit we sell, run against this site, published and dated. No competitor publishes their own audit of themselves.",
+  alternates: { canonical: "/our-score/" },
 };
 
 /**
@@ -20,9 +24,12 @@ const AUDIT_DATE = "Pending first deploy";
 const RESULTS = [
   {
     category: "Cat 1: Bot access",
-    check: "GPTBot, ClaudeBot, PerplexityBot, Google-Extended fetch real pages (no challenge walls)",
+    // Count comes from the roster, so this line cannot outlive the list it
+    // describes. Naming the live-answer fetchers is the point: a robots.txt
+    // that allows only training crawlers reads as a pass and is not one.
+    check: `All ${AI_BOTS.length} AI crawlers we track fetch real pages (no challenge walls)`,
     status: "Pass",
-    note: "robots.txt explicitly allows every major AI crawler; Vercel challenge mode off.",
+    note: "robots.txt names the live-answer fetchers too, not just the training crawlers. Vercel challenge mode off.",
   },
   {
     category: "Cat 2: Rendering",
@@ -44,7 +51,7 @@ const RESULTS = [
   },
   {
     category: "Cat 5: Structured data",
-    check: "Organization, ProfessionalService, FAQPage, Service, Person schema, all matching visible text",
+    check: "One linked entity graph, plus WebPage, BreadcrumbList, FAQPage, Service, Person and Article, all matching visible text",
     status: "Pass",
     note: "Schema is generated from the same data structures that render the visible copy, so it cannot drift.",
   },
@@ -59,6 +66,8 @@ const RESULTS = [
 export default function OurScore() {
   return (
     <>
+      <PageSchema meta={metadata} path="/our-score/" trail={[crumb("/our-score/")]} />
+
       <div className="mx-auto max-w-[1120px] px-5 py-16 text-center sm:px-8 md:py-20">
         <div data-reveal>
         <h1 className="mx-auto max-w-2xl text-4xl font-bold tracking-tight text-ink">

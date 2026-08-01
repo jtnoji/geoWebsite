@@ -1,19 +1,27 @@
 import type { Metadata } from "next";
 import Cta from "@/components/Cta";
 import JsonLd from "@/components/JsonLd";
+import PageSchema from "@/components/PageSchema";
 import { delay } from "@/lib/reveal";
-import { person } from "@/lib/schema";
+import { crumb, person } from "@/lib/schema";
 import { FOUNDERS, NAP } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "About: two founders measuring, not guessing",
   description:
     "Abhi built the measurement platform. Josh works with every client. Berkeley, CA. We measure, we do the work, and we sell no guarantees.",
+  alternates: { canonical: "/about/" },
 };
 
 export default function About() {
   return (
     <>
+      <PageSchema
+        meta={metadata}
+        path="/about/"
+        type="AboutPage"
+        trail={[crumb("/about/")]}
+      />
       {FOUNDERS.map((f) => (
         <JsonLd key={f.name} data={person(f)} />
       ))}

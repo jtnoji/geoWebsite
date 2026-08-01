@@ -3,14 +3,16 @@ import Link from "next/link";
 import Cta from "@/components/Cta";
 import FaqSection from "@/components/FaqSection";
 import JsonLd from "@/components/JsonLd";
+import PageSchema from "@/components/PageSchema";
 import { delay } from "@/lib/reveal";
-import { service, type Faq } from "@/lib/schema";
+import { crumb, service, type Faq } from "@/lib/schema";
 import { OFFER_TITLE, PRICING } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Pricing: audit and ongoing GEO",
   description:
     "Start with a free AI visibility check. The full audit and the ongoing work are priced flat. Reports show sampled rates, never guaranteed rankings.",
+  alternates: { canonical: "/pricing/" },
 };
 
 const TIERS = [
@@ -64,6 +66,7 @@ const FAQS: Faq[] = [
 export default function Pricing() {
   return (
     <>
+      <PageSchema meta={metadata} path="/pricing/" trail={[crumb("/pricing/")]} />
       <JsonLd
         data={service({
           name: "Full AI Visibility Audit",

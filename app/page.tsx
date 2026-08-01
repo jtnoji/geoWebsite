@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Chip from "@/components/Chip";
 import Cta from "@/components/Cta";
+import PageSchema from "@/components/PageSchema";
 import SamplingCard from "@/components/SamplingCard";
 import StatTile from "@/components/StatTile";
 import StepList from "@/components/StepList";
@@ -19,6 +20,7 @@ export const metadata: Metadata = {
   title: { absolute: `${BRAND}: does AI recommend your business?` },
   description:
     "ChatGPT, Google AI, Gemini, and Perplexity name only a few businesses per answer. We measure whether you're one of them, and who gets named instead.",
+  alternates: { canonical: "/" },
 };
 
 const STEPS = [
@@ -68,6 +70,9 @@ const METRICS = [
 export default function Home() {
   return (
     <>
+      {/* No breadcrumb: the home page is the root of every trail. */}
+      <PageSchema meta={metadata} path="/" />
+
       {/* Hero — centered badge, display headline, pill CTAs, bobbing chevron */}
       <section>
         <div className="mx-auto max-w-[920px] px-5 pb-6 pt-16 text-center sm:px-8">

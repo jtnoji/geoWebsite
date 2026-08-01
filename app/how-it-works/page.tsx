@@ -6,8 +6,9 @@ import Cta from "@/components/Cta";
 import DataChips from "@/components/DataChips";
 import HonestyBlock from "@/components/HonestyBlock";
 import JsonLd from "@/components/JsonLd";
+import PageSchema from "@/components/PageSchema";
 import { SamplingRows } from "@/components/SamplingCard";
-import { faq } from "@/lib/schema";
+import { crumb, faq } from "@/lib/schema";
 import { SAMPLE_LABEL, SAMPLE_QUERY, SAMPLE_ROWS } from "@/lib/sample";
 import { HONESTY_COPY } from "@/lib/site";
 import { SAMPLING_FOOTNOTE } from "@/lib/stats";
@@ -16,6 +17,7 @@ export const metadata: Metadata = {
   title: "How it works: our AI visibility methodology",
   description:
     "Which engines we measure, why every question runs ten times, how answers are judged, and how we implement the fixes. The whole protocol, in public.",
+  alternates: { canonical: "/how-it-works/" },
 };
 
 /**
@@ -173,6 +175,11 @@ function BodyWithBolds({ body, bolds }: { body: string; bolds: readonly string[]
 export default function HowItWorks() {
   return (
     <>
+      <PageSchema
+        meta={metadata}
+        path="/how-it-works/"
+        trail={[crumb("/how-it-works/")]}
+      />
       <JsonLd
         data={faq(SECTIONS.map((s) => ({ question: s.heading, answer: s.body })))}
       />
