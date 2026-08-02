@@ -113,7 +113,7 @@ export default function FreeCheckForm() {
   if (status === "done") {
     return (
       <div data-testid="free-check-confirmation" className="border-t-2 border-ink pt-6">
-        <h2 className="text-2xl font-semibold tracking-tight text-ink">
+        <h2 className="display text-[27px] text-ink">
           Got it. We&rsquo;re running your check.
         </h2>
         <p className="mt-3 text-base leading-7 text-ink-soft">
@@ -121,7 +121,7 @@ export default function FreeCheckForm() {
         </p>
 
         {phoneStatus === "error" ? (
-          <p className="mt-6 text-sm leading-6 text-bad">
+          <p className="mt-6 text-sm font-medium leading-6 text-ink">
             We couldn&rsquo;t save that number, so reply to your report if
             you&rsquo;d like a call. Your check is running either way.
           </p>
@@ -239,7 +239,7 @@ export default function FreeCheckForm() {
       </p>
 
       {status === "error" && (
-        <p role="alert" className="text-sm font-medium text-bad">
+        <p role="alert" className="text-sm font-medium text-ink">
           That didn&rsquo;t send. Email us instead and we&rsquo;ll run your
           check.
         </p>

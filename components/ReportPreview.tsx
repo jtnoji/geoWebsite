@@ -8,10 +8,15 @@ import {
 } from "@/lib/sample";
 
 /**
- * Report panels in the locked system: ArtifactCards (black mono header bars)
- * and the run-sampling dot rows. Red only where loss/absence is shown. Data comes
- * from lib/sample.ts (the ONE canonical illustrative dataset) — swap for real
- * anonymized report imagery when the sample run is picked (scaffold §7 step 6).
+ * Report panels in the locked system: ArtifactCards (navy header bars) and the
+ * run-sampling dot rows. Data comes from lib/sample.ts (the ONE canonical
+ * illustrative dataset) — swap for real anonymized report imagery when the
+ * sample run is picked (scaffold §7 step 6).
+ *
+ * These are the FLAGGED-FAILURE case of absence, the opposite of SamplingCard's
+ * comparison case: a finding that demands attention steps UP to full ink, and
+ * the loudest of them inverts to a navy fill. The palette has no warning hue to
+ * spend, so weight and inversion carry it.
  */
 
 
@@ -44,7 +49,7 @@ function VerbatimCard() {
         <b className="font-bold text-ink">{SAMPLE_COMPETITORS[0]}</b> and{" "}
         <b className="font-bold text-ink">{SAMPLE_COMPETITORS[1]}</b>&hellip;&rdquo;
       </p>
-      <p className="mx-4 mb-4 border-l-2 border-gold bg-gold-soft px-3 py-2 font-mono text-[13px] font-semibold text-bad">
+      <p className="mx-4 mb-4 bg-ink px-3 py-2 font-mono text-[13px] font-medium text-white">
         The client was not mentioned.
       </p>
     </ArtifactCard>
@@ -63,7 +68,7 @@ function SourcesCard() {
             <span className="font-bold text-ink">{check.label}</span>
             <span
               className={`mt-0.5 block font-mono text-xs ${
-                check.bad ? "font-semibold text-bad" : "text-ink-soft"
+                check.bad ? "font-medium text-ink" : "text-ink-soft"
               }`}
             >
               {check.state}

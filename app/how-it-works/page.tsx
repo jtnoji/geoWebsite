@@ -113,9 +113,13 @@ const PIPELINE = [
     hot: false,
   },
   {
-    // The gold marker moved here from 05 with the Ongoing GEO reframe: the
+    // The emphasis marker moved here from 05 with the Ongoing GEO reframe: the
     // emphasised endpoint of the protocol is the work, not the report. Labelled
     // "ongoing tier" so nobody reads implementation into the one-time audit.
+    //
+    // Under the Berkeley palette `hot` is carried by the OTHER five stepping
+    // DOWN, not by this one lighting up: navy fill is already the loudest thing
+    // available on paper, and it is what every stage tab used to wear.
     n: "06",
     title: "Implemented",
     desc: "Ongoing tier: we make the fixes, then re-run.",
@@ -188,7 +192,7 @@ export default function HowItWorks() {
       <section className="border-b border-line">
         <div data-reveal className="mx-auto max-w-[1120px] px-5 pb-[52px] pt-[72px] text-center sm:px-8">
           <Chip>Methodology · v2.1 · May 2026</Chip>
-          <h1 className="mx-auto mb-4 mt-5 max-w-[720px] text-[40px] font-bold leading-[1.0] tracking-[-0.04em] text-ink md:text-[58px]">
+          <h1 className="display mx-auto mb-4 mt-5 max-w-[720px] text-[40px] font-bold leading-[1.0] tracking-[-0.04em] text-ink md:text-[58px]">
             Measurement you can actually inspect.
           </h1>
           <p className="mx-auto mb-7 max-w-[540px] text-lg leading-7 text-ink-soft">
@@ -214,7 +218,7 @@ export default function HowItWorks() {
         <div className="mx-auto max-w-[1120px] px-5 py-14 sm:px-8">
           <div data-reveal className="mb-6 flex flex-wrap items-center gap-4">
             <Chip>The pipeline</Chip>
-            <h2 className="text-[22px] font-bold tracking-[-0.03em] text-ink">
+            <h2 className="display text-[22px] font-bold tracking-[-0.03em] text-ink">
               Five stages to the report, then the work
             </h2>
           </div>
@@ -231,7 +235,9 @@ export default function HowItWorks() {
               >
                 <span
                   className={`block px-3.5 py-1.5 font-mono text-[11px] ${
-                    stage.hot ? "bg-gold text-ink" : "bg-ink text-white"
+                    stage.hot
+                      ? "bg-ink font-medium text-white"
+                      : "bg-paper-dim text-ink-faint"
                   }`}
                 >
                   {stage.n}
@@ -253,7 +259,9 @@ export default function HowItWorks() {
                     stop wrapping as one line of text. */}
                 <div
                   className={`mx-3.5 mt-auto flex min-h-[88px] items-center justify-center px-2.5 py-2 text-center font-mono text-[10.5px] leading-6 ${
-                    stage.hot ? "bg-gold-soft text-bad" : "bg-paper-dim text-ink-soft"
+                    stage.hot
+                      ? "bg-paper-dim font-medium text-ink"
+                      : "bg-paper-dim text-ink-soft"
                   }`}
                 >
                   <span>{stage.art}</span>
@@ -292,7 +300,7 @@ export default function HowItWorks() {
           >
             <div>
               <Chip>{SECTIONS[0].chip}</Chip>
-              <h2 className="mb-3 mt-3.5 max-w-[360px] text-[28px] font-bold leading-[1.1] tracking-[-0.035em] text-ink">
+              <h2 className="display mb-3 mt-3.5 max-w-[360px] text-[28px] font-bold leading-[1.1] tracking-[-0.035em] text-ink">
                 {SECTIONS[0].heading}
               </h2>
               <p className="text-[15.5px] leading-[1.6] text-ink-soft">
@@ -324,7 +332,7 @@ export default function HowItWorks() {
           >
             <div>
               <Chip>{SECTIONS[1].chip}</Chip>
-              <h2 className="mb-3 mt-3.5 max-w-[360px] text-[28px] font-bold leading-[1.1] tracking-[-0.035em] text-ink">
+              <h2 className="display mb-3 mt-3.5 max-w-[360px] text-[28px] font-bold leading-[1.1] tracking-[-0.035em] text-ink">
                 {SECTIONS[1].heading}
               </h2>
               <p className="text-[15.5px] leading-[1.6] text-ink-soft">
@@ -353,7 +361,7 @@ export default function HowItWorks() {
           >
             <div>
               <Chip>{SECTIONS[2].chip}</Chip>
-              <h2 className="mb-3 mt-3.5 max-w-[360px] text-[28px] font-bold leading-[1.1] tracking-[-0.035em] text-ink">
+              <h2 className="display mb-3 mt-3.5 max-w-[360px] text-[28px] font-bold leading-[1.1] tracking-[-0.035em] text-ink">
                 {SECTIONS[2].heading}
               </h2>
               <p className="text-[15.5px] leading-[1.6] text-ink-soft">
@@ -375,7 +383,9 @@ export default function HowItWorks() {
                       {row.rest}
                       {row.flag && (
                         <span className="mt-1.5 block">
-                          <span className="inline-block bg-gold px-2 py-0.5 font-mono text-[11px] text-ink">
+                          {/* Flagged failure: steps up to the navy fill, the
+                              same as the home hero's "not mentioned" flag. */}
+                          <span className="inline-block bg-ink px-2 py-0.5 font-mono text-[11px] font-medium text-white">
                             missing_or_invented_feature · HIGH
                           </span>
                         </span>
@@ -395,7 +405,7 @@ export default function HowItWorks() {
           >
             <div>
               <Chip>{SECTIONS[3].chip}</Chip>
-              <h2 className="mb-3 mt-3.5 max-w-[360px] text-[28px] font-bold leading-[1.1] tracking-[-0.035em] text-ink">
+              <h2 className="display mb-3 mt-3.5 max-w-[360px] text-[28px] font-bold leading-[1.1] tracking-[-0.035em] text-ink">
                 {SECTIONS[3].heading}
               </h2>
               <p className="text-[15.5px] leading-[1.6] text-ink-soft">
@@ -414,11 +424,12 @@ export default function HowItWorks() {
             </div>
           </section>
 
-          {/* §5 — the honesty pull-quote; the chip here is the page's one red chip */}
+          {/* §5 — the honesty pull-quote. This was the page's one gold chip;
+              solid navy is the equivalent step in the Berkeley palette. */}
           <section id="s5" data-reveal className="grid gap-6 py-12 pb-0 md:grid-cols-[5fr_6fr] md:gap-13">
             <div>
-              <Chip gold>{SECTIONS[4].chip}</Chip>
-              <h2 className="mb-3 mt-3.5 max-w-[360px] text-[28px] font-bold leading-[1.1] tracking-[-0.035em] text-ink">
+              <Chip>{SECTIONS[4].chip}</Chip>
+              <h2 className="display mb-3 mt-3.5 max-w-[360px] text-[28px] font-bold leading-[1.1] tracking-[-0.035em] text-ink">
                 {SECTIONS[4].heading}
               </h2>
             </div>

@@ -13,12 +13,15 @@ contradicts them — change the doc first, then the code.
 ## Stack & commands
 
 Next.js (App Router) + TypeScript + Tailwind, **static export** (`output:
-'export'`), deployed on Vercel. **Design reference: `mockup/weir-style.html`
-(the "weir" system, imported from Claude Design 2026-07-20 — open it in a
-browser before styling anything; `weir-*.jpg` are its key screenshots).**
-`mockup/` holds the weir system and nothing else. The superseded IBM Plex
-mockups were deleted 2026-07-25 once the copy pass replaced the last of what
-they were kept for; `git show 5ad0939:mockup/index.html` still has them.
+'export'`), deployed on Vercel. **Design reference:
+`mockup/sable-brand-sheet.html` (the "Berkeley" system, imported from Claude
+Design 2026-08-02 — open it in a browser before styling anything).** It is the
+delivered brand sheet with the ~700KB of inlined base64 fonts swapped for a
+Google Fonts `<link>`; that `<link>` is fine because the sheet is a local
+reference document and never ships. `mockup/weir-style.html` and `weir-*.jpg`
+are the superseded 2026-07-20 system, kept only to read old commits against.
+The IBM Plex mockups before that were deleted 2026-07-25; `git show
+5ad0939:mockup/index.html` still has them.
 
 ```bash
 npm run dev              # local dev
@@ -39,8 +42,10 @@ not deployable without it (no meta CSP, no /.well-known/security.txt).
 
 `npm test` runs three projects: **chromium, webkit (Desktop Safari) and
 mobile-safari (iPhone)**. WebKit is not optional here: `BottomBar` is
-`position: fixed` on every page and the ground is a `background-attachment:
-fixed` gradient, and Safari treats both differently. `visual.spec.ts` writes
+`position: fixed` and `Header` is `position: sticky` on every page, and Safari
+treats both differently. (The `background-attachment: fixed` gradient that was
+the other half of this rationale is gone with the weir system — the Berkeley
+ground is a flat fill.) `visual.spec.ts` writes
 chromium shots to `tests/screenshots/` (the design-critique loop) and WebKit
 shots to `tests/screenshots/webkit/`; diff the pair when touching anything
 fixed-position. New browsers install with
@@ -181,9 +186,15 @@ funnel.spec.ts, visual.spec.ts) · `public/`.
 - **Brand images are generated, not hand-drawn.** `app/opengraph-image.png`,
   `app/icon.png` and `app/favicon.ico` come from
   `scripts/make-brand-assets.py`, which reads `BRAND` from `lib/site.ts` and
-  pulls Poppins out of the woff2 `next/font` already downloaded into `out/`.
+  pulls both families out of the woff2 `next/font` already downloaded into
+  `out/` (weight 400 exists in Libre Franklin, Cormorant, and both italics, so
+  `face()` matches on family + weight + style — matching weight alone returns
+  whichever `@font-face` the CSS concatenation happened to put first).
   **Re-run it when the brand name lands**, or every link shared anywhere will
-  keep saying `[Brand]`. Next emits the `og:image`, `twitter:image` and icon
+  keep saying `[Brand]`. **The committed PNGs are currently STALE** — they
+  still carry the weir palette and Poppins. Regenerate with a venv that has
+  Pillow + fontTools; the system Python has neither.
+  Next emits the `og:image`, `twitter:image` and icon
   tags from the file names alone, so nothing else needs editing. It is NOT in
   `npm run build` on purpose: Vercel's build image has no guaranteed Python,
   and `next/og` `ImageResponse` cannot be used here at all (it needs a
@@ -208,50 +219,104 @@ funnel.spec.ts, visual.spec.ts) · `public/`.
   option. If a feature seems to need a heavy dependency, it's probably the
   wrong feature.
 
-## Design system (locked 2026-07-20 — the "weir" system; canonical: `mockup/weir-style.html`)
+## Design system (locked 2026-08-02 — the "Berkeley" system; canonical: `mockup/sable-brand-sheet.html`)
 
-**Typography.** Poppins for everything — headings, body, labels, and data
-alike (one family, no mono face). Load via `next/font/google` (self-hosted at
-build; never a fonts CDN `<link>` — it would break the static export). Poppins
-has **no weight above 700** — never specify 800+. Headlines 500–600,
-tracking -0.02em; buttons/labels 600 uppercase with wide tracking (.06–.1em).
+Replaces the "weir" system (locked 2026-07-20, `mockup/weir-style.html`), which
+ran on a fixed pastel gradient, Poppins, and a rationed California-gold accent.
+Section numbers below (§01–§07) refer to the brand sheet.
 
-**Tokens** (in `app/globals.css`): ink `#003262` (Berkeley blue — text AND
-fills) · ink-soft `#616b76` · ink-faint `#8b95a0` · paper `#ffffff` ·
-paper-dim `#f6f3ea` (cream cards) · accent `#a86a00` (gold-dark — link hover,
-loss, emphasis) / accent-dark `#24303a` (deep navy — solid-button hover) ·
-line `rgba(46,59,71,.08)` · line-dark `rgba(46,59,71,.14)` · bad `#a86a00`
-(loss == the gold-dark accent, NOT red) · **gold `#fdb515` / gold-soft
-`#fdf0cf`** (California gold — the single accent) · dot `#c7ccd6` / dot-bad
-`#f0cabb` · ink-dim `#9aa4af` · band `#e9edf7` (persistent bottom CTA bar,
-BottomBar.tsx — body reserves 78px for it).
+**The mark** (§01, `components/Plume.tsx`). Three rising plumes. Each is a
+teardrop — `border-radius: 60% 60% 60% 0`, three rounded corners and one square
+heel — and all three sit on a shared baseline. Every dimension derives from one
+unit `u` (the width of a single plume): heights `1.7u · 2.3u · 2.9u`, gap
+`0.3u`. That is why `Plume` takes `u` and nothing else: §07 forbids stretching,
+squashing and re-proportioning, and a geometry that can only be scaled cannot
+be any of those. **§03 reduction rule:** under 20px tall the mark drops to two
+plumes, under 16px to one — `Plume` applies this itself, so callers just pass a
+smaller `u`. Never below 14px wordmark.
+`Lockup` = mark + wordmark (+ optional tracked subline). The wordmark renders
+`BRAND` from `lib/site.ts`, never a literal, so the launch rename stays a
+one-file change. **The header lockup carries the "AI SEO" subline** (Josh,
+2026-08-02); the sheet's own §06 header shows mark + wordmark alone, so this is
+a deliberate departure and the copy sign-off is on record.
 
-**Ground.** The body wears the fixed pastel gradient (`#cfe0f5 → #dce7f1 →
-#eee7d6 → #f4ecd4`, `background-attachment: fixed`). Sections sit transparent
-on it — never paint a full-bleed white section over the gradient; cards and
-surfaces (cream `paper-dim`, white/80) carry the contrast instead.
+**Typography** (§05). **Two families, and the split is the system.** Cormorant
+Garamond is display ONLY — h1, h2, and editorial figures, applied via the
+`.display` class. Libre Franklin carries everything else: body, h3 and below,
+labels, buttons, and every data cell. Both via `next/font/google` (self-hosted
+at build; never a fonts CDN `<link>` — it would break the static export).
+- `.display` in globals.css is **deliberately unlayered**, so it beats the
+  `font-bold` and `tracking-*` utilities already sitting on ~28 headings
+  without touching one of them. It sets weight 400 and letter-spacing
+  **+0.02em**. Positive: the sheet specifies "Light 300 & Regular 400 … tracked
+  +0.01 to +0.04 em", and Cormorant at 500 with negative tracking closes its
+  hairlines into adjacent stems.
+- Cormorant runs small for its point size, so display sizes want roughly a step
+  more than the sans equivalent.
+- Franklin sets labels and metadata uppercase with wide tracking (.14–.36em).
+  **That tracked label is the only uppercase in the system.** Nothing goes
+  above weight 500 in new work.
 
-**Shapes.** Radii: 12px standard, 18–22px feature cards, 999px pills. Buttons
-are `.btn-pill` / `.btn-pill-outline` (hero/nav) and `.btn-solid` (in-flow) —
-blue fill, uppercase, amber hover; defined once in globals.css, never
-recomposed inline. Soft large shadows are allowed ONLY on product-mockup
-cards (the hero answer card); measurement artifacts (ArtifactCard,
-SamplingCard) stay square-cornered and shadowless so data never reads as
-marketing. One motion: `.weir-bob` on the hero chevron (reduced-motion safe).
+**Tokens** (`app/globals.css`). A single navy hue stepped four ways over warm
+paper. ink `#0e2340` (Berkeley Navy — headings, fills, tallest plume) · accent
+`#12325c` (Sable Blue — links, active states, eyebrows) · ink-soft `#4a5666`
+(Harbour — body, middle plume) · ink-faint `#626c78` (labels, card meta) ·
+ink-dim `#b2b7bc` (Mist — first plume; **non-text only**) · paper `#ffffff`
+(cards) · paper-dim `#f2f1ec` (Paper — the ground AND inset artifact boxes) ·
+sky `#7fa6d9` · line `rgba(14,35,64,.1)` / line-dark `rgba(14,35,64,.16)` ·
+bad `#4a5666` (== ink-soft) · dot `#c3c6cb` / dot-bad `#d0d2d6` · band
+`#ffffff` (BottomBar — body reserves 62px).
+- **Harbour and the label grey are darker than the brand sheet's own values,
+  on purpose.** The sheet ships `#697585` and `#98a1ab`, which measure 4.14:1
+  and 2.32:1 on this paper — both under WCAG AA's 4.5:1, at a 15px body size.
+  Both moved down a flat -31 per channel, which keeps the hue and the even
+  spacing between steps and buys 6.59:1 and 4.72:1. **The contrast ratios are
+  the invariant, not the hex values.** Re-measure before changing either.
 
-**Color discipline.** Gold is the accent and it is rationed: chips'
-`gold` variant, the honesty block, ≤1 gold-marked element per page. Amber
-gold-dark (`bad` == `accent`, #a86a00) only for loss/absence (competitor
-rows, accuracy flags, "not mentioned") — never red. Everything else is
-Berkeley blue on the gradient/cream ground. Link hover goes amber; solid
-buttons hover deep navy (`accent-dark`).
+**The Sky rule** (§04). Sky is the one bright note and it is legal **on navy
+only, never on paper**, at most **once per page** — it loses its job the moment
+it is used twice. Site-wide it appears in exactly four places: the header
+lockup's tallest plume, the active-nav underline, and the navy bands' eyebrows.
+Anything tempted to be a fifth uses `white/12` or the inverted pill instead.
 
-**Recurring components** (in `components/`, reuse — never fork): Chip (square
-label, white-on-blue; gold variant rationed) · ArtifactCard (square, blue
-header bar) · SamplingCard (side-by-side you-vs-competitor dot rows,
-competitor half in amber) · DataChips · StepList (joined cells, numbered
-tabs) · HonestyBlock · BottomBar (persistent bottom CTA band) · the cream
-product-mockup card (hero answer card pattern).
+**Ground.** Flat warm paper (`paper-dim`), no gradient. Cards earn separation
+from a white fill plus a hairline, never from the ground shifting under them.
+
+**Shapes.** Radii: 12px standard, 18–22px product-mockup cards, 999px pills.
+Buttons are `.btn-pill` / `.btn-pill-outline` (hero/nav), `.btn-pill-invert`
+(white fill on navy bands — the header CTA), `.btn-pill-ghost` and `.btn-solid`
+(in-flow); all weight 500, tracking .14em, defined once in globals.css and
+never recomposed inline. Soft large shadows ONLY on product-mockup cards (the
+hero answer card); measurement artifacts (ArtifactCard, SamplingCard) stay
+square-cornered and shadowless so data never reads as marketing. One motion:
+`.weir-bob` on the hero chevron (name predates this system; reduced-motion
+safe).
+
+**Absence has two directions, and mixing them up is the easy mistake.** This
+palette has no warning hue and gets none — absence is carried by TONE and
+STRUCTURE, never by a colour shift, and never by red.
+- **Comparison** (you vs competitor, sampling dot rows, crawler seen/not-seen):
+  a quantity shown as *less*, so it steps **DOWN** — Harbour text, lighter
+  dots. See `SamplingCard`.
+- **Flagged failure** ("not mentioned", a failing check, a form error): a
+  finding that demands attention, so it steps **UP** to full ink, and the
+  loudest of them inverts to a navy fill with white text. See `ReportPreview`
+  and the home hero's "not mentioned" flag.
+
+**Emphasis steps down, not up.** Navy fill is already the loudest thing
+available on paper, and it is what the *default* state wears. So the one
+emphasized element in a set is marked by the OTHERS stepping down to
+paper-dim/ink-faint — see the `hot` stage in the how-it-works pipeline. The
+same inversion applies to `Chip`, whose default is now the solid navy fill and
+whose quiet variant is `tone="outline"`.
+
+**Recurring components** (in `components/`, reuse — never fork): Plume /
+Lockup (the mark) · Chip (`tone`: `solid` default | `outline` | `sky`; the
+weir `gold` boolean is gone) · ArtifactCard (square, navy header bar) ·
+SamplingCard (side-by-side you-vs-competitor dot rows, competitor half stepped
+down) · DataChips · StepList (joined cells, numbered tabs) · HonestyBlock ·
+BottomBar (persistent bottom CTA band, no decorative wave) · the product-mockup
+card (hero answer card pattern).
 
 **Alignment (settled 2026-07-25).** One rule, applied everywhere: **the page
 head centres, the body does not.** The head is the h1, the lede under it, and

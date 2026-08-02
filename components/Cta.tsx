@@ -30,7 +30,7 @@ export default function Cta({
         }`}
       >
         <h2
-          className={`max-w-xl text-3xl font-bold tracking-tight text-ink md:text-4xl ${
+          className={`display max-w-xl text-3xl font-bold tracking-tight text-ink md:text-4xl ${
             centered ? "mx-auto" : ""
           }`}
         >

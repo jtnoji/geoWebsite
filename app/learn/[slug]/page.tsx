@@ -78,7 +78,7 @@ export default async function Article({
           ← All articles
         </Link>
         <div data-reveal>
-          <h1 className="mt-4 text-4xl font-bold leading-[1.1] tracking-tight text-ink">
+          <h1 className="display mt-4 text-4xl font-bold leading-[1.1] tracking-tight text-ink">
             {meta.title}
           </h1>
           {/* The byline is not decoration. The Article JSON-LD credits

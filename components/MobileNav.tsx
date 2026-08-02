@@ -18,7 +18,7 @@ export default function MobileNav() {
         aria-expanded={open}
         aria-label={open ? "Close menu" : "Open menu"}
         onClick={() => setOpen((v) => !v)}
-        className="flex h-9 w-9 items-center justify-center rounded-xl border border-line-dark bg-white/50 text-ink"
+        className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/25 text-white transition-colors hover:border-white/60"
       >
         <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
           {open ? (
@@ -32,7 +32,7 @@ export default function MobileNav() {
       {open && (
         <nav
           aria-label="Mobile"
-          className="absolute inset-x-0 top-[78px] border-b border-line bg-band"
+          className="absolute inset-x-0 top-16 border-b border-line bg-band shadow-[0_18px_30px_-24px_rgba(14,35,64,0.5)]"
         >
           <ul className="mx-auto max-w-[1120px] px-5 py-2 sm:px-8">
             {NAV_LINKS.map((link) => (

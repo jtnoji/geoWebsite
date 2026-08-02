@@ -105,7 +105,7 @@ export default function Privacy() {
       {/* Head centres; the policy Q&A below stays left-aligned so the answers
           read as body copy (CLAUDE.md "Alignment"). */}
       <div data-reveal className="text-center">
-        <h1 className="text-4xl font-bold tracking-tight text-ink">Privacy</h1>
+        <h1 className="display text-4xl font-bold tracking-tight text-ink">Privacy</h1>
         <p className="mt-5 text-base leading-7 text-ink-soft">
           {BRAND} runs AI visibility checks from {NAP.city}, {NAP.region}. The
           only personal information we hold is what you send through the free
@@ -122,7 +122,7 @@ export default function Privacy() {
       </div>
 
       <div data-reveal className="mt-12 border-t-2 border-ink pt-6">
-        <h2 className="text-2xl font-bold tracking-tight text-ink">
+        <h2 className="display text-2xl font-bold tracking-tight text-ink">
           Questions, or a request?
         </h2>
         <p className="mt-3 text-base leading-7 text-ink-soft">

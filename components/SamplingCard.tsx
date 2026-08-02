@@ -3,8 +3,12 @@ import ArtifactCard from "./ArtifactCard";
 /**
  * Run-sampling rows inside an ArtifactCard. One row per engine; the box is
  * split in half — the client ("You", ink) on the left, the top competitor
- * (gold-dark) on the right — so the two rates read side by side per engine.
+ * (Harbour) on the right — so the two rates read side by side per engine.
  * Filled ● = mentioned in that run.
+ *
+ * This is the COMPARISON case of absence: a quantity shown as less, so the
+ * competitor half steps DOWN a tone rather than lighting up. A flagged
+ * failure is the other case and goes the other way — see ReportPreview.
  */
 
 export type SamplingRow = {

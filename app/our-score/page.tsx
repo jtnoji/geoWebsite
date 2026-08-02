@@ -70,7 +70,7 @@ export default function OurScore() {
 
       <div className="mx-auto max-w-[1120px] px-5 py-16 text-center sm:px-8 md:py-20">
         <div data-reveal>
-        <h1 className="mx-auto max-w-2xl text-4xl font-bold tracking-tight text-ink">
+        <h1 className="display mx-auto max-w-2xl text-4xl font-bold tracking-tight text-ink">
           We ran our own audit on this website. Here&rsquo;s the report.
         </h1>
         <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-ink-soft">

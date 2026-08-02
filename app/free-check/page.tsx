@@ -33,7 +33,7 @@ export default function FreeCheck() {
 
       {/* Head centres; the form below keeps left-aligned labels and inputs. */}
       <div data-reveal className="text-center">
-        <h1 className="text-3xl font-bold leading-[1.1] tracking-tight text-ink md:text-4xl">
+        <h1 className="display text-3xl font-bold leading-[1.1] tracking-tight text-ink md:text-4xl">
           What does AI say when customers ask about businesses like yours?
         </h1>
         <p className="mt-5 text-base leading-7 text-ink-soft">

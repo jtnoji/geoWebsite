@@ -84,7 +84,7 @@ export default function Pricing() {
 
       <div className="mx-auto max-w-[1120px] px-5 py-16 sm:px-8 md:py-20">
         <div data-reveal className="mx-auto max-w-[560px] text-center">
-          <h1 className="text-4xl font-bold tracking-tight text-ink">Pricing</h1>
+          <h1 className="display text-4xl font-bold tracking-tight text-ink">Pricing</h1>
           <p className="mt-5 text-base leading-7 text-ink-soft">
             Three tiers. Every one reports sampled rates with named sources.
             None of them, at any price, promises rankings.

@@ -1,9 +1,12 @@
 import Link from "next/link";
 import { ALL_PAGES, BRAND, EMAIL, FOUNDERS, NAP } from "@/lib/site";
+import { Lockup } from "./Plume";
 
 /**
  * v2 footer: quiet, rule-top, small type. Still carries the full page list,
  * NAP, and founder LinkedIns (website-plan.md §1) — identical on every page.
+ * Wears the on-paper lockup (Mist / Harbour / Navy plumes), which is the only
+ * place the light-ground mark appears in the chrome — the header's is reversed.
  */
 export default function Footer() {
   return (
@@ -11,10 +14,10 @@ export default function Footer() {
       <div className="mx-auto max-w-[1120px] px-5 py-10 text-[13px] text-ink-faint sm:px-8">
         <div className="flex flex-wrap justify-between gap-x-6 gap-y-8">
           <div className="max-w-xs">
-            <p>
-              <span className="font-bold text-ink">{BRAND}</span>
+            <Lockup u={7} size={22} tone="paper" className="text-ink" />
+            <p className="mt-3.5">
               <span className="text-ink-soft">
-                {" "}· {NAP.city}, {NAP.region} ·{" "}
+                {NAP.city}, {NAP.region} ·{" "}
               </span>
               <a href={`mailto:${EMAIL}`} className="text-ink-soft hover:text-ink">
                 {EMAIL}

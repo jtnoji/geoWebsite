@@ -2,60 +2,64 @@ import Link from "next/link";
 import { BRAND, NAV_LINKS, OFFER_SHORT } from "@/lib/site";
 import MobileNav from "./MobileNav";
 import NavHighlighter from "./NavHighlighter";
+import { Lockup } from "./Plume";
 
 /**
- * Weir-system header: 78px, sticky, NO bottom border — it dissolves into the
- * page gradient via a top-down fade plus a backdrop blur. Wordmark left; nav
- * links are 12.5px uppercase in body colour, the active page picking up the
- * gold underline (NavHighlighter) at the bar's bottom edge; the free-check CTA
- * is the navy pill. Sticky so the primary CTA is always visible.
+ * Berkeley-system header (brand sheet §06, mockup/sable-brand-sheet.html): an
+ * opaque Berkeley-navy band, 64px, sticky. Plume lockup left, the mark at
+ * ~20px so all three plumes survive the §03 reduction rule; nav links sentence
+ * case in white at 72%, the active page picking up the Sky underline
+ * (NavHighlighter); the free-check CTA is the inverted white pill.
+ *
+ * The lockup carries the "AI SEO" subline (brand sheet §02). The sheet's own
+ * §06 header mockup shows mark + wordmark alone, so this is a deliberate
+ * departure: Josh asked for it on 2026-08-02, which is the copy sign-off the
+ * CLAUDE.md invariant requires. It also does real work — the wordmark is a
+ * coined name that says nothing about the product on its own.
+ *
+ * Replaces the weir header, which was a translucent gradient dissolving into
+ * the page. That trick needed a gradient ground to dissolve INTO — this system
+ * has a flat paper ground, so the header states itself instead.
+ *
+ * Sticky so the primary CTA is always visible.
  */
 export default function Header() {
   return (
-    <header
-      className="sticky top-0 z-40 backdrop-blur-[10px]"
-      style={{
-        background:
-          "linear-gradient(180deg, rgba(220,229,246,0.92), rgba(220,229,246,0))",
-      }}
-    >
+    <header className="sticky top-0 z-40 bg-ink">
       <NavHighlighter />
-      <div className="mx-auto flex h-[78px] max-w-[1200px] items-center gap-8 px-5 sm:px-8 lg:px-10">
-        <Link
-          href="/"
-          className="text-[25px] font-semibold tracking-[-0.01em] text-ink"
-        >
-          {BRAND}
+      <div className="mx-auto flex h-16 max-w-[1200px] items-center gap-8 px-5 sm:px-8 lg:px-10">
+        <Link href="/" aria-label={`${BRAND}, home`} className="text-white">
+          <Lockup u={7} size={24} tone="navy" subline="AI SEO" />
         </Link>
 
         <nav
           aria-label="Main"
-          className="ml-auto hidden items-center gap-[34px] lg:flex"
+          className="ml-auto hidden items-center gap-[30px] lg:flex"
         >
           {NAV_LINKS.filter((l) => l.href !== "/").map((link) => (
             <Link
               key={link.href}
               href={link.href}
               data-nav-link
-              className="whitespace-nowrap py-[27px] text-[12.5px] font-medium uppercase tracking-[0.1em] text-ink-soft transition-colors hover:text-ink"
+              className="whitespace-nowrap py-[21px] text-[12.5px] tracking-[0.04em] text-white/70 transition-colors hover:text-white"
             >
               {link.label}
             </Link>
           ))}
           <Link
             href="/free-check/"
-            className="btn-pill px-[22px] py-[13px] text-[12.5px] tracking-[0.12em]"
+            className="btn-pill-invert px-[20px] py-[11px] text-[11px]"
           >
-            {OFFER_SHORT} <span className="text-[15px]">&#10230;</span>
+            {OFFER_SHORT} <span className="text-[14px]">&#10230;</span>
           </Link>
         </nav>
 
         <div className="ml-auto flex items-center gap-4 lg:hidden">
           <Link
             href="/free-check/"
-            className="btn-pill px-4 py-2.5 text-[12px] tracking-[0.1em]"
+            className="btn-pill-invert px-4 py-2.5 text-[10.5px]"
           >
-            {OFFER_SHORT} <span className="text-[14px]">&#10230;</span>
+            {OFFER_SHORT} <span className="text-[13px]">&#10230;</span>
           </Link>
           <MobileNav />
         </div>

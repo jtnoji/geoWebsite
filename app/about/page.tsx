@@ -30,7 +30,7 @@ export default function About() {
         {/* Head centres; the founder bios below stay left-aligned, because
             centring multi-line body copy hurts readability. */}
         <div data-reveal className="text-center">
-        <h1 className="text-4xl font-bold leading-[1.1] tracking-tight text-ink">
+        <h1 className="display text-4xl font-bold leading-[1.1] tracking-tight text-ink">
           Two founders, measuring the thing everyone else is guessing about.
           Then doing something about it.
         </h1>
@@ -51,7 +51,7 @@ export default function About() {
               style={delay(i * 110)}
               className="border-t border-line-dark py-8 last:pb-0"
             >
-              <h2 className="text-2xl font-bold tracking-tight text-ink">{f.name}</h2>
+              <h2 className="display text-2xl font-bold tracking-tight text-ink">{f.name}</h2>
               <p className="mt-1 text-sm text-ink-faint">{f.role}</p>
               <p className="mt-4 text-base leading-7 text-ink-soft">{f.bio}</p>
               <a

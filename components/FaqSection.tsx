@@ -24,7 +24,7 @@ export default function FaqSection({
       <div>
         {faqs.map((f) => (
           <div key={f.question} className="border-t border-line py-8 first:border-t-0 first:pt-0 last:pb-0">
-            <h2 className="text-2xl font-bold tracking-tight text-ink">
+            <h2 className="display text-2xl font-bold tracking-tight text-ink">
               {f.question}
             </h2>
             <p className="mt-3 text-base leading-7 text-ink-soft">{f.answer}</p>

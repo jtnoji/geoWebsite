@@ -39,7 +39,7 @@ export default function Learn() {
         {/* Head centres; the article list below stays left-aligned so the
             titles and descriptions scan down a single edge. */}
         <div data-reveal className="text-center">
-          <h1 className="text-4xl font-bold tracking-tight text-ink">Learn</h1>
+          <h1 className="display text-4xl font-bold tracking-tight text-ink">Learn</h1>
           <p className="mt-5 text-base leading-7 text-ink-soft">
             Plain answers to the questions business owners ask about AI search.
             Each article opens with the answer.
@@ -55,7 +55,7 @@ export default function Learn() {
               className="border-t border-line-dark"
             >
               <Link href={`/learn/${article.slug}/`} className="group block py-7">
-                <h2 className="text-xl font-bold tracking-tight text-ink">
+                <h2 className="display text-xl font-bold tracking-tight text-ink">
                   {article.title}
                 </h2>
                 <p className="mt-2 text-sm leading-6 text-ink-soft">

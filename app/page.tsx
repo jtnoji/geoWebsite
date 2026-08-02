@@ -78,18 +78,20 @@ export default function Home() {
         <div className="mx-auto max-w-[920px] px-5 pb-6 pt-16 text-center sm:px-8">
           <span
             data-reveal
-            className="inline-flex items-center gap-2.5 rounded-full border border-[rgba(46,59,71,0.22)] bg-white/40 px-[18px] py-2.5 text-[13px] font-medium text-ink"
+            className="inline-flex items-center gap-2.5 rounded-full border border-line-dark bg-paper px-[18px] py-2.5 text-[13px] font-medium text-ink"
           >
+            {/* Navy, not Sky: this badge sits on paper, and Sky is legal only
+                against navy (brand sheet §04). */}
             <span
               aria-hidden="true"
-              className="h-[7px] w-[7px] rounded-full bg-gold"
+              className="h-[7px] w-[7px] rounded-full bg-ink"
             />
             AI visibility, measured
           </span>
           <h1
             data-reveal
             style={delay(80)}
-            className="mx-auto mt-6 max-w-[840px] text-[clamp(40px,6vw,74px)] font-medium leading-[1.03] tracking-[-0.02em] text-ink"
+            className="display mx-auto mt-6 max-w-[840px] text-[clamp(40px,6vw,74px)] font-medium leading-[1.03] tracking-[-0.02em] text-ink"
           >
             When someone asks AI for a recommendation, does it say your name?
           </h1>
@@ -164,10 +166,15 @@ export default function Home() {
                 three have strong track records with early-stage B2B
                 companies&hellip;
               </p>
-              <div className="mx-6 mb-[22px] mt-2 inline-flex items-center gap-2.5 rounded-xl bg-gold-soft px-4 py-2.5 text-sm font-semibold text-bad">
+              {/* FLAGGED FAILURE, so it steps UP to a navy fill — the same
+                  treatment as ReportPreview's "The client was not mentioned."
+                  The weir system spent a soft-gold panel here; this palette has
+                  no warning hue, so inversion carries it and squares off to
+                  match the artifact language. */}
+              <div className="mx-6 mb-[22px] mt-2 inline-flex items-center gap-2.5 bg-ink px-4 py-2.5 text-sm font-medium text-white">
                 <span
                   aria-hidden="true"
-                  className="h-2 w-2 rounded-full bg-bad"
+                  className="h-2 w-2 rounded-full bg-white"
                 />
                 Your business: not mentioned
               </div>
@@ -213,7 +220,7 @@ export default function Home() {
       <section className="border-b border-line">
         <div className="mx-auto grid max-w-[1120px] items-center gap-10 px-5 py-20 sm:px-8 md:grid-cols-[6fr_5fr] md:gap-16">
           <div data-reveal>
-            <h2 className="max-w-[560px] text-3xl font-bold tracking-[-0.035em] text-ink">
+            <h2 className="display max-w-[560px] text-3xl font-bold tracking-[-0.035em] text-ink">
               The shortlist got smaller
             </h2>
             {/* Two example queries, local trade + software, per the settled
@@ -281,7 +288,7 @@ export default function Home() {
           <div className="grid items-center gap-11 md:grid-cols-[6fr_5fr] md:gap-[72px]">
             <div data-reveal>
               <Chip>What we do</Chip>
-              <h2 className="mt-3.5 max-w-[560px] text-3xl font-bold tracking-[-0.035em] text-ink md:text-[34px]">
+              <h2 className="display mt-3.5 max-w-[560px] text-3xl font-bold tracking-[-0.035em] text-ink md:text-[34px]">
                 We measure your AI visibility. Properly.
               </h2>
               <p className="mt-3.5 max-w-[520px] text-[16.5px] leading-7 text-ink-soft">
@@ -326,7 +333,7 @@ export default function Home() {
           <div data-reveal className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex flex-wrap items-center gap-4">
               <Chip>How it works</Chip>
-              <h2 className="text-3xl font-bold tracking-[-0.035em] text-ink md:text-[34px]">
+              <h2 className="display text-3xl font-bold tracking-[-0.035em] text-ink md:text-[34px]">
                 Three steps, no theater
               </h2>
             </div>

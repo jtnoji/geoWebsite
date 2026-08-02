@@ -46,7 +46,7 @@ export default function SampleReport() {
 
       <div className="mx-auto max-w-[1120px] px-5 py-16 sm:px-8 md:py-20">
         <div data-reveal className="mx-auto max-w-[560px] text-center">
-          <h1 className="text-4xl font-bold tracking-tight text-ink">
+          <h1 className="display text-4xl font-bold tracking-tight text-ink">
             This is what you actually get.
           </h1>
           <p className="mt-5 text-base leading-7 text-ink-soft">
@@ -85,7 +85,7 @@ export default function SampleReport() {
           </section>
 
           <section data-reveal>
-            <h2 className="text-2xl font-bold tracking-tight text-ink">
+            <h2 className="display text-2xl font-bold tracking-tight text-ink">
               The prioritized fix list
             </h2>
             <p className="mt-3 max-w-[560px] text-base leading-7 text-ink-soft">

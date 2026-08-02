@@ -1,48 +1,107 @@
 @import "tailwindcss";
 
-/* Design tokens — "weir" system (canonical: mockup/weir-style.html, imported
-   from Claude Design 2026-07-20; see CLAUDE.md "Design system").
-   Poppins throughout; Berkeley blue is the ink AND the only fill; California
-   gold is the single accent — it marks loss/absence, link hover, and at most
-   one emphasized element per page. Soft pastel page gradient, white/cream
-   cards, pill buttons. Light-only: one canonical appearance for the review
-   loop and AI-crawler rendering. */
-@theme inline {
-  --font-sans: var(--font-poppins);
-  /* The "mono" role (labels, metadata, data cells) is Poppins in this system —
-     kept as a separate token so the label/metadata role stays nameable. */
-  --font-mono: var(--font-poppins);
+/* Design tokens — the "Berkeley" system (canonical: mockup/sable-brand-sheet.html,
+   imported from Claude Design 2026-08-02; see CLAUDE.md "Design system").
+   Replaces the "weir" system (mockup/weir-style.html), which ran on a pastel
+   gradient ground, Poppins, and a rationed California-gold accent.
 
-  --color-ink: #003262; /* Berkeley blue — headings, fills, wordmark */
-  --color-ink-soft: #616b76; /* body text */
-  --color-ink-faint: #8b95a0; /* labels, card meta, footnotes */
-  --color-ink-dim: #9aa4af; /* secondary meta inside filled card headers */
-  --color-paper: #ffffff; /* cards sit on the page gradient */
-  --color-paper-dim: #f6f3ea; /* cream — product mockups, artifact boxes */
-  --color-accent: #a86a00; /* gold-dark — loss/absence, link hover, emphasis */
-  --color-accent-dark: #24303a; /* deep navy — solid-button hover */
-  --color-gold: #fdb515; /* California gold — chip fills, flags, left rules */
-  --color-gold-soft: #fdf0cf; /* soft gold — chip/callout backgrounds */
-  --color-line: rgba(46, 59, 71, 0.08);
-  --color-line-dark: rgba(46, 59, 71, 0.14);
-  --color-bad: #a86a00; /* loss/absence == the gold accent in this system */
-  --color-dot: #c7ccd6; /* unfilled sampling dots */
-  --color-dot-bad: #f0cabb; /* unfilled dots on the competitor (gold) row */
-  --color-band: #e9edf7; /* persistent bottom CTA bar + its wave */
+   Cormorant Garamond for display, Libre Franklin for everything else. The
+   palette is a single navy hue stepped four ways (ink → accent → harbour →
+   mist) over a warm paper ground; Sky is the one bright note and it is legal
+   ONLY against navy. Light-only: one canonical appearance for the review loop
+   and AI-crawler rendering. */
+@theme inline {
+  --font-sans: var(--font-franklin);
+  /* The "mono" role (labels, metadata, data cells) is Libre Franklin in this
+     system — kept as a separate token so the label/metadata role stays
+     nameable. Labels set uppercase with wide tracking; per the brand sheet
+     that tracked label is the ONLY uppercase in the system. */
+  --font-mono: var(--font-franklin);
+  /* Display serif — headings and editorial figures only. See the `.display`
+     rule below; nothing should reach for `font-display` directly. */
+  --font-display: var(--font-cormorant), Georgia, "Times New Roman", serif;
+
+  /* ---- The four navy steps. Tone steps down as importance does, exactly the
+     way the logo's three plumes step. ----
+
+     DARKENED FROM THE BRAND SHEET (2026-08-02), deliberately. The sheet's own
+     Harbour (#697585) measures 4.14:1 on this paper ground and its label grey
+     (#98a1ab) measures 2.32:1 — both under WCAG AA's 4.5:1 for normal text,
+     and the sheet sets body copy at 15px where that is felt. Both steps move
+     down by a flat -31 on every channel, which preserves the hue and the even
+     spacing between steps and buys 6.59:1 and 4.72:1. The ratios are the
+     invariant here, not the hex values: re-measure before touching either. */
+  --color-ink: #0e2340; /* Berkeley Navy — headings, fills, tallest plume. 13.9:1 */
+  --color-accent: #12325c; /* Sable Blue — links, active states, eyebrows. 11.3:1 */
+  --color-ink-soft: #4a5666; /* Harbour — body copy, middle plume. 6.59:1 */
+  --color-ink-faint: #626c78; /* labels, card meta, footnotes. 4.72:1 */
+  --color-ink-dim: #b2b7bc; /* Mist — first plume, faintest meta. NON-TEXT ONLY */
+
+  --color-paper: #ffffff; /* cards sit on the paper ground */
+  --color-paper-dim: #f2f1ec; /* Paper — the page ground AND inset artifact boxes */
+
+  /* Sky. On navy ONLY, never on paper, and at most once per page — it is the
+     single bright note and loses its job the moment it is used twice. */
+  --color-sky: #7fa6d9;
+
+  --color-accent-dark: #12325c; /* solid/pill button hover — a lift, not a shift */
+  --color-line: rgba(14, 35, 64, 0.1);
+  --color-line-dark: rgba(14, 35, 64, 0.16);
+
+  /* Absence/loss. This palette has no warning hue on purpose, so absence is
+     carried by TONE and STRUCTURE — Harbour text against navy, hollow dots,
+     hairline rules — never by a colour shift. Anything that has to shout
+     inverts to a navy fill instead. */
+  --color-bad: #4a5666; /* == ink-soft: absence steps DOWN a tone, it never shifts hue */
+  /* The unfilled dots are a track, not data — the filled dots and the "7/10"
+     numeral beside every row carry the count, so these only have to be visible
+     enough to read against. Nudged down with the text steps so the track did
+     not vanish once the filled dots got darker. */
+  --color-dot: #c3c6cb; /* unfilled sampling dots */
+  --color-dot-bad: #d0d2d6; /* unfilled dots on the competitor row */
+
+  --color-band: #ffffff; /* persistent bottom CTA bar */
+
+  /* Source-category swatches (home "Where an answer comes from"). Four 11px
+     dots that must read as four categories. The brand sheet has no second
+     hue to spend here, so they are the four navy steps in order — which is
+     also the plume's own logic. */
+  --color-source-blue: #12325c;
+  --color-source-bronze: #b2b7bc;
 }
 
 body {
-  background: linear-gradient(
-    180deg,
-    #cfe0f5 0%,
-    #dce7f1 38%,
-    #eee7d6 76%,
-    #f4ecd4 100%
-  );
-  background-attachment: fixed;
+  /* Flat warm paper. The weir system's fixed pastel gradient is gone: the
+     brand sheet's ground is a single value, and cards earn their separation
+     from a white fill plus a hairline rather than from the ground shifting
+     under them. */
+  background: var(--color-paper-dim);
   color: var(--color-ink);
   /* Clear the fixed bottom CTA bar (BottomBar.tsx). */
-  padding-bottom: 78px;
+  padding-bottom: 62px;
+}
+
+/* ---- Display type -------------------------------------------------------
+   Headings and editorial figures wear the serif; everything else stays Libre
+   Franklin.
+
+   This rule is deliberately unlayered. Tailwind's utilities live in its
+   `utilities` cascade layer, and unlayered CSS beats layered CSS regardless of
+   specificity, so `.display` overrides the `font-bold` and `tracking-*`
+   classes already on ~32 headings without touching any of them. That is also
+   why weight and letter-spacing are set here rather than left to utilities.
+
+   Weight 400 and POSITIVE tracking, both per the brand sheet ("Light 300 &
+   Regular 400 … tracked +0.01 to +0.04 em"). The weir system ran this at 500
+   and -0.01em; Cormorant at 500 with negative tracking closes the hairlines
+   into adjacent stems and reads tight rather than open.
+
+   Cormorant runs small for its point size (small x-height), so display sizes
+   are bumped roughly a step where this class is applied. */
+.display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: 0.02em;
 }
 
 /* Hero down-chevron: gentle infinite bob. */
@@ -115,17 +174,21 @@ body {
   }
 }
 
-/* Active nav link (applied by NavHighlighter) — gold underline at the header's
-   bottom edge. */
+/* Active nav link (applied by NavHighlighter). The header is a navy band in
+   this system, so the underline is Sky — the one place on the page it is
+   legal, and the one mark it carries site-wide. */
 .nav-on {
-  color: var(--color-ink);
-  font-weight: 600;
-  box-shadow: inset 0 -3px 0 var(--color-gold);
+  color: #fff;
+  box-shadow: inset 0 -2px 0 var(--color-sky);
 }
 
 /* ---- Buttons -------------------------------------------------------------
-   Two shapes: the 999px uppercase pill (hero + nav CTA) and the 12px-radius
-   solid button (section CTAs, form submit). Both fill Berkeley blue. */
+   Per brand sheet §05: a 999px pill in two weights — navy fill for primary,
+   hairline outline for secondary — at 10px/0.14em uppercase. `.btn-solid` is
+   the 12px-radius in-flow variant (section CTAs, form submit).
+
+   NOTE: these rules are unlayered, so the letter-spacing here beats any
+   `tracking-[…]` utility at the call site. Set tracking here, not there. */
 
 .btn-pill {
   display: inline-flex;
@@ -135,9 +198,9 @@ body {
   border-radius: 999px;
   background: var(--color-ink);
   color: #fff;
-  font-weight: 600;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.14em;
   transition: background-color 150ms;
 }
 
@@ -150,12 +213,12 @@ body {
   display: inline-flex;
   align-items: center;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.45);
-  border: 1px solid rgba(46, 59, 71, 0.2);
+  background: transparent;
+  border: 1px solid rgba(14, 35, 64, 0.28);
   color: var(--color-ink);
-  font-weight: 600;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.14em;
   transition: border-color 150ms;
 }
 
@@ -163,12 +226,57 @@ body {
   border-color: var(--color-ink);
 }
 
+/* On-navy pills. The navy header and the two full-bleed navy sections cannot
+   use .btn-pill — a navy fill on a navy ground is invisible — so the primary
+   inverts to a white fill (brand sheet §06, the header's "Enquire" pill) and
+   the secondary is a white hairline. Sky is NOT a fill here: it is the one
+   accent mark, and a whole button of it would spend it. */
+.btn-pill-invert {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--color-ink);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  transition:
+    background-color 150ms,
+    color 150ms;
+}
+
+.btn-pill-invert:hover {
+  background: var(--color-sky);
+  color: var(--color-ink);
+}
+
+.btn-pill-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  transition: border-color 150ms;
+}
+
+.btn-pill-ghost:hover {
+  border-color: rgba(255, 255, 255, 0.75);
+  color: #fff;
+}
+
 .btn-solid {
   display: inline-block;
   border-radius: 12px;
   background: var(--color-ink);
   color: #fff;
-  font-weight: 600;
+  font-weight: 500;
   transition: background-color 150ms;
 }
 
@@ -179,12 +287,15 @@ body {
 
 /* Markdown article body (/learn/[slug]) — styled here since the HTML comes
    from marked, not JSX. */
+/* Article H2s take the serif too — the copy comes from marked, not JSX, so
+   `.display` cannot be applied per-heading. Values mirror that class. */
 .article h2 {
   margin-top: 2.5rem;
-  font-size: 1.5rem;
-  line-height: 2rem;
-  font-weight: 600;
-  letter-spacing: -0.02em;
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  line-height: 2.25rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
   color: var(--color-ink);
 }
 
@@ -221,23 +332,23 @@ body {
 }
 
 .article a {
-  color: var(--color-ink);
+  color: var(--color-accent);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
 
 .article a:hover {
-  color: var(--color-accent);
+  color: var(--color-ink);
 }
 
 .article strong {
   color: var(--color-ink);
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .article blockquote {
   margin-top: 1rem;
-  border-left: 3px solid var(--color-gold);
+  border-left: 2px solid var(--color-ink);
   padding-left: 1rem;
   font-style: italic;
 }

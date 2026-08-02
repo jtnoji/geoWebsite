@@ -4,14 +4,14 @@ import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 
 /**
- * Presentation-only island: marks the current page's nav link with the gold
+ * Presentation-only island: marks the current page's nav link with the Sky
  * underline. The links themselves stay in the server-rendered Header —
  * without JS every link still exists and works; only the underline decoration
  * is progressive.
  *
  * Scoped to [data-nav-link] so it never matches the free-check CTA pill, which
  * also lives inside this nav — on /free-check/ the inset underline would
- * otherwise trace a gold arc around the pill's 999px radius.
+ * otherwise trace a Sky arc around the pill's 999px radius.
  */
 export default function NavHighlighter() {
   const pathname = usePathname();
