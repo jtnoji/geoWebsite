@@ -1,14 +1,30 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import AnswerCompare from "@/components/AnswerCompare";
 import Chip from "@/components/Chip";
-import Cta from "@/components/Cta";
+import ClosingCta from "@/components/ClosingCta";
+import EngagementSteps from "@/components/EngagementSteps";
+import FaqSection from "@/components/FaqSection";
+import FeatureCard from "@/components/FeatureCard";
+import FoundationList from "@/components/FoundationList";
+import FreeCheckPanel from "@/components/FreeCheckPanel";
+import JsonLd from "@/components/JsonLd";
 import PageSchema from "@/components/PageSchema";
+import RuleEyebrow from "@/components/RuleEyebrow";
 import SamplingCard from "@/components/SamplingCard";
 import StatTile from "@/components/StatTile";
 import StepList from "@/components/StepList";
 import { delay } from "@/lib/reveal";
+import { faq } from "@/lib/schema";
 import { HOME_STATS } from "@/lib/stats";
 import { BRAND, OFFER_CTA } from "@/lib/site";
+import {
+  ENGINES,
+  FAQ_FIGURES,
+  HOME_FAQS,
+  SITUATIONS,
+  SOURCES,
+} from "@/lib/home";
 import {
   SAMPLE_CALLOUT,
   SAMPLE_COMPETITORS,
@@ -67,21 +83,30 @@ const METRICS = [
   },
 ] as const;
 
+/* The long-form explainer sections share one measure and one H2 scale (Claude
+   Design update 2026-07-30). Kept as constants so a change lands on all of
+   them at once rather than drifting section by section. */
+const SECTION = "mx-auto max-w-[1180px] px-5 py-20 sm:px-8 md:py-24";
+const H2 =
+  "display text-[clamp(33px,4.4vw,52px)] leading-[1.1] text-ink text-pretty";
+
 export default function Home() {
   return (
     <>
       {/* No breadcrumb: the home page is the root of every trail. */}
       <PageSchema meta={metadata} path="/" />
+      {/* The home FAQ renders from the same HOME_FAQS array that feeds this
+          FAQPage node, so the visible questions and the schema cannot drift.
+          Same pattern as /how-it-works. */}
+      <JsonLd data={faq(HOME_FAQS)} />
 
       {/* Hero — centered badge, display headline, pill CTAs, bobbing chevron */}
       <section>
         <div className="mx-auto max-w-[920px] px-5 pb-6 pt-16 text-center sm:px-8">
           <span
             data-reveal
-            className="inline-flex items-center gap-2.5 rounded-full border border-line-dark bg-paper px-[18px] py-2.5 text-[13px] font-medium text-ink"
+            className="inline-flex items-center gap-2.5 rounded-full border border-[rgba(14,35,64,0.22)] bg-white px-[18px] py-2.5 text-[13px] font-medium text-ink"
           >
-            {/* Navy, not Sky: this badge sits on paper, and Sky is legal only
-                against navy (brand sheet §04). */}
             <span
               aria-hidden="true"
               className="h-[7px] w-[7px] rounded-full bg-ink"
@@ -91,14 +116,14 @@ export default function Home() {
           <h1
             data-reveal
             style={delay(80)}
-            className="display mx-auto mt-6 max-w-[840px] text-[clamp(40px,6vw,74px)] font-medium leading-[1.03] tracking-[-0.02em] text-ink"
+            className="display mx-auto mt-6 max-w-[900px] text-[clamp(44px,6.6vw,84px)] leading-[1.05] text-ink"
           >
             When someone asks AI for a recommendation, does it say your name?
           </h1>
           <p
             data-reveal
             style={delay(160)}
-            className="mx-auto mt-6 max-w-[560px] text-[18px] leading-[1.6] text-ink-soft"
+            className="display mx-auto mt-7 max-w-[620px] text-[23px] italic leading-[1.5] text-ink-soft"
           >
             ChatGPT, Google AI, Gemini, and Perplexity answer your customers
             directly, and each answer names{" "}
@@ -150,7 +175,7 @@ export default function Home() {
           <div className="relative mx-auto max-w-[660px]">
             <div
               data-reveal="scale"
-              className="overflow-hidden rounded-[22px] bg-paper-dim shadow-[0_34px_70px_-26px_rgba(46,59,71,0.4)]"
+              className="overflow-hidden rounded-[22px] bg-paper-dim shadow-[0_34px_70px_-26px_rgba(14,35,64,0.4)]"
             >
               <div className="flex justify-between gap-3 border-b border-line px-[22px] py-[15px] text-xs text-ink-faint">
                 <span className="font-semibold text-ink">
@@ -166,12 +191,7 @@ export default function Home() {
                 three have strong track records with early-stage B2B
                 companies&hellip;
               </p>
-              {/* FLAGGED FAILURE, so it steps UP to a navy fill — the same
-                  treatment as ReportPreview's "The client was not mentioned."
-                  The weir system spent a soft-gold panel here; this palette has
-                  no warning hue, so inversion carries it and squares off to
-                  match the artifact language. */}
-              <div className="mx-6 mb-[22px] mt-2 inline-flex items-center gap-2.5 bg-ink px-4 py-2.5 text-sm font-medium text-white">
+              <div className="mx-6 mb-[22px] mt-2 inline-flex items-center gap-2.5 rounded-xl bg-ink px-4 py-2.5 text-sm font-medium text-white">
                 <span
                   aria-hidden="true"
                   className="h-2 w-2 rounded-full bg-white"
@@ -183,7 +203,7 @@ export default function Home() {
             <div
               data-reveal="scale"
               style={delay(220)}
-              className="absolute -top-[54px] right-0 max-w-[212px] rounded-[18px] bg-white px-5 py-4 shadow-[0_24px_48px_-22px_rgba(46,59,71,0.45)] sm:-right-[34px]"
+              className="absolute -top-[54px] right-0 max-w-[212px] rounded-[18px] bg-white px-5 py-4 shadow-[0_24px_48px_-22px_rgba(14,35,64,0.45)] sm:-right-[34px]"
             >
               <p className="text-[28px] font-semibold leading-none text-ink">
                 {SAMPLE_CALLOUT.hits}
@@ -193,7 +213,7 @@ export default function Home() {
               </p>
               <p className="mt-1.5 text-[13px] leading-[1.4] text-ink-faint">
                 named on {SAMPLE_CALLOUT.engine} ·{" "}
-                <span className="font-semibold text-bad">
+                <span className="font-medium text-bad">
                   competitor {SAMPLE_CALLOUT.competitorHits}/{SAMPLE_CALLOUT.runs}
                 </span>
               </p>
@@ -213,14 +233,52 @@ export default function Home() {
         </div>
       </section>
 
-      {/* The shortlist problem. Sits directly after the stat row, per
+      {/* Where search lives in 2026 — the framing that makes the stat row
+          above mean something: ten slots became one paragraph. Two columns so
+          the claim and the reasoning read as separate registers. */}
+      <section className="border-b border-line">
+        <div className={SECTION}>
+          <div className="grid gap-12 md:grid-cols-2 md:gap-[72px] md:items-start">
+            <div data-reveal>
+              <RuleEyebrow>Where search lives in 2026</RuleEyebrow>
+              <h2 className={`mt-4 max-w-[620px] ${H2}`}>
+                Your customers ask four different AI systems. Most businesses
+                are measured on none of them.
+              </h2>
+            </div>
+            <div data-reveal style={delay(140)} className="flex flex-col gap-5 pt-2">
+              <p className="text-[19px] font-medium leading-[1.6] text-ink text-pretty">
+                Traditional search put you on a page with ten slots. An AI
+                answer is a paragraph that names two or three businesses. That
+                is the whole change, and it is not a future one. A growing
+                share of your customers already decide this way.
+              </p>
+              <p className="text-[15.5px] leading-[1.7] text-ink-soft">
+                Each engine builds that paragraph differently. They read
+                different sources, run different crawlers, weight recency
+                differently, and change their answer from one run to the next.
+                One good screenshot tells you nothing. So does one bad one.
+              </p>
+              <p className="text-[15.5px] leading-[1.7] text-ink-soft">
+                So we sample. The same customer questions, run repeatedly
+                across all four engines, scored the same way every time. That
+                turns an anxiety you cannot see into a number you can compare
+                month over month.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* The shortlist problem. Stays in the page's first movement, per
           website-plan.md §2's page order: the reader needs the problem before
           the method. It shipped second-to-last until 2026-07-28, so the page
-          explained how we measure before saying why it matters. */}
+          explained how we measure before saying why it matters. The 2026-07-30
+          explainer sections were inserted around it, never in front of it. */}
       <section className="border-b border-line">
         <div className="mx-auto grid max-w-[1120px] items-center gap-10 px-5 py-20 sm:px-8 md:grid-cols-[6fr_5fr] md:gap-16">
           <div data-reveal>
-            <h2 className="display max-w-[560px] text-3xl font-bold tracking-[-0.035em] text-ink">
+            <h2 className="display max-w-[580px] text-[34px] text-ink">
               The shortlist got smaller
             </h2>
             {/* Two example queries, local trade + software, per the settled
@@ -249,7 +307,7 @@ export default function Home() {
             style={delay(140)}
             className="grid grid-cols-2 gap-4"
           >
-            <div className="rounded-xl bg-white/70 p-4">
+            <div className="rounded-xl bg-white p-4">
               <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-ink-faint">
                 Search, then
               </p>
@@ -276,8 +334,40 @@ export default function Home() {
                 </div>
                 <div className="h-2 w-[80%] rounded-full bg-line-dark/50" />
               </div>
-              <p className="mt-3 text-[11px] font-semibold text-bad">3 names per answer</p>
+              <p className="mt-3 text-[11px] font-medium text-bad">3 names per answer</p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* The four engines. Named individually because "AI search" as one blob
+          is why people assume a single fix exists: the engines disagree, and
+          the card set is the artifact that says so. Order matches
+          lib/sample.ts SAMPLE_ROWS so the sampling card below reads as the
+          same four. */}
+      <section className="border-b border-line">
+        <div className={SECTION}>
+          <div data-reveal>
+            <RuleEyebrow>The four surfaces we measure</RuleEyebrow>
+            <h2 className={`mt-4 max-w-[760px] ${H2}`}>
+              Four engines. Four different sets of rules.
+            </h2>
+          </div>
+          {/* `grid` on each reveal wrapper, not `flex`: a lone grid child
+              stretches on both axes, so the wrapper cannot leave a short card
+              floating in a tall row. Same for the source and situation grids. */}
+          <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+            {ENGINES.map((engine, i) => (
+              <div key={engine.name} data-reveal style={delay(i * 90)} className="grid">
+                <FeatureCard
+                  kicker={engine.kicker}
+                  title={engine.name}
+                  sub={engine.mode}
+                  body={engine.body}
+                  signals={engine.signals}
+                />
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -288,7 +378,7 @@ export default function Home() {
           <div className="grid items-center gap-11 md:grid-cols-[6fr_5fr] md:gap-[72px]">
             <div data-reveal>
               <Chip>What we do</Chip>
-              <h2 className="display mt-3.5 max-w-[560px] text-3xl font-bold tracking-[-0.035em] text-ink md:text-[34px]">
+              <h2 className="display mt-3.5 max-w-[580px] text-[34px] text-ink md:text-[38px]">
                 We measure your AI visibility. Properly.
               </h2>
               <p className="mt-3.5 max-w-[520px] text-[16.5px] leading-7 text-ink-soft">
@@ -327,13 +417,96 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Where an answer comes from. The point the sampling card above cannot
+          make on its own: the rate is produced by other people's pages, which
+          is why the fix list is rarely "change your homepage". */}
+      <section className="border-b border-line">
+        <div className={SECTION}>
+          <div
+            data-reveal
+            className="flex flex-wrap items-end justify-between gap-6"
+          >
+            <div>
+              <RuleEyebrow>Where an answer comes from</RuleEyebrow>
+              <h2 className={`mt-4 max-w-[700px] ${H2}`}>
+                An AI answer is assembled from other people&rsquo;s pages.
+              </h2>
+            </div>
+            <p className="max-w-[360px] pb-2 text-[15.5px] leading-[1.7] text-ink-soft">
+              Engines learn what to say about you by reading what other sources
+              say about you. These are the surfaces that conversation happens
+              on, and the ones we check you against.
+            </p>
+          </div>
+          <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+            {SOURCES.map((source, i) => (
+              <div key={source.name} data-reveal style={delay(i * 90)} className="grid">
+                <FeatureCard
+                  mark={
+                    <span
+                      aria-hidden="true"
+                      className={`flex h-[34px] w-[34px] items-center justify-center ${source.swatchBox}`}
+                    >
+                      <span
+                        className={`h-[11px] w-[11px] rounded-full ${source.swatch}`}
+                      />
+                    </span>
+                  }
+                  title={source.name}
+                  body={source.body}
+                  note={source.note}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* The four technical foundations. Sticky head against a scrolling list:
+          the four are a single argument, so the question stays on screen while
+          the answers pass. Crawler access is numbered in full-strength ink because it is
+          the failure we hit most often. */}
+      <section className="border-b border-line">
+        <div className={SECTION}>
+          {/* No `items-start` here, and the sticky element is a CHILD of the
+              grid item rather than the item itself. A sticky grid item is
+              exactly as tall as its grid area either way — stretched it fills
+              the area, start-aligned it shrinks to content — so it has no
+              travel range and never sticks. The stretched wrapper gives the
+              child one. */}
+          <div className="grid gap-12 md:grid-cols-2 md:gap-[72px]">
+            <div>
+              <div data-reveal className="md:sticky md:top-[110px]">
+                <RuleEyebrow>The four technical foundations</RuleEyebrow>
+                <h2 className={`mt-4 max-w-[520px] ${H2}`}>
+                  Before anything else: can the engines read you?
+                </h2>
+                <p className="mt-6 max-w-[440px] text-[15.5px] leading-[1.7] text-ink-soft">
+                  Four things decide whether an engine can use your website as
+                  a source. None are exotic and all are measurable. The first
+                  one alone accounts for more invisible businesses than every
+                  content problem combined.
+                </p>
+                <p className="mt-4 max-w-[440px] text-[15.5px] leading-[1.7] text-ink-soft">
+                  Every free check covers all four, verified by live fetch
+                  rather than assumption.
+                </p>
+              </div>
+            </div>
+            <div data-reveal style={delay(140)}>
+              <FoundationList />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* How it works — joined step cells */}
       <section className="border-b border-line">
         <div className="mx-auto max-w-[1120px] px-5 py-20 sm:px-8">
           <div data-reveal className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex flex-wrap items-center gap-4">
               <Chip>How it works</Chip>
-              <h2 className="display text-3xl font-bold tracking-[-0.035em] text-ink md:text-[34px]">
+              <h2 className="display text-[34px] text-ink md:text-[38px]">
                 Three steps, no theater
               </h2>
             </div>
@@ -352,7 +525,112 @@ export default function Home() {
         </div>
       </section>
 
-      <Cta centered />
+      {/* The same question, two answers. The page's second artifact: everything
+          above is mechanism, this is the outcome the mechanism produces.
+          Illustrative and labeled as such (lib/sample.ts honesty rule). */}
+      <section className="border-b border-line">
+        <div className={SECTION}>
+          <div data-reveal className="max-w-[760px]">
+            <RuleEyebrow>What this looks like in practice</RuleEyebrow>
+            <h2 className={`mt-4 max-w-[700px] ${H2}`}>
+              The same question. Two very different answers.
+            </h2>
+            <p className="mt-6 max-w-[600px] text-[15.5px] leading-[1.7] text-ink-soft">
+              Both of these businesses rank on page one of Google for the
+              query. Only one of them exists in the paragraph the customer
+              reads.
+            </p>
+          </div>
+          <div data-reveal style={delay(120)} className="mt-11">
+            <AnswerCompare />
+          </div>
+        </div>
+      </section>
+
+      {/* Who asks for this. Qualification without a quiz: the reader picks
+          their own row and gets the specific first step for it. */}
+      <section className="border-b border-line">
+        <div className={SECTION}>
+          <div data-reveal>
+            <RuleEyebrow>Who asks for this</RuleEyebrow>
+            <h2 className={`mt-4 max-w-[640px] ${H2}`}>
+              Three situations that bring people here.
+            </h2>
+          </div>
+          <div className="mt-12 grid gap-6 md:grid-cols-3">
+            {SITUATIONS.map((situation, i) => (
+              <div
+                key={situation.title}
+                data-reveal
+                style={delay(i * 110)}
+                className="grid"
+              >
+                <FeatureCard
+                  mark={
+                    <span
+                      aria-hidden="true"
+                      className="text-[44px] font-semibold leading-none tracking-[-0.03em] text-[rgba(14,35,64,0.14)]"
+                    >
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                  }
+                  title={situation.title}
+                  body={situation.body}
+                  note={situation.answer}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <EngagementSteps />
+
+      <FreeCheckPanel />
+
+      {/* FAQ. One {question, answer}[] renders both the visible H2s and the
+          FAQPage JSON-LD (lib/home.ts HOME_FAQS), so schema cannot drift from
+          the text. The two figures beside it restate the protocol and the
+          posture as numbers. */}
+      <section className="border-t border-line">
+        <div className={SECTION}>
+          <div className="grid gap-12 md:grid-cols-2 md:gap-[72px] md:items-start">
+            <div data-reveal>
+              <RuleEyebrow>Frequently asked</RuleEyebrow>
+              <h2 className={`mt-4 max-w-[460px] ${H2}`}>
+                The questions we get, answered directly.
+              </h2>
+              <div className="mt-9 flex flex-col gap-4">
+                {FAQ_FIGURES.map((figure) => (
+                  <div
+                    key={figure.label}
+                    className="border border-line-dark bg-white px-[26px] py-6"
+                  >
+                    <p
+                      className={`display text-[44px] leading-none ${
+                        figure.accent ? "text-accent" : "text-ink"
+                      }`}
+                    >
+                      {figure.value}
+                    </p>
+                    <p className="mt-2 font-mono text-[11.5px] font-semibold uppercase tracking-[0.12em] text-ink-faint">
+                      {figure.label}
+                    </p>
+                    <p className="mt-3 text-sm leading-[1.6] text-ink-soft">
+                      {figure.body}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div data-reveal style={delay(140)}>
+              <FaqSection faqs={HOME_FAQS} compact />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <ClosingCta />
     </>
   );
 }

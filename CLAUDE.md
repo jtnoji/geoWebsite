@@ -274,10 +274,14 @@ bad `#4a5666` (== ink-soft) · dot `#c3c6cb` / dot-bad `#d0d2d6` · band
   the invariant, not the hex values.** Re-measure before changing either.
 
 **The Sky rule** (§04). Sky is the one bright note and it is legal **on navy
-only, never on paper**, at most **once per page** — it loses its job the moment
-it is used twice. Site-wide it appears in exactly four places: the header
-lockup's tallest plume, the active-nav underline, and the navy bands' eyebrows.
-Anything tempted to be a fifth uses `white/12` or the inverted pill instead.
+only, never on paper**. The sheet says once per page; the operative rule here is
+**at most once per navy band**, because the long-form home runs ~9k words over
+three widely separated navy bands and a single accent across that distance is
+not a system, it is a typo. On a short page the two readings coincide.
+Outside the chrome (the header lockup's tallest plume and the active-nav
+underline) the home spends it exactly twice: the `EngagementSteps` band eyebrow
+and the `FreeCheckPanel` navy panel's label. Anything tempted to be a third
+inside the same band uses `white/12` or the inverted pill instead.
 
 **Ground.** Flat warm paper (`paper-dim`), no gradient. Cards earn separation
 from a white fill plus a hairline, never from the ground shifting under them.
@@ -317,6 +321,10 @@ SamplingCard (side-by-side you-vs-competitor dot rows, competitor half stepped
 down) · DataChips · StepList (joined cells, numbered tabs) · HonestyBlock ·
 BottomBar (persistent bottom CTA band, no decorative wave) · the product-mockup
 card (hero answer card pattern).
+Long-form home only: RuleEyebrow (rule + tracked label, `onDark` for navy
+bands) · FeatureCard · FoundationList · AnswerCompare · EngagementSteps (navy
+band) · FreeCheckPanel (navy panel) · ClosingCta (navy band). Their copy lives
+in `lib/home.ts`, not in the page.
 
 **Alignment (settled 2026-07-25).** One rule, applied everywhere: **the page
 head centres, the body does not.** The head is the h1, the lede under it, and
