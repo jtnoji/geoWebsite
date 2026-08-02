@@ -22,6 +22,14 @@ import { Lockup } from "./Plume";
  * has a flat paper ground, so the header states itself instead.
  *
  * Sticky so the primary CTA is always visible.
+ *
+ * The full nav appears from `md` (768px), not `lg` as the weir header did.
+ * That header was 78px tall with uppercase, wide-tracked links that genuinely
+ * could not fit below 1024; these are 12.5px sentence case, so at 768 the old
+ * breakpoint left a half-empty bar with the links hidden behind a hamburger
+ * for no reason. The gap tightens to 18px in the md–lg range to buy the room
+ * and opens back to 30px above it. If a nav link is ever added, re-check 768
+ * before assuming it still fits.
  */
 export default function Header() {
   return (
@@ -34,7 +42,7 @@ export default function Header() {
 
         <nav
           aria-label="Main"
-          className="ml-auto hidden items-center gap-[30px] lg:flex"
+          className="ml-auto hidden items-center gap-[18px] md:flex lg:gap-[30px]"
         >
           {NAV_LINKS.filter((l) => l.href !== "/").map((link) => (
             <Link
@@ -54,7 +62,7 @@ export default function Header() {
           </Link>
         </nav>
 
-        <div className="ml-auto flex items-center gap-4 lg:hidden">
+        <div className="ml-auto flex items-center gap-4 md:hidden">
           <Link
             href="/free-check/"
             className="btn-pill-invert px-4 py-2.5 text-[10.5px]"

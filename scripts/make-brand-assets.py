@@ -19,10 +19,9 @@ Both families come from the woff2 files next/font already downloaded into out/,
 so the images use the same typefaces as the site with no font file committed and
 no network fetch. Run `npm run build` first so out/ exists.
 
-RE-RUN REQUIRED after the Berkeley redesign (2026-08-02): the committed PNGs
-still carry the weir palette (Berkeley blue #003262 + California gold) and the
-Poppins footer line. This file is updated; the images are not, because Pillow
-and fontTools are not on this machine's Python. See CLAUDE.md for the venv.
+Regenerated 2026-08-02 for the Berkeley system and the locked brand name.
+Needs Pillow + fontTools, which the system Python does not have: make a venv
+and run `<venv>/bin/python scripts/make-brand-assets.py` after `npm run build`.
 """
 
 import re
@@ -42,7 +41,7 @@ DISPLAY = "Cormorant Garamond"
 
 # Locked design tokens (CLAUDE.md "Design system"). Keep in step with globals.css.
 INK = (14, 35, 64)            # Berkeley Navy #0e2340
-INK_SOFT = (105, 117, 133)    # Harbour #697585
+INK_SOFT = (74, 86, 102)      # Harbour #4a5666 (darkened for AA, see globals.css)
 MIST = (178, 183, 188)        # Mist #b2b7bc
 SKY = (127, 166, 217)         # Sky #7fa6d9 — on navy only
 PAPER = (242, 241, 236)       # Paper #f2f1ec — the flat ground

@@ -9,7 +9,9 @@ never guarantee placement or rankings; report sampled rates, not point-in-time r
 every statistic carries a named source; no "AI domination" language. Honesty is the
 positioning, not just the legal posture.
 
-`[Brand]` = placeholder until you pick a name. `[$X]` = pricing placeholders.
+**Brand name: `Sable`, locked 2026-08-02 (Josh).** It lives in `lib/site.ts`
+as `BRAND`; occurrences of `[Brand]` below are historical and read as Sable.
+`[$X]` = pricing placeholders, still open.
 
 ---
 
@@ -424,11 +426,12 @@ call bookings) so you know where the funnel leaks.
       anyone holding the (public by design) publishable key can POST rows of
       any size straight past the form and its honeypot. Verified still safe
       today: anon SELECT and DELETE both return 401.
-- [ ] **Re-run `scripts/make-brand-assets.py`** after the brand name lands. The
-      OG image and favicon are generated from `BRAND`, so until then every link
-      shared on LinkedIn or Slack previews as "[Brand]". Needs pillow, fonttools
-      and brotli (`python3 -m venv .venv && .venv/bin/pip install pillow
-      fonttools brotli`), and `npm run build` run first so the font is present.
+- [x] **Re-run `scripts/make-brand-assets.py`** — done 2026-08-02 with the name
+      lock and the Berkeley redesign. The OG image and favicon now read "Sable"
+      in Cormorant with the plume mark. Re-run again if the palette or the name
+      moves: needs pillow, fonttools and brotli (`python3 -m venv .venv &&
+      .venv/bin/pip install pillow fonttools brotli`) and `npm run build` first
+      so the woff2 is present.
 - [ ] **Swap `EMAIL` in lib/site.ts** — `/security.txt` publishes it as the
       disclosure contact, and it is still `hello@example.com`.
 - [ ] **SPF, DKIM and DMARC** on the sending domain before the first teaser
@@ -451,8 +454,9 @@ call bookings) so you know where the funnel leaks.
   every canary run mails Abhi a fake lead and spends 1 of the 20 hourly Resend
   sends real leads need. Apply first, enable second. Josh does not need to do
   anything here; it is one paste.
-- Brand name + domain (blocks: logo, NAP, schema, sending-domain setup from the
-  GTM doc — same domain decision). Build with `[Brand]` placeholders meanwhile.
+- ~~Brand name~~ — **decided 2026-08-02: Sable.** Domain is still open and
+  still blocks NAP, the sending-domain setup from the GTM doc, and `DOMAIN` in
+  `lib/site.ts` (an interim Vercel URL today). `EMAIL` is still a placeholder.
 - Pricing numbers for tiers 2 and 3. Build /pricing with `[$X]` placeholders.
 - Which past run becomes the /sample-report content — pick the stored audit/teaser
   with the most vivid story (client absent, competitors named, clear fix list),

@@ -3,7 +3,7 @@
  * When the real brand name / domain / prices land, they change HERE and nowhere else.
  */
 
-export const BRAND = "[Brand]"; // placeholder until the name is picked
+export const BRAND = "Sable"; // locked 2026-08-02 (Josh). Was "[Brand]".
 
 export const DOMAIN = "https://geo-website-sepia.vercel.app"; // interim: Vercel URL — swap when the real domain is bought
 
