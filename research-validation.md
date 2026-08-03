@@ -116,3 +116,100 @@ Open follow-ups: pin exact URLs for Sterling Sky, Ahrefs CTR study, Pew
 report, G2 Answer Economy, and Foundation/AirOps reports before they go in
 lib/stats.ts (source names and figures are verified/extracted; the precise
 permalinks weren't all captured before the run was interrupted).
+
+## 5 · Added 2026-08-03 — the home search-shift chart [SOURCED, NOT YET VERIFIED]
+
+Two new series ship on the home page's second screen
+(`components/SearchShiftChart.tsx`, data in `lib/stats.ts`). Both were pulled
+from the primary pages and both carry a methodology caveat on the page itself.
+**Neither has been through the adversarial pass the table in §1 got.** Read the
+primary sources end to end and move them up into that table, or correct them.
+
+| Series | Points | Source | Status |
+|---|---|---|---|
+| U.S. online purchases AI agents influence | 4% (early 2025), 19% (Q1 2026), 34% (end 2027, Forrester's own projection) | Forrester Research, "The Agentic Commerce Inflection Point" / "The State Of Agentic Commerce, Q2 2026". Report is paywalled; figures reach us through trade coverage. Public blog permalink is pinned in stats.ts. | [sourced, secondary] |
+| Google searches that end in a click | 39.6% (2024), 32.0% (early 2026) | SparkToro with Similarweb, "In 2026, Less than One Third of Google Searches Still Send a Click", Jun 2026. | [sourced, derived] |
+
+**The rising series changed on 2026-08-03** and the replacement is weaker
+evidence than what it replaced. It was Pew's ChatGPT-adoption line (18/23/34/44
+across 2023–2026), which was four waves of one instrument read straight off the
+primary appendix table. Josh swapped it because adoption is a settled question
+and the section needs to speak to purchase influence. Pew's series is still the
+better-sourced pair member and is the fallback if the Forrester figures do not
+survive review. Four things a reviewer must settle on the Forrester series:
+
+- **Secondary sources disagree with each other.** The 4% baseline is placed in
+  2024 by one write-up and in Q1 2025 by another; the 2027 figure appears as
+  both 34% and 35%; a third write-up describes a different metric entirely
+  (AI-*initiated* transactions, 1.4% in Q4 2024 rising to 11% by Q4 2026). The
+  chart plots the conservative reading of each. Read the report.
+- **Forrester's own public commentary cuts against the drama.** Its mid-2026
+  blog says most agentic experience is still conversational, true autonomy is
+  rare, and "hype is running ahead of behavior". The chart caveat says so on
+  the page. Do not let a copy edit remove that clause while keeping the line.
+- **"Influenced" is doing a lot of work.** It counts assisted research, not
+  agents completing checkout. Any copy that reads this as "19% of purchases are
+  made by robots" is a misuse of the number.
+- **The 2027 point is Forrester's projection, not a measurement**, and is drawn
+  dashed for that reason. The note under the chart distinguishes it from our
+  own 2028 point by name.
+
+Three things a reviewer should check before this counts as verified:
+
+1. **The click series is derived, not quoted.** SparkToro publishes the
+   ZERO-click rate: 60.45% in 2024 and 68.01% for January–April 2026. The chart
+   plots the exact complement so the line falls the way a reader's traffic
+   does. If that inversion is judged too clever, plot the zero-click rate
+   rising instead; the numbers are the same fact either way.
+2. **"Ends in a click" is not "clicks to your site."** It counts clicks of any
+   kind, including to Google's own properties and to ads. Only about two thirds
+   of those clicks reach the open web, so the true figure for the open web is
+   worse. The page deliberately does not claim the stronger version. The
+   per-1,000-clicks framing was left off entirely because secondary coverage
+   reported it two different ways (276 vs 232 per 1,000) and the primary page
+   did not settle it.
+3. **The zero-click rate is the only measured half of the falling line.** Its
+   2027 and 2028 points are ours, like the agentic 2028 point.
+
+Also on the page and unsourced by definition: our **2028 projection** on both
+series, drawn dashed inside a tinted zone and labelled as a projection in three
+places (the zone label, the caveat line, and the alt text). **Revised
+2026-08-03** to bend rather than continue the last measured slope, which makes
+it a more aggressive claim than the version reviewed above: the agentic line
+runs to 62% and the click line to 16%. It remains the only forward-looking
+claim anywhere on the site, so if the no-forecasts posture is meant to be
+absolute, this is the thing to cut, and the case for cutting it got stronger
+when it got steeper.
+
+## 6 · Added 2026-08-03 — "What the shift is worth" [SOURCED, NOT YET VERIFIED]
+
+`components/RevenueAtStake.tsx`, data in `lib/stats.ts` (`REVENUE_STATS`,
+`ATTRIBUTION_NOTE`). Three figures, all from one study, plus one attribution
+note.
+
+| Claim | Source | Status |
+|---|---|---|
+| $750B of U.S. revenue moves through AI-powered search by 2028 | McKinsey & Company, "New front door to the internet: Winning in the age of AI search", Oct/Nov 2025 | [sourced] |
+| 20–50% of traditional search traffic at risk for unprepared brands | Same report | [sourced] |
+| Half of consumers deliberately seek out AI search, most call it their top source for buying decisions | Same report | [sourced] |
+| ~6 in 10 ChatGPT referrals land on a homepage, untagged traffic gets filed as direct | Similarweb, 2026 Generative AI Landscape coverage | [sourced] |
+
+What a reviewer should check:
+
+1. **Every figure is McKinsey's own framing of a market, not of a business.**
+   That is the whole design. The section's argument is that the per-business
+   number does not exist, so importing one would refute the section.
+2. **Three numbers from one study is a concentration risk, not an oversight.**
+   The alternative sources for this claim are GEO vendors quoting their own
+   models. A fourth number from a weaker source would cost more credibility
+   than the wider row would buy.
+3. **Explicitly rejected during research** (do not let these come back): a GEO
+   tool's "$680,000 of at-risk AI-influenced revenue for the average mid-market
+   company" and "$294,000 lost over 24 months", published on its own marketing
+   site with no stated method; another vendor's worked example deriving "$75,000
+   in monthly recurring revenue" from assumed conversion rates; and Gartner's
+   "traditional search volume drops 25% by 2026", which is now testable and
+   **failed** (search volume grew; Google reported accelerating query growth
+   through 2025). Anyone reaching for a punchy number will find these first.
+4. **Read the McKinsey figures against the primary page.** They were captured
+   from mckinsey.com and from verbatim quotation of it, not from the PDF.

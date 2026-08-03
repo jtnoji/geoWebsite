@@ -190,6 +190,79 @@ export const SITUATIONS: readonly Situation[] = [
   },
 ];
 
+/**
+ * The search-shift chart section (second screen). The claim is deliberately
+ * narrower than "search is dying": one line is people adopting AI answers, the
+ * other is clicks leaving Google, and the section says only what the two
+ * measured series support. The numbers themselves live in lib/stats.ts.
+ *
+ * The tone sharpened 2026-08-03 (Josh) to say plainly that agentic search is
+ * the present tense, not a coming channel. The narrowness did not move with
+ * it: nothing here says search volume is falling, because it is not, and
+ * "the click that used to reach you" is the one thing the second series
+ * measures.
+ */
+export const SEARCH_SHIFT_COPY = {
+  eyebrow: "The shift, in two lines",
+  heading: "Agentic search is not coming. It is already here.",
+  body: [
+    "One line is your customers moving to AI answers. The other is the click that used to reach you, and both bend faster every year.",
+    "This is where your category gets decided now. Every answer that leaves your name out is a customer you never hear from.",
+  ],
+  projectionNote:
+    "Solid is measured. Dashed is projection: 2027 is Forrester's own, 2028 is ours, and neither is a forecast we stand behind.",
+} as const;
+
+/**
+ * "What the shift is worth" (home, after the shortlist section). Renders
+ * through RevenueAtStake with the three McKinsey figures in lib/stats.ts.
+ *
+ * The section exists to answer a question people ask in sales calls: what is
+ * absence costing me. It sizes the channel and then refuses the second half of
+ * the question, because a per-business loss figure cannot be computed from
+ * outside the business and cannot be computed honestly from inside it either.
+ * That refusal is the section, not a hedge attached to it. If a later edit
+ * turns this into "you are losing $X a month", it has become the thing the
+ * honesty block on this same page says nobody should sell.
+ */
+export const REVENUE_COPY = {
+  eyebrow: "What the shift is worth",
+  heading: "The money moves. The invoice never arrives.",
+  lede: "Buying decisions are being made inside answers now, and the spending is following them there. What does not follow is any record of the ones you lost.",
+  artifactTitle: "what your analytics can see",
+  artifactMeta: "per answer",
+  closing: [
+    "A lost click leaves a gap in a report. A lost answer leaves nothing, because the visit it would have produced never happened and the customer never knew your name to search for it.",
+    "So we go and ask the engines directly, on a schedule, and score what comes back. That is the only version of this number that exists.",
+  ],
+  refusal:
+    "We will not quote you a dollar figure for what absence has cost you. It cannot be computed honestly, and the vendors publishing one are estimating your revenue and calling it research.",
+} as const;
+
+export type AttributionRow = {
+  event: string;
+  status: string;
+  /** True when the reader's own reporting would show it. */
+  seen: boolean;
+};
+
+/**
+ * The artifact for the section above: four things that happen, and whether
+ * the reader could ever see them. Absence here is a FLAGGED FAILURE, not a
+ * comparison, so the unseen rows step UP to full ink and the recorded ones
+ * step down (CLAUDE.md, "Absence has two directions").
+ */
+export const ATTRIBUTION_ROWS: readonly AttributionRow[] = [
+  { event: "A click from a Google result", status: "recorded", seen: true },
+  { event: "A click from an AI answer", status: "often filed as direct", seen: true },
+  { event: "An AI answer that named you", status: "not recorded", seen: false },
+  {
+    event: "An AI answer that named a competitor",
+    status: "not recorded",
+    seen: false,
+  },
+];
+
 export type EngagementStep = {
   phase: string;
   title: string;

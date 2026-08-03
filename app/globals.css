@@ -166,10 +166,59 @@ body {
   transform: none;
 }
 
+/* ---- Chart draw (home search-shift chart) --------------------------------
+   The measured lines draw themselves from the left when the chart scrolls in,
+   then the dots, the value labels and the projection fade in behind them.
+
+   Keyed off the same `.is-in` class ScrollReveal already toggles, so the chart
+   needs no second observer and no client boundary: SearchShiftChart stays a
+   server component, which the copy-bearing invariant requires.
+
+   The draw works because each measured path carries `pathLength="100"`, which
+   normalises its length: one dasharray value then draws any line correctly
+   regardless of its real geometry. The projection cannot use the same trick,
+   because its dashes ARE a stroke-dasharray, so it fades in instead. */
+.js-reveal [data-reveal="draw"] {
+  transform: none;
+}
+
+.js-reveal [data-reveal="draw"] .chart-line {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  transition: stroke-dashoffset 1500ms cubic-bezier(0.33, 0.72, 0.36, 1)
+    var(--reveal-delay, 0ms);
+}
+
+.js-reveal [data-reveal="draw"].is-in .chart-line {
+  stroke-dashoffset: 0;
+}
+
+.js-reveal [data-reveal="draw"] .chart-late {
+  opacity: 0;
+  transition: opacity 550ms ease 1150ms;
+}
+
+.js-reveal [data-reveal="draw"].is-in .chart-late {
+  opacity: 1;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .js-reveal [data-reveal] {
     opacity: 1;
     transform: none;
+    transition: none;
+  }
+
+  /* The lines are content, not decoration: with motion off they are simply
+     already drawn. Never leave them at dashoffset 100, which would render an
+     empty chart. */
+  .js-reveal [data-reveal="draw"] .chart-line {
+    stroke-dashoffset: 0;
+    transition: none;
+  }
+
+  .js-reveal [data-reveal="draw"] .chart-late {
+    opacity: 1;
     transition: none;
   }
 }
