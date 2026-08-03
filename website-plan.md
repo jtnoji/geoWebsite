@@ -51,7 +51,61 @@ header button), and no page is more than one click from /free-check or /contact.
 > each answer names only a few businesses. [Brand] measures whether you're one of
 > them and who gets named instead.
 >
-> [ Get your free AI visibility check ]   [ See a sample report ]
+> [ yourbusiness.com ] [ Run my free AI check ]
+>
+> Verbatim answers, mention rates per engine, and who gets named instead. See a
+> sample report.
+
+**Hero capture** (added 2026-08-03, Josh) — the fold takes a domain instead of
+linking to the page that takes a domain. Every established site in this category
+opens this way (Cognizo, Profound, AirOps, SE Ranking), and it costs us none of
+our rules: a plain GET form to `/free-check/` is not an interactivity island, so
+the fold still works with JavaScript off, and `form-action 'self'` already
+allows it. `/free-check` prefills its website field from the `site` param, after
+mount and only when the value looks like a domain.
+
+The pill above the headline reads **"We ran this audit on our own site"** and
+links to `/our-score/`. That slot is where all four competitors run a customer
+logo wall. We cannot until a real client result is cleared, and the dogfood page
+is the stronger credential anyway: none of them publishes an audit of itself.
+Do not swap this for borrowed logos or unnamed "trusted by" copy.
+
+**The shift, in two lines** (added 2026-08-03, Josh) — the second screen, between
+the fold and the answer card. A line chart with two measured series and a
+labelled projection: purchases an AI agent influenced rising (Forrester)
+against Google searches that end in a click falling (SparkToro/Similarweb), a
+dashed present line at 2026, and a tinted projection zone past it.
+
+The rising series was Pew's ChatGPT-adoption line until 2026-08-03. Josh
+replaced it because adoption answers "do people use it", which is settled, and
+the section needs to answer "does it decide the purchase". The trade is that
+Pew was four waves read off the primary page and Forrester is two points via
+trade coverage of a paywalled report. It is [sourced, secondary] in
+research-validation.md §5 and must be read against the primary report before
+launch.
+
+> ## Agentic search is not coming. It is already here.
+>
+> One line is your customers moving to AI answers. The other is the click that
+> used to reach you, and both bend faster every year.
+>
+> This is where your category gets decided now. Every answer that leaves your
+> name out is a customer you never hear from.
+
+The claim is deliberately narrower than "search is dying": search VOLUME is not
+falling and this section must never imply it is. What is falling is the share of
+searches that send a click, which is the half a business feels. Sources and the
+open verification items are in research-validation.md §5.
+
+Sharpened 2026-08-03 (Josh): the previous copy ("Neither line is about you yet")
+held the reader at arm's length from the one thing the section is for. The new
+wording states the stakes and names agentic search as the present tense. The
+narrowness above is unchanged and still binding. In the same pass the chart lost
+its white card and now sits on the paper ground at roughly half the section
+width, the lines are smoothed between measured points, and the projection past
+2026 bends instead of running straight off the last slope. It is still dashed,
+still inside the tinted zone, and still carries the "not a forecast we stand
+behind" note.
 
 **Stat bar** (3 tiles, each with source line)
 
@@ -68,6 +122,30 @@ Ask Google or ChatGPT "which {your category} should I hire" and you don't get te
 blue links. You get a paragraph that names two or three options. If you're not in
 it, you're not in the conversation. And you never find out, because everyone's
 answer is different and nobody screenshots the AI that *didn't* mention them.
+
+**What the shift is worth** (added 2026-08-03, Josh) — directly under the chart,
+because those two lines produce exactly one next question and it is this one.
+Three McKinsey figures beside an artifact showing why the loss never appears in
+the reader's own reporting. It shipped after the shortlist section and moved up
+the same day (Josh); either position keeps it ahead of every method section,
+which is the part that matters.
+
+> ## The money moves. The invoice never arrives.
+>
+> Buying decisions are being made inside answers now, and the spending is
+> following them there. What does not follow is any record of the ones you lost.
+>
+> We will not quote you a dollar figure for what absence has cost you. It cannot
+> be computed honestly, and the vendors publishing one are estimating your
+> revenue and calling it research.
+
+The refusal is the section, not a disclaimer on it. A per-business loss figure
+cannot be computed from outside the business, and the "$680,000 at risk for a
+mid-market company" numbers circulating in this market are published by GEO
+tools on their own marketing sites with no method attached. If a later edit
+turns this section into "you are losing $X a month", it has become the thing
+the honesty block on this same page says nobody should sell. Sources in
+research-validation.md §6.
 
 **What we do — "We measure it. Properly."**
 
@@ -414,6 +492,25 @@ call bookings) so you know where the funnel leaks.
   `/privacy` now answers "Do you keep server logs?" and promises to name any
   destination before forwarding begins, so activation means naming the drain
   there and removing that promise.
+
+- Home rhythm pass (2026-08-03, Josh): the long-form home read as one module
+  repeating. Every block below the fold was a bordered white box on the same
+  paper, at the same measure, under the same eyebrow-and-H2 head, for roughly
+  4,000 words. Three fixes, all structural. **The copy did not change and the
+  section order did not change** apart from the revenue move noted above.
+  1. **The card is spent once.** `FeatureCard` backed three grids (engines,
+     sources, situations). Sources became a ruled ledger on the ground and
+     situations lost their fill, so the four engines are now the page's only
+     card set. Do not reach for a fourth grid of boxes without a reason that
+     the other treatments cannot carry.
+  2. **"Where search lives in 2026" is now a navy band**, the first one on the
+     page. The other three sit in the last quarter, so the reader met a single
+     unbroken surface for the whole first two thirds. This section has no
+     artifact to invert and states the thesis every method section depends on,
+     which is why it is the one that flips.
+  3. **The situations read as alternatives, not a set.** A bordered box says
+     "one of several equal things"; these are three different readers, so they
+     get a rule, a numeral, and nothing else.
 
 **Security launch checklist (added 2026-07-25) — must clear before go-live:**
 

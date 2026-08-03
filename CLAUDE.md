@@ -110,6 +110,10 @@ funnel.spec.ts, visual.spec.ts) · `public/`.
   Z" triads. `npm run build && grep -r "—" out/` must return nothing.
 - **Every stat lives in `lib/stats.ts`** with text + source + URL. No unsourced
   numbers anywhere on the site.
+- **The home hero's domain field is a plain GET form**, not an island: it
+  navigates to `/free-check/?site=…` and the real form prefills from the param
+  after mount. Keep it that way. Turning the fold's primary action into client
+  JavaScript would put the site's main call to action behind hydration.
 - **Forms:** `/free-check` submissions go to the manual-queue backend (Supabase
   insert-only `leads` table — see scaffold.md §6). No client-side secrets; the
   anon key + RLS insert-only policy is the only browser-facing credential.
@@ -276,15 +280,30 @@ bad `#4a5666` (== ink-soft) · dot `#c3c6cb` / dot-bad `#d0d2d6` · band
 **The Sky rule** (§04). Sky is the one bright note and it is legal **on navy
 only, never on paper**. The sheet says once per page; the operative rule here is
 **at most once per navy band**, because the long-form home runs ~9k words over
-three widely separated navy bands and a single accent across that distance is
+four widely separated navy bands and a single accent across that distance is
 not a system, it is a typo. On a short page the two readings coincide.
 Outside the chrome (the header lockup's tallest plume and the active-nav
-underline) the home spends it exactly twice: the `EngagementSteps` band eyebrow
-and the `FreeCheckPanel` navy panel's label. Anything tempted to be a third
-inside the same band uses `white/12` or the inverted pill instead.
+underline) the home spends it three times, once per band that has anywhere to
+put it: the "Where search lives in 2026" eyebrow, the `EngagementSteps` band
+eyebrow, and the `FreeCheckPanel` navy panel's label. Anything tempted to be a
+second inside the same band uses `white/12` or the inverted pill instead.
 
 **Ground.** Flat warm paper (`paper-dim`), no gradient. Cards earn separation
 from a white fill plus a hairline, never from the ground shifting under them.
+The only surface change is a full-bleed navy band, and it is a section-level
+device: four on the long-form home ("Where search lives in 2026",
+`EngagementSteps`, `FreeCheckPanel`, `ClosingCta`). A band needs to be worth a
+whole surface, and it cannot contain a measurement artifact, because inverting
+one costs it the square-and-shadowless language that keeps data out of the
+marketing register.
+
+**Vary the block, not the palette.** Three identical card grids down one page
+read as one module repeating, which is what the home did until 2026-08-03. The
+levers are structure and density: a card grid, a ruled ledger on the ground, a
+chrome-less column with a rule over it, a bordered list with a numeral rail
+(`FoundationList`), joined step cells (`StepList`). Reuse of one component
+across a page is not a virtue when the page is 9k words. **Head alignment is
+NOT one of the levers** — see the alignment rule below.
 
 **Shapes.** Radii: 12px standard, 18–22px product-mockup cards, 999px pills.
 Buttons are `.btn-pill` / `.btn-pill-outline` (hero/nav), `.btn-pill-invert`
@@ -292,9 +311,19 @@ Buttons are `.btn-pill` / `.btn-pill-outline` (hero/nav), `.btn-pill-invert`
 (in-flow); all weight 500, tracking .14em, defined once in globals.css and
 never recomposed inline. Soft large shadows ONLY on product-mockup cards (the
 hero answer card); measurement artifacts (ArtifactCard, SamplingCard) stay
-square-cornered and shadowless so data never reads as marketing. One motion:
-`.weir-bob` on the hero chevron (name predates this system; reduced-motion
-safe).
+square-cornered and shadowless so data never reads as marketing. **Two
+motions, and that is the whole budget:** `.weir-bob` on the hero chevron (name
+predates this system) and the `data-reveal="draw"` line draw on the home
+search-shift chart. Both are reduced-motion safe, and the chart's is CSS keyed
+off the class `ScrollReveal` already toggles, so it needs no library and no
+client component. A third motion needs a reason, not a preference.
+
+**A chart is a measurement artifact, so it obeys those rules.** Server-rendered
+inline SVG only: every value must survive JS-off, which is both the static-export
+invariant and how the engines we audit will read it. No charting library. Real
+`<text>` nodes, never paths, so the numbers stay quotable. Measured data is
+solid; anything extrapolated is dashed inside a `paper-dim` zone and labelled
+as a projection. Methodology caveats ship next to the chart, not behind a link.
 
 **Absence has two directions, and mixing them up is the easy mistake.** This
 palette has no warning hue and gets none — absence is carried by TONE and
@@ -322,9 +351,12 @@ down) · DataChips · StepList (joined cells, numbered tabs) · HonestyBlock ·
 BottomBar (persistent bottom CTA band, no decorative wave) · the product-mockup
 card (hero answer card pattern).
 Long-form home only: RuleEyebrow (rule + tracked label, `onDark` for navy
-bands) · FeatureCard · FoundationList · AnswerCompare · EngagementSteps (navy
-band) · FreeCheckPanel (navy panel) · ClosingCta (navy band). Their copy lives
-in `lib/home.ts`, not in the page.
+bands) · FeatureCard (the engines grid, and nothing else — see "Vary the block")
+· FoundationList · AnswerCompare · SearchShiftChart (the
+second-screen line chart) · RevenueAtStake (what the shift is worth, and why
+the reader cannot see their own share of it) · EngagementSteps (navy band) ·
+FreeCheckPanel (navy panel) · ClosingCta (navy band). Their copy lives in
+`lib/home.ts`, not in the page.
 
 **Alignment (settled 2026-07-25).** One rule, applied everywhere: **the page
 head centres, the body does not.** The head is the h1, the lede under it, and
