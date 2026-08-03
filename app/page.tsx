@@ -10,6 +10,7 @@ import FoundationList from "@/components/FoundationList";
 import FreeCheckPanel from "@/components/FreeCheckPanel";
 import JsonLd from "@/components/JsonLd";
 import PageSchema from "@/components/PageSchema";
+import PromptBar from "@/components/PromptBar";
 import RevenueAtStake from "@/components/RevenueAtStake";
 import RuleEyebrow from "@/components/RuleEyebrow";
 import SamplingCard from "@/components/SamplingCard";
@@ -237,6 +238,12 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* The moment the fold is about: a customer typing the question. It
+          comes first because the two sections under it both assume it. The
+          chart says the question now goes to an answer engine, and the answer
+          card shows what that answer leaves out. */}
+      <PromptBar />
 
       {/* Second screen: the thesis as two measured lines. It sits between the
           fold and the answer card on purpose. The card shows one business

@@ -223,6 +223,195 @@ body {
   }
 }
 
+/* ---- Prompt bar (home, "The question") -----------------------------------
+   A mock AI input that types a question, erases it, and types the next. CSS
+   only, for the same reason the chart draw is: PromptBar renders copy, so it
+   stays a server component and all six questions must exist in the exported
+   HTML with JavaScript off.
+
+   HOW IT WORKS. Each question is a real, fully-rendered span, and the six are
+   stacked into ONE inline-grid cell so the slot is as wide as the longest and
+   nothing reflows when they swap. Three animations run per question:
+   `prompt-live` on the span decides whose turn it is, `prompt-type` on its
+   cover does the typing and erasing, and `prompt-caret` blinks the cursor.
+
+   The cover is an opaque block pinned to its question's right edge whose LEFT
+   edge animates from 0 to 100% and back. At left:0 it hides the question
+   entirely; at left:100% it has collapsed to nothing and the question is
+   fully exposed. The caret rides that left edge, which is the trick that
+   makes this exact: the percentages resolve against the question's OWN width,
+   so the caret lands on the last character of a 31-character question and a
+   39-character one alike, with no measurement and no JavaScript.
+
+   `prompt-live` is not optional. An idle question's cover is an opaque
+   rectangle as wide as that question, and all six stack in one cell, so five
+   idle covers would paint straight over whichever question is currently
+   typing and only the last one in the DOM would ever be legible. Hiding the
+   idle spans outright also keeps them from being selected or announced on top
+   of the live one.
+
+   Animation fill-mode is deliberately left at `none`: with `backwards` the 0%
+   keyframe would apply during each cover's delay and all six carets would sit
+   stacked at the slot's left edge. */
+.prompt-slot {
+  display: inline-grid;
+}
+
+.prompt-word {
+  position: relative;
+  grid-area: 1 / 1;
+  /* Content width, not the cell's. The cover's percentages depend on this. */
+  justify-self: start;
+  white-space: nowrap;
+  visibility: hidden;
+  animation-name: prompt-live;
+  animation-duration: var(--prompt-cycle);
+  animation-delay: var(--prompt-slot-start);
+  animation-iteration-count: infinite;
+}
+
+.prompt-cover {
+  position: absolute;
+  /* Overshoot the line box so ascenders and descenders cannot peek out. */
+  top: -0.12em;
+  bottom: -0.12em;
+  left: 0;
+  /* 2px past the last character, so the caret has somewhere to stand when the
+     question is fully typed. */
+  right: -2px;
+  background: #fff;
+  animation-name: prompt-type;
+  animation-duration: var(--prompt-cycle);
+  animation-delay: var(--prompt-slot-start);
+  animation-iteration-count: infinite;
+}
+
+/* The caret is a CHILD of the cover, pinned to the cover's left edge, so it
+   tracks the typing position for free: the cover's left edge IS the position.
+   It was the cover's own `border-left` until the blink was added, and it had
+   to move out. The cover carries `steps(n)` so the text types character by
+   character, and a timing function applies to every property in the
+   animation, so a blink written into those keyframes would have faded through
+   n steps instead of snapping. Its own element gets its own `step-end`. */
+.prompt-caret {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--color-ink);
+  opacity: 0;
+  animation-name: prompt-caret;
+  animation-duration: var(--prompt-cycle);
+  animation-delay: var(--prompt-slot-start);
+  animation-iteration-count: infinite;
+  animation-timing-function: step-end;
+}
+
+/* Present for its own slot, gone for the other five. Stops hard rather than
+   interpolating: the stops either side of 16.66% are what make the handover a
+   cut. */
+@keyframes prompt-live {
+  0%,
+  16.66% {
+    visibility: visible;
+  }
+  16.67%,
+  100% {
+    visibility: hidden;
+  }
+}
+
+/* Type, hold, erase, then sit idle for the other five slots.
+
+   THE STOPS ENCODE THE QUESTION COUNT AND THE SLOT SHAPE. A slot is 1/6 of
+   the loop (16.67%); inside it, typing runs to 37.5% of the slot, the hold to
+   80%, and the erase over the last 20%. The erase gets less of the slot than
+   the typing on purpose: reading back your own deletion is not interesting,
+   so it clears at about 28ms a character against the type's 53ms. Change the
+   number of questions and these have to be recut. PromptBar.tsx throws at
+   build time if they drift apart. */
+@keyframes prompt-type {
+  0% {
+    left: 0;
+  }
+  6.25% {
+    left: 100%;
+  }
+  13.33% {
+    left: 100%;
+  }
+  16.67% {
+    left: 0;
+  }
+  100% {
+    left: 0;
+  }
+}
+
+/* The caret: solid while typing, blinking through the hold, solid again while
+   it erases, dark for the other five slots. `step-end` on the element means
+   every one of these is a hard switch.
+
+   The blink stops are half-second beats measured against the CURRENT slot
+   (1.515% of a 33s loop each), so they scale with SLOT_SECONDS rather than
+   staying at half a second if it changes. That degrades gracefully: a longer
+   slot blinks a little slower, which is still a blink. */
+@keyframes prompt-caret {
+  0% {
+    opacity: 1;
+  }
+  /* Typed. Hold one beat solid before blinking, the way a cursor does when
+     you stop typing rather than the instant you do. */
+  6.25% {
+    opacity: 1;
+  }
+  7.77% {
+    opacity: 0;
+  }
+  9.28% {
+    opacity: 1;
+  }
+  10.8% {
+    opacity: 0;
+  }
+  /* Solid from here through the erase. */
+  12.31% {
+    opacity: 1;
+  }
+  16.67% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* The questions are content, not decoration: with motion off the bar shows
+     the first one fully typed rather than an empty box. The other five stay
+     at the base `visibility: hidden`, which is what keeps them from printing
+     on top of it. */
+  .prompt-word {
+    animation: none;
+  }
+
+  .prompt-word:first-child {
+    visibility: visible;
+  }
+
+  /* The caret needs no rule: its base opacity is already 0, so switching the
+     animation off leaves the question typed and the cursor gone. */
+  .prompt-cover {
+    animation: none;
+    left: 100%;
+  }
+
+  .prompt-caret {
+    animation: none;
+  }
+}
+
 /* Active nav link (applied by NavHighlighter). The header is a navy band in
    this system, so the underline is Sky — the one place on the page it is
    legal, and the one mark it carries site-wide. */

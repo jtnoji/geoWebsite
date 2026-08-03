@@ -168,6 +168,49 @@ export type Situation = {
   answer: string;
 };
 
+/**
+ * The prompt-bar demo (home, directly under the fold). A mock AI input that
+ * types each question out, erases it, and types the next.
+ *
+ * The questions are deliberately generic consumer categories rather than our
+ * own: the point of the section is the moment a customer asks, and a reader
+ * recognises that moment faster in a hair salon than in a B2B agency. They are
+ * illustrative examples, not sampled data, so the sample-data honesty rule
+ * does not apply. Nothing here is a measurement.
+ *
+ * EACH ENTRY IS A WHOLE QUESTION, and the openings vary (Josh, 2026-08-03).
+ * A fixed "what is the best" with only the category swapping was one shape of
+ * question, and people do not ask in one shape. The alternating order is
+ * taste, not a constraint: each question is erased to an empty bar before the
+ * next is typed, so neighbours sharing an opening would look fine. It read as
+ * more varied this way and there is no reason to give that up.
+ *
+ * THE QUESTION COUNT IS LOAD-BEARING. One shared CSS keyframe set drives all
+ * six and each is delayed into its own slot, so the stops in globals.css cut
+ * the loop into sixths. Adding or removing one means recutting those
+ * percentages; PromptBar.tsx throws at build time if the two fall out of step.
+ */
+export const PROMPT_DEMO = {
+  eyebrow: "The question",
+  heading: "This is where your customer starts.",
+  body: "They ask once and take the answer. The businesses it names get the shortlist, and the rest never come up.",
+  /** ORDER IS THE CYCLE, and it alternates openings on purpose. Lowercase,
+      because that is how people type into these things. */
+  questions: [
+    "what is the best restaurant in my area?",
+    "where should I get my hair done?",
+    "what is the best skincare for dry skin?",
+    /* "the most comfortable" was 25px wider than any other question at 360px
+       and set the slot width for all six on its own. People drop the article
+       when they type anyway. */
+    "which shoe brand is most comfortable?",
+    "what is the best gym for beginners?",
+    "who does good plumbing near me?",
+  ],
+  caption:
+    "Your customers ask questions like these every day. We measure what the answer says.",
+} as const;
+
 /** Who asks for this. Three entry points, each with what we do about it. */
 export const SITUATIONS: readonly Situation[] = [
   {
