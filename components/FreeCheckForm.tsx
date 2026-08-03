@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { SAMPLE_CLIENT } from "@/lib/sample";
 import { FORM_ENDPOINT, OFFER, SUPABASE_PUBLISHABLE_KEY } from "@/lib/site";
@@ -31,6 +31,22 @@ const INPUT_CLASS =
 
 type Lead = Record<string, FormDataEntryValue | null>;
 
+/**
+ * A hostname, or an http(s) URL to one. The `site` param is written straight
+ * into a field the visitor is about to submit, so anything that is not clearly
+ * a domain is dropped rather than cleaned up: a half-parsed value in a
+ * prefilled field is worse than an empty one, because the visitor assumes we
+ * put something correct there.
+ */
+const HOSTLIKE = /^(https?:\/\/)?[a-z0-9-]+(\.[a-z0-9-]+)+(\/[^\s]*)?$/i;
+
+/** `?site=` from the home hero's one-field form, normalised for `type=url`. */
+function handedOverSite(): string | null {
+  const raw = new URLSearchParams(window.location.search).get("site")?.trim();
+  if (!raw || raw.length > 200 || !HOSTLIKE.test(raw)) return null;
+  return /^https?:\/\//i.test(raw) ? raw : `https://${raw}`;
+}
+
 async function postLead(lead: Lead): Promise<void> {
   if (!FORM_ENDPOINT || !SUPABASE_PUBLISHABLE_KEY) return;
   const res = await fetch(FORM_ENDPOINT, {
@@ -52,6 +68,18 @@ export default function FreeCheckForm() {
     "idle" | "sending" | "done" | "error"
   >("idle");
   const submitted = useRef<Lead | null>(null);
+  const websiteRef = useRef<HTMLInputElement>(null);
+
+  /* Prefill runs after mount, never during render. This component is
+     server-rendered into the static export, so reading location.search during
+     render would hydrate a value the exported HTML does not contain. Writing
+     .value on a real input keeps the field uncontrolled and editable. */
+  useEffect(() => {
+    const input = websiteRef.current;
+    if (!input || input.value) return;
+    const site = handedOverSite();
+    if (site) input.value = site;
+  }, []);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -183,6 +211,7 @@ export default function FreeCheckForm() {
           <input
             id={field.name}
             name={field.name}
+            ref={field.name === "website" ? websiteRef : undefined}
             type={field.type}
             required
             placeholder={field.placeholder}

@@ -23,6 +23,28 @@ for (const page of PAGES) {
   });
 }
 
+test("the home hero hands its domain to the free-check form", async ({ page }) => {
+  await page.goto("/");
+  await page.fill("#site", "bluequarrygrowth.example.com");
+  await page.getByRole("button", { name: /Run my/ }).click();
+
+  await page.waitForURL(/\/free-check\/\?site=/);
+  // Normalised on arrival: the hero takes a bare hostname because that is what
+  // people type, and the field it lands in is type=url.
+  await expect(page.locator("#website")).toHaveValue(
+    "https://bluequarrygrowth.example.com"
+  );
+});
+
+test("a ?site= value that is not a domain never reaches the field", async ({
+  page,
+}) => {
+  await page.goto('/free-check/?site="><script>alert(1)</script>');
+  await expect(page.locator("#website")).toHaveValue("");
+  // The honeypot stays empty too: prefill must never trip our own bot trap.
+  await expect(page.locator("#company_website")).toHaveValue("");
+});
+
 test("free-check form fills, submits, and confirms", async ({ page }) => {
   // Stub the Supabase insert so CI runs never write real rows to the leads
   // queue; the form's real submit path is still exercised.
