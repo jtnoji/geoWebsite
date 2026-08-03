@@ -44,3 +44,7 @@ next-env.d.ts
 /test-results/
 /tests/screenshots/
 /playwright-report/
+
+# per-machine Claude settings. .claude/settings.json IS tracked, because it is
+# the shared project config; the .local file is one developer's overrides.
+.claude/settings.local.json
