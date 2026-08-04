@@ -29,7 +29,10 @@ export const PAGES: PageSpec[] = [
     mustContain: [
       "Your customers are asking AI who to hire",
       "Sable measures where your business appears across ChatGPT",
-      "One answer is an anecdote. Forty is a position.",
+      "Measure, diagnose, improve, then measure again.",
+      /* The commercial options are on the home page now, so a crawler losing
+         them is a real regression rather than a copy edit. */
+      "Full AI Visibility Audit",
       "The shortlist got smaller",
       "of U.S. consumers used AI tools to find local businesses",
       "BrightLocal, 2026",

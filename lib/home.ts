@@ -295,6 +295,52 @@ export const SHOWCASE_COPY = {
   body: "The card is a single run. The table beside it is the same question asked forty times, which is the number your competitors are being judged on.",
 } as const;
 
+/**
+ * The four capabilities, each paired with an artifact rather than a paragraph.
+ * Copy is NEW (2026-08-03) and needs Josh's sign-off: benefit first, two
+ * clauses max, no guarantees, and nothing that implies we can move a rank.
+ */
+export type Capability = {
+  key: string;
+  eyebrow: string;
+  heading: string;
+  body: string;
+};
+
+export const CAPABILITIES: readonly Capability[] = [
+  {
+    key: "measure",
+    eyebrow: "Measure",
+    heading: "We ask what your customers ask.",
+    body: "Real buying questions for your category, run across ChatGPT, Google AI, Gemini, and Perplexity, ten times each. Answers move run to run, so a single screenshot tells you nothing.",
+  },
+  {
+    key: "diagnose",
+    eyebrow: "Diagnose",
+    heading: "You see who is named instead of you.",
+    body: "Mention rates per engine, the competitor set that fills the shortlist, the sources each answer was built from, and whether the AI crawlers can reach your site at all.",
+  },
+  {
+    key: "improve",
+    eyebrow: "Improve",
+    heading: "A fix list ordered by what moves answers.",
+    body: "Access first, because a blocked crawler makes everything else moot, then the foundations underneath it. Every item is written so your developer can pick it up, or we implement it.",
+  },
+  {
+    key: "track",
+    eyebrow: "Track",
+    heading: "The same questions, asked again.",
+    body: "We re-run the identical query set on the same schedule and show the rates side by side. That is the only honest way to tell whether a change did anything.",
+  },
+];
+
+/** The pricing block's own framing. */
+export const PLANS_COPY = {
+  eyebrow: "Services and pricing",
+  heading: "Start free. Pay when you want the whole picture.",
+  body: "The free check is a real measurement, not a teaser with the numbers held back. The paid tiers add depth, the roadmap, and the work itself.",
+} as const;
+
 /** Who asks for this. Three entry points, each with what we do about it. */
 export const SITUATIONS: readonly Situation[] = [
   {
@@ -456,6 +502,15 @@ export const REPORT_CONTENTS: readonly { name: string; body: string }[] = [
  * Two questions overlap /pricing's FAQ by design: they are the two things
  * people ask on both pages. The answers are kept consistent between them.
  */
+/**
+ * The four the home page shows: the ones that stand between a visitor and
+ * starting. The rest live on /how-it-works and /pricing, which is where
+ * someone already sold goes looking. HOME_FAQS_TOP feeds BOTH the visible
+ * questions and the FAQPage JSON-LD, so the schema still cannot drift from
+ * what is on screen.
+ */
+export const HOME_FAQS_TOP_COUNT = 4;
+
 export const HOME_FAQS: Faq[] = [
   {
     question: "Can you guarantee ChatGPT will recommend me?",
@@ -512,3 +567,5 @@ export const FAQ_FIGURES: readonly {
     body: "No ranking promises, no guaranteed placements, no claims about what an engine will say next month. Measurement and evidence only.",
   },
 ];
+
+export const HOME_FAQS_TOP: Faq[] = HOME_FAQS.slice(0, HOME_FAQS_TOP_COUNT);

@@ -5,28 +5,28 @@ import ClosingCta from "@/components/ClosingCta";
 import FaqSection from "@/components/FaqSection";
 import JsonLd from "@/components/JsonLd";
 import PageSchema from "@/components/PageSchema";
-import EngagementSteps from "@/components/EngagementSteps";
+import FoldReadout from "@/components/FoldReadout";
+import FoundationList from "@/components/FoundationList";
 import LiveAnswer from "@/components/LiveAnswer";
-import RevenueAtStake from "@/components/RevenueAtStake";
 import RuleEyebrow from "@/components/RuleEyebrow";
+import SamplingCard from "@/components/SamplingCard";
 import ShareOfVoice from "@/components/ShareOfVoice";
 import SearchShiftChart from "@/components/SearchShiftChart";
 import StatTile from "@/components/StatTile";
-import StepList from "@/components/StepList";
 import { SECTION, SECTION_X } from "@/lib/layout";
+import { SERVICE_TIERS } from "@/lib/offers";
 import { delay } from "@/lib/reveal";
 import { faq } from "@/lib/schema";
 import { HOME_STATS } from "@/lib/stats";
 import { BRAND, OFFER_TITLE } from "@/lib/site";
 import {
-  DELIVERABLES_COPY,
+  CAPABILITIES,
   FAQ_FIGURES,
   FOLD_COPY,
-  HOME_FAQS,
-  REPORT_CONTENTS,
-  SHOWCASE_COPY,
+  HOME_FAQS_TOP,
+  PLANS_COPY,
 } from "@/lib/home";
-import { SAMPLE_COMPETITORS, SAMPLE_QUERY } from "@/lib/sample";
+import { SAMPLE_LABEL, SAMPLE_ROWS } from "@/lib/sample";
 
 export const metadata: Metadata = {
   title: { absolute: `${BRAND}: does AI recommend your business?` },
@@ -34,21 +34,6 @@ export const metadata: Metadata = {
     "ChatGPT, Google AI, Gemini, and Perplexity name only a few businesses per answer. We measure whether you're one of them, and who gets named instead.",
   alternates: { canonical: "/" },
 };
-
-const STEPS = [
-  {
-    title: "We ask",
-    body: "Real customer questions, run across every major AI engine, multiple times each.",
-  },
-  {
-    title: "We judge",
-    body: "Every answer graded for presence, prominence, and accuracy against a fact sheet you approve.",
-  },
-  {
-    title: "You get a roadmap",
-    body: "Your numbers, your gaps, and a fix list ordered by what moves AI answers. We can implement it for you and measure again.",
-  },
-] as const;
 
 /* The long-form explainer sections share one measure and one H2 scale (Claude
    Design update 2026-07-30). The measure now comes from lib/layout.ts, which
@@ -65,7 +50,7 @@ export default function Home() {
       {/* The home FAQ renders from the same HOME_FAQS array that feeds this
           FAQPage node, so the visible questions and the schema cannot drift.
           Same pattern as /how-it-works. */}
-      <JsonLd data={faq(HOME_FAQS)} />
+      <JsonLd data={faq(HOME_FAQS_TOP)} />
 
       {/* THE FOLD. Rebuilt 2026-08-03 (Josh: the site reads like a research
           report, not a product). Three things changed and each is load-bearing.
@@ -215,133 +200,202 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ---- 6. MARKET CONTEXT -------------------------------------------
-          Concise, and late. This is the "why now" a visitor checks AFTER they
-          understand the offer, not the argument they have to read through to
-          reach it. The three sourced stats and the two-line chart do the job
-          that eight explanatory sections used to. */}
+      {/* ---- 2. WHY IT MATTERS ------------------------------------------
+          One compact section, not a category essay. Two sourced statistics and
+          the projection, and then the page moves to the offer. The third stat
+          and the whole revenue-consequence section moved off home: a visitor
+          evaluating a service does not need the market sized for them, they
+          need to know it is real and then see what they can buy. */}
       <section className="border-b border-line">
-        <div className={`${SECTION} grid gap-7 md:grid-cols-3 md:gap-12`}>
-          {HOME_STATS.map((stat, i) => (
-            <div key={stat.source} data-reveal style={delay(i * 110)}>
-              <StatTile stat={stat} />
-            </div>
-          ))}
+        <div className={SECTION}>
+          <div data-reveal className="max-w-[620px]">
+            <RuleEyebrow>Why this matters now</RuleEyebrow>
+            <h2 className={`mt-4 ${H2}`}>
+              Search is moving to answers, and answers name a shortlist.
+            </h2>
+          </div>
+          <div className="mt-10 grid gap-7 md:grid-cols-2 md:gap-12">
+            {HOME_STATS.slice(0, 2).map((stat, i) => (
+              <div key={stat.source} data-reveal style={delay(i * 110)}>
+                <StatTile stat={stat} />
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
       <SearchShiftChart />
 
-      {/* ---- 3. WHY IT MATTERS COMMERCIALLY -----------------------------
-          The consequence of the two lines above: when an answer omits a
-          business, that business never enters the consideration set, and
-          no analytics product will ever show the visit that did not
-          happen. Restored to the page here (it had been cut in the
-          conversion pass) because the rhythm needs the stake stated before
-          the offer, not after it. */}
-      <RevenueAtStake />
+      {/* ---- 3. SERVICES AND PRICING -------------------------------------
+          Near the top, deliberately. A visitor evaluating a service wants to
+          know what it costs before they read four feature sections, and
+          burying it under the argument is what made this page feel like a
+          paper rather than a product.
 
-      {/* ---- 2. WHAT YOU GET -------------------------------------------
-          Second screen answers the second buying question. The deliverables
-          list already existed inside FreeCheckPanel at the very bottom of the
-          page, where a visitor deciding whether to start had already left. */}
-      <section className="border-b border-line">
+          PRICES COME FROM lib/offers.ts, WHICH READS lib/site.ts. Two of the
+          three are still "[$X]" and nothing here papers over that with an
+          invented number or a fake "from" price. */}
+      <section id="pricing" className="scroll-mt-20 border-b border-line">
         <div className={SECTION}>
-          <div className="grid gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-16">
-            <div data-reveal className="min-w-0">
-              <RuleEyebrow>{DELIVERABLES_COPY.eyebrow}</RuleEyebrow>
-              <h2 className={`mt-4 ${H2}`}>{DELIVERABLES_COPY.heading}</h2>
-              <p className="mt-5 max-w-[420px] text-[15.5px] leading-[1.7] text-ink-soft">
-                {DELIVERABLES_COPY.body}
-              </p>
-              <Link
-                href="/sample-report/"
-                className="btn-pill-outline mt-8 px-[26px] py-[13px] text-[12.5px]"
-              >
-                {FOLD_COPY.secondary}
-                <span aria-hidden="true" className="ml-2.5">&#10230;</span>
-              </Link>
-            </div>
-
-            {/* Numbered ledger rather than a card grid: five deliverables in
-                white boxes would be the fourth card grid on a page that now
-                only has room for one of anything. */}
-            <dl data-reveal style={delay(120)} className="min-w-0">
-              {REPORT_CONTENTS.map((item, i) => (
-                <div
-                  key={item.name}
-                  className="grid grid-cols-[30px_minmax(0,1fr)] items-baseline gap-x-4 border-t border-line-dark py-5 last:border-b"
-                >
-                  <dt className="display text-[19px] leading-none text-ink-faint">
-                    {String(i + 1).padStart(2, "0")}
-                  </dt>
-                  <dd>
-                    <p className="text-[16px] font-medium text-ink">{item.name}</p>
-                    <p className="mt-1.5 text-[14.5px] leading-[1.6] text-ink-soft">
-                      {item.body}
-                    </p>
-                  </dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-        </div>
-      </section>
-
-      {/* ---- 4. THE SAMPLE RESULT ---------------------------------------- */}
-      {/* The answer card and the share-of-voice table are ONE surface: the
-          card is a single run and the table is what forty of them add up to,
-          which is the difference between a screenshot and a measurement.
-
-          The pair is deliberately mismatched in register. The card is a
-          product mockup, so it keeps its radius and its shadow; the table is a
-          measurement artifact, so it stays square and flat. One is what AI
-          said, the other is what Sable did with it. */}
-      <section className="border-b border-line">
-        <div className={SECTION}>
-          <div data-reveal className="max-w-[560px]">
-            <RuleEyebrow>{SHOWCASE_COPY.eyebrow}</RuleEyebrow>
-            <h2 className={`${H2} mt-4`}>{SHOWCASE_COPY.heading}</h2>
+          <div data-reveal className="max-w-[620px]">
+            <RuleEyebrow>{PLANS_COPY.eyebrow}</RuleEyebrow>
+            <h2 className={`mt-4 ${H2}`}>{PLANS_COPY.heading}</h2>
             <p className="mt-5 text-[15.5px] leading-[1.7] text-ink-soft">
-              {SHOWCASE_COPY.body}
+              {PLANS_COPY.body}
             </p>
           </div>
 
-          <div className="mt-12 grid items-start gap-10 lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] lg:gap-14">
-            <div
-              data-reveal="scale"
-              className="min-w-0 overflow-hidden rounded-[22px] bg-paper-dim shadow-[0_34px_70px_-26px_rgba(14,35,64,0.4)]"
-            >
-              <div className="flex justify-between gap-3 border-b border-line px-[22px] py-[15px] text-xs text-ink-faint">
-                <span className="font-semibold text-ink">
-                  {`chatgpt \u00a0\u00b7\u00a0 \u201c${SAMPLE_QUERY}\u201d`}
-                </span>
-                <span className="shrink-0">run 3/10</span>
+          <div className="mt-11 grid gap-5 md:grid-cols-3">
+            {SERVICE_TIERS.map((tier, i) => (
+              <div
+                key={tier.name}
+                data-reveal
+                style={delay(i * 90)}
+                /* The featured tier inverts rather than gaining a border
+                   colour: this palette carries emphasis with fill, and a
+                   third border weight would just be another hairline box. */
+                className={`flex min-w-0 flex-col p-7 ${
+                  tier.featured
+                    ? "bg-ink text-white"
+                    : "border border-line-dark bg-white"
+                }`}
+              >
+                <p
+                  className={`font-mono text-[11px] font-semibold uppercase tracking-[0.14em] ${
+                    tier.featured ? "text-sky" : "text-ink-faint"
+                  }`}
+                >
+                  {tier.name}
+                </p>
+                <p
+                  className={`display mt-4 text-[34px] leading-none ${
+                    tier.featured ? "text-white" : "text-ink"
+                  }`}
+                >
+                  {tier.price}
+                </p>
+                {tier.priceNote && (
+                  <p className="mt-2 text-[12.5px] text-ink-faint">
+                    {tier.priceNote}
+                  </p>
+                )}
+                <p
+                  className={`mt-4 text-[14.5px] leading-[1.6] ${
+                    tier.featured ? "text-white/75" : "text-ink-soft"
+                  }`}
+                >
+                  {tier.description}
+                </p>
+                <ul className="mt-5 flex flex-col gap-2.5">
+                  {tier.includes.map((item) => (
+                    <li
+                      key={item}
+                      className={`grid grid-cols-[14px_minmax(0,1fr)] gap-x-2.5 text-[13.5px] leading-[1.5] ${
+                        tier.featured ? "text-white/85" : "text-ink-soft"
+                      }`}
+                    >
+                      <span
+                        aria-hidden="true"
+                        className={`mt-[7px] h-[5px] w-[5px] rounded-full ${
+                          tier.featured ? "bg-sky" : "bg-ink"
+                        }`}
+                      />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                {tier.note && (
+                  <p
+                    className={`mt-4 text-[12.5px] leading-[1.5] ${
+                      tier.featured ? "text-white/60" : "text-ink-faint"
+                    }`}
+                  >
+                    {tier.note}
+                  </p>
+                )}
+                <Link
+                  href={tier.cta.href}
+                  className={`mt-7 justify-center px-6 py-[13px] text-[12.5px] ${
+                    tier.featured ? "btn-pill-invert" : "btn-pill"
+                  }`}
+                >
+                  {tier.cta.label}
+                </Link>
               </div>
-              <p className="px-6 pb-1.5 pt-[22px] text-base leading-[1.65] text-ink-soft">
-                For a seed-stage B2B startup, I&rsquo;d look at{" "}
-                <b className="font-semibold text-ink">{SAMPLE_COMPETITORS[0]}</b>,{" "}
-                <b className="font-semibold text-ink">{SAMPLE_COMPETITORS[1]}</b>, or{" "}
-                <b className="font-semibold text-ink">{SAMPLE_COMPETITORS[2]}</b>. All
-                three have strong track records with early-stage B2B
-                companies&hellip;
-              </p>
-              <div className="mx-6 mb-[22px] mt-2 inline-flex items-center gap-2.5 rounded-xl bg-ink px-4 py-2.5 text-sm font-medium text-white">
-                <span aria-hidden="true" className="h-2 w-2 rounded-full bg-white" />
-                Your business: not mentioned
-              </div>
-            </div>
+            ))}
+          </div>
 
-            <div data-reveal="scale" style={delay(160)} className="min-w-0">
-              <ShareOfVoice />
-            </div>
+          <p data-reveal className="mt-6 text-[13.5px] text-ink-soft">
+            <Link
+              href="/pricing/"
+              className="font-medium text-ink underline-offset-4 hover:text-accent hover:underline"
+            >
+              Compare the tiers in full
+            </Link>
+          </p>
+        </div>
+      </section>
+
+      {/* ---- 4. WHAT SABLE DOES -----------------------------------------
+          Four capabilities, each paired with the artifact it produces rather
+          than with a paragraph about it. Alternating sides so the page has a
+          rhythm to scroll rather than four identical rows.
+
+          Improve carries FoundationList, which restores the four technical
+          foundations to the site: they were the largest block orphaned by the
+          conversion pass, and "what we would fix" is where they belong. */}
+      <section id="features" className="scroll-mt-20 border-b border-line">
+        <div className={SECTION}>
+          <div data-reveal className="max-w-[620px]">
+            <RuleEyebrow>What Sable does</RuleEyebrow>
+            <h2 className={`mt-4 ${H2}`}>
+              Measure, diagnose, improve, then measure again.
+            </h2>
+          </div>
+
+          <div className="mt-14 flex flex-col gap-16 md:gap-20">
+            {CAPABILITIES.map((cap, i) => (
+              <div
+                key={cap.key}
+                className="grid items-center gap-9 md:grid-cols-2 md:gap-14"
+              >
+                <div
+                  data-reveal
+                  className={`min-w-0 ${i % 2 === 1 ? "md:order-2" : ""}`}
+                >
+                  <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-accent">
+                    {cap.eyebrow}
+                  </p>
+                  <h3 className="display mt-3 text-[clamp(24px,2.7vw,32px)] leading-[1.15] text-ink text-pretty">
+                    {cap.heading}
+                  </h3>
+                  <p className="mt-4 max-w-[440px] text-[15.5px] leading-[1.7] text-ink-soft">
+                    {cap.body}
+                  </p>
+                </div>
+                <div data-reveal="scale" style={delay(120)} className="min-w-0">
+                  {cap.key === "measure" && <FoldReadout />}
+                  {cap.key === "diagnose" && <ShareOfVoice />}
+                  {cap.key === "improve" && <FoundationList />}
+                  {cap.key === "track" && (
+                    <SamplingCard
+                      title="mention rate by engine · sample"
+                      meta="10 runs/engine"
+                      rows={SAMPLE_ROWS}
+                      footer={SAMPLE_LABEL}
+                    />
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ---- 5. THE TWO CONTRASTING ANSWERS ------------------------------
-          Everything above is mechanism; this is the outcome the mechanism
-          produces. Illustrative and labeled (lib/sample.ts honesty rule). */}
+      {/* ---- 5. PROOF ----------------------------------------------------
+          One sample result, with the repeated-run methodology folded into it
+          rather than taught in a section of its own: both cards carry their
+          run number, which is the methodology stated where it is load-bearing. */}
       <section className="border-b border-line">
         <div className={SECTION}>
           <div data-reveal className="max-w-[700px]">
@@ -361,44 +415,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ---- 3. HOW IT WORKS --------------------------------------------
-          Three steps, with the prompt bar as step one's evidence rather than
-          as its own explanatory screen. The claim-and-artifact rule wanted a
-          artifact here and this section never had one. */}
-      <section className="border-b border-line">
-        <div className={SECTION}>
-          <div data-reveal className="flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <RuleEyebrow>How it works</RuleEyebrow>
-              <h2 className={`mt-4 ${H2}`}>Three steps, no theater.</h2>
-            </div>
-            <Link
-              href="/how-it-works/"
-              className="pb-2 text-sm font-semibold text-ink underline-offset-4 hover:text-accent hover:underline"
-            >
-              Full methodology &#10230;
-            </Link>
-          </div>
-
-          {/* Revealed as one block: the step cells share borders, so fading
-              them in individually would expose the seams. */}
-          <div data-reveal style={delay(120)} className="mt-12">
-            <StepList steps={STEPS} />
-          </div>
-        </div>
-      </section>
-
-      {/* ---- 6b. IMPLEMENTATION SUPPORT ---------------------------------
-          What happens after the report lands. It answers the question the
-          three steps raise ("and then what?") and it is the only place the
-          page says we do the work as well as the measuring. */}
-      <EngagementSteps />
-
       {/* FAQ. One {question, answer}[] renders both the visible H2s and the
           FAQPage JSON-LD (lib/home.ts HOME_FAQS), so schema cannot drift from
           the text. The two figures beside it restate the protocol and the
           posture as numbers. */}
-      <section className="border-t border-line">
+      <section id="faq" className="scroll-mt-20 border-t border-line">
         <div className={SECTION}>
           <div className="grid gap-12 md:grid-cols-2 md:gap-[72px] md:items-start">
             <div data-reveal>
@@ -430,7 +451,7 @@ export default function Home() {
               </div>
             </div>
             <div data-reveal style={delay(140)}>
-              <FaqSection faqs={HOME_FAQS} compact />
+              <FaqSection faqs={HOME_FAQS_TOP} compact />
             </div>
           </div>
         </div>

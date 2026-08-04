@@ -6,7 +6,7 @@ import JsonLd from "@/components/JsonLd";
 import PageSchema from "@/components/PageSchema";
 import { delay } from "@/lib/reveal";
 import { crumb, service, type Faq } from "@/lib/schema";
-import { OFFER_TITLE, PRICING } from "@/lib/site";
+import { SERVICE_TIERS } from "@/lib/offers";
 
 export const metadata: Metadata = {
   title: "Pricing: audit and ongoing GEO",
@@ -14,36 +14,6 @@ export const metadata: Metadata = {
     "Start with a free AI visibility check. The full audit and the ongoing work are priced flat. Reports show sampled rates, never guaranteed rankings.",
   alternates: { canonical: "/pricing/" },
 };
-
-const TIERS = [
-  {
-    name: OFFER_TITLE,
-    price: "$0",
-    description:
-      "The short report. Where you stand on all four engines, and who's named instead of you.",
-    cta: { label: "Get started", href: "/free-check/" },
-    featured: false,
-  },
-  {
-    name: "Full AI Visibility Audit",
-    price: `${PRICING.audit} one-time`,
-    description:
-      "Full query set across all engines, sampled runs, judged answers, accuracy findings, and a site and off-site audit. You get a report and a walkthrough call.",
-    cta: { label: "Book a call", href: "/contact/" },
-    featured: true,
-  },
-  {
-    name: "Ongoing GEO",
-    price: PRICING.retainer,
-    description:
-      "We work the roadmap ourselves: implement the fixes on your site and off it, then re-run the audit so you can see what each change did. Before and after mention rates, new competitors, new sources.",
-    // Implementation is the newest part of the offering, so it says so rather
-    // than implying a running book of clients (website-plan §6, 2026-07-25).
-    note: "Now booking our first implementation clients.",
-    cta: { label: "Book a call", href: "/contact/" },
-    featured: false,
-  },
-] as const;
 
 const FAQS: Faq[] = [
   {
@@ -95,7 +65,7 @@ export default function Pricing() {
             them in individually would expose the seams (same reason the home
             StepList reveals whole). */}
         <div data-reveal style={delay(120)} className="mt-12 grid md:grid-cols-3">
-          {TIERS.map((tier, i) => (
+          {SERVICE_TIERS.map((tier, i) => (
             <div
               key={tier.name}
               className="flex flex-col border border-b-0 border-line-dark bg-white last:border-b md:border-b md:border-r-0 md:last:border-r"
