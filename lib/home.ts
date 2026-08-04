@@ -219,8 +219,22 @@ export const PROMPT_DEMO = {
  */
 export const FOLD_COPY = {
   eyebrow: "AI visibility, measured",
+  /* Josh's wording, 2026-08-03, with one edit: his line had an em dash
+     ("your business—and what to fix"), which the copy rule bans in visible
+     copy and `grep -r "—" out/` fails the build on. A comma carries it. */
+  heading:
+    "Find out whether AI recommends your business, and what to fix when it doesn't.",
+  lede: "Sable tests real buying questions across ChatGPT, Google AI, Gemini, and Perplexity. See how often you're named, which competitors appear instead, what sources shape the answers, and where the opportunity lies.",
   readoutLabel: "A real check, run on a real category",
   proof: "We ran this audit on our own site",
+  secondary: "View a sample report",
+} as const;
+
+/** What the visitor receives. The second screen answers "what do I get". */
+export const DELIVERABLES_COPY = {
+  eyebrow: "What you get",
+  heading: "A report you can act on, not a dashboard to log into.",
+  body: "One document, delivered in 1 to 2 business days. Every number in it is a sampled rate with the run count beside it.",
 } as const;
 
 /**

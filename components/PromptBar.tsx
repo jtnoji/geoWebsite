@@ -55,32 +55,15 @@ if (PROMPT_DEMO.questions.length !== EXPECTED_QUESTIONS) {
 
 const CYCLE_SECONDS = PROMPT_DEMO.questions.length * SLOT_SECONDS;
 
-export default function PromptBar() {
-  return (
-    <section className="border-b border-line">
-      <div className={SECTION}>
-        {/* Measure only, NOT a centred column: `mx-auto` here put this
-            section's eyebrow ~150px right of every other eyebrow on the page,
-            which is the drift lib/layout.ts exists to stop. */}
-        <div className="max-w-[760px]">
-          <div data-reveal>
-            <RuleEyebrow>{PROMPT_DEMO.eyebrow}</RuleEyebrow>
-          </div>
-          <h2
-            data-reveal
-            style={delay(80)}
-            className="display mt-4 max-w-[560px] text-[clamp(30px,4.2vw,46px)] leading-[1.1] text-ink text-pretty"
-          >
-            {PROMPT_DEMO.heading}
-          </h2>
-          <p
-            data-reveal
-            style={delay(140)}
-            className="mt-5 max-w-[480px] text-[15.5px] leading-[1.7] text-ink-soft"
-          >
-            {PROMPT_DEMO.body}
-          </p>
-
+/**
+ * `bare` renders the input on its own, with no section, heading or caption.
+ * The conversion rebuild (2026-08-03) folds this into the process section as
+ * the evidence for step one, where it costs about 120px instead of the ~550px
+ * a full explanatory section around it was spending to say the same thing.
+ */
+export default function PromptBar({ bare = false }: { bare?: boolean }) {
+  const bar = (
+    <>
           {/* The artifact. A product mockup, so it takes the soft shadow and
               the 22px radius the measurement artifacts are denied. */}
           {/* `overflow-hidden` is a backstop, not the layout: the type scales
@@ -149,6 +132,36 @@ export default function PromptBar() {
             </span>
           </div>
 
+    </>
+  );
+
+  if (bare) return bar;
+
+  return (
+    <section className="border-b border-line">
+      <div className={SECTION}>
+        {/* Measure only, NOT a centred column: `mx-auto` here put this
+            section's eyebrow ~150px right of every other eyebrow on the page,
+            which is the drift lib/layout.ts exists to stop. */}
+        <div className="max-w-[760px]">
+          <div data-reveal>
+            <RuleEyebrow>{PROMPT_DEMO.eyebrow}</RuleEyebrow>
+          </div>
+          <h2
+            data-reveal
+            style={delay(80)}
+            className="display mt-4 max-w-[560px] text-[clamp(30px,4.2vw,46px)] leading-[1.1] text-ink text-pretty"
+          >
+            {PROMPT_DEMO.heading}
+          </h2>
+          <p
+            data-reveal
+            style={delay(140)}
+            className="mt-5 max-w-[480px] text-[15.5px] leading-[1.7] text-ink-soft"
+          >
+            {PROMPT_DEMO.body}
+          </p>
+          {bar}
           <p
             data-reveal
             style={delay(300)}

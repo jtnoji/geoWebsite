@@ -191,7 +191,10 @@ export default function SearchShiftChart() {
 
   return (
     <section className="border-b border-line">
-      <div className={`${SECTION} flex min-h-[calc(100svh-126px)] flex-col justify-center`}>
+            {/* No min-height any more. It was a full-viewport "second screen" when
+          the page was a long-form report; on a conversion page this is late
+          market context and does not get a screen to itself. */}
+      <div className={SECTION}>
         <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,4fr)_minmax(0,7fr)] lg:gap-14">
           <div data-reveal>
             <RuleEyebrow>{SEARCH_SHIFT_COPY.eyebrow}</RuleEyebrow>

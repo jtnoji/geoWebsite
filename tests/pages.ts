@@ -17,10 +17,17 @@ export const SITE_WIDE_SCHEMA = ["Organization", "WebSite", "ProfessionalService
 export const PAGES: PageSpec[] = [
   {
     path: "/",
+    /* Re-pinned 2026-08-03 when the home page was rebuilt as a conversion
+       page. Two of the old strings belonged to sections that no longer exist
+       ("We measure your AI visibility. Properly."), so they were replaced with
+       the new page's load-bearing copy rather than dropped: the proposition,
+       the offer sentence, the sample-result claim, and a sourced stat. The
+       count is unchanged on purpose, and so is the point of the test. */
     mustContain: [
-      "When someone asks AI for a recommendation, does it say your name?",
+      "Find out whether AI recommends your business",
+      "Sable tests real buying questions across ChatGPT",
+      "One answer is an anecdote. Forty is a position.",
       "The shortlist got smaller",
-      "We measure your AI visibility. Properly.",
       "of U.S. consumers used AI tools to find local businesses",
       "BrightLocal, 2026",
     ],

@@ -1,21 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import AnswerCompare from "@/components/AnswerCompare";
-import Chip from "@/components/Chip";
 import ClosingCta from "@/components/ClosingCta";
-import EngagementSteps from "@/components/EngagementSteps";
 import FaqSection from "@/components/FaqSection";
-import FeatureCard from "@/components/FeatureCard";
-import FoundationList from "@/components/FoundationList";
-import FreeCheckPanel from "@/components/FreeCheckPanel";
 import JsonLd from "@/components/JsonLd";
 import PageSchema from "@/components/PageSchema";
 import FoldReadout from "@/components/FoldReadout";
 import PromptBar from "@/components/PromptBar";
-import RevenueAtStake from "@/components/RevenueAtStake";
 import RuleEyebrow from "@/components/RuleEyebrow";
 import ShareOfVoice from "@/components/ShareOfVoice";
-import SamplingCard from "@/components/SamplingCard";
 import SearchShiftChart from "@/components/SearchShiftChart";
 import StatTile from "@/components/StatTile";
 import StepList from "@/components/StepList";
@@ -23,21 +16,17 @@ import { SECTION, SECTION_X } from "@/lib/layout";
 import { delay } from "@/lib/reveal";
 import { faq } from "@/lib/schema";
 import { HOME_STATS } from "@/lib/stats";
-import { BRAND, OFFER_SHORT } from "@/lib/site";
+import { BRAND, OFFER_TITLE } from "@/lib/site";
 import {
-  ENGINES,
+  DELIVERABLES_COPY,
   FAQ_FIGURES,
   FOLD_COPY,
   HOME_FAQS,
+  PROMPT_DEMO,
+  REPORT_CONTENTS,
   SHOWCASE_COPY,
-  SITUATIONS,
-  SOURCES,
 } from "@/lib/home";
-import {
-  SAMPLE_COMPETITORS,
-  SAMPLE_LABEL,
-  SAMPLE_ROWS,
-} from "@/lib/sample";
+import { SAMPLE_COMPETITORS, SAMPLE_QUERY } from "@/lib/sample";
 
 export const metadata: Metadata = {
   title: { absolute: `${BRAND}: does AI recommend your business?` },
@@ -58,35 +47,6 @@ const STEPS = [
   {
     title: "You get a roadmap",
     body: "Your numbers, your gaps, and a fix list ordered by what moves AI answers. We can implement it for you and measure again.",
-  },
-] as const;
-
-const METRICS = [
-  {
-    name: "Mention rate",
-    detail: (
-      <>
-        <b className="font-bold text-ink">Named in 7 of 10 runs.</b> Rates, not
-        one-off screenshots.
-      </>
-    ),
-  },
-  {
-    name: "Share of voice",
-    detail: <>You vs. the competitors named instead of you.</>,
-  },
-  {
-    name: "Accuracy",
-    detail: (
-      <>
-        What AI says about you,{" "}
-        <b className="font-bold text-ink">checked against the facts</b>.
-      </>
-    ),
-  },
-  {
-    name: "Sources",
-    detail: <>The sites AI cites when it builds the answer.</>,
   },
 ] as const;
 
@@ -147,25 +107,23 @@ export default function Home() {
               <div data-reveal>
                 <RuleEyebrow onDark>{FOLD_COPY.eyebrow}</RuleEyebrow>
               </div>
+              {/* The commercial proposition, not the provocation. The old h1
+                  ("does it say your name?") asked the visitor a question and
+                  left them to work out what was being sold; this states the
+                  service and the outcome in one line. */}
               <h1
                 data-reveal
                 style={delay(80)}
-                className="display mt-5 max-w-[560px] text-[clamp(34px,4.6vw,54px)] leading-[1.06] text-white text-pretty"
+                className="display mt-5 max-w-[620px] text-[clamp(34px,4.6vw,54px)] leading-[1.06] text-white text-pretty"
               >
-                When someone asks AI for a recommendation, does it say your
-                name?
+                {FOLD_COPY.heading}
               </h1>
               <p
                 data-reveal
                 style={delay(160)}
-                className="mt-6 max-w-[520px] text-[16.5px] leading-[1.65] text-white/70"
+                className="mt-6 max-w-[560px] text-[16.5px] leading-[1.65] text-white/75"
               >
-                ChatGPT, Google AI, Gemini, and Perplexity answer your customers
-                directly, and each answer names{" "}
-                <b className="font-semibold text-white">only a few businesses</b>.{" "}
-                {BRAND}{" "}measures whether you&rsquo;re one of them and{" "}
-                <b className="font-semibold text-white">who gets named instead</b>.
-                {" "}Then we do the work the numbers point to.
+                {FOLD_COPY.lede}
               </p>
 
               {/* One field, then the same form the visitor was always going to
@@ -178,7 +136,12 @@ export default function Home() {
                 method="get"
                 data-reveal
                 style={delay(240)}
-                className="mt-8 flex w-full max-w-[520px] flex-col gap-3 sm:flex-row"
+                /* Stacked, not side by side. The primary action's label grew
+                   to the full offer name and squeezed the field to ~140px in a
+                   row, which put the page's most important input second in
+                   visual weight to its own button. Full-width both makes the
+                   field usable and the action unmistakable. */
+                className="mt-8 flex w-full max-w-[440px] flex-col gap-3"
               >
                 <label htmlFor="site" className="sr-only">
                   Your website
@@ -195,16 +158,19 @@ export default function Home() {
                   required
                   maxLength={200}
                   placeholder="yourbusiness.com"
-                  className="w-full rounded-full border border-white/25 bg-white/10 px-[22px] py-[15px] text-[15px] text-white placeholder:text-white/45 focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-white/20"
+                  className="w-full rounded-full border border-white/35 bg-white/[0.14] px-[22px] py-[15px] text-[15px] text-white placeholder:text-white/60 focus:border-white focus:outline-none focus:ring-2 focus:ring-white/25"
                 />
                 <button
                   type="submit"
-                  className="btn-pill-invert shrink-0 justify-center px-[26px] py-[15px] text-[13.5px]"
+                  className="btn-pill-invert w-full justify-center px-[26px] py-[16px] text-[13.5px]"
                 >
                   {/* One text node, not two: `Run my {x}` ships as
                       `Run my <!-- -->free ai check` and splits the label in the
                       raw bytes a crawler reads. */}
-                  {`Run my ${OFFER_SHORT.toLowerCase()} `}
+                  {/* The full offer name, not OFFER_SHORT: the pill is
+                      uppercase-transformed so length is the only cost, and the
+                      brief wants the primary action to say what it runs. */}
+                  {`Run my ${OFFER_TITLE} `}
                   <span className="text-base">&#10230;</span>
                 </button>
               </form>
@@ -212,7 +178,7 @@ export default function Home() {
               <p
                 data-reveal
                 style={delay(300)}
-                className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-[13px] text-white/55"
+                className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-[13.5px] text-white/75"
               >
                 {/* The dogfood page is the credential we actually have: nobody
                     else in this category publishes an audit of themselves, and
@@ -232,7 +198,7 @@ export default function Home() {
                   href="/sample-report/"
                   className="font-medium text-white/85 underline-offset-4 hover:text-white hover:underline"
                 >
-                  See a sample report
+                  {FOLD_COPY.secondary}
                 </Link>
               </p>
             </div>
@@ -247,38 +213,96 @@ export default function Home() {
         </div>
       </section>
 
-      {/* The moment the fold is about: a customer typing the question. It
-          comes first because the two sections under it both assume it. The
-          chart says the question now goes to an answer engine, and the answer
-          card shows what that answer leaves out. */}
-      <PromptBar />
+      {/* ---- 2. WHAT YOU GET -------------------------------------------
+          Second screen answers the second buying question. The deliverables
+          list already existed inside FreeCheckPanel at the very bottom of the
+          page, where a visitor deciding whether to start had already left. */}
+      <section className="border-b border-line">
+        <div className={SECTION}>
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-16">
+            <div data-reveal className="min-w-0">
+              <RuleEyebrow>{DELIVERABLES_COPY.eyebrow}</RuleEyebrow>
+              <h2 className={`mt-4 ${H2}`}>{DELIVERABLES_COPY.heading}</h2>
+              <p className="mt-5 max-w-[420px] text-[15.5px] leading-[1.7] text-ink-soft">
+                {DELIVERABLES_COPY.body}
+              </p>
+              <Link
+                href="/sample-report/"
+                className="btn-pill-outline mt-8 px-[26px] py-[13px] text-[12.5px]"
+              >
+                {FOLD_COPY.secondary}
+                <span aria-hidden="true" className="ml-2.5">&#10230;</span>
+              </Link>
+            </div>
 
-      {/* Second screen: the thesis as two measured lines. It sits between the
-          fold and the answer card on purpose. The card shows one business
-          missing from one answer, which only lands once the reader accepts
-          that the answer is where the question now goes. */}
-      <SearchShiftChart />
+            {/* Numbered ledger rather than a card grid: five deliverables in
+                white boxes would be the fourth card grid on a page that now
+                only has room for one of anything. */}
+            <dl data-reveal style={delay(120)} className="min-w-0">
+              {REPORT_CONTENTS.map((item, i) => (
+                <div
+                  key={item.name}
+                  className="grid grid-cols-[30px_minmax(0,1fr)] items-baseline gap-x-4 border-t border-line-dark py-5 last:border-b"
+                >
+                  <dt className="display text-[19px] leading-none text-ink-faint">
+                    {String(i + 1).padStart(2, "0")}
+                  </dt>
+                  <dd>
+                    <p className="text-[16px] font-medium text-ink">{item.name}</p>
+                    <p className="mt-1.5 text-[14.5px] leading-[1.6] text-ink-soft">
+                      {item.body}
+                    </p>
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </div>
+      </section>
 
-      {/* What the shift is worth. Moved here 2026-08-03 (Josh) from after the
-          shortlist section: it answers the chart immediately above, because the
-          question a reader has on finishing those two lines is what the
-          crossing is worth. It sizes the channel and then says the
-          per-business figure does not exist, which is why it stays ahead of
-          every method section either way. */}
-      <RevenueAtStake />
+      {/* ---- 3. HOW IT WORKS --------------------------------------------
+          Three steps, with the prompt bar as step one's evidence rather than
+          as its own explanatory screen. The claim-and-artifact rule wanted a
+          artifact here and this section never had one. */}
+      <section className="border-b border-line">
+        <div className={SECTION}>
+          <div data-reveal className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <RuleEyebrow>How it works</RuleEyebrow>
+              <h2 className={`mt-4 ${H2}`}>Three steps, no theater.</h2>
+            </div>
+            <Link
+              href="/how-it-works/"
+              className="pb-2 text-sm font-semibold text-ink underline-offset-4 hover:text-accent hover:underline"
+            >
+              Full methodology &#10230;
+            </Link>
+          </div>
 
-      {/* Product showcase. The answer card and the share-of-voice table are
-          ONE surface on purpose: the card is a single run and the table is
-          what forty of them add up to, which is the difference between a
-          screenshot and a measurement. It was a lone 660px card centred in the
-          container until 2026-08-03, which left half the section empty and
-          made the page's most product-like moment its least dense.
+          <div className="mt-9 max-w-[760px]">
+            <p data-reveal className="text-[15.5px] leading-[1.7] text-ink-soft">
+              {PROMPT_DEMO.body}
+            </p>
+            <PromptBar bare />
+          </div>
+
+          {/* Revealed as one block: the step cells share borders, so fading
+              them in individually would expose the seams. */}
+          <div data-reveal style={delay(120)} className="mt-12">
+            <StepList steps={STEPS} />
+          </div>
+        </div>
+      </section>
+
+      {/* ---- 4. THE SAMPLE RESULT ---------------------------------------- */}
+      {/* The answer card and the share-of-voice table are ONE surface: the
+          card is a single run and the table is what forty of them add up to,
+          which is the difference between a screenshot and a measurement.
 
           The pair is deliberately mismatched in register. The card is a
           product mockup, so it keeps its radius and its shadow; the table is a
-          measurement artifact, so it stays square and flat. Two treatments
-          side by side is the point: one is the thing AI said, the other is
-          what Sable did with it. */}
+          measurement artifact, so it stays square and flat. One is what AI
+          said, the other is what Sable did with it. */}
       <section className="border-b border-line">
         <div className={SECTION}>
           <div data-reveal className="max-w-[560px]">
@@ -292,13 +316,13 @@ export default function Home() {
           <div className="mt-12 grid items-start gap-10 lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] lg:gap-14">
             <div
               data-reveal="scale"
-              className="overflow-hidden rounded-[22px] bg-paper-dim shadow-[0_34px_70px_-26px_rgba(14,35,64,0.4)]"
+              className="min-w-0 overflow-hidden rounded-[22px] bg-paper-dim shadow-[0_34px_70px_-26px_rgba(14,35,64,0.4)]"
             >
               <div className="flex justify-between gap-3 border-b border-line px-[22px] py-[15px] text-xs text-ink-faint">
                 <span className="font-semibold text-ink">
-                  chatgpt &nbsp;·&nbsp; &ldquo;best b2b marketing agency for seed-stage startups&rdquo;
+                  {`chatgpt \u00a0\u00b7\u00a0 \u201c${SAMPLE_QUERY}\u201d`}
                 </span>
-                <span>run 3/10</span>
+                <span className="shrink-0">run 3/10</span>
               </div>
               <p className="px-6 pb-1.5 pt-[22px] text-base leading-[1.65] text-ink-soft">
                 For a seed-stage B2B startup, I&rsquo;d look at{" "}
@@ -309,372 +333,29 @@ export default function Home() {
                 companies&hellip;
               </p>
               <div className="mx-6 mb-[22px] mt-2 inline-flex items-center gap-2.5 rounded-xl bg-ink px-4 py-2.5 text-sm font-medium text-white">
-                <span
-                  aria-hidden="true"
-                  className="h-2 w-2 rounded-full bg-white"
-                />
+                <span aria-hidden="true" className="h-2 w-2 rounded-full bg-white" />
                 Your business: not mentioned
               </div>
             </div>
 
-            {/* The floating "2 / 10 runs" callout used to hang off the card's
-                top-right corner. It is gone because this table states the same
-                thing better and for every business at once, and two stat
-                surfaces on one artifact is the clutter the brief asks us to
-                spend elsewhere. Its -54px overhang went with it. */}
-            <div data-reveal="scale" style={delay(160)}>
+            <div data-reveal="scale" style={delay(160)} className="min-w-0">
               <ShareOfVoice />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Stat row — editorial, every number with a named source */}
-      <section className="border-b border-line">
-        <div className={`${SECTION} grid gap-7 md:grid-cols-3 md:gap-12`}>
-          {HOME_STATS.map((stat, i) => (
-            <div key={stat.source} data-reveal style={delay(i * 110)}>
-              <StatTile stat={stat} />
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Where search lives in 2026 — the framing that makes the stat row
-          above mean something: ten slots became one paragraph. Two columns so
-          the claim and the reasoning read as separate registers.
-
-          The page's first navy band, added 2026-08-03 (Josh). The other three
-          all sit in the last quarter, so ~4,000 words of explainer ran on one
-          unbroken paper ground before the reader met a second surface. This
-          section earns the break: it carries no artifact to invert, and it is
-          the thesis every method section below is downstream of. Sky is spent
-          on the eyebrow, once, per the band rule. */}
-      <section className="bg-ink text-white">
-        <div className={SECTION}>
-          <div className="grid gap-12 md:grid-cols-2 md:gap-[72px] md:items-start">
-            <div data-reveal>
-              <RuleEyebrow onDark>Where search lives in 2026</RuleEyebrow>
-              <h2 className="display mt-4 max-w-[620px] text-[clamp(33px,4.4vw,52px)] leading-[1.1] text-white text-pretty">
-                Your customers ask four different AI systems. Most businesses
-                are measured on none of them.
-              </h2>
-            </div>
-            <div data-reveal style={delay(140)} className="flex flex-col gap-5 pt-2">
-              <p className="text-[19px] font-medium leading-[1.6] text-white text-pretty">
-                Traditional search put you on a page with ten slots. An AI
-                answer is a paragraph that names two or three businesses. That
-                is the whole change, and it is not a future one. A growing
-                share of your customers already decide this way.
-              </p>
-              <p className="text-[15.5px] leading-[1.7] text-white/70">
-                Each engine builds that paragraph differently. They read
-                different sources, run different crawlers, weight recency
-                differently, and change their answer from one run to the next.
-                One good screenshot tells you nothing. So does one bad one.
-              </p>
-              <p className="text-[15.5px] leading-[1.7] text-white/70">
-                So we sample. The same customer questions, run repeatedly
-                across all four engines, scored the same way every time. That
-                turns an anxiety you cannot see into a number you can compare
-                month over month.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* The shortlist problem. Stays in the page's first movement, per
-          website-plan.md §2's page order: the reader needs the problem before
-          the method. It shipped second-to-last until 2026-07-28, so the page
-          explained how we measure before saying why it matters. The 2026-07-30
-          explainer sections were inserted around it, never in front of it. */}
-      <section className="border-b border-line">
-        <div className={`${SECTION} grid items-center gap-10 md:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] md:gap-16`}>
-          <div data-reveal>
-            <h2 className="display max-w-[580px] text-[34px] text-ink">
-              The shortlist got smaller
-            </h2>
-            {/* Two example queries, local trade + software, per the settled
-                audience decision in website-plan.md §6 ("mixed examples").
-                They deliberately do NOT match the B2B-agency scenario in the
-                hero card: the stat tiles above cite local-business research,
-                so an agency-only page reads as if it serves only agencies.
-                The single agency example here was a 2026-07-28 clarity fix. */}
-            <p className="mt-4 max-w-[540px] text-base leading-7 text-ink-soft">
-              When a customer asks Google or ChatGPT &ldquo;best electrician
-              near me&rdquo; or &ldquo;which budgeting app should I use,&rdquo;
-              the answer isn&rsquo;t ten blue links. It&rsquo;s{" "}
-              <b className="font-bold text-ink">a paragraph that names two or three options</b>.
-              If you&rsquo;re not in it, you&rsquo;re not in the conversation.
-              And you never find out, because everyone&rsquo;s answer is
-              different and nobody screenshots the AI that{" "}
-              <em>didn&rsquo;t</em> mention them.
-            </p>
-          </div>
-
-          {/* Then-vs-now artifact: ten blue links collapsing into a 3-name
-              answer — the claim, drawn (claim + artifact rule). */}
-          <div
-            aria-hidden="true"
-            data-reveal
-            style={delay(140)}
-            className="grid grid-cols-2 gap-4"
-          >
-            <div className="rounded-xl bg-white p-4">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-ink-faint">
-                Search, then
-              </p>
-              <div className="mt-3 space-y-2.5">
-                {[92, 78, 85, 70, 88, 64, 80, 74, 68, 58].map((w, i) => (
-                  <div key={i} className="h-2 rounded-full bg-line-dark/70" style={{ width: `${w}%` }} />
-                ))}
-              </div>
-              <p className="mt-3 text-[11px] text-ink-faint">10 results per page</p>
-            </div>
-            <div className="rounded-xl bg-paper-dim p-4">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-ink-faint">
-                AI answers, now
-              </p>
-              <div className="mt-3 space-y-2.5">
-                <div className="h-2 w-[90%] rounded-full bg-line-dark/50" />
-                <div className="h-2 w-[68%] rounded-full bg-line-dark/50" />
-                <div className="mt-1 flex flex-wrap gap-1.5 pt-1">
-                  {["A", "B", "C"].map((n) => (
-                    <span key={n} className="rounded-full bg-ink px-2.5 py-1 text-[10px] font-semibold text-white">
-                      Option {n}
-                    </span>
-                  ))}
-                </div>
-                <div className="h-2 w-[80%] rounded-full bg-line-dark/50" />
-              </div>
-              <p className="mt-3 text-[11px] font-medium text-bad">3 names per answer</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* The four engines. Named individually because "AI search" as one blob
-          is why people assume a single fix exists: the engines disagree, and
-          the card set is the artifact that says so. Order matches
-          lib/sample.ts SAMPLE_ROWS so the sampling card below reads as the
-          same four. */}
+      {/* ---- 5. THE TWO CONTRASTING ANSWERS ------------------------------
+          Everything above is mechanism; this is the outcome the mechanism
+          produces. Illustrative and labeled (lib/sample.ts honesty rule). */}
       <section className="border-b border-line">
         <div className={SECTION}>
-          <div data-reveal>
-            <RuleEyebrow>The four surfaces we measure</RuleEyebrow>
-            <h2 className={`mt-4 max-w-[760px] ${H2}`}>
-              Four engines. Four different sets of rules.
-            </h2>
-          </div>
-          {/* `grid` on each reveal wrapper, not `flex`: a lone grid child
-              stretches on both axes, so the wrapper cannot leave a short card
-              floating in a tall row. Same for the source and situation grids. */}
-          <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-            {ENGINES.map((engine, i) => (
-              <div key={engine.name} data-reveal style={delay(i * 90)} className="grid">
-                <FeatureCard
-                  kicker={engine.kicker}
-                  title={engine.name}
-                  sub={engine.mode}
-                  body={engine.body}
-                  signals={engine.signals}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* What we do — metrics list + sampling card */}
-      <section className="border-b border-line">
-        <div className={SECTION}>
-          <div className="grid items-center gap-11 md:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] md:gap-[72px]">
-            <div data-reveal>
-              <Chip>What we do</Chip>
-              <h2 className="display mt-3.5 max-w-[580px] text-[34px] text-ink md:text-[38px]">
-                We measure your AI visibility. Properly.
-              </h2>
-              <p className="mt-3.5 max-w-[520px] text-[16.5px] leading-7 text-ink-soft">
-                We run your customers&rsquo; real questions across ChatGPT,
-                Google&rsquo;s AI answers, Gemini, and Perplexity,{" "}
-                <b className="font-bold text-ink">multiple times each</b>,
-                because the answers change run to run. Then we grade every one.
-                You get numbers, not vibes.
-              </p>
-              <dl className="mt-8">
-                {METRICS.map((metric) => (
-                  <div
-                    key={metric.name}
-                    className="grid gap-1 border-t border-line py-4 md:grid-cols-[140px_minmax(0,1fr)] md:gap-4"
-                  >
-                    <dt className="text-[15px] font-bold text-ink">{metric.name}</dt>
-                    <dd className="text-sm leading-6 text-ink-soft">{metric.detail}</dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
-            <div data-reveal style={delay(140)}>
-              <SamplingCard
-                title="mention rate by engine · sample"
-                meta="10 runs/engine"
-                rows={SAMPLE_ROWS}
-                footer={`n=32 queries · ${SAMPLE_LABEL}`}
-              />
-              <p className="mt-3 font-mono text-[11px] text-ink-faint">
-                <Link href="/sample-report/" className="text-ink hover:text-accent">
-                  see the full sample report →
-                </Link>
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Where an answer comes from. The point the sampling card above cannot
-          make on its own: the rate is produced by other people's pages, which
-          is why the fix list is rarely "change your homepage". */}
-      <section className="border-b border-line">
-        <div className={SECTION}>
-          <div
-            data-reveal
-            className="flex flex-wrap items-end justify-between gap-6"
-          >
-            <div>
-              <RuleEyebrow>Where an answer comes from</RuleEyebrow>
-              <h2 className={`mt-4 max-w-[700px] ${H2}`}>
-                An AI answer is assembled from other people&rsquo;s pages.
-              </h2>
-            </div>
-            <p className="max-w-[360px] pb-2 text-[15.5px] leading-[1.7] text-ink-soft">
-              Engines learn what to say about you by reading what other sources
-              say about you. These are the surfaces that conversation happens
-              on, and the ones we check you against.
-            </p>
-          </div>
-          {/* A ledger on the ground, not a fifth grid of white boxes. This was
-              a 4-up FeatureCard set identical to the engines grid five
-              sections above, and two matching grids that close to each other
-              read as one repeated module rather than two separate arguments.
-              Rules and a name column also suit the content better: these are
-              four surfaces to be itemised and checked against, not four
-              parallel products. The swatches stay, because the sampling
-              artifacts elsewhere use the same legend. */}
-          {/* TWO COLUMNS, still a ledger. Four full-width ruled rows spent
-              1248px on 279 words, and the brief asked for that space back for
-              demonstrations rather than for explanation. Pairing the rows
-              halves the run without touching a word or changing the register:
-              the rules, the swatch legend and the name-then-body order are all
-              unchanged, there are just two of them per line. */}
-          <dl className="mt-12 grid gap-x-12 md:grid-cols-2">
-            {SOURCES.map((source, i) => (
-              <div
-                key={source.name}
-                data-reveal
-                style={delay(i * 80)}
-                className="border-t border-line-dark py-7 md:[&:nth-last-child(-n+2)]:border-b"
-              >
-                <dt className="flex items-start gap-3">
-                  <span
-                    aria-hidden="true"
-                    className={`mt-0.5 flex h-[26px] w-[26px] shrink-0 items-center justify-center ${source.swatchBox}`}
-                  >
-                    <span
-                      className={`h-[9px] w-[9px] rounded-full ${source.swatch}`}
-                    />
-                  </span>
-                  <span className="text-[19px] font-medium leading-[1.3] tracking-[-0.015em] text-ink text-pretty">
-                    {source.name}
-                  </span>
-                </dt>
-                <dd className="mt-3.5">
-                  <p className="text-[15px] leading-[1.7] text-ink-soft text-pretty">
-                    {source.body}
-                  </p>
-                  <p className="mt-3.5 text-[13px] font-medium leading-[1.55] text-accent">
-                    {source.note}
-                  </p>
-                </dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-      </section>
-
-      {/* The four technical foundations. Sticky head against a scrolling list:
-          the four are a single argument, so the question stays on screen while
-          the answers pass. Crawler access is numbered in full-strength ink because it is
-          the failure we hit most often. */}
-      <section className="border-b border-line">
-        <div className={SECTION}>
-          {/* No `items-start` here, and the sticky element is a CHILD of the
-              grid item rather than the item itself. A sticky grid item is
-              exactly as tall as its grid area either way — stretched it fills
-              the area, start-aligned it shrinks to content — so it has no
-              travel range and never sticks. The stretched wrapper gives the
-              child one. */}
-          <div className="grid gap-12 md:grid-cols-2 md:gap-[72px]">
-            <div>
-              <div data-reveal className="md:sticky md:top-[110px]">
-                <RuleEyebrow>The four technical foundations</RuleEyebrow>
-                <h2 className={`mt-4 max-w-[520px] ${H2}`}>
-                  Before anything else: can the engines read you?
-                </h2>
-                <p className="mt-6 max-w-[440px] text-[15.5px] leading-[1.7] text-ink-soft">
-                  Four things decide whether an engine can use your website as
-                  a source. None are exotic and all are measurable. The first
-                  one alone accounts for more invisible businesses than every
-                  content problem combined.
-                </p>
-                <p className="mt-4 max-w-[440px] text-[15.5px] leading-[1.7] text-ink-soft">
-                  Every free check covers all four, verified by live fetch
-                  rather than assumption.
-                </p>
-              </div>
-            </div>
-            <div data-reveal style={delay(140)}>
-              <FoundationList />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* How it works — joined step cells */}
-      <section className="border-b border-line">
-        <div className={SECTION}>
-          <div data-reveal className="flex flex-wrap items-center justify-between gap-4">
-            <div className="flex flex-wrap items-center gap-4">
-              <Chip>How it works</Chip>
-              <h2 className="display text-[34px] text-ink md:text-[38px]">
-                Three steps, no theater
-              </h2>
-            </div>
-            <Link
-              href="/how-it-works/"
-              className="text-sm font-semibold text-ink hover:text-accent"
-            >
-              Full methodology →
-            </Link>
-          </div>
-          {/* Revealed as one block — the step cells share borders, so fading
-              them in individually would expose the seams. */}
-          <div data-reveal style={delay(120)} className="mt-8">
-            <StepList steps={STEPS} />
-          </div>
-        </div>
-      </section>
-
-      {/* The same question, two answers. The page's second artifact: everything
-          above is mechanism, this is the outcome the mechanism produces.
-          Illustrative and labeled as such (lib/sample.ts honesty rule). */}
-      <section className="border-b border-line">
-        <div className={SECTION}>
-          <div data-reveal className="max-w-[760px]">
+          <div data-reveal className="max-w-[700px]">
             <RuleEyebrow>What this looks like in practice</RuleEyebrow>
-            <h2 className={`mt-4 max-w-[700px] ${H2}`}>
+            <h2 className={`mt-4 ${H2}`}>
               The same question. Two very different answers.
             </h2>
-            <p className="mt-6 max-w-[600px] text-[15.5px] leading-[1.7] text-ink-soft">
+            <p className="mt-5 max-w-[600px] text-[15.5px] leading-[1.7] text-ink-soft">
               Both of these businesses rank on page one of Google for the
               query. Only one of them exists in the paragraph the customer
               reads.
@@ -686,54 +367,22 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Who asks for this. Qualification without a quiz: the reader picks
-          their own row and gets the specific first step for it. */}
+      {/* ---- 6. MARKET CONTEXT -------------------------------------------
+          Concise, and late. This is the "why now" a visitor checks AFTER they
+          understand the offer, not the argument they have to read through to
+          reach it. The three sourced stats and the two-line chart do the job
+          that eight explanatory sections used to. */}
       <section className="border-b border-line">
-        <div className={SECTION}>
-          <div data-reveal>
-            <RuleEyebrow>Who asks for this</RuleEyebrow>
-            <h2 className={`mt-4 max-w-[640px] ${H2}`}>
-              Three situations that bring people here.
-            </h2>
-          </div>
-          {/* Columns with no card around them: a rule on top, the numeral, and
-              the text sitting directly on the paper. The three-across rhythm is
-              right for the content (the reader picks their own row) but the
-              white fill was not, because a bordered box says "one of a set of
-              equal things" and these are alternatives. Dropping the fill also
-              leaves the engines grid as the page's only card set. */}
-          <div className="mt-12 grid gap-10 md:grid-cols-3 md:gap-x-12">
-            {SITUATIONS.map((situation, i) => (
-              <div
-                key={situation.title}
-                data-reveal
-                style={delay(i * 110)}
-                className="flex flex-col border-t-2 border-ink pt-5"
-              >
-                <span
-                  aria-hidden="true"
-                  className="display text-[34px] leading-none text-[rgba(14,35,64,0.22)]"
-                >
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <h3 className="mt-4 text-xl font-medium tracking-[-0.015em] text-ink text-pretty">
-                  {situation.title}
-                </h3>
-                <p className="mt-3.5 flex-1 text-[14.5px] leading-[1.65] text-ink-soft text-pretty">
-                  {situation.body}
-                </p>
-                <p className="mt-5 border-t border-line pt-4 text-[13px] font-medium leading-[1.55] text-accent">
-                  {situation.answer}
-                </p>
-              </div>
-            ))}
-          </div>
+        <div className={`${SECTION} grid gap-7 md:grid-cols-3 md:gap-12`}>
+          {HOME_STATS.map((stat, i) => (
+            <div key={stat.source} data-reveal style={delay(i * 110)}>
+              <StatTile stat={stat} />
+            </div>
+          ))}
         </div>
       </section>
 
-      <EngagementSteps />
-
-      <FreeCheckPanel />
+      <SearchShiftChart />
 
       {/* FAQ. One {question, answer}[] renders both the visible H2s and the
           FAQPage JSON-LD (lib/home.ts HOME_FAQS), so schema cannot drift from
