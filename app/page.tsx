@@ -10,6 +10,7 @@ import FoundationList from "@/components/FoundationList";
 import FreeCheckPanel from "@/components/FreeCheckPanel";
 import JsonLd from "@/components/JsonLd";
 import PageSchema from "@/components/PageSchema";
+import FoldReadout from "@/components/FoldReadout";
 import PromptBar from "@/components/PromptBar";
 import RevenueAtStake from "@/components/RevenueAtStake";
 import RuleEyebrow from "@/components/RuleEyebrow";
@@ -18,7 +19,7 @@ import SamplingCard from "@/components/SamplingCard";
 import SearchShiftChart from "@/components/SearchShiftChart";
 import StatTile from "@/components/StatTile";
 import StepList from "@/components/StepList";
-import { SECTION } from "@/lib/layout";
+import { SECTION, SECTION_X } from "@/lib/layout";
 import { delay } from "@/lib/reveal";
 import { faq } from "@/lib/schema";
 import { HOME_STATS } from "@/lib/stats";
@@ -26,6 +27,7 @@ import { BRAND, OFFER_SHORT } from "@/lib/site";
 import {
   ENGINES,
   FAQ_FIGURES,
+  FOLD_COPY,
   HOME_FAQS,
   SHOWCASE_COPY,
   SITUATIONS,
@@ -105,138 +107,142 @@ export default function Home() {
           Same pattern as /how-it-works. */}
       <JsonLd data={faq(HOME_FAQS)} />
 
-      {/* Hero — centered badge, display headline, pill CTAs, bobbing chevron.
-          The first screen ends AT the chevron: the block is one viewport minus
-          the 64px header and the 62px BottomBar the body already reserves, and
-          `svh` rather than `vh` so a mobile browser's collapsing URL bar cannot
-          push the chevron under the fold. The copy carries `my-auto` so it
-          centres in whatever is left above the chevron, and the chevron's own
-          margin is fixed — two auto margins would split the slack instead of
-          seating it on the bottom edge.
+      {/* THE FOLD. Rebuilt 2026-08-03 (Josh: the site reads like a research
+          report, not a product). Three things changed and each is load-bearing.
 
-          Every gap and both type sizes in here are `min(designed, Nsvh)`, and
-          the headline's clamp takes a height term on BOTH ends. A width-only
-          clamp cannot know that a 1280x720 window has 658 usable pixels and
-          the headline alone wants 265 of them, so the fold promise breaks on
-          exactly the screens that are short rather than narrow. The caps are
-          the designed values, so any viewport tall enough to seat the block —
-          1440x900 and up on desktop, and every current phone — renders it
-          unchanged and nothing below 720px tall overflows. Re-measure the
-          chevron against `innerHeight - 62` before retuning any of them. */}
-      <section>
-        <div className="mx-auto flex min-h-[calc(100svh-126px)] max-w-[920px] flex-col px-5 pb-[min(24px,3svh)] pt-[min(24px,3svh)] text-center sm:px-8">
-          <div className="my-auto">
-            {/* Where every competitor puts a customer logo wall. We cannot run
-                one until a real client result is cleared (the sample-data
-                honesty rule), and the dogfood page is the better credential
-                anyway: nobody else in this category publishes an audit of
-                themselves. Same slot, same pill, zero added fold height. */}
-            <Link
-              href="/our-score/"
-              data-reveal
-              className="inline-flex items-center gap-2.5 rounded-full border border-[rgba(14,35,64,0.22)] bg-white px-[18px] py-2.5 text-[13px] font-medium text-ink transition-colors hover:border-ink"
-            >
-              <span
-                aria-hidden="true"
-                className="h-[7px] w-[7px] rounded-full bg-ink"
-              />
-              We ran this audit on our own site
-              <span aria-hidden="true" className="text-ink-faint">
-                &#10230;
-              </span>
-            </Link>
-            <h1
-              data-reveal
-              style={delay(80)}
-              className="display mx-auto mt-[min(24px,2.6svh)] max-w-[900px] text-[clamp(min(38px,4.8svh),min(6.6vw,9.4svh),84px)] leading-[1.05] text-ink"
-            >
-              When someone asks AI for a recommendation, does it say your name?
-            </h1>
-            <p
-              data-reveal
-              style={delay(160)}
-              className="display mx-auto mt-[min(24px,2.6svh)] max-w-[620px] text-[min(19px,2.5svh)] italic leading-[1.5] text-ink-soft sm:text-[min(23px,2.9svh)]"
-            >
-              ChatGPT, Google AI, Gemini, and Perplexity answer your customers
-              directly, and each answer names{" "}
-              <b className="font-semibold text-ink">only a few businesses</b>.{" "}
-              {BRAND}{" "}measures whether you&rsquo;re one of them and{" "}
-              <b className="font-semibold text-ink">who gets named instead</b>.
-              {" "}Then we do the work the numbers point to.
-            </p>
-            {/* One field, then the same form the visitor was always going to
-                fill. Every established site in this category opens with domain
-                capture rather than a link to a capture page, and it costs us
-                nothing to match: a GET form is not an interactivity island, so
-                the fold still works with JavaScript off, and `form-action
-                'self'` in the CSP already allows it. /free-check reads the
-                `site` param and prefills the website field. */}
-            <form
-              action="/free-check/"
-              method="get"
-              data-reveal
-              style={delay(240)}
-              className="mx-auto mt-[min(24px,2.8svh)] flex w-full max-w-[520px] flex-col gap-3 sm:mt-[min(32px,3.4svh)] sm:flex-row"
-            >
-              <label htmlFor="site" className="sr-only">
-                Your website
-              </label>
-              <input
-                id="site"
-                name="site"
-                type="text"
-                inputMode="url"
-                autoComplete="url"
-                required
-                maxLength={200}
-                placeholder="yourbusiness.com"
-                className="w-full rounded-full border border-line-dark bg-white px-[22px] py-[15px] text-[15px] text-ink placeholder:text-ink-faint focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/15"
-              />
-              <button
-                type="submit"
-                className="btn-pill shrink-0 justify-center px-[26px] py-[15px] text-[13.5px]"
+          IT IS NAVY. The site opened on warm paper under a navy header, which
+          put a seam across the top of every page and made the first screen the
+          palest thing on it. Running the fold in ink instead lets the header
+          dissolve into it, gives Sky somewhere legal to live at the top of the
+          page, and means the deliverable can be the bright object in the frame
+          rather than one more card on the same ground.
+
+          IT SHOWS A MEASUREMENT. The old fold was a headline, a lede and a
+          field: three claims about measuring and nothing measured. FoldReadout
+          is a real reading off the sample dataset, so the first screen argues
+          by evidence like the rest of the page does.
+
+          THE CHEVRON IS GONE, and with it the svh arithmetic it needed. That
+          block existed to promise "the first screen ends AT the chevron", which
+          only had to hold because the fold was one centred column with nothing
+          below the lede to signal depth. A two-column fold whose right half is
+          a data card signals it without a hint to scroll. `min-h` still fills
+          the screen on desktop; on phones the columns stack and the readout is
+          simply the next thing, which is the point.
+
+          UNCHANGED ON PURPOSE: the h1 and the lede (the strongest sentences on
+          the site), and the GET form, which stays a plain form so the primary
+          action never waits on hydration. #site and the "Run my" button are
+          pinned by funnel.spec.ts. */}
+      <section className="bg-ink text-white">
+        <div
+          className={`${SECTION_X} flex min-h-[calc(100svh-126px)] flex-col justify-center py-14 md:py-16`}
+        >
+          <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] lg:gap-16">
+            {/* min-w-0 on both halves: on phones this is a single auto column
+                and a grid item defaults to min-width:auto, so the column is
+                floored at its min-content and pushes the page sideways. Same
+                root cause as the fr tracks in lib/layout.ts's commit. */}
+            <div className="min-w-0">
+              <div data-reveal>
+                <RuleEyebrow onDark>{FOLD_COPY.eyebrow}</RuleEyebrow>
+              </div>
+              <h1
+                data-reveal
+                style={delay(80)}
+                className="display mt-5 max-w-[560px] text-[clamp(34px,4.6vw,54px)] leading-[1.06] text-white text-pretty"
               >
-                {/* Derived from the locked offer name rather than a second
-                    shortening of it, but phrased as the visitor's own action:
-                    the header pill directly above already reads OFFER_SHORT,
-                    and two identical labels in one viewport read as a repeat
-                    instead of a next step. */}
-                Run my {OFFER_SHORT.toLowerCase()}{" "}
-                <span className="text-base">&#10230;</span>
-              </button>
-            </form>
-            <p
-              data-reveal
-              style={delay(300)}
-              className="mx-auto mt-[min(12px,1.5svh)] max-w-[640px] text-[13px] leading-[1.5] text-ink-faint"
-            >
-              Verbatim answers, mention rates per engine, and who gets named
-              instead.{" "}
-              <Link
-                href="/sample-report/"
-                className="font-medium text-ink-soft underline-offset-4 hover:text-accent hover:underline"
+                When someone asks AI for a recommendation, does it say your
+                name?
+              </h1>
+              <p
+                data-reveal
+                style={delay(160)}
+                className="mt-6 max-w-[520px] text-[16.5px] leading-[1.65] text-white/70"
               >
-                See a sample report
-              </Link>
-              .
-            </p>
-          </div>
-          {/* "fade" (no transform) so the reveal can't fight the bob animation. */}
-          <div
-            aria-hidden="true"
-            data-reveal="fade"
-            style={delay(360)}
-            className="weir-bob mt-[min(24px,2.8svh)] flex shrink-0 justify-center text-ink sm:mt-[min(30px,3.2svh)]"
-          >
-            <svg width="30" height="18" viewBox="0 0 30 18" fill="none">
-              <path
-                d="M3 3l12 12L27 3"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+                ChatGPT, Google AI, Gemini, and Perplexity answer your customers
+                directly, and each answer names{" "}
+                <b className="font-semibold text-white">only a few businesses</b>.{" "}
+                {BRAND}{" "}measures whether you&rsquo;re one of them and{" "}
+                <b className="font-semibold text-white">who gets named instead</b>.
+                {" "}Then we do the work the numbers point to.
+              </p>
+
+              {/* One field, then the same form the visitor was always going to
+                  fill. A GET form is not an interactivity island, so the fold
+                  still works with JavaScript off, and `form-action 'self'` in
+                  the CSP already allows it. /free-check reads the `site` param
+                  and prefills the website field. */}
+              <form
+                action="/free-check/"
+                method="get"
+                data-reveal
+                style={delay(240)}
+                className="mt-8 flex w-full max-w-[520px] flex-col gap-3 sm:flex-row"
+              >
+                <label htmlFor="site" className="sr-only">
+                  Your website
+                </label>
+                {/* A translucent field rather than a white one: a white input
+                    beside a white submit reads as one shape, and the button has
+                    to be the brighter of the two. */}
+                <input
+                  id="site"
+                  name="site"
+                  type="text"
+                  inputMode="url"
+                  autoComplete="url"
+                  required
+                  maxLength={200}
+                  placeholder="yourbusiness.com"
+                  className="w-full rounded-full border border-white/25 bg-white/10 px-[22px] py-[15px] text-[15px] text-white placeholder:text-white/45 focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-white/20"
+                />
+                <button
+                  type="submit"
+                  className="btn-pill-invert shrink-0 justify-center px-[26px] py-[15px] text-[13.5px]"
+                >
+                  {/* One text node, not two: `Run my {x}` ships as
+                      `Run my <!-- -->free ai check` and splits the label in the
+                      raw bytes a crawler reads. */}
+                  {`Run my ${OFFER_SHORT.toLowerCase()} `}
+                  <span className="text-base">&#10230;</span>
+                </button>
+              </form>
+
+              <p
+                data-reveal
+                style={delay(300)}
+                className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-[13px] text-white/55"
+              >
+                {/* The dogfood page is the credential we actually have: nobody
+                    else in this category publishes an audit of themselves, and
+                    the sample-data honesty rule forbids a client logo wall
+                    until a real result is cleared. */}
+                <Link
+                  href="/our-score/"
+                  className="inline-flex items-center gap-2 font-medium text-white/85 underline-offset-4 hover:text-white hover:underline"
+                >
+                  <span
+                    aria-hidden="true"
+                    className="h-[6px] w-[6px] rounded-full bg-sky"
+                  />
+                  {FOLD_COPY.proof}
+                </Link>
+                <Link
+                  href="/sample-report/"
+                  className="font-medium text-white/85 underline-offset-4 hover:text-white hover:underline"
+                >
+                  See a sample report
+                </Link>
+              </p>
+            </div>
+
+            <div data-reveal="scale" style={delay(220)} className="min-w-0">
+              <FoldReadout />
+              <p className="mt-3.5 font-mono text-[11px] uppercase tracking-[0.14em] text-white/45">
+                {FOLD_COPY.readoutLabel}
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -554,13 +560,19 @@ export default function Home() {
               four surfaces to be itemised and checked against, not four
               parallel products. The swatches stay, because the sampling
               artifacts elsewhere use the same legend. */}
-          <dl className="mt-12">
+          {/* TWO COLUMNS, still a ledger. Four full-width ruled rows spent
+              1248px on 279 words, and the brief asked for that space back for
+              demonstrations rather than for explanation. Pairing the rows
+              halves the run without touching a word or changing the register:
+              the rules, the swatch legend and the name-then-body order are all
+              unchanged, there are just two of them per line. */}
+          <dl className="mt-12 grid gap-x-12 md:grid-cols-2">
             {SOURCES.map((source, i) => (
               <div
                 key={source.name}
                 data-reveal
                 style={delay(i * 80)}
-                className="grid gap-x-10 gap-y-3 border-t border-line-dark py-8 last:border-b last:border-line-dark md:grid-cols-[minmax(190px,240px)_1fr]"
+                className="border-t border-line-dark py-7 md:[&:nth-last-child(-n+2)]:border-b"
               >
                 <dt className="flex items-start gap-3">
                   <span
@@ -575,8 +587,8 @@ export default function Home() {
                     {source.name}
                   </span>
                 </dt>
-                <dd>
-                  <p className="max-w-[680px] text-[15px] leading-[1.7] text-ink-soft text-pretty">
+                <dd className="mt-3.5">
+                  <p className="text-[15px] leading-[1.7] text-ink-soft text-pretty">
                     {source.body}
                   </p>
                   <p className="mt-3.5 text-[13px] font-medium leading-[1.55] text-accent">

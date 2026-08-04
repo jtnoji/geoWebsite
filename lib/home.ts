@@ -212,6 +212,18 @@ export const PROMPT_DEMO = {
 } as const;
 
 /**
+ * The fold. Copy is NEW (2026-08-03) apart from the h1 and the lede, which are
+ * carried over unchanged on purpose: the headline is the site's strongest
+ * sentence and the brief asked to preserve the voice, not replace it. The
+ * eyebrow and the readout caption need Josh's sign-off.
+ */
+export const FOLD_COPY = {
+  eyebrow: "AI visibility, measured",
+  readoutLabel: "A real check, run on a real category",
+  proof: "We ran this audit on our own site",
+} as const;
+
+/**
  * The product surface under the fold: one answer, then what forty of them add
  * up to. Copy is NEW (2026-08-03) and needs Josh's sign-off before launch per
  * the copy rule in CLAUDE.md; it is written to the existing voice (two clauses
