@@ -29,7 +29,10 @@ export const PAGES: PageSpec[] = [
     mustContain: [
       "Your customers are asking AI who to hire",
       "Sable measures where your business appears across ChatGPT",
-      "Measure, diagnose, improve, then measure again.",
+      /* Capability one's heading. The wrapper h2 it replaced went away when
+         each capability became its own full-bleed section, so this pins the
+         sequence itself rather than a signpost above it. */
+      "We ask what your customers ask.",
       /* The commercial options are on the home page now, so a crawler losing
          them is a real regression rather than a copy edit. */
       "Full AI Visibility Audit",

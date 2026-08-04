@@ -97,7 +97,7 @@ export default function LiveAnswer() {
       {/* The answers, stacked in one grid cell exactly like the questions, so
           the panel never changes height as they swap. */}
       <div className="grid px-4 pb-4 pt-3.5">
-        {PROMPT_DEMO.questions.map(({ q, engine, answer }, i) => (
+        {PROMPT_DEMO.questions.map(({ q, engine, lead }, i) => (
           <div
             key={q}
             className="prompt-answer col-start-1 row-start-1"
@@ -112,12 +112,28 @@ export default function LiveAnswer() {
               {engine}
             </p>
             <p className="mt-2 text-[14.5px] leading-[1.6] text-white/85">
-              {answer}
+              {lead}
             </p>
-            <p className="mt-3.5 inline-flex items-center gap-2.5 rounded-lg bg-white px-3.5 py-2 text-[13px] font-semibold text-ink">
-              <span aria-hidden="true" className="h-2 w-2 rounded-full bg-ink" />
-              Your business: not mentioned
-            </p>
+
+            {/* THE SHORTLIST, DRAWN. The answer used to say "Competitor A,
+                Competitor B, and Competitor C" in a sentence, which reads as
+                prose about naming rather than as naming. Three filled chips
+                and one empty one is the same information as a picture: the
+                list has four slots in the reader's head and theirs is the one
+                with nothing in it. */}
+            <ul className="mt-3.5 flex flex-wrap items-center gap-2">
+              {PROMPT_DEMO.named.map((name) => (
+                <li
+                  key={name}
+                  className="rounded-full bg-white/[0.16] px-3.5 py-[7px] text-[12.5px] font-medium text-white"
+                >
+                  {name}
+                </li>
+              ))}
+              <li className="rounded-full border border-dashed border-white/35 px-3.5 py-[7px] text-[12.5px] font-medium text-white/45">
+                your business
+              </li>
+            </ul>
           </div>
         ))}
       </div>

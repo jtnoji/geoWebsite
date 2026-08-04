@@ -211,40 +211,38 @@ export const PROMPT_DEMO = {
     {
       q: "what is the best restaurant in my area?",
       engine: "ChatGPT",
-      answer:
-        "A few that come up often in {your city}: Competitor A, Competitor B, and Competitor C.",
+      lead: "A few that come up often in {your city}:",
     },
     {
       q: "where should I get my hair done?",
       engine: "Google AI",
-      answer:
-        "Based on reviews and recent write-ups, Competitor A and Competitor B are the ones most often recommended.",
+      lead: "Based on reviews and recent write-ups, the ones most often recommended:",
     },
     {
       q: "what is the best skincare for dry skin?",
       engine: "Perplexity",
-      answer:
-        "Most comparison guides point to Competitor A, with Competitor B and Competitor C close behind.",
+      lead: "Most comparison guides point to the same three:",
     },
     {
       q: "which shoe brand is most comfortable?",
       engine: "Gemini",
-      answer:
-        "Competitor A is named most consistently, followed by Competitor B and Competitor C.",
+      lead: "Named most consistently across the reviews I can see:",
     },
     {
       q: "what is the best gym for beginners?",
       engine: "ChatGPT",
-      answer:
-        "For someone starting out, I would look at Competitor A, Competitor B, or Competitor C.",
+      lead: "For someone starting out, I would look at:",
     },
     {
       q: "who does good plumbing near me?",
       engine: "Google AI",
-      answer:
-        "In {your city}, Competitor A, Competitor B, and Competitor C come up the most.",
+      lead: "In {your city}, these come up the most:",
     },
   ],
+  /** Every answer names three. The count is the argument: a shortlist has
+      room for a handful, and the fourth slot in the hero is the reader's,
+      drawn empty. */
+  named: ["Competitor A", "Competitor B", "Competitor C"],
   caption:
     "Your customers ask questions like these every day. We measure what the answer says.",
 } as const;

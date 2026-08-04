@@ -337,60 +337,102 @@ export default function Home() {
       </section>
 
       {/* ---- 4. WHAT SABLE DOES -----------------------------------------
-          Four capabilities, each paired with the artifact it produces rather
-          than with a paragraph about it. Alternating sides so the page has a
-          rhythm to scroll rather than four identical rows.
+          Four capabilities, each its own full-bleed section, ALTERNATING navy
+          and paper. This is the pacing change: the page used to run one dark
+          hero and then eight paper sections, which is why it scrolled like a
+          document. Now the surface flips four times on the way down and the
+          reader feels the progression instead of reading that there is one.
+
+          The artifacts are all white cards, which is what makes the flip work
+          in both directions: on paper they sit in the page, on navy they are
+          the lit object in a dark room.
 
           Improve carries FoundationList, which restores the four technical
           foundations to the site: they were the largest block orphaned by the
           conversion pass, and "what we would fix" is where they belong. */}
-      <section id="features" className="scroll-mt-20 border-b border-line">
-        <div className={SECTION}>
-          <div data-reveal className="max-w-[620px]">
-            <RuleEyebrow>What Sable does</RuleEyebrow>
-            <h2 className={`mt-4 ${H2}`}>
-              Measure, diagnose, improve, then measure again.
-            </h2>
-          </div>
+      <div id="features" className="scroll-mt-20">
+        {CAPABILITIES.map((cap, i) => {
+          const dark = i % 2 === 1;
+          return (
+            <section
+              key={cap.key}
+              className={dark ? "bg-ink text-white" : "border-b border-line"}
+            >
+              <div className={SECTION}>
+                {/* items-start + a sticky copy column. Improve's artifact is
+                    the four-foundation list and runs ~1400px; centred against
+                    it, the copy floated in the middle of an empty half. Now it
+                    holds at the top and rides the artifact down, which also
+                    gives the long section a reason to be long. */}
+                <div className="grid items-start gap-10 md:grid-cols-2 md:gap-16">
+                  <div
+                    data-reveal
+                    className={`min-w-0 md:sticky md:top-28 ${
+                      i % 2 === 1 ? "md:order-2" : ""
+                    }`}
+                  >
+                    {/* The numeral is the spine. Oversized, serif, and set
+                        against the eyebrow rather than above it, so each
+                        section opens on a mark you can find at a glance while
+                        scrolling. Four of them in sequence is the tactile
+                        sense of progression the cards were not giving. */}
+                    <div className="flex items-baseline gap-5">
+                      <span
+                        aria-hidden="true"
+                        className={`display text-[clamp(52px,7vw,86px)] leading-[0.8] ${
+                          dark ? "text-white/25" : "text-ink/15"
+                        }`}
+                      >
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <p
+                        className={`font-mono text-[11px] font-semibold uppercase tracking-[0.18em] ${
+                          dark ? "text-sky" : "text-accent"
+                        }`}
+                      >
+                        {cap.eyebrow}
+                      </p>
+                    </div>
 
-          <div className="mt-14 flex flex-col gap-16 md:gap-20">
-            {CAPABILITIES.map((cap, i) => (
-              <div
-                key={cap.key}
-                className="grid items-center gap-9 md:grid-cols-2 md:gap-14"
-              >
-                <div
-                  data-reveal
-                  className={`min-w-0 ${i % 2 === 1 ? "md:order-2" : ""}`}
-                >
-                  <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-accent">
-                    {cap.eyebrow}
-                  </p>
-                  <h3 className="display mt-3 text-[clamp(24px,2.7vw,32px)] leading-[1.15] text-ink text-pretty">
-                    {cap.heading}
-                  </h3>
-                  <p className="mt-4 max-w-[440px] text-[15.5px] leading-[1.7] text-ink-soft">
-                    {cap.body}
-                  </p>
-                </div>
-                <div data-reveal="scale" style={delay(120)} className="min-w-0">
-                  {cap.key === "measure" && <FoldReadout />}
-                  {cap.key === "diagnose" && <ShareOfVoice />}
-                  {cap.key === "improve" && <FoundationList />}
-                  {cap.key === "track" && (
-                    <SamplingCard
-                      title="mention rate by engine · sample"
-                      meta="10 runs/engine"
-                      rows={SAMPLE_ROWS}
-                      footer={SAMPLE_LABEL}
-                    />
-                  )}
+                    <h3
+                      className={`display mt-6 text-[clamp(28px,3.4vw,42px)] leading-[1.1] text-pretty ${
+                        dark ? "text-white" : "text-ink"
+                      }`}
+                    >
+                      {cap.heading}
+                    </h3>
+                    <p
+                      className={`mt-5 max-w-[440px] text-[15.5px] leading-[1.7] ${
+                        dark ? "text-white/75" : "text-ink-soft"
+                      }`}
+                    >
+                      {cap.body}
+                    </p>
+                  </div>
+
+                  <div
+                    data-reveal="scale"
+                    style={delay(120)}
+                    className="min-w-0"
+                  >
+                    {cap.key === "measure" && <FoldReadout />}
+                    {cap.key === "diagnose" && <ShareOfVoice />}
+                    {cap.key === "improve" && <FoundationList />}
+                    {cap.key === "track" && (
+                      <SamplingCard
+                        title="mention rate by engine · sample"
+                        meta="10 runs/engine"
+                        rows={SAMPLE_ROWS}
+                        footer={SAMPLE_LABEL}
+                      />
+                    )}
+                  </div>
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
+            </section>
+          );
+        })}
+      </div>
 
       {/* ---- 5. PROOF ----------------------------------------------------
           One sample result, with the repeated-run methodology folded into it
