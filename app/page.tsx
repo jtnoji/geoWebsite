@@ -13,6 +13,7 @@ import PageSchema from "@/components/PageSchema";
 import PromptBar from "@/components/PromptBar";
 import RevenueAtStake from "@/components/RevenueAtStake";
 import RuleEyebrow from "@/components/RuleEyebrow";
+import ShareOfVoice from "@/components/ShareOfVoice";
 import SamplingCard from "@/components/SamplingCard";
 import SearchShiftChart from "@/components/SearchShiftChart";
 import StatTile from "@/components/StatTile";
@@ -26,11 +27,11 @@ import {
   ENGINES,
   FAQ_FIGURES,
   HOME_FAQS,
+  SHOWCASE_COPY,
   SITUATIONS,
   SOURCES,
 } from "@/lib/home";
 import {
-  SAMPLE_CALLOUT,
   SAMPLE_COMPETITORS,
   SAMPLE_LABEL,
   SAMPLE_ROWS,
@@ -260,14 +261,29 @@ export default function Home() {
           every method section either way. */}
       <RevenueAtStake />
 
-      {/* Product showcase — the cream answer card with its floating stat
-          callout anchored to the card's top-right corner. The callout's -54px
-          overhang is reserved by the inner wrapper rather than by extra
-          section padding, so the topmost visible thing (the callout) lands on
-          the standard rhythm line instead of 50px below it. */}
+      {/* Product showcase. The answer card and the share-of-voice table are
+          ONE surface on purpose: the card is a single run and the table is
+          what forty of them add up to, which is the difference between a
+          screenshot and a measurement. It was a lone 660px card centred in the
+          container until 2026-08-03, which left half the section empty and
+          made the page's most product-like moment its least dense.
+
+          The pair is deliberately mismatched in register. The card is a
+          product mockup, so it keeps its radius and its shadow; the table is a
+          measurement artifact, so it stays square and flat. Two treatments
+          side by side is the point: one is the thing AI said, the other is
+          what Sable did with it. */}
       <section className="border-b border-line">
         <div className={SECTION}>
-          <div className="relative mx-auto mt-[54px] max-w-[660px]">
+          <div data-reveal className="max-w-[560px]">
+            <RuleEyebrow>{SHOWCASE_COPY.eyebrow}</RuleEyebrow>
+            <h2 className={`${H2} mt-4`}>{SHOWCASE_COPY.heading}</h2>
+            <p className="mt-5 text-[15.5px] leading-[1.7] text-ink-soft">
+              {SHOWCASE_COPY.body}
+            </p>
+          </div>
+
+          <div className="mt-12 grid items-start gap-10 lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] lg:gap-14">
             <div
               data-reveal="scale"
               className="overflow-hidden rounded-[22px] bg-paper-dim shadow-[0_34px_70px_-26px_rgba(14,35,64,0.4)]"
@@ -295,23 +311,13 @@ export default function Home() {
               </div>
             </div>
 
-            <div
-              data-reveal="scale"
-              style={delay(220)}
-              className="absolute -top-[54px] right-0 max-w-[212px] rounded-[18px] bg-white px-5 py-4 shadow-[0_24px_48px_-22px_rgba(14,35,64,0.45)] sm:-right-[34px]"
-            >
-              <p className="text-[28px] font-semibold leading-none text-ink">
-                {SAMPLE_CALLOUT.hits}
-                <span className="text-[15px] font-medium text-ink-faint">
-                  {" "}/ {SAMPLE_CALLOUT.runs} runs
-                </span>
-              </p>
-              <p className="mt-1.5 text-[13px] leading-[1.4] text-ink-faint">
-                named on {SAMPLE_CALLOUT.engine} ·{" "}
-                <span className="font-medium text-bad">
-                  competitor {SAMPLE_CALLOUT.competitorHits}/{SAMPLE_CALLOUT.runs}
-                </span>
-              </p>
+            {/* The floating "2 / 10 runs" callout used to hang off the card's
+                top-right corner. It is gone because this table states the same
+                thing better and for every business at once, and two stat
+                surfaces on one artifact is the clutter the brief asks us to
+                spend elsewhere. Its -54px overhang went with it. */}
+            <div data-reveal="scale" style={delay(160)}>
+              <ShareOfVoice />
             </div>
           </div>
         </div>

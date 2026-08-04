@@ -211,6 +211,18 @@ export const PROMPT_DEMO = {
     "Your customers ask questions like these every day. We measure what the answer says.",
 } as const;
 
+/**
+ * The product surface under the fold: one answer, then what forty of them add
+ * up to. Copy is NEW (2026-08-03) and needs Josh's sign-off before launch per
+ * the copy rule in CLAUDE.md; it is written to the existing voice (two clauses
+ * max, no em dashes, no guarantees, rates never ranks).
+ */
+export const SHOWCASE_COPY = {
+  eyebrow: "What the report shows",
+  heading: "One answer is an anecdote. Forty is a position.",
+  body: "The card is a single run. The table beside it is the same question asked forty times, which is the number your competitors are being judged on.",
+} as const;
+
 /** Who asks for this. Three entry points, each with what we do about it. */
 export const SITUATIONS: readonly Situation[] = [
   {

@@ -47,4 +47,36 @@ export const SAMPLE_CALLOUT = {
   competitorHits: 8,
 } as const;
 
+/**
+ * Share of voice: every business the category's answers named, ordered by how
+ * often. This is the artifact for the "Share of voice" metric the site has
+ * always listed and never shown.
+ *
+ * DERIVED FROM SAMPLE_ROWS, NOT INVENTED ALONGSIDE IT. The totals are the same
+ * forty runs (four engines x ten) those rows describe, so the two cannot
+ * disagree: the client's 2+0+3+1 is this 6, and the top competitor's 8+6+7+5
+ * is Saltgrass's 26. Change one and you have to change the other, which is the
+ * whole reason both live in this file.
+ *
+ * It is a RATE table, never a league table. The order falls out of the
+ * measurement; it is not a position we can sell, and nothing on the site may
+ * imply we move a business up it (the no-guarantees rule in CLAUDE.md).
+ */
+export const SAMPLE_RUNS_TOTAL = 40;
+
+export type SampleRank = {
+  name: string;
+  /** Answers naming this business, out of SAMPLE_RUNS_TOTAL. */
+  hits: number;
+  /** The one that is the reader. Rendered as the finding, not as a row. */
+  you?: boolean;
+};
+
+export const SAMPLE_RANKING: readonly SampleRank[] = [
+  { name: SAMPLE_COMPETITORS[0], hits: 26 },
+  { name: SAMPLE_COMPETITORS[1], hits: 19 },
+  { name: SAMPLE_COMPETITORS[2], hits: 14 },
+  { name: SAMPLE_CLIENT, hits: 6, you: true },
+];
+
 export const SAMPLE_LABEL = "illustrative example · not a real client";
