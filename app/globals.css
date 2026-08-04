@@ -81,6 +81,40 @@ body {
   padding-bottom: 62px;
 }
 
+/* ---- Surfaces ------------------------------------------------------------
+   A radius scale and two depths, so surfaces stop being decided per call site.
+   The old system had 12px, 18px, 20px and 22px in circulation plus a rule that
+   measurement artifacts must be square and shadowless.
+
+   THAT RULE IS RELAXED (Josh, 2026-08-03): the artifacts were reading as a
+   stack of report rectangles, and the reason for the rule (data must not read
+   as marketing) is carried by the mono type, the run counts and the
+   illustrative labels, not by the corners. Radii are gentle rather than
+   playful, and shadows stay soft and low-contrast so nothing floats.
+
+   `--r-card` is the default for anything with a surface. `--r-panel` is for
+   the large product objects (the hero console, the stage console). Pills keep
+   999px. Nothing should introduce a fifth value. */
+:root {
+  --r-card: 14px;
+  --r-panel: 20px;
+  --shadow-soft: 0 18px 40px -24px rgba(14, 35, 64, 0.28);
+  --shadow-lift: 0 34px 80px -34px rgba(14, 35, 64, 0.42);
+}
+
+.surface {
+  border-radius: var(--r-card);
+  overflow: hidden;
+}
+
+.surface-soft {
+  box-shadow: var(--shadow-soft);
+}
+
+.surface-lift {
+  box-shadow: var(--shadow-lift);
+}
+
 /* ---- Display type -------------------------------------------------------
    Headings and editorial figures wear the serif; everything else stays Libre
    Franklin.
@@ -470,6 +504,133 @@ body {
 
   .prompt-caret {
     animation: none;
+  }
+}
+
+/* ---- Stage console (home, "how Sable works") -----------------------------
+   Four stages in ONE panel that advances itself, rather than four sections
+   with the same shape. The rail marks progress and the artifact under it
+   swaps, so the reader watches one system move through its steps instead of
+   scrolling four near-identical blocks.
+
+   Same machinery as the prompt bar and the same reasons: pure CSS on a server
+   component, so every stage's copy and every figure is in the exported HTML
+   with JavaScript off. A slot is a quarter of the loop, and both classes below
+   run off one clock via --stage-cycle / --stage-start.
+
+   THE STOPS ENCODE FOUR STAGES. 25% per slot; change the count and these have
+   to be recut. StageConsole throws at build time if they drift. */
+.stage-panel {
+  /* Held so the panel cannot resize as stages of different heights swap,
+     which would make the whole page below it jump every five seconds. */
+  min-height: var(--stage-min, 420px);
+}
+
+.stage-item {
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(8px);
+  animation-name: stage-item;
+  animation-duration: var(--stage-cycle);
+  animation-delay: var(--stage-start);
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+@keyframes stage-item {
+  0% {
+    visibility: visible;
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  2.5% {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+  }
+  22.5% {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+  }
+  25% {
+    visibility: visible;
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  25.1%,
+  100% {
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+/* The rail. `step-end` so the active mark is a switch, never a fade. */
+.stage-tab {
+  animation-name: stage-tab;
+  animation-duration: var(--stage-cycle);
+  animation-delay: var(--stage-start);
+  animation-iteration-count: infinite;
+  animation-timing-function: step-end;
+}
+
+@keyframes stage-tab {
+  0% {
+    opacity: 1;
+  }
+  25%,
+  100% {
+    opacity: 0.32;
+  }
+}
+
+/* The rail's progress bar fills across its own slot. */
+.stage-fill {
+  transform: scaleX(0);
+  transform-origin: left;
+  animation-name: stage-fill;
+  animation-duration: var(--stage-cycle);
+  animation-delay: var(--stage-start);
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes stage-fill {
+  0% {
+    transform: scaleX(0);
+  }
+  25% {
+    transform: scaleX(1);
+  }
+  25.1%,
+  100% {
+    transform: scaleX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Motion off: the first stage is simply the one on show, and the rail marks
+     it. The other three are still in the HTML for crawlers and for anyone
+     reading the page with styles off. */
+  .stage-item,
+  .stage-tab,
+  .stage-fill {
+    animation: none;
+  }
+
+  .stage-item:first-child {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+  }
+
+  .stage-tab {
+    opacity: 0.32;
+  }
+
+  .stage-tab:first-of-type {
+    opacity: 1;
   }
 }
 

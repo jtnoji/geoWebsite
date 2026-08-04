@@ -27,7 +27,7 @@ const RATE = Math.round((HITS / RUNS) * 100);
 
 export default function FoldReadout() {
   return (
-    <div className="border border-white/15 bg-white">
+    <div className="surface surface-soft border border-white/15 bg-white">
       <div className="flex items-center justify-between gap-3 border-b border-line bg-paper-dim px-4 py-2.5 font-mono text-[11px] text-ink-faint">
         <span className="truncate">{`“${SAMPLE_QUERY}”`}</span>
         <span className="shrink-0">{`${RUNS} answers`}</span>

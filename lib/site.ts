@@ -100,6 +100,7 @@ export const ALL_PAGES = [
   { href: "/sample-report/", label: "Sample report" },
   { href: "/how-it-works/", label: "How it works" },
   { href: "/pricing/", label: "Pricing" },
+  { href: "/faq/", label: "FAQ" },
   { href: "/learn/", label: "Learn" },
   { href: "/about/", label: "About" },
   { href: "/contact/", label: "Contact" },

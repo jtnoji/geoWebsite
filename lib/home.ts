@@ -507,6 +507,18 @@ export const REPORT_CONTENTS: readonly { name: string; body: string }[] = [
  * questions and the FAQPage JSON-LD, so the schema still cannot drift from
  * what is on screen.
  */
+/**
+ * The compact reassurance line beside the final CTA, standing in for the FAQ
+ * block that moved to /faq. Each is a claim the site already makes and can
+ * stand behind: the free tier really is free, the numbers are sampled rates,
+ * and we do not promise placement. Nothing here is new copy in substance.
+ */
+export const REASSURANCE = [
+  "Free check, no card required",
+  "Sampled rates with run counts, never guaranteed rankings",
+  "Reports in 1 to 2 business days",
+] as const;
+
 export const HOME_FAQS_TOP_COUNT = 4;
 
 export const HOME_FAQS: Faq[] = [

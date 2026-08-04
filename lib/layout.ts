@@ -38,3 +38,15 @@ export const SECTION_Y = "py-16 md:py-20";
 
 /** Both, which is what almost every call site wants. */
 export const SECTION = `${SECTION_X} ${SECTION_Y}`;
+
+/**
+ * The wide track. Same gutters, a wider ceiling: for scenes whose graphic is
+ * the content and looks throttled at the reading measure. Added 2026-08-03
+ * (Josh: "the elements feel overly contained within a narrow central column").
+ *
+ * It is deliberately a SECOND value and not a free-for-all. Two tracks read as
+ * a decision; five read as the drift lib/layout.ts was written to stop, so a
+ * scene is either at the measure or at the wide track and nothing invents a
+ * third.
+ */
+export const SECTION_WIDE = "mx-auto max-w-[1400px] px-5 sm:px-8";

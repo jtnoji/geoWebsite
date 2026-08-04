@@ -2,31 +2,24 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import AnswerCompare from "@/components/AnswerCompare";
 import ClosingCta from "@/components/ClosingCta";
-import FaqSection from "@/components/FaqSection";
-import JsonLd from "@/components/JsonLd";
 import PageSchema from "@/components/PageSchema";
-import FoldReadout from "@/components/FoldReadout";
-import FoundationList from "@/components/FoundationList";
 import LiveAnswer from "@/components/LiveAnswer";
+import ReportStack from "@/components/ReportStack";
+import StageConsole from "@/components/StageConsole";
 import RuleEyebrow from "@/components/RuleEyebrow";
-import SamplingCard from "@/components/SamplingCard";
 import ShareOfVoice from "@/components/ShareOfVoice";
 import SearchShiftChart from "@/components/SearchShiftChart";
 import StatTile from "@/components/StatTile";
-import { SECTION, SECTION_X } from "@/lib/layout";
+import { SECTION, SECTION_WIDE, SECTION_X } from "@/lib/layout";
 import { SERVICE_TIERS } from "@/lib/offers";
 import { delay } from "@/lib/reveal";
-import { faq } from "@/lib/schema";
 import { HOME_STATS } from "@/lib/stats";
 import { BRAND, OFFER_TITLE } from "@/lib/site";
 import {
-  CAPABILITIES,
-  FAQ_FIGURES,
   FOLD_COPY,
-  HOME_FAQS_TOP,
+  REASSURANCE,
   PLANS_COPY,
 } from "@/lib/home";
-import { SAMPLE_LABEL, SAMPLE_ROWS } from "@/lib/sample";
 
 export const metadata: Metadata = {
   title: { absolute: `${BRAND}: does AI recommend your business?` },
@@ -50,7 +43,6 @@ export default function Home() {
       {/* The home FAQ renders from the same HOME_FAQS array that feeds this
           FAQPage node, so the visible questions and the schema cannot drift.
           Same pattern as /how-it-works. */}
-      <JsonLd data={faq(HOME_FAQS_TOP)} />
 
       {/* THE FOLD. Rebuilt 2026-08-03 (Josh: the site reads like a research
           report, not a product). Three things changed and each is load-bearing.
@@ -200,60 +192,76 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ---- 2. WHY IT MATTERS ------------------------------------------
-          One compact section, not a category essay. Two sourced statistics and
-          the projection, and then the page moves to the offer. The third stat
-          and the whole revenue-consequence section moved off home: a visitor
-          evaluating a service does not need the market sized for them, they
-          need to know it is real and then see what they can buy. */}
+      {/* ---- SCENE 2 · THE SHIFT -----------------------------------------
+          The urgency moment, and it is the chart's scene rather than a
+          section with a chart in it. Two sourced stats sit under the graphic
+          as evidence, not as their own block: the stat row used to be a scene
+          of its own and was three cards saying what the chart already shows. */}
+      <SearchShiftChart />
+
       <section className="border-b border-line">
-        <div className={SECTION}>
-          <div data-reveal className="max-w-[620px]">
-            <RuleEyebrow>Why this matters now</RuleEyebrow>
-            <h2 className={`mt-4 ${H2}`}>
+        <div className={`${SECTION} grid gap-7 md:grid-cols-2 md:gap-12`}>
+          {HOME_STATS.slice(0, 2).map((stat, i) => (
+            <div key={stat.source} data-reveal style={delay(i * 110)}>
+              <StatTile stat={stat} />
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ---- SCENE 3 · THE SHORTLIST -------------------------------------
+          One headline, one graphic, no supporting paragraph. The hero shows an
+          answer being written; this shows what forty of them add up to, which
+          is the shortlist with the reader's business at the bottom of it.
+
+          Full-bleed navy and the artifact at scale: the scene changes surface
+          AND composition from the one above it, which is the pacing the page
+          was missing when every block was a card on paper. */}
+      <section className="bg-ink text-white">
+        <div className={`${SECTION_WIDE} py-16 md:py-20`}>
+          <div data-reveal className="mx-auto max-w-[760px] text-center">
+            <RuleEyebrow onDark className="justify-center">
+              Where search lives now
+            </RuleEyebrow>
+            <h2 className="display mt-5 text-[clamp(32px,4.6vw,56px)] leading-[1.08] text-white text-pretty">
               Search is moving to answers, and answers name a shortlist.
             </h2>
           </div>
-          <div className="mt-10 grid gap-7 md:grid-cols-2 md:gap-12">
-            {HOME_STATS.slice(0, 2).map((stat, i) => (
-              <div key={stat.source} data-reveal style={delay(i * 110)}>
-                <StatTile stat={stat} />
-              </div>
-            ))}
+          <div
+            data-reveal="scale"
+            style={delay(140)}
+            className="mx-auto mt-14 max-w-[860px]"
+          >
+            <ShareOfVoice />
           </div>
         </div>
       </section>
 
-      <SearchShiftChart />
-
-      {/* ---- 3. SERVICES AND PRICING -------------------------------------
-          Near the top, deliberately. A visitor evaluating a service wants to
-          know what it costs before they read four feature sections, and
-          burying it under the argument is what made this page feel like a
-          paper rather than a product.
-
+      {/* ---- SCENE 4 · PRICING -------------------------------------------
           PRICES COME FROM lib/offers.ts, WHICH READS lib/site.ts. Two of the
-          three are still "[$X]" and nothing here papers over that with an
-          invented number or a fake "from" price. */}
+          three are still "[$X]" and nothing here invents a number, an
+          inclusion or a guarantee to cover for that. */}
       <section id="pricing" className="scroll-mt-20 border-b border-line">
         <div className={SECTION}>
-          <div data-reveal className="max-w-[620px]">
-            <RuleEyebrow>{PLANS_COPY.eyebrow}</RuleEyebrow>
-            <h2 className={`mt-4 ${H2}`}>{PLANS_COPY.heading}</h2>
-            <p className="mt-5 text-[15.5px] leading-[1.7] text-ink-soft">
-              {PLANS_COPY.body}
-            </p>
+          <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] lg:gap-16">
+            <div data-reveal className="min-w-0">
+              <RuleEyebrow>{PLANS_COPY.eyebrow}</RuleEyebrow>
+              <h2 className={`mt-4 ${H2}`}>{PLANS_COPY.heading}</h2>
+              <p className="mt-5 max-w-[460px] text-[15.5px] leading-[1.7] text-ink-soft">
+                {PLANS_COPY.body}
+              </p>
+            </div>
+            <div data-reveal="scale" style={delay(140)} className="min-w-0">
+              <ReportStack />
+            </div>
           </div>
 
-          <div className="mt-11 grid gap-5 md:grid-cols-3">
+          <div className="mt-14 grid gap-5 md:grid-cols-3">
             {SERVICE_TIERS.map((tier, i) => (
               <div
                 key={tier.name}
                 data-reveal
                 style={delay(i * 90)}
-                /* The featured tier inverts rather than gaining a border
-                   colour: this palette carries emphasis with fill, and a
-                   third border weight would just be another hairline box. */
                 className={`flex min-w-0 flex-col p-7 ${
                   tier.featured
                     ? "bg-ink text-white"
@@ -336,119 +344,38 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ---- 4. WHAT SABLE DOES -----------------------------------------
-          Four capabilities, each its own full-bleed section, ALTERNATING navy
-          and paper. This is the pacing change: the page used to run one dark
-          hero and then eight paper sections, which is why it scrolled like a
-          document. Now the surface flips four times on the way down and the
-          reader feels the progression instead of reading that there is one.
+      {/* ---- SCENE 5 · HOW SABLE WORKS ------------------------------------
+          Four sections became one console that advances itself. The headline
+          is the only copy in the scene; the stage rail and the swapping
+          artifact carry the rest, which is what took roughly 1200px and four
+          paragraphs out of the page. */}
+      <section id="features" className="scroll-mt-20 bg-ink text-white">
+        <div className={`${SECTION_WIDE} py-16 md:py-20`}>
+          <div data-reveal className="max-w-[680px]">
+            <RuleEyebrow onDark>How Sable works</RuleEyebrow>
+            <h2 className="display mt-5 text-[clamp(30px,4.2vw,50px)] leading-[1.08] text-white text-pretty">
+              One system, running on a schedule.
+            </h2>
+          </div>
+          <div data-reveal="scale" style={delay(140)} className="mt-11">
+            <StageConsole />
+          </div>
+        </div>
+      </section>
 
-          The artifacts are all white cards, which is what makes the flip work
-          in both directions: on paper they sit in the page, on navy they are
-          the lit object in a dark room.
-
-          Improve carries FoundationList, which restores the four technical
-          foundations to the site: they were the largest block orphaned by the
-          conversion pass, and "what we would fix" is where they belong. */}
-      <div id="features" className="scroll-mt-20">
-        {CAPABILITIES.map((cap, i) => {
-          const dark = i % 2 === 1;
-          return (
-            <section
-              key={cap.key}
-              className={dark ? "bg-ink text-white" : "border-b border-line"}
-            >
-              <div className={SECTION}>
-                {/* items-start + a sticky copy column. Improve's artifact is
-                    the four-foundation list and runs ~1400px; centred against
-                    it, the copy floated in the middle of an empty half. Now it
-                    holds at the top and rides the artifact down, which also
-                    gives the long section a reason to be long. */}
-                <div className="grid items-start gap-10 md:grid-cols-2 md:gap-16">
-                  <div
-                    data-reveal
-                    className={`min-w-0 md:sticky md:top-28 ${
-                      i % 2 === 1 ? "md:order-2" : ""
-                    }`}
-                  >
-                    {/* The numeral is the spine. Oversized, serif, and set
-                        against the eyebrow rather than above it, so each
-                        section opens on a mark you can find at a glance while
-                        scrolling. Four of them in sequence is the tactile
-                        sense of progression the cards were not giving. */}
-                    <div className="flex items-baseline gap-5">
-                      <span
-                        aria-hidden="true"
-                        className={`display text-[clamp(52px,7vw,86px)] leading-[0.8] ${
-                          dark ? "text-white/25" : "text-ink/15"
-                        }`}
-                      >
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
-                      <p
-                        className={`font-mono text-[11px] font-semibold uppercase tracking-[0.18em] ${
-                          dark ? "text-sky" : "text-accent"
-                        }`}
-                      >
-                        {cap.eyebrow}
-                      </p>
-                    </div>
-
-                    <h3
-                      className={`display mt-6 text-[clamp(28px,3.4vw,42px)] leading-[1.1] text-pretty ${
-                        dark ? "text-white" : "text-ink"
-                      }`}
-                    >
-                      {cap.heading}
-                    </h3>
-                    <p
-                      className={`mt-5 max-w-[440px] text-[15.5px] leading-[1.7] ${
-                        dark ? "text-white/75" : "text-ink-soft"
-                      }`}
-                    >
-                      {cap.body}
-                    </p>
-                  </div>
-
-                  <div
-                    data-reveal="scale"
-                    style={delay(120)}
-                    className="min-w-0"
-                  >
-                    {cap.key === "measure" && <FoldReadout />}
-                    {cap.key === "diagnose" && <ShareOfVoice />}
-                    {cap.key === "improve" && <FoundationList />}
-                    {cap.key === "track" && (
-                      <SamplingCard
-                        title="mention rate by engine · sample"
-                        meta="10 runs/engine"
-                        rows={SAMPLE_ROWS}
-                        footer={SAMPLE_LABEL}
-                      />
-                    )}
-                  </div>
-                </div>
-              </div>
-            </section>
-          );
-        })}
-      </div>
-
-      {/* ---- 5. PROOF ----------------------------------------------------
-          One sample result, with the repeated-run methodology folded into it
-          rather than taught in a section of its own: both cards carry their
-          run number, which is the methodology stated where it is load-bearing. */}
-      <section className="border-b border-line">
-        <div className={SECTION}>
+      {/* ---- SCENE 6 · BEFORE AND AFTER -----------------------------------
+          The outcome, as the two answers side by side. One line of setup,
+          because the artifact states the rest. */}
+      <section>
+        <div className={`${SECTION_WIDE} py-16 md:py-20`}>
           <div data-reveal className="max-w-[700px]">
-            <RuleEyebrow>What this looks like in practice</RuleEyebrow>
+            <RuleEyebrow>Before and after</RuleEyebrow>
             <h2 className={`mt-4 ${H2}`}>
               The same question. Two very different answers.
             </h2>
-            <p className="mt-5 max-w-[600px] text-[15.5px] leading-[1.7] text-ink-soft">
-              Both of these businesses rank on page one of Google for the
-              query. Only one of them exists in the paragraph the customer
-              reads.
+            <p className="mt-5 max-w-[560px] text-[15.5px] leading-[1.7] text-ink-soft">
+              Both businesses rank on page one of Google. Only one exists in the
+              paragraph the customer reads.
             </p>
           </div>
           <div data-reveal style={delay(120)} className="mt-11">
@@ -457,45 +384,37 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FAQ. One {question, answer}[] renders both the visible H2s and the
-          FAQPage JSON-LD (lib/home.ts HOME_FAQS), so schema cannot drift from
-          the text. The two figures beside it restate the protocol and the
-          posture as numbers. */}
-      <section id="faq" className="scroll-mt-20 border-t border-line">
-        <div className={SECTION}>
-          <div className="grid gap-12 md:grid-cols-2 md:gap-[72px] md:items-start">
-            <div data-reveal>
-              <RuleEyebrow>Frequently asked</RuleEyebrow>
-              <h2 className={`mt-4 max-w-[460px] ${H2}`}>
-                The questions we get, answered directly.
-              </h2>
-              <div className="mt-9 flex flex-col gap-4">
-                {FAQ_FIGURES.map((figure) => (
-                  <div
-                    key={figure.label}
-                    className="border border-line-dark bg-white px-[26px] py-6"
-                  >
-                    <p
-                      className={`display text-[44px] leading-none ${
-                        figure.accent ? "text-accent" : "text-ink"
-                      }`}
-                    >
-                      {figure.value}
-                    </p>
-                    <p className="mt-2 font-mono text-[11.5px] font-semibold uppercase tracking-[0.12em] text-ink-faint">
-                      {figure.label}
-                    </p>
-                    <p className="mt-3 text-sm leading-[1.6] text-ink-soft">
-                      {figure.body}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div data-reveal style={delay(140)}>
-              <FaqSection faqs={HOME_FAQS_TOP} compact />
-            </div>
-          </div>
+      {/* The reassurance line, not a section. The full FAQ moved to /faq
+          (2026-08-03): six accordion questions were the one block on this page
+          that could only be read rather than seen, and they sat between the
+          before/after scene and the ask. The three points below are the ones
+          that actually stand between a visitor and starting, stated in a line
+          instead of a block, and the before/after now runs straight into the
+          CTA the way the brief asks. */}
+      <section className="border-b border-line">
+        <div className={`${SECTION_X} py-9`}>
+          <ul
+            data-reveal
+            className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-center text-[13.5px] text-ink-soft"
+          >
+            {REASSURANCE.map((item) => (
+              <li key={item} className="inline-flex items-center gap-2.5">
+                <span
+                  aria-hidden="true"
+                  className="h-[5px] w-[5px] shrink-0 rounded-full bg-ink"
+                />
+                {item}
+              </li>
+            ))}
+            <li>
+              <Link
+                href="/faq/"
+                className="font-medium text-ink underline-offset-4 hover:text-accent hover:underline"
+              >
+                Read the full FAQ
+              </Link>
+            </li>
+          </ul>
         </div>
       </section>
 

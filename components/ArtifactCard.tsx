@@ -18,7 +18,7 @@ export default function ArtifactCard({
   className?: string;
 }) {
   return (
-    <div className={`border border-line-dark bg-white ${className}`}>
+    <div className={`surface surface-soft border border-line-dark bg-white ${className}`}>
       <div className="flex justify-between gap-3 bg-ink px-3.5 py-2 font-mono text-[11px] text-white">
         <span>{title}</span>
         {meta && <span className="text-ink-dim">{meta}</span>}

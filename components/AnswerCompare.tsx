@@ -27,7 +27,7 @@ function Card({
 }) {
   return (
     <div
-      className={`flex flex-col border bg-white ${
+      className={`surface surface-soft flex flex-col border bg-white ${
         named ? "border-ink" : "border-line-dark"
       }`}
     >

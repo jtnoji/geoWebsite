@@ -33,7 +33,7 @@ export default function LiveAnswer() {
     <div
       /* A panel a step darker than the fold, so the interface reads as an
          inset device rather than a card floating on the same colour. */
-      className="overflow-hidden rounded-[20px] border border-white/12 bg-[#0a1a30] shadow-[0_40px_90px_-40px_rgba(0,0,0,0.7)]"
+      className="overflow-hidden rounded-[var(--r-panel)] border border-white/12 bg-[#0a1a30] shadow-[0_40px_90px_-40px_rgba(0,0,0,0.65)]"
       style={
         {
           "--prompt-bg": "#0a1a30",

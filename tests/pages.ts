@@ -87,6 +87,18 @@ export const PAGES: PageSpec[] = [
     schemaTypes: ["WebPage", "BreadcrumbList", "Service", "Service", "FAQPage"],
   },
   {
+    /* Added 2026-08-03 with the page itself. Every route on the site carries
+       the same geo/security coverage, and a new page that skips it is a page
+       nobody notices going dark to crawlers. */
+    path: "/faq/",
+    mustContain: [
+      "The questions we get, answered directly.",
+      "Can you guarantee ChatGPT will recommend me?",
+      "No, and neither can anyone else.",
+    ],
+    schemaTypes: ["WebPage", "BreadcrumbList", "FAQPage"],
+  },
+  {
     path: "/learn/",
     mustContain: ["Learn", "What is GEO"],
     schemaTypes: ["CollectionPage", "BreadcrumbList"],
