@@ -279,7 +279,10 @@ body {
   /* 2px past the last character, so the caret has somewhere to stand when the
      question is fully typed. */
   right: -2px;
-  background: #fff;
+  /* Parameterised so the same mechanism runs on the dark hero panel: the
+     cover has to match whatever it sits on or it paints a light rectangle
+     over the untyped text. Defaults to the paper case. */
+  background: var(--prompt-bg, #fff);
   animation-name: prompt-type;
   animation-duration: var(--prompt-cycle);
   animation-delay: var(--prompt-slot-start);
@@ -299,7 +302,7 @@ body {
   top: 0;
   bottom: 0;
   width: 2px;
-  background: var(--color-ink);
+  background: var(--prompt-caret, var(--color-ink));
   opacity: 0;
   animation-name: prompt-caret;
   animation-duration: var(--prompt-cycle);
@@ -387,7 +390,65 @@ body {
   }
 }
 
+/* The answer for the question currently on screen. Same clock as everything
+   else in the widget: it waits out the typing (to 6.25%), holds while the
+   query sits complete, and leaves as the erase begins at 13.33%. A reader
+   therefore sees a question asked and answered, which is the behaviour Sable
+   measures, rather than a query box that types into nothing. */
+.prompt-answer {
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(6px);
+  animation-name: prompt-answer;
+  animation-duration: var(--prompt-cycle);
+  animation-delay: var(--prompt-slot-start);
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+@keyframes prompt-answer {
+  0%,
+  6.25% {
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  7.9% {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+  }
+  12.5% {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+  }
+  13.33% {
+    visibility: visible;
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  13.4%,
+  100% {
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  /* With motion off the first answer is simply present, matching the first
+     question the reduced-motion fallback leaves typed. */
+  .prompt-answer {
+    animation: none;
+  }
+
+  .prompt-answer:first-child {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+  }
+
   /* The questions are content, not decoration: with motion off the bar shows
      the first one fully typed rather than an empty box. The other five stay
      at the base `visibility: hidden`, which is what keeps them from printing

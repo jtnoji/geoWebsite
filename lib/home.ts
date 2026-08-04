@@ -195,17 +195,55 @@ export const PROMPT_DEMO = {
   heading: "This is where your customer starts.",
   body: "They ask once and take the answer. The businesses it names get the shortlist, and the rest never come up.",
   /** ORDER IS THE CYCLE, and it alternates openings on purpose. Lowercase,
-      because that is how people type into these things. */
+      because that is how people type into these things.
+
+      Each question carries the engine that answered it and what came back, so
+      the hero shows the whole behaviour: a customer asks, an engine names a
+      short list, and the reader's business is not on it.
+
+      THE NAMES ARE PLACEHOLDERS, DELIBERATELY. lib/sample.ts forbids putting
+      words in a real company's mouth, and its invented names are verified
+      against real businesses before shipping. Six consumer categories would
+      need eighteen more of those, unverified, so the answers use the same
+      braced-placeholder convention AnswerCompare already uses. Swap in real
+      invented names once they clear the same check. */
   questions: [
-    "what is the best restaurant in my area?",
-    "where should I get my hair done?",
-    "what is the best skincare for dry skin?",
-    /* "the most comfortable" was 25px wider than any other question at 360px
-       and set the slot width for all six on its own. People drop the article
-       when they type anyway. */
-    "which shoe brand is most comfortable?",
-    "what is the best gym for beginners?",
-    "who does good plumbing near me?",
+    {
+      q: "what is the best restaurant in my area?",
+      engine: "ChatGPT",
+      answer:
+        "A few that come up often in {your city}: Competitor A, Competitor B, and Competitor C.",
+    },
+    {
+      q: "where should I get my hair done?",
+      engine: "Google AI",
+      answer:
+        "Based on reviews and recent write-ups, Competitor A and Competitor B are the ones most often recommended.",
+    },
+    {
+      q: "what is the best skincare for dry skin?",
+      engine: "Perplexity",
+      answer:
+        "Most comparison guides point to Competitor A, with Competitor B and Competitor C close behind.",
+    },
+    {
+      q: "which shoe brand is most comfortable?",
+      engine: "Gemini",
+      answer:
+        "Competitor A is named most consistently, followed by Competitor B and Competitor C.",
+    },
+    {
+      q: "what is the best gym for beginners?",
+      engine: "ChatGPT",
+      answer:
+        "For someone starting out, I would look at Competitor A, Competitor B, or Competitor C.",
+    },
+    {
+      q: "who does good plumbing near me?",
+      engine: "Google AI",
+      answer:
+        "In {your city}, Competitor A, Competitor B, and Competitor C come up the most.",
+    },
   ],
   caption:
     "Your customers ask questions like these every day. We measure what the answer says.",
@@ -219,6 +257,14 @@ export const PROMPT_DEMO = {
  */
 export const FOLD_COPY = {
   eyebrow: "AI visibility, measured",
+  /* Josh's second direction, 2026-08-03. Replaces the "Find out whether AI
+     recommends your business" line: same proposition, but it puts the customer
+     in the sentence and ends on the tension the hero animation is showing. His
+     lede had an em dash ("Perplexity—then identifies"), which the copy rule
+     bans and the build greps for. */
+  heroHeading: "Your customers are asking AI who to hire. Are you in the answer?",
+  heroLede:
+    "Sable measures where your business appears across ChatGPT, Google AI, Gemini, and Perplexity, then identifies what is keeping you out of the shortlist.",
   /* Josh's wording, 2026-08-03, with one edit: his line had an em dash
      ("your business—and what to fix"), which the copy rule bans in visible
      copy and `grep -r "—" out/` fails the build on. A comma carries it. */

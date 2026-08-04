@@ -82,7 +82,7 @@ export default function PromptBar({ bare = false }: { bare?: boolean }) {
               {/* Every question is rendered; they are stacked in one grid cell
                   and revealed in turn. See globals.css for the mechanism. */}
               <span className="prompt-slot">
-                {PROMPT_DEMO.questions.map((question, i) => (
+                {PROMPT_DEMO.questions.map(({ q: question }, i) => (
                   <span
                     key={question}
                     className="prompt-word"

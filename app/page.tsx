@@ -5,8 +5,9 @@ import ClosingCta from "@/components/ClosingCta";
 import FaqSection from "@/components/FaqSection";
 import JsonLd from "@/components/JsonLd";
 import PageSchema from "@/components/PageSchema";
-import FoldReadout from "@/components/FoldReadout";
-import PromptBar from "@/components/PromptBar";
+import EngagementSteps from "@/components/EngagementSteps";
+import LiveAnswer from "@/components/LiveAnswer";
+import RevenueAtStake from "@/components/RevenueAtStake";
 import RuleEyebrow from "@/components/RuleEyebrow";
 import ShareOfVoice from "@/components/ShareOfVoice";
 import SearchShiftChart from "@/components/SearchShiftChart";
@@ -22,7 +23,6 @@ import {
   FAQ_FIGURES,
   FOLD_COPY,
   HOME_FAQS,
-  PROMPT_DEMO,
   REPORT_CONTENTS,
   SHOWCASE_COPY,
 } from "@/lib/home";
@@ -116,14 +116,14 @@ export default function Home() {
                 style={delay(80)}
                 className="display mt-5 max-w-[620px] text-[clamp(34px,4.6vw,54px)] leading-[1.06] text-white text-pretty"
               >
-                {FOLD_COPY.heading}
+                {FOLD_COPY.heroHeading}
               </h1>
               <p
                 data-reveal
                 style={delay(160)}
                 className="mt-6 max-w-[560px] text-[16.5px] leading-[1.65] text-white/75"
               >
-                {FOLD_COPY.lede}
+                {FOLD_COPY.heroLede}
               </p>
 
               {/* One field, then the same form the visitor was always going to
@@ -203,15 +203,43 @@ export default function Home() {
               </p>
             </div>
 
+            {/* The interface, not a readout of one. FoldReadout stated the
+                result; this performs the behaviour that produces it, which is
+                the difference between a page about AI search and a page that
+                shows it. The scorecard is not lost: it is the same numbers the
+                sample-result section carries below. */}
             <div data-reveal="scale" style={delay(220)} className="min-w-0">
-              <FoldReadout />
-              <p className="mt-3.5 font-mono text-[11px] uppercase tracking-[0.14em] text-white/45">
-                {FOLD_COPY.readoutLabel}
-              </p>
+              <LiveAnswer />
             </div>
           </div>
         </div>
       </section>
+
+      {/* ---- 6. MARKET CONTEXT -------------------------------------------
+          Concise, and late. This is the "why now" a visitor checks AFTER they
+          understand the offer, not the argument they have to read through to
+          reach it. The three sourced stats and the two-line chart do the job
+          that eight explanatory sections used to. */}
+      <section className="border-b border-line">
+        <div className={`${SECTION} grid gap-7 md:grid-cols-3 md:gap-12`}>
+          {HOME_STATS.map((stat, i) => (
+            <div key={stat.source} data-reveal style={delay(i * 110)}>
+              <StatTile stat={stat} />
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <SearchShiftChart />
+
+      {/* ---- 3. WHY IT MATTERS COMMERCIALLY -----------------------------
+          The consequence of the two lines above: when an answer omits a
+          business, that business never enters the consideration set, and
+          no analytics product will ever show the visit that did not
+          happen. Restored to the page here (it had been cut in the
+          conversion pass) because the rhythm needs the stake stated before
+          the offer, not after it. */}
+      <RevenueAtStake />
 
       {/* ---- 2. WHAT YOU GET -------------------------------------------
           Second screen answers the second buying question. The deliverables
@@ -256,40 +284,6 @@ export default function Home() {
                 </div>
               ))}
             </dl>
-          </div>
-        </div>
-      </section>
-
-      {/* ---- 3. HOW IT WORKS --------------------------------------------
-          Three steps, with the prompt bar as step one's evidence rather than
-          as its own explanatory screen. The claim-and-artifact rule wanted a
-          artifact here and this section never had one. */}
-      <section className="border-b border-line">
-        <div className={SECTION}>
-          <div data-reveal className="flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <RuleEyebrow>How it works</RuleEyebrow>
-              <h2 className={`mt-4 ${H2}`}>Three steps, no theater.</h2>
-            </div>
-            <Link
-              href="/how-it-works/"
-              className="pb-2 text-sm font-semibold text-ink underline-offset-4 hover:text-accent hover:underline"
-            >
-              Full methodology &#10230;
-            </Link>
-          </div>
-
-          <div className="mt-9 max-w-[760px]">
-            <p data-reveal className="text-[15.5px] leading-[1.7] text-ink-soft">
-              {PROMPT_DEMO.body}
-            </p>
-            <PromptBar bare />
-          </div>
-
-          {/* Revealed as one block: the step cells share borders, so fading
-              them in individually would expose the seams. */}
-          <div data-reveal style={delay(120)} className="mt-12">
-            <StepList steps={STEPS} />
           </div>
         </div>
       </section>
@@ -367,22 +361,38 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ---- 6. MARKET CONTEXT -------------------------------------------
-          Concise, and late. This is the "why now" a visitor checks AFTER they
-          understand the offer, not the argument they have to read through to
-          reach it. The three sourced stats and the two-line chart do the job
-          that eight explanatory sections used to. */}
+      {/* ---- 3. HOW IT WORKS --------------------------------------------
+          Three steps, with the prompt bar as step one's evidence rather than
+          as its own explanatory screen. The claim-and-artifact rule wanted a
+          artifact here and this section never had one. */}
       <section className="border-b border-line">
-        <div className={`${SECTION} grid gap-7 md:grid-cols-3 md:gap-12`}>
-          {HOME_STATS.map((stat, i) => (
-            <div key={stat.source} data-reveal style={delay(i * 110)}>
-              <StatTile stat={stat} />
+        <div className={SECTION}>
+          <div data-reveal className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <RuleEyebrow>How it works</RuleEyebrow>
+              <h2 className={`mt-4 ${H2}`}>Three steps, no theater.</h2>
             </div>
-          ))}
+            <Link
+              href="/how-it-works/"
+              className="pb-2 text-sm font-semibold text-ink underline-offset-4 hover:text-accent hover:underline"
+            >
+              Full methodology &#10230;
+            </Link>
+          </div>
+
+          {/* Revealed as one block: the step cells share borders, so fading
+              them in individually would expose the seams. */}
+          <div data-reveal style={delay(120)} className="mt-12">
+            <StepList steps={STEPS} />
+          </div>
         </div>
       </section>
 
-      <SearchShiftChart />
+      {/* ---- 6b. IMPLEMENTATION SUPPORT ---------------------------------
+          What happens after the report lands. It answers the question the
+          three steps raise ("and then what?") and it is the only place the
+          page says we do the work as well as the measuring. */}
+      <EngagementSteps />
 
       {/* FAQ. One {question, answer}[] renders both the visible H2s and the
           FAQPage JSON-LD (lib/home.ts HOME_FAQS), so schema cannot drift from

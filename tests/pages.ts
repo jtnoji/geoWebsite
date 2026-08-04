@@ -23,13 +23,20 @@ export const PAGES: PageSpec[] = [
        the new page's load-bearing copy rather than dropped: the proposition,
        the offer sentence, the sample-result claim, and a sourced stat. The
        count is unchanged on purpose, and so is the point of the test. */
+    /* mustContain[0] is load-bearing beyond this file: geo.spec and
+       security.spec both use it as the "did a crawler get real content"
+       probe, so it has to be the page's headline proposition. */
     mustContain: [
-      "Find out whether AI recommends your business",
-      "Sable tests real buying questions across ChatGPT",
+      "Your customers are asking AI who to hire",
+      "Sable measures where your business appears across ChatGPT",
       "One answer is an anecdote. Forty is a position.",
       "The shortlist got smaller",
       "of U.S. consumers used AI tools to find local businesses",
       "BrightLocal, 2026",
+      /* The hero animation is CSS-only precisely so its questions and answers
+         are in the raw bytes. If this ever fails, the hero has become a client
+         component and a crawler is seeing an empty box. */
+      "what is the best restaurant in my area?",
     ],
     // No BreadcrumbList: home is the root of every trail, so a one-rung
     // breadcrumb would say nothing.
