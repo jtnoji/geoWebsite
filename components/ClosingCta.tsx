@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { OFFER_CTA } from "@/lib/site";
+import { SECTION } from "@/lib/layout";
 
 /**
  * The closing band on home: full-bleed Berkeley navy, centered, inverted
@@ -15,7 +16,7 @@ export default function ClosingCta() {
     <section className="bg-ink text-white">
       <div
         data-reveal
-        className="mx-auto max-w-[1180px] px-5 py-24 text-center sm:px-8 md:py-26"
+        className={`${SECTION} text-center`}
       >
         <h2 className="display mx-auto max-w-[960px] text-[clamp(36px,5.6vw,68px)] leading-[1.1] text-white text-pretty">
           Your customers are asking AI who to hire. Find out what it says.

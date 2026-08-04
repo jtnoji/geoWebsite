@@ -509,6 +509,26 @@ body {
   color: #fff;
 }
 
+/* Phones: let a long label wrap instead of widening the page.
+   The pills carry `white-space: nowrap` so a label never breaks mid-phrase at
+   the sizes it was drawn for, but "Get your free AI visibility check" is 393px
+   of unbreakable text and a 390px phone gives the panel holding it about
+   286px. It pushed the whole home page sideways.
+
+   This lives here rather than at the call site because these rules are
+   unlayered: a `whitespace-normal` utility sits in Tailwind's utilities layer
+   and would lose to the class it is trying to override, silently. Same trap as
+   `.display`. */
+@media (max-width: 639px) {
+  .btn-pill,
+  .btn-pill-outline,
+  .btn-pill-invert,
+  .btn-pill-ghost {
+    white-space: normal;
+    text-align: center;
+  }
+}
+
 .btn-solid {
   display: inline-block;
   border-radius: 12px;

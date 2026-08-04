@@ -4,6 +4,7 @@ import StatTile from "./StatTile";
 import { ATTRIBUTION_ROWS, REVENUE_COPY } from "@/lib/home";
 import { delay } from "@/lib/reveal";
 import { ATTRIBUTION_NOTE, REVENUE_STATS } from "@/lib/stats";
+import { SECTION } from "@/lib/layout";
 
 /**
  * "What the shift is worth": the size of the channel on the left, and why the
@@ -22,7 +23,7 @@ import { ATTRIBUTION_NOTE, REVENUE_STATS } from "@/lib/stats";
 export default function RevenueAtStake() {
   return (
     <section className="border-b border-line">
-      <div className="mx-auto max-w-[1180px] px-5 py-20 sm:px-8 md:py-24">
+      <div className={SECTION}>
         <div
           data-reveal
           className="flex flex-wrap items-end justify-between gap-6"
@@ -38,7 +39,7 @@ export default function RevenueAtStake() {
           </p>
         </div>
 
-        <div className="mt-12 grid gap-11 md:grid-cols-[6fr_5fr] md:items-start md:gap-16">
+        <div className="mt-12 grid gap-11 md:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] md:items-start md:gap-16">
           <div>
             {/* Three tiles from one study. The stat row higher up the page uses
                 the same tile at three-across; here they stack, because the

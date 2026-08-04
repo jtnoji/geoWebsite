@@ -58,7 +58,7 @@ export default function SampleReport() {
         </div>
 
         <div className="mt-12 space-y-12">
-          <section data-reveal className="grid items-start gap-6 md:grid-cols-[2fr_1fr]">
+          <section data-reveal className="grid items-start gap-6 md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
             <VerbatimCard />
             <Annotation>
               Every report opens with verbatim AI answers. The bold names are
@@ -66,7 +66,7 @@ export default function SampleReport() {
             </Annotation>
           </section>
 
-          <section data-reveal style={delay(110)} className="grid items-start gap-6 md:grid-cols-[2fr_1fr]">
+          <section data-reveal style={delay(110)} className="grid items-start gap-6 md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
             <MentionRateCard />
             <Annotation>
               Rates, not ranks. Each question runs ten times per engine, because
@@ -76,7 +76,7 @@ export default function SampleReport() {
             </Annotation>
           </section>
 
-          <section data-reveal style={delay(220)} className="grid items-start gap-6 md:grid-cols-[2fr_1fr]">
+          <section data-reveal style={delay(220)} className="grid items-start gap-6 md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
             <SourcesCard />
             <Annotation>
               The cited-sources checklist: which websites the engines leaned on,
@@ -96,7 +96,7 @@ export default function SampleReport() {
               {FIX_LIST.map((item, i) => (
                 <li
                   key={item.fix}
-                  className="grid gap-1 border-t border-line py-5 md:grid-cols-[48px_1fr] md:gap-4"
+                  className="grid gap-1 border-t border-line py-5 md:grid-cols-[48px_minmax(0,1fr)] md:gap-4"
                 >
                   <span className="text-[13px] tabular-nums text-ink-faint">
                     {String(i + 1).padStart(2, "0")}

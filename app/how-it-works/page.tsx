@@ -273,7 +273,7 @@ export default function HowItWorks() {
       </section>
 
       {/* Doc grid: sticky §-rail + sections */}
-      <div className="mx-auto grid max-w-[1120px] gap-8 px-5 py-16 sm:px-8 md:grid-cols-[190px_1fr] md:gap-14">
+      <div className="mx-auto grid max-w-[1120px] gap-8 px-5 py-16 sm:px-8 md:grid-cols-[190px_minmax(0,1fr)] md:gap-14">
         <aside className="md:sticky md:top-[82px] md:self-start">
           <nav
             aria-label="Sections"
@@ -296,7 +296,7 @@ export default function HowItWorks() {
           <section
             id="s1"
             data-reveal
-            className="grid gap-6 border-b border-line py-12 pt-0 md:grid-cols-[5fr_6fr] md:gap-13"
+            className="grid gap-6 border-b border-line py-12 pt-0 md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] md:gap-13"
           >
             <div>
               <Chip>{SECTIONS[0].chip}</Chip>
@@ -328,7 +328,7 @@ export default function HowItWorks() {
           <section
             id="s2"
             data-reveal
-            className="grid gap-6 border-b border-line py-12 md:grid-cols-[5fr_6fr] md:gap-13"
+            className="grid gap-6 border-b border-line py-12 md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] md:gap-13"
           >
             <div>
               <Chip>{SECTIONS[1].chip}</Chip>
@@ -357,7 +357,7 @@ export default function HowItWorks() {
           <section
             id="s3"
             data-reveal
-            className="grid gap-6 border-b border-line py-12 md:grid-cols-[5fr_6fr] md:gap-13"
+            className="grid gap-6 border-b border-line py-12 md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] md:gap-13"
           >
             <div>
               <Chip>{SECTIONS[2].chip}</Chip>
@@ -373,7 +373,7 @@ export default function HowItWorks() {
                 {VERDICT_ROWS.map((row) => (
                   <div
                     key={row.k}
-                    className="grid grid-cols-[104px_1fr] gap-3 border-b border-dashed border-line py-2.5 text-[13.5px] last:border-b-0"
+                    className="grid grid-cols-[104px_minmax(0,1fr)] gap-3 border-b border-dashed border-line py-2.5 text-[13.5px] last:border-b-0"
                   >
                     <span className="pt-0.5 font-mono text-[11px] uppercase text-ink-faint">
                       {row.k}
@@ -385,7 +385,12 @@ export default function HowItWorks() {
                         <span className="mt-1.5 block">
                           {/* Flagged failure: steps up to the navy fill, the
                               same as the home hero's "not mentioned" flag. */}
-                          <span className="inline-block bg-ink px-2 py-0.5 font-mono text-[11px] font-medium text-white">
+                          {/* `overflow-wrap: anywhere` because the payload is
+                              a snake_case identifier with no break
+                              opportunity in it. At 768px this chip was 167px
+                              wide inside a 71px column and pushed the page
+                              46px sideways. */}
+                          <span className="inline-block max-w-full [overflow-wrap:anywhere] bg-ink px-2 py-0.5 font-mono text-[11px] font-medium text-white">
                             missing_or_invented_feature · HIGH
                           </span>
                         </span>
@@ -401,7 +406,7 @@ export default function HowItWorks() {
           <section
             id="s4"
             data-reveal
-            className="grid gap-6 border-b border-line py-12 md:grid-cols-[5fr_6fr] md:gap-13"
+            className="grid gap-6 border-b border-line py-12 md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] md:gap-13"
           >
             <div>
               <Chip>{SECTIONS[3].chip}</Chip>
@@ -426,7 +431,7 @@ export default function HowItWorks() {
 
           {/* §5 — the honesty pull-quote. This was the page's one gold chip;
               solid navy is the equivalent step in the Berkeley palette. */}
-          <section id="s5" data-reveal className="grid gap-6 py-12 pb-0 md:grid-cols-[5fr_6fr] md:gap-13">
+          <section id="s5" data-reveal className="grid gap-6 py-12 pb-0 md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] md:gap-13">
             <div>
               <Chip>{SECTIONS[4].chip}</Chip>
               <h2 className="display mb-3 mt-3.5 max-w-[360px] text-[28px] font-bold leading-[1.1] tracking-[-0.035em] text-ink">

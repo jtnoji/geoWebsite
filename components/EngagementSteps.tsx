@@ -1,6 +1,7 @@
 import Link from "next/link";
 import RuleEyebrow from "./RuleEyebrow";
 import { ENGAGEMENT } from "@/lib/home";
+import { SECTION } from "@/lib/layout";
 
 /**
  * "What happens after the report lands" — one of the two full-bleed
@@ -19,7 +20,7 @@ export default function EngagementSteps() {
       {/* The head column stretches and the sticky block sits inside it: a
           sticky grid item is exactly as tall as its own grid area, so it has
           no travel range and never sticks. See the same note in app/page.tsx. */}
-      <div className="mx-auto grid max-w-[1180px] gap-12 px-5 py-20 sm:px-8 md:grid-cols-2 md:gap-[72px] md:py-24">
+      <div className={`${SECTION} grid gap-12 md:grid-cols-2 md:gap-[72px]`}>
         <div>
           <div data-reveal className="md:sticky md:top-[110px]">
             <RuleEyebrow onDark>The engagement</RuleEyebrow>
@@ -46,7 +47,7 @@ export default function EngagementSteps() {
             <li
               key={step.phase}
               data-reveal
-              className="grid grid-cols-[52px_1fr] gap-5 border-t border-white/15 py-7 first:border-t-0 first:pt-0 md:gap-[22px]"
+              className="grid grid-cols-[52px_minmax(0,1fr)] gap-5 border-t border-white/15 py-7 first:border-t-0 first:pt-0 md:gap-[22px]"
             >
               <span
                 aria-hidden="true"

@@ -1,5 +1,6 @@
 import RuleEyebrow from "./RuleEyebrow";
 import { SEARCH_SHIFT_COPY } from "@/lib/home";
+import { SECTION } from "@/lib/layout";
 import { delay } from "@/lib/reveal";
 import {
   AGENTIC_SHARE,
@@ -190,8 +191,8 @@ export default function SearchShiftChart() {
 
   return (
     <section className="border-b border-line">
-      <div className="mx-auto flex min-h-[calc(100svh-126px)] max-w-[1280px] flex-col justify-center px-5 py-14 sm:px-8">
-        <div className="grid items-center gap-10 lg:grid-cols-[4fr_7fr] lg:gap-14">
+      <div className={`${SECTION} flex min-h-[calc(100svh-126px)] flex-col justify-center`}>
+        <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,4fr)_minmax(0,7fr)] lg:gap-14">
           <div data-reveal>
             <RuleEyebrow>{SEARCH_SHIFT_COPY.eyebrow}</RuleEyebrow>
             <h2 className="display mt-4 max-w-[560px] text-[clamp(29px,3.6vw,46px)] leading-[1.1] text-ink text-pretty">

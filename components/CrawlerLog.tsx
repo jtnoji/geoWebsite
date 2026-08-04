@@ -35,7 +35,7 @@ export default function CrawlerLog({ log = CRAWLER_HITS }: { log?: Log | null })
           return (
             <div
               key={bot.token}
-              className="grid grid-cols-[1fr_auto] items-baseline gap-x-4 border-b border-dashed border-line py-2.5 last:border-b-0"
+              className="grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-4 border-b border-dashed border-line py-2.5 last:border-b-0"
             >
               <span className="min-w-0 font-mono text-[12.5px] text-ink">
                 {bot.label}

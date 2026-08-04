@@ -17,6 +17,7 @@ import SamplingCard from "@/components/SamplingCard";
 import SearchShiftChart from "@/components/SearchShiftChart";
 import StatTile from "@/components/StatTile";
 import StepList from "@/components/StepList";
+import { SECTION } from "@/lib/layout";
 import { delay } from "@/lib/reveal";
 import { faq } from "@/lib/schema";
 import { HOME_STATS } from "@/lib/stats";
@@ -87,9 +88,9 @@ const METRICS = [
 ] as const;
 
 /* The long-form explainer sections share one measure and one H2 scale (Claude
-   Design update 2026-07-30). Kept as constants so a change lands on all of
-   them at once rather than drifting section by section. */
-const SECTION = "mx-auto max-w-[1180px] px-5 py-20 sm:px-8 md:py-24";
+   Design update 2026-07-30). The measure now comes from lib/layout.ts, which
+   every route shares: this page used to carry its own 1180 and was the only
+   thing on the site that did. */
 const H2 =
   "display text-[clamp(33px,4.4vw,52px)] leading-[1.1] text-ink text-pretty";
 
@@ -260,11 +261,13 @@ export default function Home() {
       <RevenueAtStake />
 
       {/* Product showcase — the cream answer card with its floating stat
-          callout anchored to the card's top-right corner. Top padding clears
-          the callout's own -54px overhang. */}
-      <section>
-        <div className="mx-auto max-w-[1000px] px-5 pb-24 pt-[104px] sm:px-8">
-          <div className="relative mx-auto max-w-[660px]">
+          callout anchored to the card's top-right corner. The callout's -54px
+          overhang is reserved by the inner wrapper rather than by extra
+          section padding, so the topmost visible thing (the callout) lands on
+          the standard rhythm line instead of 50px below it. */}
+      <section className="border-b border-line">
+        <div className={SECTION}>
+          <div className="relative mx-auto mt-[54px] max-w-[660px]">
             <div
               data-reveal="scale"
               className="overflow-hidden rounded-[22px] bg-paper-dim shadow-[0_34px_70px_-26px_rgba(14,35,64,0.4)]"
@@ -316,7 +319,7 @@ export default function Home() {
 
       {/* Stat row — editorial, every number with a named source */}
       <section className="border-b border-line">
-        <div className="mx-auto grid max-w-[1120px] gap-7 px-5 py-14 sm:px-8 md:grid-cols-3 md:gap-12">
+        <div className={`${SECTION} grid gap-7 md:grid-cols-3 md:gap-12`}>
           {HOME_STATS.map((stat, i) => (
             <div key={stat.source} data-reveal style={delay(i * 110)}>
               <StatTile stat={stat} />
@@ -375,7 +378,7 @@ export default function Home() {
           explained how we measure before saying why it matters. The 2026-07-30
           explainer sections were inserted around it, never in front of it. */}
       <section className="border-b border-line">
-        <div className="mx-auto grid max-w-[1120px] items-center gap-10 px-5 py-20 sm:px-8 md:grid-cols-[6fr_5fr] md:gap-16">
+        <div className={`${SECTION} grid items-center gap-10 md:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] md:gap-16`}>
           <div data-reveal>
             <h2 className="display max-w-[580px] text-[34px] text-ink">
               The shortlist got smaller
@@ -473,8 +476,8 @@ export default function Home() {
 
       {/* What we do — metrics list + sampling card */}
       <section className="border-b border-line">
-        <div className="mx-auto max-w-[1120px] px-5 py-20 sm:px-8">
-          <div className="grid items-center gap-11 md:grid-cols-[6fr_5fr] md:gap-[72px]">
+        <div className={SECTION}>
+          <div className="grid items-center gap-11 md:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] md:gap-[72px]">
             <div data-reveal>
               <Chip>What we do</Chip>
               <h2 className="display mt-3.5 max-w-[580px] text-[34px] text-ink md:text-[38px]">
@@ -491,7 +494,7 @@ export default function Home() {
                 {METRICS.map((metric) => (
                   <div
                     key={metric.name}
-                    className="grid gap-1 border-t border-line py-4 md:grid-cols-[140px_1fr] md:gap-4"
+                    className="grid gap-1 border-t border-line py-4 md:grid-cols-[140px_minmax(0,1fr)] md:gap-4"
                   >
                     <dt className="text-[15px] font-bold text-ink">{metric.name}</dt>
                     <dd className="text-sm leading-6 text-ink-soft">{metric.detail}</dd>
@@ -620,7 +623,7 @@ export default function Home() {
 
       {/* How it works — joined step cells */}
       <section className="border-b border-line">
-        <div className="mx-auto max-w-[1120px] px-5 py-20 sm:px-8">
+        <div className={SECTION}>
           <div data-reveal className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex flex-wrap items-center gap-4">
               <Chip>How it works</Chip>

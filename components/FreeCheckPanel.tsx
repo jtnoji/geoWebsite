@@ -2,6 +2,7 @@ import Link from "next/link";
 import RuleEyebrow from "./RuleEyebrow";
 import { REPORT_CONTENTS } from "@/lib/home";
 import { OFFER_CTA } from "@/lib/site";
+import { SECTION } from "@/lib/layout";
 
 /**
  * The split conversion panel: the ask on the left, what the report actually
@@ -14,12 +15,15 @@ import { OFFER_CTA } from "@/lib/site";
 export default function FreeCheckPanel() {
   return (
     <section className="border-t border-line">
-      <div className="mx-auto max-w-[1180px] px-5 py-20 sm:px-8 md:py-24">
+      <div className={SECTION}>
         <div
           data-reveal
           className="grid border border-line-dark md:grid-cols-2"
         >
-          <div className="bg-white px-8 py-12 sm:px-11 sm:py-13">
+          {/* min-w-0: on phones this is a single auto grid column, and a grid item
+              defaults to min-width:auto, so the column is floored at the panel's
+              min-content and pushes the page sideways. */}
+          <div className="min-w-0 bg-white px-8 py-12 sm:px-11 sm:py-13">
             <RuleEyebrow>Free AI visibility check</RuleEyebrow>
             <h2 className="display mt-4 text-[clamp(31px,3.8vw,46px)] leading-[1.12] text-ink text-pretty">
               Find out where you stand in AI answers today.
@@ -38,7 +42,7 @@ export default function FreeCheckPanel() {
             </Link>
           </div>
 
-          <div className="bg-ink px-8 py-12 text-white sm:px-11 sm:py-13">
+          <div className="min-w-0 bg-ink px-8 py-12 text-white sm:px-11 sm:py-13">
             {/* The panel's one Sky mark. It is legal because this half is
                 navy; the tick discs stay white so the accent is spent once. */}
             <p className="font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-sky">
@@ -48,7 +52,7 @@ export default function FreeCheckPanel() {
               {REPORT_CONTENTS.map((item) => (
                 <li
                   key={item.name}
-                  className="grid grid-cols-[24px_1fr] items-start gap-3.5 border-t border-white/15 py-4 first:border-t-0 first:pt-0"
+                  className="grid grid-cols-[24px_minmax(0,1fr)] items-start gap-3.5 border-t border-white/15 py-4 first:border-t-0 first:pt-0"
                 >
                   <span
                     aria-hidden="true"

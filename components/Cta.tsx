@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { OFFER_CTA } from "@/lib/site";
+import { SECTION } from "@/lib/layout";
 
 /**
  * Final CTA section: rule-top, one navy button + quiet text link. Primary
@@ -25,7 +26,7 @@ export default function Cta({
   return (
     <section className="border-t border-line">
       <div
-        className={`mx-auto max-w-[1120px] px-5 py-20 sm:px-8 md:py-24 ${
+        className={`${SECTION} ${
           centered ? "text-center" : ""
         }`}
       >

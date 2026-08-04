@@ -1,6 +1,7 @@
 import RuleEyebrow from "./RuleEyebrow";
 import { PROMPT_DEMO } from "@/lib/home";
 import { delay } from "@/lib/reveal";
+import { SECTION } from "@/lib/layout";
 
 /**
  * A mock AI prompt bar. It types out a question, erases it, and types the
@@ -57,8 +58,11 @@ const CYCLE_SECONDS = PROMPT_DEMO.questions.length * SLOT_SECONDS;
 export default function PromptBar() {
   return (
     <section className="border-b border-line">
-      <div className="mx-auto max-w-[1180px] px-5 py-20 sm:px-8 md:py-24">
-        <div className="mx-auto max-w-[760px]">
+      <div className={SECTION}>
+        {/* Measure only, NOT a centred column: `mx-auto` here put this
+            section's eyebrow ~150px right of every other eyebrow on the page,
+            which is the drift lib/layout.ts exists to stop. */}
+        <div className="max-w-[760px]">
           <div data-reveal>
             <RuleEyebrow>{PROMPT_DEMO.eyebrow}</RuleEyebrow>
           </div>

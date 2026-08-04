@@ -15,7 +15,7 @@ export default function FoundationList() {
       {FOUNDATIONS.map((f, i) => (
         <li
           key={f.kicker}
-          className="grid grid-cols-[62px_1fr] border-t border-line-dark first:border-t-0 sm:grid-cols-[82px_1fr]"
+          className="grid grid-cols-[62px_minmax(0,1fr)] border-t border-line-dark first:border-t-0 sm:grid-cols-[82px_minmax(0,1fr)]"
         >
           <span
             aria-hidden="true"
