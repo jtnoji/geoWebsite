@@ -15,18 +15,20 @@ import { SERVICE_TIERS } from "@/lib/offers";
 import { delay } from "@/lib/reveal";
 import { HOME_STATS } from "@/lib/stats";
 import { BRAND, OFFER_TITLE } from "@/lib/site";
+import { pageMeta } from "@/lib/seo";
 import {
   FOLD_COPY,
   REASSURANCE,
   PLANS_COPY,
 } from "@/lib/home";
 
-export const metadata: Metadata = {
-  title: { absolute: `${BRAND}: does AI recommend your business?` },
+export const metadata: Metadata = pageMeta({
+  title: `${BRAND}: does AI recommend your business?`,
   description:
     "ChatGPT, Google AI, Gemini, and Perplexity name only a few businesses per answer. We measure whether you're one of them, and who gets named instead.",
-  alternates: { canonical: "/" },
-};
+  path: "/",
+  absoluteTitle: true,
+});
 
 /* The long-form explainer sections share one measure and one H2 scale (Claude
    Design update 2026-07-30). The measure now comes from lib/layout.ts, which

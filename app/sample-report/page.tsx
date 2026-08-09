@@ -4,13 +4,14 @@ import PageSchema from "@/components/PageSchema";
 import { delay } from "@/lib/reveal";
 import { crumb } from "@/lib/schema";
 import { MentionRateCard, SourcesCard, VerbatimCard } from "@/components/ReportPreview";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Sample AI Visibility Report",
   description:
     "What the report looks like: verbatim AI answers, the competitors named instead, mention-rate tables, cited sources, and the prioritized fix list.",
-  alternates: { canonical: "/sample-report/" },
-};
+  path: "/sample-report/",
+});
 
 const FIX_LIST = [
   {

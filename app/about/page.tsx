@@ -5,13 +5,14 @@ import PageSchema from "@/components/PageSchema";
 import { delay } from "@/lib/reveal";
 import { crumb, person } from "@/lib/schema";
 import { FOUNDERS, NAP } from "@/lib/site";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "About: two founders measuring, not guessing",
   description:
     "Abhi built the measurement platform. Josh works with every client. Berkeley, CA. We measure, we do the work, and we sell no guarantees.",
-  alternates: { canonical: "/about/" },
-};
+  path: "/about/",
+});
 
 export default function About() {
   return (

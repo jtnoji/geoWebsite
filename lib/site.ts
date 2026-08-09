@@ -85,6 +85,22 @@ export const OFFER_TITLE = "Free AI Visibility Check";
 export const OFFER_SHORT = "Free AI check";
 export const OFFER_CTA = "Get your free AI visibility check";
 
+/**
+ * Google Search Console verification token, for the `google-site-verification`
+ * meta tag. EMPTY UNTIL SOMEONE VERIFIES THE PROPERTY: an empty string emits
+ * no tag at all, which is correct, because a wrong token is worse than none.
+ *
+ * HOW TO FILL IT. In Search Console, add a property for the live domain, pick
+ * the "HTML tag" method, copy the `content` value (the token only, not the
+ * whole tag) in here, deploy, then press Verify. The DNS TXT method works too
+ * and needs nothing in this repo; prefer it if you own the DNS, because it
+ * verifies the whole domain rather than one origin.
+ *
+ * Verification is NOT indexing. It grants access to the reports; discovery
+ * still comes from the sitemap and internal links, both of which already ship.
+ */
+export const GOOGLE_SITE_VERIFICATION = "";
+
 export const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/how-it-works/", label: "How it works" },

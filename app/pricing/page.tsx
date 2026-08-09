@@ -7,13 +7,14 @@ import PageSchema from "@/components/PageSchema";
 import { delay } from "@/lib/reveal";
 import { crumb, service, type Faq } from "@/lib/schema";
 import { SERVICE_TIERS } from "@/lib/offers";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Pricing: audit and ongoing GEO",
   description:
     "Start with a free AI visibility check. The full audit and the ongoing work are priced flat. Reports show sampled rates, never guaranteed rankings.",
-  alternates: { canonical: "/pricing/" },
-};
+  path: "/pricing/",
+});
 
 const FAQS: Faq[] = [
   {

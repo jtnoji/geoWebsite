@@ -6,21 +6,22 @@ import { getAllArticles } from "@/lib/articles";
 import { delay } from "@/lib/reveal";
 import { crumb } from "@/lib/schema";
 import { BRAND } from "@/lib/site";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Learn: plain answers about AI search",
   description:
     "What GEO is, why ChatGPT doesn't mention your business, which sources AI engines cite, and what changed since traditional SEO.",
-  alternates: {
-    canonical: "/learn/",
-    // Feed discovery. `alternates` is replaced wholesale by a page-level
-    // export, not deep-merged, so the canonical and the feed link have to be
-    // declared together here rather than split across layout and page.
+  path: "/learn/",
+  // Feed discovery. `alternates` is replaced wholesale by a page-level export,
+  // not deep-merged, so the feed link rides along with the canonical rather
+  // than being declared separately.
+  extraAlternates: {
     types: {
       "application/rss+xml": [{ url: "/feed.xml", title: `${BRAND} · Learn` }],
     },
   },
-};
+});
 
 export default function Learn() {
   const articles = getAllArticles();

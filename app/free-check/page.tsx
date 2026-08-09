@@ -4,15 +4,14 @@ import PageSchema from "@/components/PageSchema";
 import { delay } from "@/lib/reveal";
 import { crumb } from "@/lib/schema";
 import { OFFER_TITLE } from "@/lib/site";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: OFFER_TITLE,
   description:
-    // Adding Gemini pushed this past the 155-char meta-description limit that
-    // geo.spec.ts enforces; "then email a short report" buys the 4 chars back.
     "Tell us who you are. We run real customer questions through ChatGPT, Google AI, Gemini, and Perplexity, then email a short report. Free, no call required.",
-  alternates: { canonical: "/free-check/" },
-};
+  path: "/free-check/",
+});
 
 const DELIVERABLES = [
   "What the AI engines said, word for word",

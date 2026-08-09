@@ -8,15 +8,14 @@ import { HOME_FAQS } from "@/lib/home";
 import { SECTION } from "@/lib/layout";
 import { delay } from "@/lib/reveal";
 import { crumb, faq } from "@/lib/schema";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  /* Kept under 60 including the " · Sable" the layout template appends;
-     the geo suite fails the build on a longer one. */
+export const metadata: Metadata = pageMeta({
   title: "FAQ: what we measure, and what we will not promise",
   description:
     "The questions we get about AI visibility measurement, answered directly. Sampled rates, never guaranteed rankings, and what we will not claim.",
-  alternates: { canonical: "/faq/" },
-};
+  path: "/faq/",
+});
 
 /**
  * The full FAQ, moved off the home page 2026-08-03 (Josh). The home page is a

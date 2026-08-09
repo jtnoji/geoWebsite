@@ -5,13 +5,14 @@ import PageSchema from "@/components/PageSchema";
 import { delay } from "@/lib/reveal";
 import { crumb, type Faq } from "@/lib/schema";
 import { BRAND, EMAIL, NAP } from "@/lib/site";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Privacy: what we collect and why",
   description:
     "What the free check collects, who stores it, and how to have it deleted. No cookies, no trackers, nothing sold.",
-  alternates: { canonical: "/privacy/" },
-};
+  path: "/privacy/",
+});
 
 /**
  * DRAFT FOR FOUNDER REVIEW (2026-07-25). Every factual claim below was verified

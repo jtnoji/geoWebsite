@@ -12,13 +12,14 @@ import { crumb, faq } from "@/lib/schema";
 import { SAMPLE_LABEL, SAMPLE_QUERY, SAMPLE_ROWS } from "@/lib/sample";
 import { HONESTY_COPY } from "@/lib/site";
 import { SAMPLING_FOOTNOTE } from "@/lib/stats";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "How it works: our AI visibility methodology",
   description:
     "Which engines we measure, why every question runs ten times, how answers are judged, and how we implement the fixes. The whole protocol, in public.",
-  alternates: { canonical: "/how-it-works/" },
-};
+  path: "/how-it-works/",
+});
 
 /**
  * The flagship page. Section bodies are ≤2

@@ -11,6 +11,7 @@ import {
 } from "@/lib/articles";
 import { delay } from "@/lib/reveal";
 import { BRAND } from "@/lib/site";
+import { pageMeta } from "@/lib/seo";
 
 export function generateStaticParams() {
   return getArticleSlugs().map((slug) => ({ slug }));
@@ -23,16 +24,19 @@ export function generateStaticParams() {
  * title and description, which is the drift this site's schema rule forbids.
  */
 function articleMetadata(meta: ArticleMeta): Metadata {
-  return {
+  const base = pageMeta({
     title: meta.title,
     description: meta.description,
-    alternates: {
-      canonical: `/learn/${meta.slug}/`,
+    path: `/learn/${meta.slug}/`,
+    extraAlternates: {
       types: {
         "application/rss+xml": [{ url: "/feed.xml", title: `${BRAND} · Learn` }],
       },
     },
-  };
+  });
+  /* Articles are `article`, not `website`: it is the one og:type distinction
+     on this site that a social scraper acts on. */
+  return { ...base, openGraph: { ...base.openGraph, type: "article" } };
 }
 
 export async function generateMetadata({

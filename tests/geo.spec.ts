@@ -69,6 +69,51 @@ for (const page of PAGES) {
       }
     });
 
+    /**
+     * Social cards, and the trap that made this test necessary.
+     *
+     * Next merges the `openGraph` metadata key SHALLOWLY: a page that declares
+     * it replaces the root's outright. Adding `openGraph: { url }` to a single
+     * page (measured 2026-08-04) silently dropped og:site_name, og:type and
+     * og:image, and downgraded twitter:card to `summary` with no image, so
+     * every shared link previewed as a bare text row. Nothing in the build,
+     * the lint or the type-check said a word.
+     *
+     * lib/seo.ts exists so pages never hand-write that key. This asserts the
+     * outcome rather than the mechanism: whatever a page does, the card has to
+     * be complete and og:url has to agree with the canonical.
+     */
+    test("social cards are complete and agree with the canonical", async ({
+      request,
+    }) => {
+      const html = await fetchHtml(request, page.path);
+      const head = html.slice(0, html.indexOf("</head>"));
+      const pick = (re: RegExp) => (head.match(re) || [])[1];
+
+      const canonical = pick(/<link rel="canonical" href="([^"]*)"/);
+      expect(canonical, `${page.path} has no canonical`).toBeTruthy();
+      expect(
+        pick(/<meta property="og:url" content="([^"]*)"/),
+        `${page.path}: og:url must equal the canonical`
+      ).toBe(canonical);
+
+      for (const tag of [
+        'property="og:title"',
+        'property="og:description"',
+        'property="og:image"',
+        'property="og:site_name"',
+        'property="og:type"',
+        'name="twitter:image"',
+      ]) {
+        expect(head, `${page.path} is missing ${tag}`).toContain(tag);
+      }
+
+      expect(
+        pick(/<meta name="twitter:card" content="([^"]*)"/),
+        `${page.path}: a large card is the point of shipping an og:image`
+      ).toBe("summary_large_image");
+    });
+
     test("responds with real content to AI-bot user agents", async ({ playwright }) => {
       for (const ua of AI_USER_AGENTS) {
         const ctx = await playwright.request.newContext({

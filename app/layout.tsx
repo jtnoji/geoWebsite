@@ -8,7 +8,7 @@ import BottomBar from "@/components/BottomBar";
 import JsonLd from "@/components/JsonLd";
 import ScrollReveal from "@/components/ScrollReveal";
 import { org, professionalService, website } from "@/lib/schema";
-import { BRAND, DOMAIN, TAGLINE } from "@/lib/site";
+import { BRAND, DOMAIN, GOOGLE_SITE_VERIFICATION, TAGLINE } from "@/lib/site";
 
 // Self-hosted at build time by next/font — no external CDN request, so the
 // static export stays self-contained. A CDN <link> would break that.
@@ -55,6 +55,11 @@ export const metadata: Metadata = {
    * with noindex, which geo.spec.ts asserts: a dead URL must never compete in
    * search or surface in an AI answer.
    */
+  /* Emitted only once a token exists, so the site never ships an empty or
+     placeholder verification tag. See lib/site.ts for how to obtain one. */
+  ...(GOOGLE_SITE_VERIFICATION
+    ? { verification: { google: GOOGLE_SITE_VERIFICATION } }
+    : {}),
   robots: {
     index: true,
     follow: true,

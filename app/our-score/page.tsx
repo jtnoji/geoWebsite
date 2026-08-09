@@ -6,13 +6,14 @@ import { AI_BOTS } from "@/lib/crawlers";
 import { delay } from "@/lib/reveal";
 import { crumb } from "@/lib/schema";
 import { BRAND } from "@/lib/site";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Our score: we audited our own website",
   description:
     "The exact Cat 1–6 audit we sell, run against this site, published and dated. No competitor publishes their own audit of themselves.",
-  alternates: { canonical: "/our-score/" },
-};
+  path: "/our-score/",
+});
 
 /**
  * Hand-authored audit results (scaffold §3) — replace with the output of a

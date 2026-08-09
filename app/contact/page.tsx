@@ -4,13 +4,14 @@ import PageSchema from "@/components/PageSchema";
 import { delay } from "@/lib/reveal";
 import { crumb } from "@/lib/schema";
 import { EMAIL, OFFER_CTA } from "@/lib/site";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Contact: email or book a 20-minute call",
   description:
     "Email us or book a 20-minute call with Josh. Prefer to see your numbers first? Start with the free AI visibility check.",
-  alternates: { canonical: "/contact/" },
-};
+  path: "/contact/",
+});
 
 export default function Contact() {
   return (
