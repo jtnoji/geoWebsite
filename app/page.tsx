@@ -62,6 +62,16 @@ export default function Home() {
           data-hero="dark" dresses the header light-on-dark for this page and
           lets the fold run up behind it (globals.css, "Header").
 
+          THE COMPOSITION (Josh, 2026-09-14, after the Cerebrium homepage).
+          From lg up the headline anchors the bottom-left corner in three
+          lines, the lede and the actions sit bottom-right on its last
+          baseline, and the live customer questions float in the open space
+          above them. In a window too short to hold both (under 784px) the
+          questions drop just below the copy instead, so the headline is never
+          what gets cut off at the fold. That is grid placement only: the
+          markup still runs headline, copy, panel, so a phone and a crawler
+          read the order they always have.
+
           The GET form stays a plain form, not an island: the fold's primary
           action must never wait on hydration, and `form-action 'self'` in the
           CSP already allows it. /free-check reads `site` and prefills the
@@ -70,23 +80,39 @@ export default function Home() {
       <section data-hero="dark" className="relative overflow-hidden bg-night text-white">
         <Beams variant="hero" />
         <div
-          className={`relative ${SECTION_X} grid min-h-[100svh] items-end gap-12 pb-11 pt-28 lg:grid-cols-2 lg:gap-14 lg:pt-24 wide:gap-24 wide:pb-16`}
+          className={`relative ${SECTION_X} grid min-h-[100svh] content-end pb-11 pt-28 lg:grid-cols-[minmax(0,1fr)_clamp(440px,37vw,660px)] lg:gap-x-[clamp(48px,5vw,112px)] lg:pt-24 lg:tall:grid-rows-[1fr_auto] lg:tall:gap-y-10 lg:short:grid-rows-[minmax(auto,calc(100svh_-_140px))_auto] lg:short:gap-y-16 wide:pb-16`}
         >
           {/* `hero-copy` lifts away and dims as the fold scrolls off
-              (globals.css, "Scroll depth"). The copy column only: the card
-              column must not take opacity, or its glass goes flat. */}
-          <div className="hero-copy min-w-0">
+              (globals.css, "Scroll depth"). It goes on the headline and on the
+              copy, never on the panel column, whose glass would go flat.
+
+              The headline is sized from its own column (`@container`). At
+              10.2cqi its widest line, "Are you in the answer?" (9.64em in
+              Franklin 300), spans 94% of the column, so it fills the corner at
+              any width and never wraps to a fourth line. The 11em cap keeps the
+              same three lines where the size ceiling leaves the column wider,
+              and in a browser without text-wrap: balance.
+
+              On a tall screen the panel stacks above the copy, so the headline
+              also yields to the height: (100svh - 560px) / 3.1 is the largest
+              three-line headline that leaves room for the panel (560px is the
+              padding, the gap and the panel at its tallest), which keeps it
+              clear of the fold on wide, shallow windows. */}
+          <div className="hero-copy @container min-w-0 lg:col-start-1 lg:self-baseline-last lg:tall:row-start-2 lg:short:row-start-1">
             <h1
               data-reveal
-              className="display display-light max-w-[14ch] text-[clamp(40px,5.2vw,112px)] leading-[1.03] text-white text-pretty"
+              className="display display-light max-w-[11em] text-[clamp(30px,10.2cqi,72px)] leading-[1.03] text-white text-balance lg:short:text-[clamp(40px,10.2cqi,150px)] lg:tall:text-[clamp(40px,min(10.2cqi,calc((100svh_-_560px)/3.1)),150px)]"
             >
               {`${HERO.heading} `}
-              <span className="text-sky">{HERO.headingAccent}</span>
+              <span className="block text-sky">{HERO.headingAccent}</span>
             </h1>
+          </div>
+
+          <div className="hero-copy mt-5 min-w-0 lg:col-start-2 lg:mt-0 lg:self-baseline-last lg:tall:row-start-2 lg:short:row-start-1">
             <p
               data-reveal
               style={delay(80)}
-              className="mt-5 max-w-[48ch] text-[clamp(16.5px,1.146vw,20.5px)] leading-[1.65] text-white/86 text-pretty"
+              className="max-w-[48ch] text-[clamp(16.5px,1.146vw,20.5px)] leading-[1.65] text-white/86 text-pretty"
             >
               {HERO.lede}
             </p>
@@ -121,8 +147,12 @@ export default function Home() {
 
           {/* No reveal on this column itself: opacity or a filter on an
               ancestor of the glass card flattens its backdrop blur, so the
-              card, the form and the links each carry their own. */}
-          <div className="w-full min-w-0 max-w-[430px] lg:justify-self-end wide:max-w-[540px] ultra:max-w-[620px]">
+              card, the form and the links each carry their own. From lg, in a
+              tall enough window, it takes the upper row of the right column
+              and centres in the height the fold has to spare above the copy;
+              in a shorter one it drops below the copy (the `tall:` / `short:`
+              variants in globals.css). */}
+          <div className="mt-12 w-full min-w-0 max-w-[430px] lg:col-start-2 lg:mt-0 lg:max-w-none lg:tall:row-start-1 lg:tall:self-center lg:short:row-start-2 lg:short:self-start">
             {/* The live customer questions, kept from the previous home page
                 in place of the design's before/after card (Josh, 2026-09-14). */}
             <LiveAnswer />
@@ -130,7 +160,7 @@ export default function Home() {
               action="/free-check/"
               method="get"
               data-reveal
-              style={delay(320)}
+              style={delay(380)}
               className="mt-[18px] flex flex-wrap gap-2.5"
             >
               <label htmlFor="site" className="sr-only">
@@ -159,7 +189,7 @@ export default function Home() {
             </form>
             <p
               data-reveal
-              style={delay(380)}
+              style={delay(440)}
               className="mt-3.5 flex flex-wrap gap-x-2 gap-y-1 text-[clamp(14px,0.972vw,16.5px)] text-white/80"
             >
               <Link href="/our-score/" className="transition-colors hover:text-white">

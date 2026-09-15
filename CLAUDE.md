@@ -338,9 +338,9 @@ raw HTML. Four kinds, and a fifth needs a reason, not a preference:
   dims; a dark band's beams drift as it passes; `.depth-in` objects (the shift
   chart, the capability panels, the console) settle from 94%. **Never put
   opacity or a filter on an ANCESTOR of a glass card**: it makes that ancestor
-  a backdrop root and the card's blur goes flat. That is why `.hero-copy` is
-  the copy column only and why `LiveAnswer` and `StageTabs` carry their own
-  reveal. A `.depth-in` element must not use the `scale` reveal variant.
+  a backdrop root and the card's blur goes flat. That is why `.hero-copy` goes
+  on the home hero's headline and copy, never on its panel column, and why
+  `LiveAnswer` and `StageTabs` carry their own reveal. A `.depth-in` element must not use the `scale` reveal variant.
 - **The chart draw** and **the typing loop** in the hero's live customer
   questions (`LiveAnswer`, the `.prompt-*` rules, cut for six questions; it
   throws at build time if the count changes).
@@ -405,6 +405,20 @@ with the rest.
   its rem ones, so an arbitrary px override is emitted before `sm:`/`md:`/`lg:`
   and silently loses to them. The first full-width pass shipped exactly that:
   every wide gutter, gap and column ratio was in the CSS and none applied.
+- **The home fold anchors bottom-left** (Josh, 2026-09-14, after the
+  Cerebrium homepage). From lg the headline sits in the bottom-left corner in
+  three lines, the lede and actions sit bottom-right on its last baseline, and
+  the live customer questions float above them. The headline is sized from its
+  own column (`@container`, `10.2cqi`), so it fills the corner at every width
+  and always sets in the same three lines; its `11em` cap holds them where the
+  size ceiling leaves slack. Placement is grid lines only: the markup order is
+  headline, copy, panel, which is what phones and crawlers read.
+  **The fold is the one layout that must fit the screen's height**, so it uses
+  the `tall:` / `short:` viewport-height variants in `globals.css` (49rem,
+  784px, mutually exclusive). On a tall window the panel stacks above the copy
+  and the headline also caps at `(100svh - 560px) / 3.1` to leave it room; on
+  a short one the panel drops below the copy, so the headline is never cut off
+  at the fold. Re-measure the threshold if the panel or the copy grows.
 
 **Claim + artifact rule.** No section ships as text-only. Every claim is paired
 with a concrete artifact (the findings panels, the shift chart, the console's

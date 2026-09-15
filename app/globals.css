@@ -96,6 +96,17 @@
   --breakpoint-ultra: 137.5rem;
 }
 
+/* Viewport HEIGHT, for the home fold (app/page.tsx), the one layout that has
+   to fit the screen rather than the page. From 49rem (784px) tall the live
+   customer questions float above the copy; below that they drop under it, so
+   a short laptop still gets the headline whole in the bottom-left corner
+   instead of cut off at the fold. 784px is measured, not round: a 1440x900
+   laptop's browser window (789px) holds the stacked column, a 1024x768 one
+   comes up 49px short. The two ranges exclude each other, so a `tall:` class
+   and a `short:` class never depend on source order. */
+@custom-variant tall (@media (height >= 49rem));
+@custom-variant short (@media (height < 49rem));
+
 html {
   /* The header is fixed, so an in-page anchor would otherwise land under it. */
   scroll-padding-top: 96px;
@@ -594,12 +605,13 @@ body:has([data-hero="dark"]) .site-main {
 
    Two traps avoided on purpose. First, never put opacity or a filter on an
    ANCESTOR of a glass card: either makes that ancestor a backdrop root and the
-   card's backdrop blur goes flat. That is why `.hero-copy` is the hero's copy
-   column only, never the column holding LiveAnswer, and why LiveAnswer and
-   StageTabs carry their own reveal instead of a wrapper's. Second, scale comes
-   from the individual `scale` property so it composes with the reveal's
-   `translate`; an element with `.depth-in` must not also use the `scale`
-   reveal variant, which would animate the same property twice. */
+   card's backdrop blur goes flat. That is why `.hero-copy` goes on the home
+   hero's headline and copy blocks, never the column holding LiveAnswer, and
+   why LiveAnswer and StageTabs carry their own reveal instead of a wrapper's.
+   Second, scale comes from the individual `scale` property so it composes
+   with the reveal's `translate`; an element with `.depth-in` must not also
+   use the `scale` reveal variant, which would animate the same property
+   twice. */
 @media (prefers-reduced-motion: no-preference) {
   @supports (animation-timeline: view()) {
     [data-hero="dark"] {

@@ -576,6 +576,16 @@ call bookings) so you know where the funnel leaks.
      across in columns. /contact, /our-score and /404 are no longer centred.
      Reading copy keeps a legible line length inside that grid. Rules in
      CLAUDE.md "Width and alignment".
+  10. **Hero composition** (Josh, same day, after the Cerebrium homepage): the
+      headline anchors the bottom-left corner in three lines, the lede and the
+      actions sit bottom-right with their last line level with it, and the
+      live customer questions float in the open space above them. Placement is
+      grid lines from 1024px up; the markup order is unchanged, so phones and
+      crawlers still read headline, copy, then the panel. The headline is sized
+      from its own column and always sets in the same three lines, the second
+      sentence on its own line in Sky. In a browser window under 784px tall
+      (most 1280, 1366 and 1536 laptops) the panel drops just below the copy
+      instead, so the headline is never cut off at the fold.
 
   **Open for Josh:** two lines still sit near the no-guarantee rule and shipped
   as designed: the hero lede ("so your company appears more often") and Grow's

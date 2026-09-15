@@ -62,7 +62,7 @@ export default function LiveAnswer() {
         {
           "--prompt-bg": BOX,
           "--prompt-caret": "#7fa6d9",
-          "--reveal-delay": "200ms",
+          "--reveal-delay": "300ms",
         } as React.CSSProperties
       }
     >
