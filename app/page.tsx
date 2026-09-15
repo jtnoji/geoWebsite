@@ -18,7 +18,7 @@ import {
   SOLUTION,
   STEPS,
 } from "@/lib/home";
-import { HEAD_SPLIT, SECTION, SECTION_X } from "@/lib/layout";
+import { SECTION, SECTION_X } from "@/lib/layout";
 import { delay } from "@/lib/reveal";
 import { HOME_STATS } from "@/lib/stats";
 import { BRAND, OFFER, OFFER_SHORT } from "@/lib/site";
@@ -257,13 +257,16 @@ export default function Home() {
       </section>
 
       {/* ---- THE SOLUTION --------------------------------------------------
-          From 1600px the head splits: heading left, copy right, so the row
-          spans the page rather than its left half. */}
+          The head centres over the capability rows and the closing action
+          centres under them, so the zig-zag between reads as one set. From md
+          up only: a phone stacks everything, and a centred paragraph there is
+          just harder to read. Heads vary down the page on purpose (CLAUDE.md,
+          "Section variation"). */}
       <section className="bg-white">
-        <div className={`${SECTION_X} ${HEAD_SPLIT} pb-4 pt-16 md:pb-10 md:pt-[100px]`}>
-          <div data-reveal className="min-w-0">
+        <div className={`${SECTION_X} pb-4 pt-16 md:pb-10 md:pt-[100px] md:text-center`}>
+          <div data-reveal>
             <Eyebrow>{SOLUTION.eyebrow}</Eyebrow>
-            <h2 className="display mt-6 max-w-[16ch] text-[clamp(34px,4.2vw,90px)] leading-[1.05] text-ink text-pretty">
+            <h2 className="display mt-6 max-w-[16ch] text-[clamp(34px,4.2vw,90px)] leading-[1.05] text-ink text-pretty md:mx-auto md:text-balance">
               {`${SOLUTION.heading} `}
               <span className="text-cobalt">{SOLUTION.headingAccent}</span>
             </h2>
@@ -271,7 +274,7 @@ export default function Home() {
           <p
             data-reveal
             style={delay(100)}
-            className="max-w-[52ch] text-[clamp(16.5px,1.146vw,20.5px)] leading-[1.7] text-ink-soft"
+            className="mt-5 max-w-[52ch] text-[clamp(16.5px,1.146vw,20.5px)] leading-[1.7] text-ink-soft md:mx-auto wide:mt-7"
           >
             {SOLUTION.body}
           </p>
@@ -279,7 +282,10 @@ export default function Home() {
         {CAPABILITIES.map((capability, i) => (
           <CapabilityRow key={capability.no} capability={capability} flip={i % 2 === 1} />
         ))}
-        <div data-reveal className={`${SECTION_X} pb-16 pt-6 md:pb-[100px]`}>
+        <div
+          data-reveal
+          className={`${SECTION_X} pb-16 pt-6 md:flex md:justify-center md:pb-[100px]`}
+        >
           <Link href="/free-check/" className={`btn btn-navy ${PRIMARY_SIZE}`}>
             {PRIMARY}
             <span aria-hidden="true">→</span>
@@ -287,7 +293,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ---- HOW IT WORKS -------------------------------------------------- */}
+      {/* ---- HOW IT WORKS --------------------------------------------------
+          The three steps sit in glass cards on the beams. The bright core
+          crosses the third one, and the frosted card keeps its copy legible
+          without the text-shadow halo the bare columns needed. The stagger
+          reveal lands on the cards themselves, never on an ancestor, or the
+          glass goes flat (CLAUDE.md, "Motion"). Stacked until lg, where three
+          padded cards side by side still leave the copy a workable measure. */}
       <section className="relative flex items-center overflow-hidden bg-night text-white lg:min-h-screen">
         <Beams variant="band" />
         <div className={`relative ${SECTION}`}>
@@ -297,15 +309,15 @@ export default function Home() {
               {STEPS.heading}
             </h2>
           </div>
-          {/* The third column crosses the beams, so the steps carry a soft dark
-              halo: it keeps the copy legible over the bright core without
-              drawing a box the design does not have. */}
           <ol
             data-reveal="stagger"
-            className="mt-12 grid gap-8 [text-shadow:0_1px_16px_rgba(4,8,15,0.9)] md:mt-14 md:grid-cols-3 md:gap-5 wide:gap-12"
+            className="mt-12 grid gap-4 md:mt-14 lg:grid-cols-3 lg:gap-5 wide:gap-8"
           >
             {STEPS.steps.map((step) => (
-              <li key={step.no} className="border-t border-white/28 pt-[22px]">
+              <li
+                key={step.no}
+                className="rounded-2xl border border-white/14 bg-night/55 p-6 shadow-glass backdrop-blur-[14px] sm:p-7 wide:p-9"
+              >
                 <h3 className="font-mono text-[clamp(11px,0.764vw,13px)] font-normal uppercase tracking-[0.16em] text-sky">
                   {`${step.no} · ${step.name}`}
                 </h3>
@@ -326,12 +338,16 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ---- WHAT YOU GET -------------------------------------------------- */}
+      {/* ---- WHAT YOU GET --------------------------------------------------
+          Mirrored from lg: the list on the left, the head on the right. It
+          follows the steps band, whose head sits left, and the flip is what
+          tells two dark sections in a row apart. The head stays first in the
+          markup, so phones and crawlers still read it before the list. */}
       <section className="bg-night text-white">
         <div
           className={`${SECTION} grid items-start gap-12 lg:grid-cols-2 lg:gap-14 wide:gap-24`}
         >
-          <div data-reveal>
+          <div data-reveal className="lg:col-start-2 lg:row-start-1">
             <Eyebrow onDark>{SERVICES.eyebrow}</Eyebrow>
             <h2 className="display mt-6 max-w-[14ch] text-[clamp(32px,3.8vw,80px)] leading-[1.06] text-white">
               {SERVICES.heading}
@@ -349,7 +365,7 @@ export default function Home() {
           <ul
             data-reveal="stagger"
             style={delay(120)}
-            className="grid gap-x-8 sm:grid-cols-2 wide:gap-x-12"
+            className="grid gap-x-8 sm:grid-cols-2 lg:col-start-1 lg:row-start-1 wide:gap-x-12"
           >
             {SERVICES.items.map((item) => (
               <li
@@ -364,19 +380,24 @@ export default function Home() {
       </section>
 
       {/* ---- WHY SABLE -----------------------------------------------------
-          The design centred this at 1100px. It runs full width with the rest
-          now: stacked below 1600px, and head beside table from there up. */}
-      <section className="bg-white">
-        <div
-          className={`${SECTION} grid gap-10 wide:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] wide:gap-24`}
-        >
-          <div data-reveal className="min-w-0">
+          The head centres over the comparison, and the table sits in a white
+          card on the ground with our column tinted (CompareTable), so the one
+          table on the page reads as an object rather than more running text.
+          The card runs full width like every section; the head centres from
+          md up and stays left on phones. */}
+      <section className="bg-paper-dim">
+        <div className={SECTION}>
+          <div data-reveal className="md:text-center">
             <Eyebrow>{COMPARISON.eyebrow}</Eyebrow>
-            <h2 className="display mt-6 max-w-[18ch] text-[clamp(32px,3.8vw,80px)] leading-[1.06] text-ink text-pretty">
+            <h2 className="display mt-6 max-w-[18ch] text-[clamp(32px,3.8vw,80px)] leading-[1.06] text-ink text-pretty md:mx-auto md:text-balance">
               {COMPARISON.heading}
             </h2>
           </div>
-          <div data-reveal style={delay(120)} className="min-w-0">
+          <div
+            data-reveal
+            style={delay(120)}
+            className="mt-10 min-w-0 rounded-2xl bg-white px-3 shadow-card sm:px-8 md:mt-14 wide:px-12"
+          >
             <CompareTable />
           </div>
         </div>

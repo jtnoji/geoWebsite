@@ -588,6 +588,13 @@ call bookings) so you know where the funnel leaks.
       instead, so the headline is never cut off at the fold. Refined the same
       day at Josh's request: the headline about 10% smaller, and lifted up and
       in from the corner, with the copy rising with it on the same baseline.
+  11. **Section variation** (Josh, same day: headings "in the same spot every
+      single time" felt stale, and plain text read as generic). Subtle and home
+      only: the solution and Why Sable heads centre over their sets, What you
+      get mirrors with its head on the right, the three steps sit in glass
+      cards on the beams, and the comparison table sits in a white card with
+      our column tinted. No copy changed. Rules in CLAUDE.md "Section
+      variation".
 
   **Open for Josh:** two lines still sit near the no-guarantee rule and shipped
   as designed: the hero lede ("so your company appears more often") and Grow's

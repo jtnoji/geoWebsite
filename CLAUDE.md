@@ -340,7 +340,9 @@ raw HTML. Four kinds, and a fifth needs a reason, not a preference:
   opacity or a filter on an ANCESTOR of a glass card**: it makes that ancestor
   a backdrop root and the card's blur goes flat. That is why `.hero-copy` goes
   on the home hero's headline and copy, never on its panel column, and why
-  `LiveAnswer` and `StageTabs` carry their own reveal. A `.depth-in` element must not use the `scale` reveal variant.
+  `LiveAnswer`, `StageTabs` and the home steps' glass cards carry their own
+  reveal (the steps are a stagger's children, and a stagger container never
+  fades). A `.depth-in` element must not use the `scale` reveal variant.
 - **The chart draw** and **the typing loop** in the hero's live customer
   questions (`LiveAnswer`, the `.prompt-*` rules, cut for six questions; it
   throws at build time if the count changes).
@@ -396,9 +398,10 @@ or below. Reading copy keeps a `ch` measure, so a paragraph is never stretched
 across a row. Width is filled by the grid instead: from 1600px a text-only head
 splits into heading left and copy right (`HEAD_SPLIT`), FAQ sets run two or
 three across (`FaqSection columns`), and an article's title column sits beside
-its body. Everything is left-aligned, as every page in the design is; the pages
-once centred by founder decision (/contact, /our-score, /404) went full width
-with the rest.
+its body. Inner pages are left-aligned, as every page in the design is; the
+pages once centred by founder decision (/contact, /our-score, /404) went full
+width with the rest. The home varies its section heads on purpose ("Section
+variation" below).
 - **Wide-screen overrides use the `wide:` (1600px) and `ultra:` (2200px)
   theme breakpoints** declared in `globals.css`, never arbitrary
   `min-[1600px]:` variants. Tailwind v4 cannot sort a px breakpoint against
@@ -424,6 +427,26 @@ with the rest.
   leave it room; on a short one the panel drops below the copy, so the headline
   is never cut off at the fold. Re-measure the threshold if the panel, the copy
   or the bottom padding grows.
+
+**Section variation (home, added 2026-09-14).** Josh: the section headings sat
+"in the same spot every single time", which made the long scroll feel stale,
+and bare text everywhere read as generic. So the home varies where each head
+sits and gives text a container where one earns it. Subtly, on purpose:
+- **Heads, top to bottom:** the fold bottom-left, the problem top-left beside
+  its chart, the solution centred over the capability rows (its action centred
+  under them), the steps band left, What you get mirrored (list left, head
+  right, from lg), Why Sable centred, the close left. **No two neighbouring
+  sections put their head in the same place**; keep it that way when a section
+  is added or moved.
+- **Centring is for a short head over a set** (the capability rows, the
+  comparison), from md up only. The paragraph under a centred head stays short,
+  and phones stay left-aligned.
+- **Containers:** the three steps sit in glass cards on the beams, and the
+  comparison sits in a white card with our column tinted. Everything else stays
+  bare. A third card treatment would be the same repetition in boxes.
+- Mirroring and centring are grid placement and alignment only. The markup
+  order never changes, so the head still comes first for phones, screen
+  readers and crawlers. Inner pages keep left-aligned heads.
 
 **Claim + artifact rule.** No section ships as text-only. Every claim is paired
 with a concrete artifact (the findings panels, the shift chart, the console's

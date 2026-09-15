@@ -6,8 +6,8 @@ import { OFFER } from "@/lib/site";
 
 /**
  * The closing band on home (mockup/sable-site.dc.html): full-bleed night with
- * the light beams, the ask, and the primary action in Sky. Left-aligned like
- * every head in the Sable design.
+ * the light beams, the ask, and the primary action in Sky. Left-aligned,
+ * where the Why Sable head before it centres (CLAUDE.md, "Section variation").
  *
  * Fills the viewport from lg up, as drawn. On phones and tablets it takes its
  * content's height: a mostly empty screen of beams there reads as a gap, not
