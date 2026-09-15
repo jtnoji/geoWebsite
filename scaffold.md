@@ -20,11 +20,13 @@ npm run build                      # static export → out/
 npx playwright install chromium    # for the QA suite (dev machine)
 ```
 
-Font (locked 2026-07-20, "weir" system): **Poppins** (400/500/600/700) for all
-text — headings, body, and the label/metadata role alike. Loaded via
-`next/font/google` so it's self-hosted and subsetted at build time (a Google
-Fonts CDN `<link>` would break the self-contained static export). Poppins has
-no weight above 700.
+Fonts (Sable system, 2026-09-14; see CLAUDE.md "Design system"): **Libre
+Franklin** (300/400/500/600) for headings and body, **JetBrains Mono**
+(400/500) for labels, data and the compact buttons. Loaded via
+`next/font/google` so they are self-hosted and subsetted at build time (a
+Google Fonts CDN `<link>` would break the self-contained static export).
+Poppins (weir, 2026-07-20) and Cormorant Garamond (Berkeley, 2026-08-02) are
+gone.
 
 `next.config.ts`:
 
@@ -64,14 +66,16 @@ geoWebsite/
 │   ├── sitemap.ts              # generates sitemap.xml at build
 │   └── robots.ts               # generates robots.txt (AI-bot allowlist, §4)
 ├── components/
-│   ├── Header.tsx              # nav + sticky "Free visibility check" button
-│   ├── Footer.tsx              # full page list, NAP, founder LinkedIns
-│   ├── Cta.tsx                 # primary/secondary CTA pair, used on every page
-│   ├── StatTile.tsx            # stat + source line (home stat bar)
-│   ├── StepList.tsx            # "how it works" 3-step
+│   ├── Header.tsx              # fixed header, dressed by the page (data-hero), CTA pill
+│   ├── Footer.tsx              # night band: full page list, NAP, founder LinkedIns
+│   ├── Cta.tsx                 # closing CTA band on every page but home
+│   ├── ClosingCta.tsx          # home's closing band, on the light beams
+│   ├── Beams.tsx               # the light-beam backgrounds behind dark bands
+│   ├── StatTile.tsx            # stat + source line
+│   ├── StageTabs.tsx           # /how-it-works console: CSS-only radio tabs
 │   ├── HonestyBlock.tsx        # the no-guarantees block (reused verbatim)
 │   ├── FaqSection.tsx          # renders Q&A pairs + emits FAQPage JSON-LD from same data
-│   ├── ReportPreview.tsx       # sample-report imagery strip
+│   ├── ReportPreview.tsx       # sample-report artifacts
 │   └── FreeCheckForm.tsx       # 'use client' island — the ONE interactive component
 ├── lib/
 │   ├── schema.ts               # JSON-LD builders: org(), faq(), person(), service(), article()

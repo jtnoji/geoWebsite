@@ -7,6 +7,10 @@ import { NAV_LINKS } from "@/lib/site";
 /**
  * Interactivity island: the mobile nav toggle. The nav LINKS also exist in the
  * footer's server-rendered page list, so no content depends on this component.
+ *
+ * Colours come from the header's CSS variables (globals.css, `.nav-cta` and
+ * `.nav-panel`), so the button and the dropdown follow the header's dress
+ * without this island knowing which page it is on.
  */
 export default function MobileNav() {
   const [open, setOpen] = useState(false);
@@ -18,7 +22,7 @@ export default function MobileNav() {
         aria-expanded={open}
         aria-label={open ? "Close menu" : "Open menu"}
         onClick={() => setOpen((v) => !v)}
-        className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/25 text-white transition-colors hover:border-white/60"
+        className="nav-cta flex h-9 w-9 items-center justify-center rounded-[10px]"
       >
         <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
           {open ? (
@@ -32,15 +36,15 @@ export default function MobileNav() {
       {open && (
         <nav
           aria-label="Mobile"
-          className="absolute inset-x-0 top-16 border-b border-line bg-band shadow-[0_18px_30px_-24px_rgba(14,35,64,0.5)]"
+          className="nav-panel absolute inset-x-0 top-[72px] shadow-[0_18px_30px_-24px_rgba(4,8,15,0.6)]"
         >
-          <ul className="mx-auto max-w-[1120px] px-5 py-2 sm:px-8">
+          <ul className="mx-auto w-full max-w-[1440px] px-5 py-2 sm:px-8">
             {NAV_LINKS.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
                   onClick={() => setOpen(false)}
-                  className="block border-b border-line py-3 text-sm text-ink last:border-b-0"
+                  className="block py-3.5 text-[15px]"
                 >
                   {link.label}
                 </Link>

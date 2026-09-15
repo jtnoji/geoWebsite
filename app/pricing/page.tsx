@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Cta from "@/components/Cta";
+import Eyebrow from "@/components/Eyebrow";
 import FaqSection from "@/components/FaqSection";
 import JsonLd from "@/components/JsonLd";
 import PageSchema from "@/components/PageSchema";
+import { SECTION_X } from "@/lib/layout";
 import { delay } from "@/lib/reveal";
 import { crumb, service, type Faq } from "@/lib/schema";
-import { SERVICE_TIERS } from "@/lib/offers";
+import { PRICING_COPY, SERVICE_TIERS } from "@/lib/offers";
 import { pageMeta } from "@/lib/seo";
 
 export const metadata: Metadata = pageMeta({
@@ -15,6 +17,13 @@ export const metadata: Metadata = pageMeta({
     "Start with a free AI visibility check. The full audit and the ongoing work are priced flat. Reports show sampled rates, never guaranteed rankings.",
   path: "/pricing/",
 });
+
+/**
+ * Rebuilt 2026-09-14 from the Sable design (mockup/sable-site.dc.html): the
+ * head and the three tier cards, the middle one in navy. It keeps the FAQ and
+ * both Service nodes it had before, and the old head's no-rankings line now
+ * sits under the tiers.
+ */
 
 const FAQS: Faq[] = [
   {
@@ -53,58 +62,99 @@ export default function Pricing() {
         })}
       />
 
-      <div className="mx-auto max-w-[1120px] px-5 py-16 sm:px-8 md:py-20">
-        <div data-reveal className="mx-auto max-w-[560px] text-center">
-          <h1 className="display text-4xl font-bold tracking-tight text-ink">Pricing</h1>
-          <p className="mt-5 text-base leading-7 text-ink-soft">
-            Three tiers. Every one reports sampled rates with named sources.
-            None of them, at any price, promises rankings.
+      <section className={`${SECTION_X} pb-12 pt-14 md:pb-14 md:pt-[68px]`}>
+        <div data-reveal>
+          <Eyebrow>{PRICING_COPY.eyebrow}</Eyebrow>
+          <h1 className="display mt-6 max-w-[18ch] text-[clamp(42px,5.4vw,76px)] leading-[1.03] text-ink text-pretty">
+            {`${PRICING_COPY.heading} `}
+            <span className="text-cobalt">{PRICING_COPY.headingAccent}</span>
+          </h1>
+          <p className="mt-[22px] max-w-[52ch] text-[16px] leading-[1.7] text-ink-soft">
+            {PRICING_COPY.body}
           </p>
         </div>
+      </section>
 
-        {/* Revealed as one block: the tier cells share borders, so fading
-            them in individually would expose the seams (same reason the home
-            StepList reveals whole). */}
-        <div data-reveal style={delay(120)} className="mt-12 grid md:grid-cols-3">
-          {SERVICE_TIERS.map((tier, i) => (
-            <div
-              key={tier.name}
-              className="flex flex-col border border-b-0 border-line-dark bg-white last:border-b md:border-b md:border-r-0 md:last:border-r"
-            >
-              <span className="block bg-ink px-3.5 py-1.5 font-mono text-[11px] text-white">
-                {String(i + 1).padStart(2, "0")}
-                {tier.featured && " · most popular"}
-              </span>
-              <div className="flex flex-1 flex-col px-4 pb-5 pt-4">
-                <h2 className="text-base font-bold tracking-[-0.01em] text-ink">
+      <section className={`${SECTION_X} pb-16 md:pb-[100px]`}>
+        <div className="grid items-stretch gap-4 lg:grid-cols-3">
+          {SERVICE_TIERS.map((tier, i) => {
+            const dark = tier.featured;
+            return (
+              <div
+                key={tier.name}
+                data-reveal
+                style={delay(i * 90)}
+                className={`flex min-w-0 flex-col rounded-[14px] border p-7 sm:p-8 ${
+                  dark ? "border-ink bg-ink text-white" : "border-track bg-white"
+                }`}
+              >
+                <h2
+                  className={`font-mono text-[10.5px] font-normal uppercase tracking-[0.16em] ${
+                    dark ? "text-sky" : "text-ink-faint"
+                  }`}
+                >
                   {tier.name}
                 </h2>
-                <p className="mt-1.5 font-mono text-2xl font-semibold tracking-tight text-ink">
+                <p
+                  className={`mt-[22px] text-[clamp(38px,3.4vw,46px)] font-light leading-[1.05] tracking-[-0.04em] ${
+                    dark ? "text-white" : "text-ink"
+                  }`}
+                >
                   {tier.price}
                 </p>
-                <p className="mt-3.5 text-sm leading-6 text-ink-soft">
+                <p className={`mt-2.5 text-[14px] ${dark ? "text-white/72" : "text-ink-faint"}`}>
+                  {tier.priceNote}
+                </p>
+                <p
+                  className={`mt-5 text-[15.5px] leading-[1.65] ${
+                    dark ? "text-white/88" : "text-ink-soft"
+                  }`}
+                >
                   {tier.description}
                 </p>
-                <p className="mt-3 flex-1 text-xs leading-5 text-ink-faint">
-                  {"note" in tier ? tier.note : null}
-                </p>
+                <ul className="mb-[30px] mt-[26px] flex flex-col gap-3">
+                  {tier.includes.map((item) => (
+                    <li
+                      key={item}
+                      className={`grid grid-cols-[16px_minmax(0,1fr)] items-start gap-2.5 text-[15px] leading-[1.55] ${
+                        dark ? "text-white" : "text-ink"
+                      }`}
+                    >
+                      <span
+                        aria-hidden="true"
+                        className={`mt-2 h-1.5 w-1.5 rounded-full ${dark ? "bg-sky" : "bg-cobalt"}`}
+                      />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
                 <Link
                   href={tier.cta.href}
-                  className="btn-solid mt-6 self-start px-5 py-2.5 text-sm"
+                  className={`btn btn-mono mt-auto w-full py-[15px] text-[11.5px] ${
+                    dark ? "btn-white" : "btn-navy"
+                  }`}
                 >
                   {tier.cta.label}
                 </Link>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
+        <p data-reveal className="mt-6 max-w-[60ch] text-[14px] leading-[1.6] text-ink-faint">
+          {PRICING_COPY.honesty}
+        </p>
+      </section>
 
-        <div data-reveal className="mt-20 max-w-2xl">
-          <FaqSection faqs={FAQS} />
+      <section className="border-t border-line-dark">
+        <div className={`${SECTION_X} py-16 md:py-[100px]`}>
+          <Eyebrow>Questions</Eyebrow>
+          <div data-reveal style={delay(100)} className="mt-8 max-w-3xl">
+            <FaqSection faqs={FAQS} />
+          </div>
         </div>
-      </div>
+      </section>
 
-      <Cta centered />
+      <Cta />
     </>
   );
 }

@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Cta from "@/components/Cta";
 import FaqSection from "@/components/FaqSection";
 import JsonLd from "@/components/JsonLd";
+import Eyebrow from "@/components/Eyebrow";
 import PageSchema from "@/components/PageSchema";
-import RuleEyebrow from "@/components/RuleEyebrow";
 import { HOME_FAQS } from "@/lib/home";
 import { SECTION } from "@/lib/layout";
 import { delay } from "@/lib/reveal";
@@ -23,10 +23,10 @@ export const metadata: Metadata = pageMeta({
  * that could only be read rather than seen; a compact reassurance line beside
  * the final CTA carries the load-bearing points and links here.
  *
- * IT KEEPS THE FULL SET. Home rendered HOME_FAQS_TOP (four); this renders all
- * of HOME_FAQS, so moving the block off the home page did not quietly delete
- * two questions from the site. The FAQPage JSON-LD is built from the same
- * array that renders the visible questions, so schema cannot drift.
+ * IT KEEPS THE FULL SET: all six of HOME_FAQS, so moving the block off the
+ * home page did not quietly delete questions from the site. The FAQPage
+ * JSON-LD is built from the same array that renders the visible questions, so
+ * schema cannot drift.
  */
 export default function FaqPage() {
   return (
@@ -34,11 +34,11 @@ export default function FaqPage() {
       <PageSchema meta={metadata} path="/faq/" trail={[crumb("/faq/")]} />
       <JsonLd data={faq(HOME_FAQS)} />
 
-      <section className="border-b border-line">
+      <section>
         <div className={SECTION}>
           <div data-reveal className="max-w-[680px]">
-            <RuleEyebrow>Frequently asked</RuleEyebrow>
-            <h1 className="display mt-4 text-[clamp(33px,4.4vw,52px)] leading-[1.1] text-ink text-pretty">
+            <Eyebrow>Frequently asked</Eyebrow>
+            <h1 className="display mt-6 text-[clamp(34px,4.4vw,58px)] leading-[1.05] text-ink text-pretty">
               The questions we get, answered directly.
             </h1>
             <p className="mt-5 text-[16px] leading-[1.7] text-ink-soft">

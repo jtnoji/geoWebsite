@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """
-Generates app/opengraph-image.png and the favicon set from lib/site.ts.
+Generates app/opengraph-image.png and the favicon set from lib/site.ts and
+lib/home.ts.
 
-RUN THIS AGAIN WHEN THE BRAND NAME LANDS:
-    npm run build && python3 scripts/make-brand-assets.py
+RUN THIS AGAIN WHEN THE BRAND NAME, THE HERO HEADLINE OR THE PALETTE MOVES:
+    npm run build && <venv>/bin/python scripts/make-brand-assets.py
 
 WHY A SCRIPT AND NOT next/og: `ImageResponse` needs a request-time runtime and
 fails the build under `output: 'export'` (verified 2026-07-25: "Failed to
@@ -19,9 +20,11 @@ Both families come from the woff2 files next/font already downloaded into out/,
 so the images use the same typefaces as the site with no font file committed and
 no network fetch. Run `npm run build` first so out/ exists.
 
-Regenerated 2026-08-02 for the Berkeley system and the locked brand name.
-Needs Pillow + fontTools, which the system Python does not have: make a venv
-and run `<venv>/bin/python scripts/make-brand-assets.py` after `npm run build`.
+Regenerated 2026-09-14 for the Sable system: Libre Franklin and JetBrains Mono
+(Cormorant is gone), the night ground, and the home hero headline, which is
+read out of lib/home.ts so the card cannot drift from the page.
+Needs Pillow, fontTools and brotli, which the system Python does not have: make
+a venv (`python3 -m venv .venv && .venv/bin/pip install pillow fonttools brotli`).
 """
 
 import re
@@ -30,21 +33,21 @@ import pathlib
 import tempfile
 
 from fontTools.ttLib import TTFont
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 
 # The two families the site ships. Names must match the `font-family` in the
 # built CSS exactly — see face().
 SANS = "Libre Franklin"
-DISPLAY = "Cormorant Garamond"
+MONO = "JetBrains Mono"
 
-# Locked design tokens (CLAUDE.md "Design system"). Keep in step with globals.css.
-INK = (14, 35, 64)            # Berkeley Navy #0e2340
-INK_SOFT = (74, 86, 102)      # Harbour #4a5666 (darkened for AA, see globals.css)
-MIST = (178, 183, 188)        # Mist #b2b7bc
-SKY = (127, 166, 217)         # Sky #7fa6d9 — on navy only
-PAPER = (242, 241, 236)       # Paper #f2f1ec — the flat ground
+# Sable design tokens (CLAUDE.md "Design system", app/globals.css). Keep in step.
+INK = (14, 35, 64)            # #0e2340 — the icon square
+NIGHT = (4, 8, 15)            # #04080f — the dark bands, and the card's ground
+SKY = (127, 166, 217)         # #7fa6d9 — the bright note on dark
+COBALT = (47, 111, 208)       # #2f6fd0 — only as the glow's colour here
+WHITE = (255, 255, 255)
 
 # Plume geometry, brand sheet §01. Heights are multiples of the plume width.
 PLUME_RATIOS = (1.7, 2.3, 2.9)
@@ -57,14 +60,27 @@ def brand() -> str:
     return re.search(r'export const BRAND = "([^"]+)"', src).group(1)
 
 
+def offer_title() -> str:
+    src = (ROOT / "lib" / "site.ts").read_text(encoding="utf-8")
+    return re.search(r'export const OFFER_TITLE = "([^"]+)"', src).group(1)
+
+
+def hero() -> tuple[str, str]:
+    """The home h1, both halves, straight out of lib/home.ts."""
+    src = (ROOT / "lib" / "home.ts").read_text(encoding="utf-8")
+    block = src.split("export const HERO = {", 1)[1]
+    heading = re.search(r'\n\s*heading: "([^"]+)"', block).group(1)
+    accent = re.search(r'\n\s*headingAccent: "([^"]+)"', block).group(1)
+    return heading, accent
+
+
 def face(family: str, weight: int, italic: bool = False) -> pathlib.Path:
     """Extract the latin subset of `family` at `weight` from the built CSS.
 
-    Family and style are part of the match on purpose. The site ships two
-    families (Libre Franklin and Cormorant Garamond), and weight 400 exists in
-    BOTH plus in both families' italics — so matching on weight alone silently
-    returns whichever @font-face the CSS concatenation happened to put first.
-    That is a coin flip, not a selection.
+    Family and style are part of the match on purpose. Weight 400 exists in
+    both families the site ships, and in Libre Franklin's italic too, so
+    matching on weight alone silently returns whichever @font-face the CSS
+    concatenation happened to put first. That is a coin flip, not a selection.
     """
     css = "".join(
         pathlib.Path(f).read_text(encoding="utf-8")
@@ -79,7 +95,7 @@ def face(family: str, weight: int, italic: bool = False) -> pathlib.Path:
         style = re.search(r"font-style:\s*([^;}]+)", block)
         src = re.search(r"url\(([^)]+\.woff2)\)", block)
         rng = re.search(r"unicode-range:([^;}]*)", block)
-        # "U+??" is the basic-latin subset; the others are latin-ext/devanagari.
+        # "U+??" is the basic-latin subset; the others are latin-ext and friends.
         if not (fam and w and src and rng and rng.group(1).startswith("U+??")):
             continue
         if fam.group(1).strip() != family or int(w.group(1)) != weight:
@@ -117,6 +133,15 @@ def wrap(draw, text, font, max_width):
     return lines
 
 
+def tracked(d, xy, text, font, fill, tracking):
+    """Pillow has no letter-spacing, so tracked labels are set glyph by glyph."""
+    x, y = xy
+    for ch in text:
+        d.text((x, y), ch, font=font, fill=fill)
+        x += d.textlength(ch, font=font) + tracking
+    return x
+
+
 def plumes(d, x, baseline, u, tones):
     """Draw the three-plume mark with its heels on `baseline`, left edge at `x`.
 
@@ -137,38 +162,46 @@ def plumes(d, x, baseline, u, tones):
 
 def make_og(name: str) -> None:
     W, H, PAD = 1200, 630, 84
-    img = Image.new("RGB", (W, H), PAPER)
+    img = Image.new("RGBA", (W, H), NIGHT + (255,))
+
+    # One soft glow on the right, standing in for the site's light beams: the
+    # card is a still of the hero, not a copy of its CSS.
+    glow = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    ImageDraw.Draw(glow).ellipse([700, 120, 1380, 800], fill=COBALT + (110,))
+    img = Image.alpha_composite(img, glow.filter(ImageFilter.GaussianBlur(150)))
     d = ImageDraw.Draw(img)
 
-    # Wordmark and headline wear the display serif, as they do on the site; the
-    # footer line stays Libre Franklin, as the site's labels do. Cormorant runs
-    # small for its point size, hence the larger numbers than the sans used.
-    # Weight 400 both times: 500/600 are no longer loaded (brand sheet §05).
-    f_mark = ImageFont.truetype(str(face(DISPLAY, 400)), 50)
-    f_head = ImageFont.truetype(str(face(DISPLAY, 400)), 74)
-    f_foot = ImageFont.truetype(str(face(SANS, 500)), 25)
+    # The wordmark and the headline wear Libre Franklin as they do on the site:
+    # 500 for the wordmark, the hero's one 300 for the headline. The label at
+    # the foot is JetBrains Mono, like every label on the site.
+    f_mark = ImageFont.truetype(str(face(SANS, 500)), 44)
+    f_sub = ImageFont.truetype(str(face(SANS, 500)), 17)
+    f_head = ImageFont.truetype(str(face(SANS, 300)), 68)
+    f_foot = ImageFont.truetype(str(face(MONO, 400)), 20)
 
-    # On-paper lockup: Mist, Harbour, Navy, with the wordmark 1.6u off the mark.
-    u = 17
+    # On-night lockup: two whites and Sky, the wordmark 1.6u off the mark, the
+    # "AI SEO" subline on the wordmark's baseline as the header sets it.
+    u = 15
     mark_w = u * 3 + u * PLUME_GAP * 2
-    plumes(d, PAD, PAD + 34, u, (MIST, INK_SOFT, INK))
-    d.text((PAD + mark_w + 1.6 * u, PAD - 14), name, font=f_mark, fill=INK)
+    baseline = PAD + 40
+    plumes(d, PAD, baseline, u, (WHITE + (107,), WHITE + (199,), SKY + (255,)))
+    word_x = PAD + mark_w + 1.6 * u
+    d.text((word_x, baseline), name, font=f_mark, fill=WHITE, anchor="ls")
+    sub_x = word_x + d.textlength(name, font=f_mark) + 16
+    tracked(d, (sub_x, baseline - 15), "AI SEO", f_sub, WHITE + (184,), 5)
 
-    headline = "When someone asks AI for a recommendation, does it say your name?"
-    lines = wrap(d, headline, f_head, W - PAD * 2)
-    y = 206
-    for line in lines:
-        d.text((PAD, y), line, font=f_head, fill=INK)
-        y += 84
+    heading, accent = hero()
+    y = 212
+    for text, fill in ((heading, WHITE), (accent, SKY)):
+        for line in wrap(d, text, f_head, W - PAD * 2):
+            d.text((PAD, y), line, font=f_head, fill=fill)
+            y += 78
 
-    # Echoes the hero badge. Navy, not Sky: this sits on paper, and Sky is
-    # legal only against navy (brand sheet §04).
-    dot_y = H - PAD - 4
-    d.ellipse([PAD, dot_y, PAD + 15, dot_y + 15], fill=INK)
-    d.text((PAD + 30, dot_y - 9), "AI visibility, measured", font=f_foot, fill=INK_SOFT)
+    foot_y = H - PAD - 6
+    tracked(d, (PAD, foot_y), offer_title().upper(), f_foot, WHITE + (150,), 3)
 
     out = ROOT / "app" / "opengraph-image.png"
-    img.save(out, "PNG", optimize=True)
+    img.convert("RGB").save(out, "PNG", optimize=True)
     print(f"  {out.relative_to(ROOT)}  {W}x{H}  {out.stat().st_size // 1024}KB")
 
 
@@ -189,7 +222,7 @@ def make_icon() -> None:
         (S - mark_w) / 2,
         S - S * 10 / 46,
         u,
-        ((255, 255, 255, 102), (255, 255, 255, 199), SKY + (255,)),
+        ((255, 255, 255, 107), (255, 255, 255, 199), SKY + (255,)),
     )
 
     png = ROOT / "app" / "icon.png"

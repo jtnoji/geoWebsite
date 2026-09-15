@@ -1,16 +1,19 @@
 import type { Metadata } from "next";
 import ArtifactCard from "@/components/ArtifactCard";
-import { delay } from "@/lib/reveal";
+import Beams from "@/components/Beams";
 import Chip from "@/components/Chip";
 import Cta from "@/components/Cta";
-import DataChips from "@/components/DataChips";
+import Eyebrow from "@/components/Eyebrow";
 import HonestyBlock from "@/components/HonestyBlock";
 import JsonLd from "@/components/JsonLd";
 import PageSchema from "@/components/PageSchema";
 import { SamplingRows } from "@/components/SamplingCard";
+import StageTabs, { type Stage } from "@/components/StageTabs";
+import { SECTION_X } from "@/lib/layout";
+import { delay } from "@/lib/reveal";
 import { crumb, faq } from "@/lib/schema";
 import { SAMPLE_LABEL, SAMPLE_QUERY, SAMPLE_ROWS } from "@/lib/sample";
-import { HONESTY_COPY } from "@/lib/site";
+import { BRAND, HONESTY_COPY } from "@/lib/site";
 import { SAMPLING_FOOTNOTE } from "@/lib/stats";
 import { pageMeta } from "@/lib/seo";
 
@@ -22,110 +25,79 @@ export const metadata: Metadata = pageMeta({
 });
 
 /**
- * The flagship page. Section bodies are ≤2
- * sentences; the artifact does the explaining. `body` is the plain visible
- * text; `bolds` phrases are styled by splitting — so the FAQPage JSON-LD
- * built from {heading, body} always matches the rendered copy exactly.
+ * Rebuilt 2026-09-14 from the Sable design (mockup/sable-site.dc.html): a dark
+ * hero with the stage console. Below it the page keeps the five protocol
+ * sections it had before (Josh: "new look, keep some of the content"), because
+ * they carry the FAQPage schema and the method detail the design's single
+ * block leaves out. The six-stage pipeline grid and the section rail went: the
+ * console now tells the sequence.
+ */
+
+/** The console's four stages, as the design writes them. */
+const STAGES: readonly Stage[] = [
+  {
+    label: "Measure",
+    title: "We ask what your customers ask.",
+    body: "Real buying questions for your category, run across ChatGPT, Google AI, Gemini and Perplexity, ten times each. Answers move run to run, so a single screenshot tells you nothing.",
+  },
+  {
+    label: "Diagnose",
+    title: "We find what keeps you out.",
+    body: "Every answer is traced back to the sources behind it. Crawler access, missing structure, thin category pages and the third-party sites doing the deciding.",
+  },
+  {
+    label: "Improve",
+    title: "We work the roadmap.",
+    body: "Fixes on your site and off it, in the order that moves the needle fastest. You can take the roadmap and run it yourself, or we implement it.",
+  },
+  {
+    label: "Track",
+    title: "We re-run the same query set.",
+    body: "Before and after rates on identical questions, plus any new competitors and sources that entered the answer. You see what each change did.",
+  },
+];
+
+/**
+ * The protocol sections. Section bodies are ≤2 sentences; the artifact does
+ * the explaining. `body` is the plain visible text; `bolds` phrases are styled
+ * by splitting, so the FAQPage JSON-LD built from {heading, body} always
+ * matches the rendered copy exactly.
  */
 const SECTIONS = [
   {
     id: "s1",
-    rail: "§1  What we ask",
-    chip: "§1 · The query set",
+    label: "01 · The query set",
     heading: "The questions your customers actually ask",
     body: 'Real phrasings from across the funnel: cost, comparison, "is this agency worth it." Locked per cycle, so every before and after is apples to apples.',
     bolds: ['"is this agency worth it."', "apples to apples"],
   },
   {
     id: "s2",
-    rail: "§2  How we sample",
-    chip: "§2 · Sampling",
+    label: "02 · Sampling",
     heading: "Ten runs, not one screenshot",
     body: 'AI answers change between runs, so a single fetch is a coin flip. We run every query 10× per engine and report the rate. A single-run "AI rank" is noise.',
     bolds: ["a single fetch is a coin flip", "10× per engine"],
   },
   {
     id: "s3",
-    rail: "§3  How we judge",
-    chip: "§3 · Judging",
+    label: "03 · Judging",
     heading: "Every answer graded against ground truth",
     body: `A mention isn't enough. Each answer is judged against a fact sheet you approve: present? prominent? accurate? If AI says you only run paid ads when you run full-funnel, that's a finding, not a blind spot.`,
     bolds: ["a fact sheet you approve", "accurate?"],
   },
   {
     id: "s4",
-    rail: "§4  What you get",
-    chip: "§4 · The report and the work",
+    label: "04 · The report and the work",
     heading: "Numbers first, then the roadmap, then the work",
     body: "Rates by engine and question type, the queries you're losing, who's named instead, and a fix list ranked by what the evidence says moves answers. On the ongoing tier we implement that list and run the whole protocol again, so every change is measured rather than assumed.",
     bolds: ["the queries you're losing", "we implement that list"],
   },
   {
     id: "s5",
-    rail: "§5  What we won't promise",
-    chip: "§5 · The fine print, up front",
+    label: "05 · The fine print, up front",
     heading: HONESTY_COPY.heading,
     body: HONESTY_COPY.body,
     bolds: [],
-  },
-] as const;
-
-const PIPELINE = [
-  {
-    n: "01",
-    title: "Query set",
-    desc: "Real customer questions, locked per cycle.",
-    art: '"how much should a startup spend on a marketing agency"',
-    hot: false,
-  },
-  {
-    n: "02",
-    title: "Four engines",
-    desc: "Chat models + live-search surfaces.",
-    art: "chatgpt · google ai · gemini · perplexity",
-    hot: false,
-  },
-  {
-    n: "03",
-    title: "Ten runs",
-    desc: "Answers change run to run.",
-    art: (
-      <>
-        <span className="text-ink">
-          ●●●●<span className="text-dot">●●●●●●</span>
-        </span>{" "}
-        → 4/10 mention rate
-      </>
-    ),
-    hot: false,
-  },
-  {
-    n: "04",
-    title: "Judged",
-    desc: "Graded against ground truth.",
-    art: "presence · prominence · accuracy",
-    hot: false,
-  },
-  {
-    n: "05",
-    title: "Reported",
-    desc: "Rates, gaps, roadmap.",
-    art: "losing queries → who's named instead → why",
-    hot: false,
-  },
-  {
-    // The emphasis marker moved here from 05 with the Ongoing GEO reframe: the
-    // emphasised endpoint of the protocol is the work, not the report. Labelled
-    // "ongoing tier" so nobody reads implementation into the one-time audit.
-    //
-    // Under the Berkeley palette `hot` is carried by the OTHER five stepping
-    // DOWN, not by this one lighting up: navy fill is already the loudest thing
-    // available on paper, and it is what every stage tab used to wear.
-    n: "06",
-    title: "Implemented",
-    desc: "Ongoing tier: we make the fixes, then re-run.",
-    art: "fix → re-run → before / after",
-    hot: true,
   },
 ] as const;
 
@@ -166,7 +138,7 @@ function BodyWithBolds({ body, bolds }: { body: string; bolds: readonly string[]
       const [before, after] = part.split(phrase, 2);
       next.push(
         before,
-        <b key={phrase} className="font-bold text-ink">
+        <b key={phrase} className="font-semibold text-ink">
           {phrase}
         </b>,
         after
@@ -175,6 +147,84 @@ function BodyWithBolds({ body, bolds }: { body: string; bolds: readonly string[]
     parts = next;
   }
   return <>{parts}</>;
+}
+
+function Artifact({ id }: { id: string }) {
+  if (id === "s1") {
+    return (
+      <ArtifactCard title="query set · b2b marketing agency" meta="v1 · locked">
+        <div className="px-5 py-2">
+          {QUERY_ROWS.map((row) => (
+            <div
+              key={row.q}
+              className="flex justify-between gap-3.5 border-b border-dashed border-line py-3 font-mono text-[12.5px] text-ink last:border-b-0"
+            >
+              <span className="min-w-0">{row.q}</span>
+              <span className="self-center rounded-full bg-note-bg px-2.5 py-0.5 text-[10px] text-note">
+                {row.tag}
+              </span>
+            </div>
+          ))}
+        </div>
+      </ArtifactCard>
+    );
+  }
+  if (id === "s2") {
+    return (
+      <ArtifactCard
+        title={<>sampling: &ldquo;{SAMPLE_QUERY}&rdquo;</>}
+        meta="10 runs/engine"
+        footer={SAMPLE_LABEL}
+      >
+        <SamplingRows rows={SAMPLE_ROWS} />
+      </ArtifactCard>
+    );
+  }
+  if (id === "s3") {
+    return (
+      <ArtifactCard title="judge verdict · run 7/10 · chatgpt" meta="fact sheet v3">
+        <div className="px-5 py-2">
+          {VERDICT_ROWS.map((row) => (
+            <div
+              key={row.k}
+              className="grid grid-cols-[104px_minmax(0,1fr)] gap-3 border-b border-dashed border-line py-3 text-[14px] last:border-b-0"
+            >
+              <span className="pt-0.5 font-mono text-[11px] uppercase text-ink-faint">
+                {row.k}
+              </span>
+              <span className="text-ink-soft">
+                <b className="font-semibold text-ink">{row.bold}</b>
+                {row.rest}
+                {row.flag && (
+                  <span className="mt-2 block">
+                    {/* `overflow-wrap: anywhere` because the payload is a
+                        snake_case identifier with no break opportunity in it,
+                        and it once pushed a 768px page 46px sideways. */}
+                    <span className="inline-block max-w-full rounded-full bg-risk-bg px-2.5 py-1 font-mono text-[11px] font-medium text-risk [overflow-wrap:anywhere]">
+                      missing_or_invented_feature · HIGH
+                    </span>
+                  </span>
+                )}
+              </span>
+            </div>
+          ))}
+        </div>
+      </ArtifactCard>
+    );
+  }
+  if (id === "s4") {
+    return (
+      <div className="grid gap-3 sm:grid-cols-2">
+        {DELIVERABLES.map((d) => (
+          <div key={d.title} className="rounded-xl bg-white px-5 py-4">
+            <b className="block text-[15px] font-semibold text-ink">{d.title}</b>
+            <span className="mt-1 block text-[13px] text-ink-soft">{d.desc}</span>
+          </div>
+        ))}
+      </div>
+    );
+  }
+  return <HonestyBlock withLabel={false} />;
 }
 
 export default function HowItWorks() {
@@ -189,265 +239,79 @@ export default function HowItWorks() {
         data={faq(SECTIONS.map((s) => ({ question: s.heading, answer: s.body })))}
       />
 
-      {/* Head */}
-      <section className="border-b border-line">
-        <div data-reveal className="mx-auto max-w-[1120px] px-5 pb-[52px] pt-[72px] text-center sm:px-8">
-          <Chip>Methodology · v2.1 · May 2026</Chip>
-          <h1 className="display mx-auto mb-4 mt-5 max-w-[720px] text-[40px] font-bold leading-[1.0] tracking-[-0.04em] text-ink md:text-[58px]">
-            Measurement you can actually inspect.
-          </h1>
-          <p className="mx-auto mb-7 max-w-[540px] text-lg leading-7 text-ink-soft">
-            The full protocol: <b className="font-bold text-ink">what we run</b>,{" "}
-            <b className="font-bold text-ink">how often</b>, and{" "}
-            <b className="font-bold text-ink">how every answer is judged</b>.
-            Public, because measurement you can&rsquo;t inspect is just
-            marketing.
+      {/* ---- HERO + CONSOLE ------------------------------------------------ */}
+      <section data-hero="dark" className="relative overflow-hidden bg-night text-white">
+        <Beams variant="page" />
+        <div className={`relative ${SECTION_X} pb-12 pt-32 md:pb-[70px] md:pt-[150px]`}>
+          <div data-reveal>
+            <Eyebrow onDark>{`How ${BRAND} works`}</Eyebrow>
+            <h1 className="display mt-6 max-w-[15ch] text-[clamp(42px,5.6vw,80px)] leading-[1.02] text-white text-pretty">
+              {"One system, running on "}
+              <span className="text-sky">a schedule</span>
+            </h1>
+          </div>
+        </div>
+        <div
+          data-reveal="scale"
+          style={delay(120)}
+          className={`relative ${SECTION_X} pb-16 md:pb-[100px]`}
+        >
+          <StageTabs stages={STAGES} />
+        </div>
+      </section>
+
+      {/* ---- THE PROTOCOL ---------------------------------------------------
+          Kept from the previous page: the FAQPage JSON-LD above is built from
+          these five, so the headings and bodies here ARE the schema. */}
+      <section className="bg-paper-dim">
+        <div data-reveal className={`${SECTION_X} pt-16 md:pt-[100px]`}>
+          <Eyebrow>The protocol</Eyebrow>
+          <h2 className="display mt-6 max-w-[18ch] text-[clamp(32px,3.8vw,52px)] leading-[1.06] text-ink text-pretty">
+            Measurement you can inspect.
+          </h2>
+          <p className="mt-5 max-w-[56ch] text-[16.5px] leading-[1.7] text-ink-soft">
+            What we run, how often, and how every answer is judged. Public,
+            because measurement you can&rsquo;t inspect is just marketing.
           </p>
-          <DataChips
-            cells={[
-              { label: "n=", value: "32", suffix: " queries" },
-              { label: "engines=", value: "4" },
-              { label: "runs=", value: "10×", suffix: " each" },
-              { label: "judged vs fact sheet", accent: true },
-            ]}
-          />
         </div>
-      </section>
 
-      {/* Pipeline */}
-      <section className="border-b border-line">
-        <div className="mx-auto max-w-[1120px] px-5 py-14 sm:px-8">
-          <div data-reveal className="mb-6 flex flex-wrap items-center gap-4">
-            <Chip>The pipeline</Chip>
-            <h2 className="display text-[22px] font-bold tracking-[-0.03em] text-ink">
-              Five stages to the report, then the work
-            </h2>
-          </div>
-          {/* gap-px over a line-dark ground: one clean seam in every layout,
-              which the old per-cell borders could not do once this wrapped to
-              two rows. Same pattern as the §4 deliverables grid. */}
-          {/* One block: the gap-px seam is shared, so per-cell reveals would
-              tear it open as they fade. */}
-          <div data-reveal style={delay(120)} className="grid gap-px border border-line-dark bg-line-dark sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
-            {PIPELINE.map((stage) => (
-              <div
-                key={stage.n}
-                className="flex flex-col bg-white pb-4"
-              >
-                <span
-                  className={`block px-3.5 py-1.5 font-mono text-[11px] ${
-                    stage.hot
-                      ? "bg-ink font-medium text-white"
-                      : "bg-paper-dim text-ink-faint"
-                  }`}
-                >
-                  {stage.n}
-                </span>
-                <div className="px-3.5 pb-3 pt-3.5">
-                  <span className="block text-[15px] font-bold tracking-[-0.01em] text-ink">
-                    {stage.title}
-                  </span>
-                  <span className="mt-1 block text-[12.5px] leading-[1.45] text-ink-soft">
-                    {stage.desc}
-                  </span>
-                </div>
-                {/* min-h fits the tallest artifact (stage 01 wraps to three
-                    24px lines at the lg 6-column width: 72px + 16px padding),
-                    so every box in the row is the same height and the tops
-                    line up instead of only the mt-auto bottoms. The inner span
-                    keeps the artifact a single flex child, otherwise stage
-                    03's dot run and its label become separate flex items and
-                    stop wrapping as one line of text. */}
-                <div
-                  className={`mx-3.5 mt-auto flex min-h-[88px] items-center justify-center px-2.5 py-2 text-center font-mono text-[10.5px] leading-6 ${
-                    stage.hot
-                      ? "bg-paper-dim font-medium text-ink"
-                      : "bg-paper-dim text-ink-soft"
-                  }`}
-                >
-                  <span>{stage.art}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Doc grid: sticky §-rail + sections */}
-      <div className="mx-auto grid max-w-[1120px] gap-8 px-5 py-16 sm:px-8 md:grid-cols-[190px_minmax(0,1fr)] md:gap-14">
-        <aside className="md:sticky md:top-[82px] md:self-start">
-          <nav
-            aria-label="Sections"
-            className="flex flex-wrap gap-x-4 border-b border-line pb-2.5 font-mono text-xs text-ink-faint md:block md:border-b-0 md:pb-0"
-          >
-            {SECTIONS.map((s) => (
-              <a
-                key={s.id}
-                href={`#${s.id}`}
-                className="block py-1 transition-colors hover:text-ink md:border-b md:border-line md:py-2"
-              >
-                {s.rail}
-              </a>
-            ))}
-          </nav>
-        </aside>
-
-        <div className="min-w-0">
-          {/* §1 */}
-          <section
-            id="s1"
-            data-reveal
-            className="grid gap-6 border-b border-line py-12 pt-0 md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] md:gap-13"
-          >
-            <div>
-              <Chip>{SECTIONS[0].chip}</Chip>
-              <h2 className="display mb-3 mt-3.5 max-w-[360px] text-[28px] font-bold leading-[1.1] tracking-[-0.035em] text-ink">
-                {SECTIONS[0].heading}
-              </h2>
-              <p className="text-[15.5px] leading-[1.6] text-ink-soft">
-                <BodyWithBolds body={SECTIONS[0].body} bolds={SECTIONS[0].bolds} />
-              </p>
-            </div>
-            <ArtifactCard title="query set · b2b marketing agency" meta="v1 · locked">
-              <div className="px-4 py-2">
-                {QUERY_ROWS.map((row) => (
-                  <div
-                    key={row.q}
-                    className="flex justify-between gap-3.5 border-b border-dashed border-line py-2.5 font-mono text-[12.5px] text-ink last:border-b-0"
-                  >
-                    <span>{row.q}</span>
-                    <span className="self-center bg-ink px-2 py-0.5 text-[10px] text-white">
-                      {row.tag}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </ArtifactCard>
-          </section>
-
-          {/* §2 */}
-          <section
-            id="s2"
-            data-reveal
-            className="grid gap-6 border-b border-line py-12 md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] md:gap-13"
-          >
-            <div>
-              <Chip>{SECTIONS[1].chip}</Chip>
-              <h2 className="display mb-3 mt-3.5 max-w-[360px] text-[28px] font-bold leading-[1.1] tracking-[-0.035em] text-ink">
-                {SECTIONS[1].heading}
-              </h2>
-              <p className="text-[15.5px] leading-[1.6] text-ink-soft">
-                <BodyWithBolds body={SECTIONS[1].body} bolds={SECTIONS[1].bolds} />
-                <sup>1</sup>
-              </p>
-              <p className="mt-3.5 text-xs leading-[1.5] text-ink-faint">
-                <b className="text-ink-soft">1.</b> {SAMPLING_FOOTNOTE.value}{" "}
-                {SAMPLING_FOOTNOTE.text} {SAMPLING_FOOTNOTE.source}.
-              </p>
-            </div>
-            <ArtifactCard
-              title={<>sampling: &ldquo;{SAMPLE_QUERY}&rdquo;</>}
-              meta="10 runs/engine"
-              footer={SAMPLE_LABEL}
+        <div className={`${SECTION_X} pb-16 pt-6 md:pb-[100px] md:pt-10`}>
+          {SECTIONS.map((section) => (
+            <section
+              key={section.id}
+              id={section.id}
+              data-reveal
+              className="grid items-start gap-8 border-t border-line-dark py-12 first:border-t-0 md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] md:gap-14"
             >
-              <SamplingRows rows={SAMPLE_ROWS} />
-            </ArtifactCard>
-          </section>
-
-          {/* §3 */}
-          <section
-            id="s3"
-            data-reveal
-            className="grid gap-6 border-b border-line py-12 md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] md:gap-13"
-          >
-            <div>
-              <Chip>{SECTIONS[2].chip}</Chip>
-              <h2 className="display mb-3 mt-3.5 max-w-[360px] text-[28px] font-bold leading-[1.1] tracking-[-0.035em] text-ink">
-                {SECTIONS[2].heading}
-              </h2>
-              <p className="text-[15.5px] leading-[1.6] text-ink-soft">
-                <BodyWithBolds body={SECTIONS[2].body} bolds={SECTIONS[2].bolds} />
-              </p>
-            </div>
-            <ArtifactCard title="judge verdict · run 7/10 · chatgpt" meta="fact sheet v3">
-              <div className="px-4 py-2">
-                {VERDICT_ROWS.map((row) => (
-                  <div
-                    key={row.k}
-                    className="grid grid-cols-[104px_minmax(0,1fr)] gap-3 border-b border-dashed border-line py-2.5 text-[13.5px] last:border-b-0"
-                  >
-                    <span className="pt-0.5 font-mono text-[11px] uppercase text-ink-faint">
-                      {row.k}
-                    </span>
-                    <span className="text-ink-soft">
-                      <b className="font-bold text-ink">{row.bold}</b>
-                      {row.rest}
-                      {row.flag && (
-                        <span className="mt-1.5 block">
-                          {/* Flagged failure: steps up to the navy fill, the
-                              same as the home hero's "not mentioned" flag. */}
-                          {/* `overflow-wrap: anywhere` because the payload is
-                              a snake_case identifier with no break
-                              opportunity in it. At 768px this chip was 167px
-                              wide inside a 71px column and pushed the page
-                              46px sideways. */}
-                          <span className="inline-block max-w-full [overflow-wrap:anywhere] bg-ink px-2 py-0.5 font-mono text-[11px] font-medium text-white">
-                            missing_or_invented_feature · HIGH
-                          </span>
-                        </span>
-                      )}
-                    </span>
-                  </div>
-                ))}
+              <div className="min-w-0">
+                <Chip tone="outline">{section.label}</Chip>
+                <h2 className="display mt-5 max-w-[20ch] text-[clamp(26px,2.6vw,34px)] leading-[1.12] text-ink text-pretty">
+                  {section.heading}
+                </h2>
+                {section.id !== "s5" && (
+                  <p className="mt-4 max-w-[52ch] text-[16px] leading-[1.7] text-ink-soft">
+                    <BodyWithBolds body={section.body} bolds={section.bolds} />
+                    {section.id === "s2" && <sup>1</sup>}
+                  </p>
+                )}
+                {section.id === "s2" && (
+                  <p className="mt-3.5 max-w-[52ch] text-[12.5px] leading-[1.5] text-ink-faint">
+                    <b className="text-ink-soft">1.</b> {SAMPLING_FOOTNOTE.value}{" "}
+                    {SAMPLING_FOOTNOTE.text} {SAMPLING_FOOTNOTE.source}.
+                  </p>
+                )}
               </div>
-            </ArtifactCard>
-          </section>
-
-          {/* §4 */}
-          <section
-            id="s4"
-            data-reveal
-            className="grid gap-6 border-b border-line py-12 md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] md:gap-13"
-          >
-            <div>
-              <Chip>{SECTIONS[3].chip}</Chip>
-              <h2 className="display mb-3 mt-3.5 max-w-[360px] text-[28px] font-bold leading-[1.1] tracking-[-0.035em] text-ink">
-                {SECTIONS[3].heading}
-              </h2>
-              <p className="text-[15.5px] leading-[1.6] text-ink-soft">
-                <BodyWithBolds body={SECTIONS[3].body} bolds={SECTIONS[3].bolds} />
-              </p>
-            </div>
-            <div className="grid grid-cols-1 gap-px border border-line-dark bg-line-dark sm:grid-cols-2">
-              {DELIVERABLES.map((d) => (
-                <div key={d.title} className="bg-white px-4 py-4">
-                  <b className="block text-[14.5px] font-bold tracking-[-0.01em] text-ink">
-                    {d.title}
-                  </b>
-                  <span className="text-[12.5px] text-ink-soft">{d.desc}</span>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          {/* §5 — the honesty pull-quote. This was the page's one gold chip;
-              solid navy is the equivalent step in the Berkeley palette. */}
-          <section id="s5" data-reveal className="grid gap-6 py-12 pb-0 md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] md:gap-13">
-            <div>
-              <Chip>{SECTIONS[4].chip}</Chip>
-              <h2 className="display mb-3 mt-3.5 max-w-[360px] text-[28px] font-bold leading-[1.1] tracking-[-0.035em] text-ink">
-                {SECTIONS[4].heading}
-              </h2>
-            </div>
-            <HonestyBlock withLabel={false} />
-          </section>
+              <div className="min-w-0">
+                <Artifact id={section.id} />
+              </div>
+            </section>
+          ))}
         </div>
-      </div>
+      </section>
 
       <Cta
-        centered
         heading="See the protocol run on your business."
-        sub="The free AI visibility check is a small version of exactly this: real queries, real engines, real answers."
+        sub="The free AI visibility check is a smaller version of it, run on your category."
       />
     </>
   );

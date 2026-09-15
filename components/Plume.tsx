@@ -13,7 +13,9 @@ import { BRAND } from "@/lib/site";
  *     gap     0.3 u
  *     corner  60% 60% 60% 0
  *
- * Tone steps down with height so the eye lands on the tallest, darkest form.
+ * Colour follows the Sable site design (mockup/sable-site.dc.html): the two
+ * short plumes are the ground's ink at two strengths and the tallest is Sky,
+ * on dark and on light alike.
  *
  * Scale reduction (brand sheet §03) is automatic and keyed off the rendered
  * mark height, so a small call site cannot accidentally ship three plumes of
@@ -24,15 +26,15 @@ import { BRAND } from "@/lib/site";
  * aria-hidden and contributes no accessible text.
  */
 
-type Tone = "paper" | "navy" | "mono";
+type Tone = "light" | "dark" | "header" | "mono";
 
-/** Tallest-first, so slicing off the faint end is a single `.slice()`. */
+/** Tallest-last, so slicing off the faint end is a single `.slice()`. */
 const TONES: Record<Tone, readonly [string, string, string]> = {
-  // On the paper ground: Mist → Harbour → Berkeley Navy.
-  paper: ["var(--color-ink-dim)", "var(--color-ink-soft)", "var(--color-ink)"],
-  // On navy: two whites, then Sky. This is the one accent mark the system
-  // spends site-wide, and it is legal here because the ground is navy.
-  navy: ["rgba(255,255,255,0.36)", "rgba(255,255,255,0.74)", "var(--color-sky)"],
+  light: ["rgba(14,35,64,0.32)", "rgba(14,35,64,0.6)", "var(--color-sky)"],
+  dark: ["rgba(255,255,255,0.42)", "rgba(255,255,255,0.78)", "var(--color-sky)"],
+  // Follows the header's dress, which the page underneath decides
+  // (globals.css, `.site-header`).
+  header: ["var(--plume-1)", "var(--plume-2)", "var(--plume-3)"],
   // Single-colour lockup (brand sheet §02) — inherits from the parent.
   mono: ["currentColor", "currentColor", "currentColor"],
 };
@@ -41,7 +43,7 @@ const HEIGHT_RATIOS = [1.7, 2.3, 2.9] as const;
 
 export default function Plume({
   u = 6,
-  tone = "paper",
+  tone = "light",
   className = "",
 }: {
   /** Width of one plume, in px. The mark stands 2.9u tall. */
@@ -78,19 +80,22 @@ export default function Plume({
 }
 
 /**
- * The primary horizontal lockup: mark, then the Garamond wordmark.
+ * The lockup: mark, then the wordmark in Libre Franklin 500.
  *
- * The optional `subline` renders the brand sheet's tracked "AI SEO" label. It
- * is OFF by default and unused on the site: the brand sheet's own site-header
- * mockup (§06) shows mark plus wordmark alone, and "AI SEO" is a positioning
- * word that website-plan.md has never approved as visible copy. Turn it on
- * only with sign-off.
+ * The optional `subline` is the tracked "AI SEO" label (Josh, 2026-08-02). The
+ * header sets it on the wordmark's baseline (`layout="row"`); the footer
+ * stacks it underneath in mono (`layout="stack"`), which is how the design
+ * draws the two.
+ *
+ * The wordmark renders BRAND from lib/site.ts, never a literal, so the launch
+ * rename stays a one-file change.
  */
 export function Lockup({
   u = 6,
-  size = 30,
-  tone = "paper",
+  size = 21,
+  tone = "light",
   subline,
+  layout = "row",
   className = "",
 }: {
   u?: number;
@@ -98,25 +103,30 @@ export function Lockup({
   size?: number;
   tone?: Tone;
   subline?: string;
+  layout?: "row" | "stack";
   className?: string;
 }) {
+  const stacked = layout === "stack";
   return (
     <span className={`inline-flex items-center ${className}`} style={{ gap: `${1.6 * u}px` }}>
       <Plume u={u} tone={tone} />
-      <span className="flex flex-col" style={{ gap: `${0.7 * u}px` }}>
+      <span
+        className={stacked ? "flex flex-col" : "flex items-baseline"}
+        style={{ gap: stacked ? "5px" : "9px" }}
+      >
         <span
-          className="display leading-none"
-          style={{ fontSize: `${size}px`, letterSpacing: "0.04em" }}
+          className="font-medium leading-none"
+          style={{ fontSize: `${size}px`, letterSpacing: "-0.02em" }}
         >
           {BRAND}
         </span>
         {subline ? (
           <span
-            className="font-mono uppercase"
+            className={`uppercase leading-none ${stacked ? "font-mono" : "font-medium"}`}
             style={{
-              fontSize: `${Math.max(7.5, size * 0.23)}px`,
-              letterSpacing: "0.36em",
-              opacity: 0.6,
+              fontSize: `${Math.max(9, size * 0.45)}px`,
+              letterSpacing: "0.3em",
+              opacity: 0.72,
             }}
           >
             {subline}

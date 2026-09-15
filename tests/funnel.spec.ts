@@ -10,11 +10,10 @@ for (const page of PAGES) {
   test(`${page.path} links to /free-check/ in one click`, async ({ page: pw }) => {
     await pw.goto(page.path);
     // Filter to visible BEFORE .first(): in DOM order the first /free-check
-    // link is Header's desktop `btn-pill`, which is correctly hidden behind
-    // the hamburger at mobile width. Asserting on it failed all 15 pages on
-    // mobile-safari while BottomBar's CTA sat visible further down the page.
-    // The rule is "≤1 click from every page", so ANY visible link satisfies
-    // it; zero visible links still fails, which is the regression we want.
+    // link is the Header's desktop CTA, which is correctly hidden at mobile
+    // width while the mobile CTA beside the menu button is showing. The rule
+    // is "≤1 click from every page", so ANY visible link satisfies it; zero
+    // visible links still fails, which is the regression we want.
     const links = pw.locator('a[href*="/free-check"]').filter({ visible: true });
     await expect(
       links.first(),
@@ -26,7 +25,9 @@ for (const page of PAGES) {
 test("the home hero hands its domain to the free-check form", async ({ page }) => {
   await page.goto("/");
   await page.fill("#site", "bluequarrygrowth.example.com");
-  await page.getByRole("button", { name: /Run my/ }).click();
+  // The fold's submit button carries OFFER_SHORT beside the field (Sable
+  // redesign, 2026-09-14); the big "Run my ..." action above it is a link.
+  await page.getByRole("button", { name: /Free AI check/ }).click();
 
   await page.waitForURL(/\/free-check\/\?site=/);
   // Normalised on arrival: the hero takes a bare hostname because that is what

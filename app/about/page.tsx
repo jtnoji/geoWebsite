@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import Beams from "@/components/Beams";
 import Cta from "@/components/Cta";
+import Eyebrow from "@/components/Eyebrow";
 import JsonLd from "@/components/JsonLd";
 import PageSchema from "@/components/PageSchema";
+import { SECTION, SECTION_X } from "@/lib/layout";
 import { delay } from "@/lib/reveal";
 import { crumb, person } from "@/lib/schema";
-import { FOUNDERS, NAP } from "@/lib/site";
+import { BRAND, EMAIL, FOUNDERS, NAP } from "@/lib/site";
 import { pageMeta } from "@/lib/seo";
 
 export const metadata: Metadata = pageMeta({
@@ -14,6 +18,18 @@ export const metadata: Metadata = pageMeta({
   path: "/about/",
 });
 
+/**
+ * Rebuilt 2026-09-14 from the Sable design (mockup/sable-site.dc.html): a dark
+ * hero with the story on the left and a booking panel on the right.
+ *
+ * THE DESIGN'S PANEL WAS A FORM (name, work email, domain, goal). Nothing on
+ * the backend accepts one, and a form that swallows submissions is worse than
+ * no form, so it is a panel that sends people to /contact instead (Josh). The
+ * lead path is untouched.
+ *
+ * The founders section below is kept from the previous page, because the two
+ * Person nodes above must describe people the page visibly shows.
+ */
 export default function About() {
   return (
     <>
@@ -27,47 +43,136 @@ export default function About() {
         <JsonLd key={f.name} data={person(f)} />
       ))}
 
-      <div className="mx-auto max-w-2xl px-5 py-16 sm:px-8 md:py-20">
-        {/* Head centres; the founder bios below stay left-aligned, because
-            centring multi-line body copy hurts readability. */}
-        <div data-reveal className="text-center">
-        <h1 className="display text-4xl font-bold leading-[1.1] tracking-tight text-ink">
-          Two founders, measuring the thing everyone else is guessing about.
-          Then doing something about it.
-        </h1>
-        <p className="mt-5 text-base leading-7 text-ink-soft">
-          We&rsquo;re based in {NAP.city}, {NAP.region}. One of us builds the
-          measurement platform, the other sits with every client who uses it.
-          We started this because &ldquo;how visible am I in AI answers?&rdquo;
-          deserves a measured answer, not a sales pitch. Now we work the fix
-          list too, and measure what it changed.
-        </p>
-        </div>
-
-        <div className="mt-14">
-          {FOUNDERS.map((f, i) => (
-            <section
-              key={f.name}
-              data-reveal
-              style={delay(i * 110)}
-              className="border-t border-line-dark py-8 last:pb-0"
-            >
-              <h2 className="display text-2xl font-bold tracking-tight text-ink">{f.name}</h2>
-              <p className="mt-1 text-sm text-ink-faint">{f.role}</p>
-              <p className="mt-4 text-base leading-7 text-ink-soft">{f.bio}</p>
-              <a
-                href={f.linkedin}
-                rel="noopener noreferrer"
-                className="mt-4 inline-block text-sm font-semibold text-ink hover:text-accent"
+      <section data-hero="dark" className="relative overflow-hidden bg-night text-white">
+        <Beams variant="page" />
+        <div
+          className={`relative ${SECTION_X} grid items-start gap-14 pb-20 pt-32 md:pb-[110px] md:pt-[150px] lg:grid-cols-2`}
+        >
+          <div data-reveal className="min-w-0">
+            <Eyebrow onDark>About</Eyebrow>
+            <h1 className="display mt-6 max-w-[16ch] text-[clamp(38px,4.8vw,66px)] leading-[1.04] text-white text-pretty">
+              {"We measure first, "}
+              <span className="text-sky">then we do the work</span>
+            </h1>
+            <p className="mt-6 max-w-[50ch] text-[16px] leading-[1.7] text-white/88">
+              {BRAND} is a small team working on one problem: getting businesses
+              named in the answers their customers read. We run the same query
+              set every month, publish what moved, and implement the fixes
+              ourselves when you want us to.
+            </p>
+            <p className="mt-5 max-w-[50ch] text-[16px] leading-[1.7] text-white/88">
+              We ran the audit on{" "}
+              <Link
+                href="/our-score/"
+                className="border-b border-white/40 transition-colors hover:border-white"
               >
-                {f.name} on LinkedIn ↗
+                our own site
+              </Link>{" "}
+              before we sold it to anyone.
+            </p>
+            <div className="mt-8 flex flex-col items-start gap-2.5">
+              <a
+                href={`mailto:${EMAIL}`}
+                className="text-[16px] text-white transition-colors hover:text-sky"
+              >
+                {EMAIL}
               </a>
-            </section>
-          ))}
-        </div>
-      </div>
+              <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-white/70">
+                Now booking our first implementation clients
+              </p>
+            </div>
+          </div>
 
-      <Cta centered secondaryLabel="Book a call" secondaryHref="/contact/" />
+          <div
+            data-reveal="scale"
+            style={delay(120)}
+            className="min-w-0 rounded-2xl bg-frost p-7 text-ink sm:p-8"
+          >
+            <h2 className="text-[20px] font-medium text-ink">Book a call</h2>
+            <p className="mt-3 text-[15px] leading-[1.65] text-ink-soft">
+              The fastest route is a 20-minute call with Josh. No deck, just
+              your questions and, if you&rsquo;ve run the free AI visibility
+              check, your numbers.
+            </p>
+            <dl className="mt-6 flex flex-col gap-[18px]">
+              <div>
+                <dt className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-ink-faint">
+                  Email
+                </dt>
+                <dd className="mt-2">
+                  <a
+                    href={`mailto:${EMAIL}`}
+                    className="text-[15px] text-ink transition-colors hover:text-accent"
+                  >
+                    {EMAIL}
+                  </a>
+                </dd>
+              </div>
+              <div>
+                <dt className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-ink-faint">
+                  Based in
+                </dt>
+                <dd className="mt-2 text-[15px] text-ink">
+                  {NAP.city}, {NAP.region}
+                </dd>
+              </div>
+            </dl>
+            <Link
+              href="/contact/"
+              className="btn btn-mono btn-cobalt mt-7 w-full py-[15px] text-[11.5px]"
+            >
+              {"Book a call "}
+              <span aria-hidden="true">→</span>
+            </Link>
+            <p className="mt-3 text-center text-[13px] text-ink-faint">
+              We reply within one business day.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div className={SECTION}>
+          <div data-reveal>
+            <Eyebrow>The founders</Eyebrow>
+            <h2 className="display mt-6 max-w-[26ch] text-[clamp(30px,3.6vw,48px)] leading-[1.08] text-ink text-pretty">
+              Two founders, measuring the thing everyone else is guessing about.
+              Then doing something about it.
+            </h2>
+            <p className="mt-5 max-w-[56ch] text-[16px] leading-[1.7] text-ink-soft">
+              We&rsquo;re based in {NAP.city}, {NAP.region}. One of us builds
+              the measurement platform, the other sits with every client who
+              uses it.
+            </p>
+          </div>
+
+          <div className="mt-12 grid gap-4 md:grid-cols-2">
+            {FOUNDERS.map((f, i) => (
+              <article
+                key={f.name}
+                data-reveal
+                style={delay(i * 110)}
+                className="flex min-w-0 flex-col rounded-2xl bg-white p-7 sm:p-8"
+              >
+                <h3 className="display text-[26px] leading-tight text-ink">{f.name}</h3>
+                <p className="mt-2 font-mono text-[10.5px] uppercase tracking-[0.14em] text-ink-faint">
+                  {f.role}
+                </p>
+                <p className="mt-5 text-[16px] leading-[1.7] text-ink-soft">{f.bio}</p>
+                <a
+                  href={f.linkedin}
+                  rel="noopener noreferrer"
+                  className="mt-6 self-start border-b border-line-dark pb-0.5 text-[15px] font-medium text-ink transition-colors hover:border-ink"
+                >
+                  {f.name} on LinkedIn ↗
+                </a>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <Cta secondaryLabel="Book a call" secondaryHref="/contact/" />
     </>
   );
 }

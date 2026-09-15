@@ -103,10 +103,12 @@ export default function Privacy() {
     <div className="mx-auto max-w-2xl px-5 py-16 sm:px-8 md:py-20">
       <PageSchema meta={metadata} path="/privacy/" trail={[crumb("/privacy/")]} />
 
-      {/* Head centres; the policy Q&A below stays left-aligned so the answers
-          read as body copy (CLAUDE.md "Alignment"). */}
-      <div data-reveal className="text-center">
-        <h1 className="display text-4xl font-bold tracking-tight text-ink">Privacy</h1>
+      {/* Left-aligned throughout, like every page in the Sable design; the
+          policy Q&A reads as body copy (CLAUDE.md "Alignment"). */}
+      <div data-reveal>
+        <h1 className="display text-[clamp(34px,4.4vw,58px)] leading-[1.05] text-ink">
+          Privacy
+        </h1>
         <p className="mt-5 text-base leading-7 text-ink-soft">
           {BRAND} runs AI visibility checks from {NAP.city}, {NAP.region}. The
           only personal information we hold is what you send through the free
@@ -137,7 +139,7 @@ export default function Privacy() {
           . If we change this policy, we change the date above and the page
           history is public in our repository.
         </p>
-        <Link href="/contact/" className="btn-solid mt-6 inline-block px-5 py-2.5 text-sm">
+        <Link href="/contact/" className="btn btn-navy mt-6 px-5 py-3 text-[15px]">
           Contact us
         </Link>
       </div>

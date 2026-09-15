@@ -36,12 +36,14 @@ export default function Learn() {
         trail={[crumb("/learn/")]}
       />
 
-      <div className="mx-auto max-w-2xl px-5 py-16 sm:px-8 md:py-20">
-        {/* Head centres; the article list below stays left-aligned so the
-            titles and descriptions scan down a single edge. */}
-        <div data-reveal className="text-center">
-          <h1 className="display text-4xl font-bold tracking-tight text-ink">Learn</h1>
-          <p className="mt-5 text-base leading-7 text-ink-soft">
+      {/* Left-aligned head and list, like every page in the Sable design: the
+          titles and descriptions scan down a single edge. */}
+      <div className="mx-auto max-w-3xl px-5 py-16 sm:px-8 md:py-20">
+        <div data-reveal>
+          <h1 className="display text-[clamp(34px,4.4vw,58px)] leading-[1.05] text-ink">
+            Learn
+          </h1>
+          <p className="mt-5 max-w-[52ch] text-[16px] leading-[1.7] text-ink-soft">
             Plain answers to the questions business owners ask about AI search.
             Each article opens with the answer.
           </p>
@@ -56,13 +58,13 @@ export default function Learn() {
               className="border-t border-line-dark"
             >
               <Link href={`/learn/${article.slug}/`} className="group block py-7">
-                <h2 className="display text-xl font-bold tracking-tight text-ink">
+                <h2 className="display text-[22px] leading-[1.25] text-ink">
                   {article.title}
                 </h2>
-                <p className="mt-2 text-sm leading-6 text-ink-soft">
+                <p className="mt-2 text-[15px] leading-[1.65] text-ink-soft">
                   {article.description}
                 </p>
-                <span className="mt-3 inline-block text-sm font-semibold text-ink group-hover:text-accent">
+                <span className="mt-3 inline-block text-[15px] font-medium text-ink transition-colors group-hover:text-accent">
                   Read the answer →
                 </span>
               </Link>
@@ -71,7 +73,7 @@ export default function Learn() {
         </ul>
       </div>
 
-      <Cta centered />
+      <Cta />
     </>
   );
 }

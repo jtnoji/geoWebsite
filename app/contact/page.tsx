@@ -65,7 +65,7 @@ export default function Contact() {
           </p>
           <Link
             href="/free-check/"
-            className="btn-solid mt-4 px-5 py-2.5 text-sm"
+            className="btn btn-navy mt-4 px-5 py-3 text-[15px]"
           >
             {OFFER_CTA}
           </Link>

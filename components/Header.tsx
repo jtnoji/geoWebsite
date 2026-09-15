@@ -5,67 +5,63 @@ import NavHighlighter from "./NavHighlighter";
 import { Lockup } from "./Plume";
 
 /**
- * Berkeley-system header (brand sheet §06, mockup/sable-brand-sheet.html): an
- * opaque Berkeley-navy band, 64px, sticky. Plume lockup left, the mark at
- * ~20px so all three plumes survive the §03 reduction rule; nav links sentence
- * case in white at 72%, the active page picking up the Sky underline
- * (NavHighlighter); the free-check CTA is the inverted white pill.
+ * The Sable header (mockup/sable-site.dc.html): fixed, translucent, blurred,
+ * and dressed by the page underneath it. The dress lives in globals.css under
+ * `.site-header`: a page whose first section is a dark band marks it
+ * `data-hero="dark"`, and every colour here flips through CSS variables. So
+ * this stays a server component with nothing to decide at runtime.
  *
- * The lockup carries the "AI SEO" subline (brand sheet §02). The sheet's own
- * §06 header mockup shows mark + wordmark alone, so this is a deliberate
- * departure: Josh asked for it on 2026-08-02, which is the copy sign-off the
- * CLAUDE.md invariant requires. It also does real work — the wordmark is a
- * coined name that says nothing about the product on its own.
+ * Lockup left with the "AI SEO" subline on the wordmark's baseline (Josh,
+ * 2026-08-02). Nav links sentence case, the current page underlined by
+ * NavHighlighter. The CTA is an outline pill.
  *
- * Replaces the weir header, which was a translucent gradient dissolving into
- * the page. That trick needed a gradient ground to dissolve INTO — this system
- * has a flat paper ground, so the header states itself instead.
- *
- * Sticky so the primary CTA is always visible.
+ * Fixed, so the primary CTA is visible on every page without scrolling back up
+ * (website-plan §1). It replaced the persistent bottom CTA bar, which the
+ * design does not have.
  *
  * The full nav appears at `lg` (1024px); below that it is the MobileNav
- * dropdown beside the CTA. The links do physically fit at 768 with a tighter
- * gap — this was briefly moved to `md` on 2026-08-02 to close the empty space
- * mid-bar, then reverted the same day (Josh). The dropdown is the wanted
- * behaviour below 1024, not a fallback. Don't "fix" it again.
+ * dropdown beside the CTA. The dropdown is the wanted behaviour below 1024,
+ * not a fallback (Josh, 2026-08-02).
  */
 export default function Header() {
   return (
-    <header className="sticky top-0 z-40 bg-ink">
+    <header className="site-header fixed inset-x-0 top-0 z-40">
       <NavHighlighter />
-      <div className="mx-auto flex h-16 max-w-[1200px] items-center gap-8 px-5 sm:px-8 lg:px-10">
-        <Link href="/" aria-label={`${BRAND}, home`} className="text-white">
-          <Lockup u={7} size={24} tone="navy" subline="AI SEO" />
+      <div className="mx-auto flex h-[72px] w-full max-w-[1440px] items-center gap-6 px-5 sm:px-8">
+        <Link href="/" aria-label={`${BRAND}, home`} className="shrink-0">
+          <Lockup u={7} size={21} tone="header" subline="AI SEO" />
         </Link>
 
         <nav
           aria-label="Main"
-          className="ml-auto hidden items-center gap-[30px] lg:flex"
+          className="ml-auto hidden items-center gap-[22px] lg:flex"
         >
           {NAV_LINKS.filter((l) => l.href !== "/").map((link) => (
             <Link
               key={link.href}
               href={link.href}
               data-nav-link
-              className="whitespace-nowrap py-[21px] text-[12.5px] tracking-[0.04em] text-white/70 transition-colors hover:text-white"
+              className="nav-link whitespace-nowrap pb-[3px] text-[15px] tracking-[-0.005em]"
             >
               {link.label}
             </Link>
           ))}
           <Link
             href="/free-check/"
-            className="btn-pill-invert px-[20px] py-[11px] text-[11px]"
+            className="nav-cta ml-1 whitespace-nowrap rounded-full px-5 py-2.5 text-[14.5px] font-medium tracking-[-0.005em]"
           >
-            {OFFER_SHORT} <span className="text-[14px]">&#10230;</span>
+            {`${OFFER_SHORT} `}
+            <span aria-hidden="true">→</span>
           </Link>
         </nav>
 
-        <div className="ml-auto flex items-center gap-4 lg:hidden">
+        <div className="ml-auto flex items-center gap-3 lg:hidden">
           <Link
             href="/free-check/"
-            className="btn-pill-invert px-4 py-2.5 text-[10.5px]"
+            className="nav-cta whitespace-nowrap rounded-full px-4 py-2 text-[13.5px] font-medium"
           >
-            {OFFER_SHORT} <span className="text-[13px]">&#10230;</span>
+            {`${OFFER_SHORT} `}
+            <span aria-hidden="true">→</span>
           </Link>
           <MobileNav />
         </div>

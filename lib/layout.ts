@@ -3,50 +3,33 @@
  * every route.
  *
  * WHY THIS FILE EXISTS (2026-08-03). The home page had drifted to FIVE content
- * widths and six left edges: 1280 (the chart), 1180 (ten sections), 1120 (four
- * sections), 1000 (the answer card) and 920 (the hero), so the left margin
- * jumped between 80px and 260px as you scrolled. Vertical padding was equally
- * scattered across 24 / 56 / 80 / 96 / 104px. Every individual section was
- * fine and the page still read as unstructured, because the eye tracks the
- * left edge and that edge never held still.
+ * widths and six left edges, so the left margin jumped as you scrolled. Every
+ * individual section was fine and the page still read as unstructured, because
+ * the eye tracks the left edge and that edge never held still.
  *
- * 1120 is not a new number: /pricing, /how-it-works, /about, /sample-report,
- * /our-score, the header, the footer and the mobile nav were all already on
- * it. The home page was the outlier, so this is the rest of the site's grid
- * written down rather than a redesign.
+ * WIDENED 2026-09-14 for the Sable redesign (mockup/sable-site.dc.html), which
+ * draws every section on a 1440px track with 32px gutters and 100px of
+ * vertical padding. The old 1120 measure and the 1400 wide track collapsed
+ * into that one width.
  *
  * Import these. Do not retype the classes at a call site, and do not invent a
- * width for one section: a section that needs to be wider than the measure is
- * a full-bleed band (a background colour on the <section>, this container
- * inside it), which is the one sanctioned way out.
+ * width for one section: a section that needs to feel wider is a full-bleed
+ * band (a background on the <section>, this container inside it), which is
+ * the one sanctioned way out.
  */
 
 /** The content column. Every section's inner wrapper starts with this. */
-export const SECTION_X = "mx-auto max-w-[1120px] px-5 sm:px-8";
+export const SECTION_X = "mx-auto w-full max-w-[1440px] px-5 sm:px-8";
 
-/**
- * Standard vertical rhythm: 64px on phones, 80px from md up. Adjacent
- * sections each contribute their own, so the gap between two blocks of
- * content is double this.
- *
- * It is deliberately one step tighter than the 96px that most home sections
- * used to carry. The page is long (about 17 viewports) and the padding was
- * paying for length without buying separation that the hairline rules and the
- * navy bands were not already providing.
- */
-export const SECTION_Y = "py-16 md:py-20";
+/** Standard vertical rhythm: 64px on phones, the design's 100px from md up. */
+export const SECTION_Y = "py-16 md:py-[100px]";
 
 /** Both, which is what almost every call site wants. */
 export const SECTION = `${SECTION_X} ${SECTION_Y}`;
 
 /**
- * The wide track. Same gutters, a wider ceiling: for scenes whose graphic is
- * the content and looks throttled at the reading measure. Added 2026-08-03
- * (Josh: "the elements feel overly contained within a narrow central column").
- *
- * It is deliberately a SECOND value and not a free-for-all. Two tracks read as
- * a decision; five read as the drift lib/layout.ts was written to stop, so a
- * scene is either at the measure or at the wide track and nothing invents a
- * third.
+ * The reading track, for a block whose content is a table or a column of text
+ * that would sprawl at 1440 (the home comparison table). A SECOND value, not a
+ * free-for-all: a section is at the track or at the reading track.
  */
-export const SECTION_WIDE = "mx-auto max-w-[1400px] px-5 sm:px-8";
+export const SECTION_NARROW = "mx-auto w-full max-w-[1100px] px-5 sm:px-8";

@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Libre_Franklin } from "next/font/google";
+import { JetBrains_Mono, Libre_Franklin } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import BottomBar from "@/components/BottomBar";
 import JsonLd from "@/components/JsonLd";
 import ScrollReveal from "@/components/ScrollReveal";
 import { org, professionalService, website } from "@/lib/schema";
@@ -13,23 +12,20 @@ import { BRAND, DOMAIN, GOOGLE_SITE_VERIFICATION, TAGLINE } from "@/lib/site";
 // Self-hosted at build time by next/font — no external CDN request, so the
 // static export stays self-contained. A CDN <link> would break that.
 //
-// Two families, per the Berkeley brand sheet §05: Libre Franklin carries body,
-// labels and data; Cormorant Garamond is display only (h1/h2 and editorial
-// figures, via the `.display` rule in globals.css). Weights are deliberately
-// short — the sheet uses 400/500 throughout and never goes bold, so 600 is
-// here only for the few data cells that predate it. Cormorant runs small for
-// its point size, hence 300/400 rather than the sans's range.
+// Two families, per the Sable site design (mockup/sable-site.dc.html): Libre
+// Franklin carries headings and body, JetBrains Mono carries labels, data and
+// the compact buttons. Franklin loads 300 for the one light hero headline and
+// 600 for every other heading; nothing on the site is heavier.
 const franklin = Libre_Franklin({
   variable: "--font-franklin",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["300", "400", "500", "600"],
   style: ["normal", "italic"],
 });
-const cormorant = Cormorant_Garamond({
-  variable: "--font-cormorant",
+const jetbrains = JetBrains_Mono({
+  variable: "--font-jetbrains",
   subsets: ["latin"],
-  weight: ["300", "400"],
-  style: ["normal", "italic"],
+  weight: ["400", "500"],
 });
 
 export const metadata: Metadata = {
@@ -77,7 +73,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${franklin.variable} ${cormorant.variable} h-full antialiased`}
+      className={`${franklin.variable} ${jetbrains.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col font-sans">
         {/* Arms the scroll-reveal hidden state before first paint, so
@@ -100,9 +96,10 @@ export default function RootLayout({
         <JsonLd data={professionalService()} />
         <ScrollReveal />
         <Header />
-        <main className="flex-1">{children}</main>
+        {/* `site-main` clears the fixed header, and stands down on pages whose
+            first section is a dark hero (globals.css, "Header"). */}
+        <main className="site-main flex-1">{children}</main>
         <Footer />
-        <BottomBar />
         {/* Vercel Web Analytics. Cookieless and first-party: the script and the
             beacon both live under /_vercel/insights on our own origin, so the
             CSP's `script-src 'self'` and `connect-src 'self'` already cover it

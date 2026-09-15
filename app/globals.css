@@ -1,162 +1,349 @@
 @import "tailwindcss";
 
-/* Design tokens — the "Berkeley" system (canonical: mockup/sable-brand-sheet.html,
-   imported from Claude Design 2026-08-02; see CLAUDE.md "Design system").
-   Replaces the "weir" system (mockup/weir-style.html), which ran on a pastel
-   gradient ground, Poppins, and a rationed California-gold accent.
+/* Design tokens: the "Sable" system (canonical: mockup/sable-site.dc.html,
+   imported from Claude Design 2026-09-14; rules in CLAUDE.md "Design system").
 
-   Cormorant Garamond for display, Libre Franklin for everything else. The
-   palette is a single navy hue stepped four ways (ink → accent → harbour →
-   mist) over a warm paper ground; Sky is the one bright note and it is legal
-   ONLY against navy. Light-only: one canonical appearance for the review loop
-   and AI-crawler rendering. */
+   Replaces the Berkeley brand-sheet system, which set Cormorant display type
+   over warm paper and rationed Sky to navy bands. Two families now: Libre
+   Franklin carries everything a person reads, JetBrains Mono carries labels,
+   data and the compact buttons. One navy hue over a cool grey ground, a
+   near-black "night" for the full-bleed bands, Sky as the bright note on dark
+   and cobalt as the bright note on light. Light-only: one canonical appearance
+   for the review loop and for AI-crawler rendering. */
 @theme inline {
   --font-sans: var(--font-franklin);
-  /* The "mono" role (labels, metadata, data cells) is Libre Franklin in this
-     system — kept as a separate token so the label/metadata role stays
-     nameable. Labels set uppercase with wide tracking; per the brand sheet
-     that tracked label is the ONLY uppercase in the system. */
-  --font-mono: var(--font-franklin);
-  /* Display serif — headings and editorial figures only. See the `.display`
-     rule below; nothing should reach for `font-display` directly. */
-  --font-display: var(--font-cormorant), Georgia, "Times New Roman", serif;
+  --font-mono: var(--font-jetbrains);
 
-  /* ---- The four navy steps. Tone steps down as importance does, exactly the
-     way the logo's three plumes step. ----
+  /* ---- Ink. Text on the light ground steps down in three tones. ----
 
-     DARKENED FROM THE BRAND SHEET (2026-08-02), deliberately. The sheet's own
-     Harbour (#697585) measures 4.14:1 on this paper ground and its label grey
-     (#98a1ab) measures 2.32:1 — both under WCAG AA's 4.5:1 for normal text,
-     and the sheet sets body copy at 15px where that is felt. Both steps move
-     down by a flat -31 on every channel, which preserves the hue and the even
-     spacing between steps and buys 6.59:1 and 4.72:1. The ratios are the
-     invariant here, not the hex values: re-measure before touching either. */
-  --color-ink: #0e2340; /* Berkeley Navy — headings, fills, tallest plume. 13.9:1 */
-  --color-accent: #12325c; /* Sable Blue — links, active states, eyebrows. 11.3:1 */
-  --color-ink-soft: #4a5666; /* Harbour — body copy, middle plume. 6.59:1 */
-  --color-ink-faint: #626c78; /* labels, card meta, footnotes. 4.72:1 */
-  --color-ink-dim: #b2b7bc; /* Mist — first plume, faintest meta. NON-TEXT ONLY */
+     THE CONTRAST RATIOS ARE THE INVARIANT, NOT THE HEX VALUES. Measured on the
+     ground (#eef1f5), the harder of the two light surfaces: ink-soft 7.7:1,
+     ink-faint 4.56:1. ink-faint is the floor for any text. The design also set
+     meta text in #8c9bb5, which measures 2.8:1 on white, so every text use of
+     it moved to ink-faint and ink-dim survives as a non-text tone only.
+     Re-measure before touching any of these. */
+  --color-ink: #0e2340; /* headings, fills */
+  --color-accent: #12325c; /* links, hover on navy fills */
+  --color-ink-soft: #3c4c66; /* body copy */
+  --color-ink-faint: #5e6e88; /* labels, meta, sources */
+  --color-ink-dim: #8c9bb5; /* NON-TEXT ONLY */
+  --color-slate: #4a5b80; /* second chart series */
 
-  --color-paper: #ffffff; /* cards sit on the paper ground */
-  --color-paper-dim: #f2f1ec; /* Paper — the page ground AND inset artifact boxes */
+  /* ---- Surfaces ---- */
+  --color-paper: #ffffff; /* cards */
+  --color-paper-dim: #eef1f5; /* the ground */
+  --color-inset: #f7f9fc; /* rows inside a white panel */
+  --color-frost: #f4f7fb; /* light panels sitting on a dark band */
+  --color-frost-dim: #e7ecf4; /* their header strip */
+  --color-night: #04080f; /* full-bleed dark bands and the footer */
 
-  /* Sky. On navy ONLY, never on paper, and at most once per page — it is the
-     single bright note and loses its job the moment it is used twice. */
+  /* ---- The two bright notes, and neither crosses over. ----
+     Sky is the bright note ON DARK: eyebrows, the headline accent, the primary
+     button fill. Cobalt is the bright note ON LIGHT: the headline accent, bars,
+     list dots, the compact form button. Cobalt measures 4.9:1 on white and
+     4.3:1 on the ground, so on the ground it is legal only as large text or as
+     a mark. */
   --color-sky: #7fa6d9;
+  --color-sky-soft: #a6c3e6; /* sky button hover */
+  --color-cobalt: #2f6fd0;
 
-  --color-accent-dark: #12325c; /* solid/pill button hover — a lift, not a shift */
-  --color-line: rgba(14, 35, 64, 0.1);
-  --color-line-dark: rgba(14, 35, 64, 0.16);
+  /* ---- Rules and tracks ---- */
+  --color-line: #e1e8f2; /* hairline on white */
+  --color-line-dark: #d5ddea; /* hairline on the ground, chart grid */
+  --color-track: #dce4ef; /* bar tracks, pill borders */
+  --color-field: #c9d5e6; /* input borders */
 
-  /* Absence/loss. This palette has no warning hue on purpose, so absence is
-     carried by TONE and STRUCTURE — Harbour text against navy, hollow dots,
-     hairline rules — never by a colour shift. Anything that has to shout
-     inverts to a navy fill instead. */
-  --color-bad: #4a5666; /* == ink-soft: absence steps DOWN a tone, it never shifts hue */
-  /* The unfilled dots are a track, not data — the filled dots and the "7/10"
-     numeral beside every row carry the count, so these only have to be visible
-     enough to read against. Nudged down with the text steps so the track did
-     not vanish once the filled dots got darker. */
-  --color-dot: #c3c6cb; /* unfilled sampling dots */
-  --color-dot-bad: #d0d2d6; /* unfilled dots on the competitor row */
+  /* ---- Comparison, and flagged findings. ----
+     A COMPARISON (you vs a competitor, crawler seen vs not seen) steps DOWN to
+     slate and paler dots. A FLAGGED FINDING (a blocked crawler, absence from a
+     cited source) is a status chip, and the design gives chips three hues.
+     Each pair measures at least 5.5:1, text on its own tint. Chips only: never
+     a text colour on its own, never a section fill. */
+  --color-bad: #4a5b80;
+  --color-dot: #c9d5e6;
+  --color-dot-bad: #dce4ef;
+  --color-risk: #8a3b3b;
+  --color-risk-bg: #f6e4e4;
+  --color-caution: #7a5a22;
+  --color-caution-bg: #f7eedf;
+  --color-ok: #2f5d3a;
+  --color-ok-bg: #e6f0e8;
+  --color-note: #12325c;
+  --color-note-bg: #eaf0fa;
 
-  --color-band: #ffffff; /* persistent bottom CTA bar */
+  /* ---- Depth. Three shadows and no fourth. ----
+     card: panels and report artifacts. float: the one big object in a section
+     (the shift chart). glass: the translucent card on a dark band. */
+  --shadow-card:
+    0 1px 2px rgba(14, 35, 64, 0.05), 0 18px 40px -22px rgba(14, 35, 64, 0.28);
+  --shadow-float:
+    0 2px 6px rgba(14, 35, 64, 0.06), 0 20px 44px -16px rgba(14, 35, 64, 0.18),
+    0 56px 100px -50px rgba(14, 35, 64, 0.34);
+  --shadow-glass: 0 30px 70px -40px rgba(0, 0, 0, 0.9);
+}
 
-  /* Source-category swatches (home "Where an answer comes from"). Four 11px
-     dots that must read as four categories. The brand sheet has no second
-     hue to spend here, so they are the four navy steps in order — which is
-     also the plume's own logic. */
-  --color-source-blue: #12325c;
-  --color-source-bronze: #b2b7bc;
+html {
+  /* The header is fixed, so an in-page anchor would otherwise land under it. */
+  scroll-padding-top: 96px;
 }
 
 body {
-  /* Flat warm paper. The weir system's fixed pastel gradient is gone: the
-     brand sheet's ground is a single value, and cards earn their separation
-     from a white fill plus a hairline rather than from the ground shifting
-     under them. */
   background: var(--color-paper-dim);
   color: var(--color-ink);
-  /* Clear the fixed bottom CTA bar (BottomBar.tsx). */
-  padding-bottom: 62px;
 }
 
-/* ---- Surfaces ------------------------------------------------------------
-   A radius scale and two depths, so surfaces stop being decided per call site.
-   The old system had 12px, 18px, 20px and 22px in circulation plus a rule that
-   measurement artifacts must be square and shadowless.
-
-   THAT RULE IS RELAXED (Josh, 2026-08-03): the artifacts were reading as a
-   stack of report rectangles, and the reason for the rule (data must not read
-   as marketing) is carried by the mono type, the run counts and the
-   illustrative labels, not by the corners. Radii are gentle rather than
-   playful, and shadows stay soft and low-contrast so nothing floats.
-
-   `--r-card` is the default for anything with a surface. `--r-panel` is for
-   the large product objects (the hero console, the stage console). Pills keep
-   999px. Nothing should introduce a fifth value. */
-:root {
-  --r-card: 14px;
-  --r-panel: 20px;
-  --shadow-soft: 0 18px 40px -24px rgba(14, 35, 64, 0.28);
-  --shadow-lift: 0 34px 80px -34px rgba(14, 35, 64, 0.42);
+::selection {
+  background: var(--color-sky);
+  color: var(--color-night);
 }
 
-.surface {
-  border-radius: var(--r-card);
-  overflow: hidden;
-}
-
-.surface-soft {
-  box-shadow: var(--shadow-soft);
-}
-
-.surface-lift {
-  box-shadow: var(--shadow-lift);
-}
-
-/* ---- Display type -------------------------------------------------------
-   Headings and editorial figures wear the serif; everything else stays Libre
-   Franklin.
-
-   This rule is deliberately unlayered. Tailwind's utilities live in its
-   `utilities` cascade layer, and unlayered CSS beats layered CSS regardless of
+/* ---- Display type --------------------------------------------------------
+   Headings are Libre Franklin at 600 with tight negative tracking. The class
+   is deliberately unlayered: Tailwind's utilities live in its `utilities`
+   cascade layer, and unlayered CSS beats layered CSS regardless of
    specificity, so `.display` overrides the `font-bold` and `tracking-*`
-   classes already on ~32 headings without touching any of them. That is also
-   why weight and letter-spacing are set here rather than left to utilities.
+   utilities on headings across the site without touching each one.
 
-   Weight 400 and POSITIVE tracking, both per the brand sheet ("Light 300 &
-   Regular 400 … tracked +0.01 to +0.04 em"). The weir system ran this at 500
-   and -0.01em; Cormorant at 500 with negative tracking closes the hairlines
-   into adjacent stems and reads tight rather than open.
-
-   Cormorant runs small for its point size (small x-height), so display sizes
-   are bumped roughly a step where this class is applied. */
+   `.display-light` is the design's one 300: the home hero headline. It comes
+   after `.display` so it wins when both are on an element. */
 .display {
-  font-family: var(--font-display);
-  font-weight: 400;
-  letter-spacing: 0.02em;
+  font-weight: 600;
+  letter-spacing: -0.03em;
 }
 
-/* Hero down-chevron: gentle infinite bob. */
-@keyframes weirbob {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(7px);
+.display-light {
+  font-weight: 300;
+  letter-spacing: -0.035em;
+}
+
+/* ---- Header --------------------------------------------------------------
+   Fixed, translucent, blurred, and in one of two dresses. A page whose first
+   section is a dark band marks that section `data-hero="dark"`, and the header
+   turns light-on-dark for the whole page; every other page gets dark-on-light.
+   Decided in CSS with :has(), so there is no client component and nothing to
+   flash on hydration.
+
+   The design fades the bar to fully transparent. It is a translucent fill here
+   because the bar keeps one dress for the whole page: on the home page the
+   white nav would otherwise sit over the white sections below the fold with
+   nothing behind it. Over its own hero the fill is invisible. */
+.site-header {
+  --hdr-bg: rgba(238, 241, 245, 0.86);
+  --hdr-ink: #0e2340;
+  --hdr-muted: #5e6e88;
+  --hdr-active: #2f6fd0;
+  --hdr-rule: rgba(14, 35, 64, 0.3);
+  --hdr-hover: rgba(14, 35, 64, 0.06);
+  --hdr-panel: #ffffff;
+  --hdr-panel-rule: #e1e8f2;
+  --plume-1: rgba(14, 35, 64, 0.32);
+  --plume-2: rgba(14, 35, 64, 0.6);
+  --plume-3: #7fa6d9;
+  background: var(--hdr-bg);
+  color: var(--hdr-ink);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+body:has([data-hero="dark"]) .site-header {
+  --hdr-bg: rgba(4, 8, 15, 0.78);
+  --hdr-ink: #ffffff;
+  --hdr-muted: rgba(255, 255, 255, 0.72);
+  --hdr-active: #7fa6d9;
+  --hdr-rule: rgba(255, 255, 255, 0.35);
+  --hdr-hover: rgba(255, 255, 255, 0.1);
+  --hdr-panel: #04080f;
+  --hdr-panel-rule: rgba(255, 255, 255, 0.12);
+  --plume-1: rgba(255, 255, 255, 0.42);
+  --plume-2: rgba(255, 255, 255, 0.78);
+}
+
+/* Over a dark hero the bar starts clear, as the design draws it, and fills in
+   across the first 120px of scroll. A filled bar from the top left a visible
+   seam where the hero's beams ran under it; a bar that never fills would leave
+   the white nav bare over the white sections further down. Scroll-driven, so
+   no JavaScript: a browser without scroll timelines simply keeps the filled
+   bar from the start. */
+@supports (animation-timeline: scroll()) {
+  body:has([data-hero="dark"]) .site-header {
+    animation: header-fill linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 120px;
   }
 }
 
-.weir-bob {
-  animation: weirbob 2.4s ease-in-out infinite;
+@keyframes header-fill {
+  from {
+    background-color: rgba(4, 8, 15, 0);
+    -webkit-backdrop-filter: blur(0);
+    backdrop-filter: blur(0);
+  }
+  to {
+    background-color: rgba(4, 8, 15, 0.78);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .weir-bob {
-    animation: none;
-  }
+/* Content starts below the 72px bar, except on a page with a dark hero, which
+   runs up behind the bar on purpose and carries its own top padding. */
+.site-main {
+  padding-top: 72px;
+}
+
+body:has([data-hero="dark"]) .site-main {
+  padding-top: 0;
+}
+
+.nav-link {
+  color: var(--hdr-muted);
+  border-bottom: 1px solid transparent;
+  transition:
+    color 150ms,
+    border-color 150ms;
+}
+
+.nav-link:hover {
+  color: var(--hdr-ink);
+}
+
+/* The current page, applied by NavHighlighter. */
+.nav-on {
+  color: var(--hdr-ink);
+  border-bottom-color: var(--hdr-active);
+}
+
+/* The header CTA pill and the menu button share one outline. */
+.nav-cta {
+  border: 1px solid var(--hdr-rule);
+  color: var(--hdr-ink);
+  transition: background-color 150ms;
+}
+
+.nav-cta:hover {
+  background: var(--hdr-hover);
+  color: var(--hdr-ink);
+}
+
+.nav-panel {
+  background: var(--hdr-panel);
+  border-bottom: 1px solid var(--hdr-panel-rule);
+}
+
+.nav-panel li {
+  border-bottom: 1px solid var(--hdr-panel-rule);
+}
+
+.nav-panel li:last-child {
+  border-bottom: 0;
+}
+
+.nav-panel a {
+  color: var(--hdr-ink);
+}
+
+/* ---- Buttons -------------------------------------------------------------
+   `.btn` is the shape and one tone class sits beside it. Padding and font size
+   stay at the call site, because the same tone runs at hero size and at form
+   size. Radius, weight and tracking live here and nowhere else: these rules
+   are unlayered, so a `tracking-*` or `rounded-*` utility at the call site
+   loses to them silently. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: 11px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  text-align: center;
+  transition:
+    background-color 150ms,
+    color 150ms,
+    border-color 150ms;
+}
+
+.btn-navy {
+  background: var(--color-ink);
+  color: #fff;
+}
+
+.btn-navy:hover {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+/* The primary action on a dark band. Sky is the brightest thing on night, so
+   the one thing to press wears it. */
+.btn-sky {
+  background: var(--color-sky);
+  color: var(--color-night);
+  box-shadow: 0 18px 44px -20px rgba(127, 166, 217, 0.8);
+}
+
+.btn-sky:hover {
+  background: var(--color-sky-soft);
+  color: var(--color-night);
+}
+
+.btn-cobalt {
+  background: var(--color-cobalt);
+  color: #fff;
+}
+
+.btn-cobalt:hover {
+  background: var(--color-ink);
+  color: #fff;
+}
+
+/* On a navy card: the featured pricing tier. */
+.btn-white {
+  background: #fff;
+  color: var(--color-ink);
+}
+
+.btn-white:hover {
+  background: var(--color-frost-dim);
+  color: var(--color-ink);
+}
+
+/* Secondary on dark. */
+.btn-ghost {
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 10px;
+  color: #fff;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+}
+
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+/* Secondary on light. */
+.btn-outline {
+  border: 1px solid var(--color-field);
+  border-radius: 10px;
+  color: var(--color-ink);
+  font-weight: 500;
+  letter-spacing: -0.005em;
+}
+
+.btn-outline:hover {
+  border-color: var(--color-ink);
+  color: var(--color-ink);
+}
+
+/* The compact form: mono, tracked, uppercase. Form submits and card buttons.
+   Last, so its radius and weight win over the tone it is paired with. */
+.btn-mono {
+  border-radius: 10px;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 /* ---- Scroll reveal -------------------------------------------------------
@@ -165,7 +352,7 @@ body {
 
    The hidden state is gated behind `.js-reveal`, which an inline script in
    layout.tsx puts on <html> before first paint. Without JavaScript the class
-   never lands, so every word renders at full opacity — the raw HTML an AI
+   never lands, so every word renders at full opacity: the raw HTML an AI
    crawler reads is never animated away. Gating in CSS rather than defaulting
    to opacity:0 is the whole trick. */
 
@@ -177,18 +364,8 @@ body {
     transform 700ms cubic-bezier(0.22, 0.61, 0.36, 1) var(--reveal-delay, 0ms);
 }
 
-/* Variants — `data-reveal="fade"` carries no transform, which is what anything
-   already running its own animation (the hero chevron's bob) needs. */
 .js-reveal [data-reveal="fade"] {
   transform: none;
-}
-
-.js-reveal [data-reveal="left"] {
-  transform: translateX(-26px);
-}
-
-.js-reveal [data-reveal="right"] {
-  transform: translateX(26px);
 }
 
 .js-reveal [data-reveal="scale"] {
@@ -257,11 +434,11 @@ body {
   }
 }
 
-/* ---- Prompt bar (home, "The question") -----------------------------------
-   A mock AI input that types a question, erases it, and types the next. CSS
-   only, for the same reason the chart draw is: PromptBar renders copy, so it
-   stays a server component and all six questions must exist in the exported
-   HTML with JavaScript off.
+/* ---- Live customer questions (home hero, LiveAnswer) ---------------------
+   A mock AI input that types a question, erases it, and types the next, with
+   the engine's answer under each. CSS only, for the same reason the chart draw
+   is: LiveAnswer renders copy, so it stays a server component and all six
+   questions and answers must exist in the exported HTML with JavaScript off.
 
    HOW IT WORKS. Each question is a real, fully-rendered span, and the six are
    stacked into ONE inline-grid cell so the slot is as wide as the longest and
@@ -313,9 +490,9 @@ body {
   /* 2px past the last character, so the caret has somewhere to stand when the
      question is fully typed. */
   right: -2px;
-  /* Parameterised so the same mechanism runs on the dark hero panel: the
-     cover has to match whatever it sits on or it paints a light rectangle
-     over the untyped text. Defaults to the paper case. */
+  /* The cover has to match whatever it sits on exactly, or it paints a
+     rectangle over the untyped text. LiveAnswer sets this to its query box's
+     colour, which is why that box is opaque. */
   background: var(--prompt-bg, #fff);
   animation-name: prompt-type;
   animation-duration: var(--prompt-cycle);
@@ -366,7 +543,7 @@ body {
    80%, and the erase over the last 20%. The erase gets less of the slot than
    the typing on purpose: reading back your own deletion is not interesting,
    so it clears at about 28ms a character against the type's 53ms. Change the
-   number of questions and these have to be recut. PromptBar.tsx throws at
+   number of questions and these have to be recut. LiveAnswer.tsx throws at
    build time if they drift apart. */
 @keyframes prompt-type {
   0% {
@@ -483,8 +660,8 @@ body {
     transform: none;
   }
 
-  /* The questions are content, not decoration: with motion off the bar shows
-     the first one fully typed rather than an empty box. The other five stay
+  /* The questions are content, not decoration: with motion off the box shows
+     the first one fully typed rather than an empty field. The other five stay
      at the base `visibility: hidden`, which is what keeps them from printing
      on top of it. */
   .prompt-word {
@@ -507,275 +684,70 @@ body {
   }
 }
 
-/* ---- Stage console (home, "how Sable works") -----------------------------
-   Four stages in ONE panel that advances itself, rather than four sections
-   with the same shape. The rail marks progress and the artifact under it
-   swaps, so the reader watches one system move through its steps instead of
-   scrolling four near-identical blocks.
+/* ---- Stage tabs (/how-it-works console) ----------------------------------
+   Four radio inputs drive four panels, so the console switches with no
+   JavaScript at all and every stage's copy is in the exported HTML. The inputs
+   are direct children of `.stages`; :has() reads which one is checked.
 
-   Same machinery as the prompt bar and the same reasons: pure CSS on a server
-   component, so every stage's copy and every figure is in the exported HTML
-   with JavaScript off. A slot is a quarter of the loop, and both classes below
-   run off one clock via --stage-cycle / --stage-start.
+   The first panel is shown by default and hidden only once another input is
+   checked, so a browser without :has() still shows stage one rather than an
+   empty console.
 
-   THE STOPS ENCODE FOUR STAGES. 25% per slot; change the count and these have
-   to be recut. StageConsole throws at build time if they drift. */
+   THE COUNT IS FOUR. StageTabs.tsx throws at build time if its stage list
+   changes without these selectors. */
 .stage-panel {
-  /* Held so the panel cannot resize as stages of different heights swap,
-     which would make the whole page below it jump every five seconds. */
-  min-height: var(--stage-min, 420px);
+  display: none;
 }
 
-.stage-item {
-  visibility: hidden;
-  opacity: 0;
-  transform: translateY(8px);
-  animation-name: stage-item;
-  animation-duration: var(--stage-cycle);
-  animation-delay: var(--stage-start);
-  animation-iteration-count: infinite;
-  animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+.stage-panel:first-child,
+.stages:has(> .stage-input:nth-of-type(2):checked) .stage-panel:nth-child(2),
+.stages:has(> .stage-input:nth-of-type(3):checked) .stage-panel:nth-child(3),
+.stages:has(> .stage-input:nth-of-type(4):checked) .stage-panel:nth-child(4) {
+  display: block;
 }
 
-@keyframes stage-item {
-  0% {
-    visibility: visible;
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  2.5% {
-    visibility: visible;
-    opacity: 1;
-    transform: translateY(0);
-  }
-  22.5% {
-    visibility: visible;
-    opacity: 1;
-    transform: translateY(0);
-  }
-  25% {
-    visibility: visible;
-    opacity: 0;
-    transform: translateY(-6px);
-  }
-  25.1%,
-  100% {
-    visibility: hidden;
-    opacity: 0;
-    transform: translateY(8px);
-  }
+.stages:has(> .stage-input:not(:first-of-type):checked) .stage-panel:first-child {
+  display: none;
 }
 
-/* The rail. `step-end` so the active mark is a switch, never a fade. */
 .stage-tab {
-  animation-name: stage-tab;
-  animation-duration: var(--stage-cycle);
-  animation-delay: var(--stage-start);
-  animation-iteration-count: infinite;
-  animation-timing-function: step-end;
-}
-
-@keyframes stage-tab {
-  0% {
-    opacity: 1;
-  }
-  25%,
-  100% {
-    opacity: 0.32;
-  }
-}
-
-/* The rail's progress bar fills across its own slot. */
-.stage-fill {
-  transform: scaleX(0);
-  transform-origin: left;
-  animation-name: stage-fill;
-  animation-duration: var(--stage-cycle);
-  animation-delay: var(--stage-start);
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
-}
-
-@keyframes stage-fill {
-  0% {
-    transform: scaleX(0);
-  }
-  25% {
-    transform: scaleX(1);
-  }
-  25.1%,
-  100% {
-    transform: scaleX(0);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  /* Motion off: the first stage is simply the one on show, and the rail marks
-     it. The other three are still in the HTML for crawlers and for anyone
-     reading the page with styles off. */
-  .stage-item,
-  .stage-tab,
-  .stage-fill {
-    animation: none;
-  }
-
-  .stage-item:first-child {
-    visibility: visible;
-    opacity: 1;
-    transform: none;
-  }
-
-  .stage-tab {
-    opacity: 0.32;
-  }
-
-  .stage-tab:first-of-type {
-    opacity: 1;
-  }
-}
-
-/* Active nav link (applied by NavHighlighter). The header is a navy band in
-   this system, so the underline is Sky — the one place on the page it is
-   legal, and the one mark it carries site-wide. */
-.nav-on {
-  color: #fff;
-  box-shadow: inset 0 -2px 0 var(--color-sky);
-}
-
-/* ---- Buttons -------------------------------------------------------------
-   Per brand sheet §05: a 999px pill in two weights — navy fill for primary,
-   hairline outline for secondary — at 10px/0.14em uppercase. `.btn-solid` is
-   the 12px-radius in-flow variant (section CTAs, form submit).
-
-   NOTE: these rules are unlayered, so the letter-spacing here beats any
-   `tracking-[…]` utility at the call site. Set tracking here, not there. */
-
-.btn-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  white-space: nowrap;
-  border-radius: 999px;
-  background: var(--color-ink);
-  color: #fff;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  transition: background-color 150ms;
-}
-
-.btn-pill:hover {
-  background: var(--color-accent);
-  color: #fff;
-}
-
-.btn-pill-outline {
-  display: inline-flex;
-  align-items: center;
-  border-radius: 999px;
-  background: transparent;
-  border: 1px solid rgba(14, 35, 64, 0.28);
-  color: var(--color-ink);
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  transition: border-color 150ms;
-}
-
-.btn-pill-outline:hover {
-  border-color: var(--color-ink);
-}
-
-/* On-navy pills. The navy header and the two full-bleed navy sections cannot
-   use .btn-pill — a navy fill on a navy ground is invisible — so the primary
-   inverts to a white fill (brand sheet §06, the header's "Enquire" pill) and
-   the secondary is a white hairline. Sky is NOT a fill here: it is the one
-   accent mark, and a whole button of it would spend it. */
-.btn-pill-invert {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  white-space: nowrap;
-  border-radius: 999px;
-  background: #fff;
-  color: var(--color-ink);
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.55);
+  cursor: pointer;
   transition:
-    background-color 150ms,
-    color 150ms;
+    color 150ms,
+    border-color 150ms;
 }
 
-.btn-pill-invert:hover {
-  background: var(--color-sky);
-  color: var(--color-ink);
-}
-
-.btn-pill-ghost {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  white-space: nowrap;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: #fff;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  transition: border-color 150ms;
-}
-
-.btn-pill-ghost:hover {
-  border-color: rgba(255, 255, 255, 0.75);
+.stage-tab:hover {
   color: #fff;
 }
 
-/* Phones: let a long label wrap instead of widening the page.
-   The pills carry `white-space: nowrap` so a label never breaks mid-phrase at
-   the sizes it was drawn for, but "Get your free AI visibility check" is 393px
-   of unbreakable text and a 390px phone gives the panel holding it about
-   286px. It pushed the whole home page sideways.
-
-   This lives here rather than at the call site because these rules are
-   unlayered: a `whitespace-normal` utility sits in Tailwind's utilities layer
-   and would lose to the class it is trying to override, silently. Same trap as
-   `.display`. */
-@media (max-width: 639px) {
-  .btn-pill,
-  .btn-pill-outline,
-  .btn-pill-invert,
-  .btn-pill-ghost {
-    white-space: normal;
-    text-align: center;
-  }
-}
-
-.btn-solid {
-  display: inline-block;
-  border-radius: 12px;
-  background: var(--color-ink);
-  color: #fff;
-  font-weight: 500;
-  transition: background-color 150ms;
-}
-
-.btn-solid:hover {
-  background: var(--color-accent-dark);
+.stages:has(> .stage-input:nth-of-type(1):checked) .stage-tab:nth-child(1),
+.stages:has(> .stage-input:nth-of-type(2):checked) .stage-tab:nth-child(2),
+.stages:has(> .stage-input:nth-of-type(3):checked) .stage-tab:nth-child(3),
+.stages:has(> .stage-input:nth-of-type(4):checked) .stage-tab:nth-child(4) {
+  border-bottom-color: var(--color-sky);
   color: #fff;
 }
 
-/* Markdown article body (/learn/[slug]) — styled here since the HTML comes
-   from marked, not JSX. */
-/* Article H2s take the serif too — the copy comes from marked, not JSX, so
-   `.display` cannot be applied per-heading. Values mirror that class. */
+.stages:has(> .stage-input:nth-of-type(1):focus-visible) .stage-tab:nth-child(1),
+.stages:has(> .stage-input:nth-of-type(2):focus-visible) .stage-tab:nth-child(2),
+.stages:has(> .stage-input:nth-of-type(3):focus-visible) .stage-tab:nth-child(3),
+.stages:has(> .stage-input:nth-of-type(4):focus-visible) .stage-tab:nth-child(4) {
+  outline: 2px solid var(--color-sky);
+  outline-offset: -4px;
+}
+
+/* ---- Markdown article body (/learn/[slug]) -------------------------------
+   Styled here because the HTML comes from marked, not JSX, so no per-element
+   classes can be applied. The h2 values mirror `.display`. */
 .article h2 {
   margin-top: 2.5rem;
-  font-family: var(--font-display);
-  font-size: 1.75rem;
-  line-height: 2.25rem;
-  font-weight: 400;
-  letter-spacing: 0.02em;
+  font-size: 1.625rem;
+  line-height: 2.125rem;
+  font-weight: 600;
+  letter-spacing: -0.025em;
   color: var(--color-ink);
 }
 
@@ -823,7 +795,7 @@ body {
 
 .article strong {
   color: var(--color-ink);
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .article blockquote {

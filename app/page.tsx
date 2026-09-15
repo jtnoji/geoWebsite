@@ -1,26 +1,28 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import AnswerCompare from "@/components/AnswerCompare";
+import Beams from "@/components/Beams";
+import CapabilityRow from "@/components/CapabilityRow";
 import ClosingCta from "@/components/ClosingCta";
-import PageSchema from "@/components/PageSchema";
+import CompareTable from "@/components/CompareTable";
+import Eyebrow from "@/components/Eyebrow";
 import LiveAnswer from "@/components/LiveAnswer";
-import ReportStack from "@/components/ReportStack";
-import StageConsole from "@/components/StageConsole";
-import RuleEyebrow from "@/components/RuleEyebrow";
-import ShareOfVoice from "@/components/ShareOfVoice";
+import PageSchema from "@/components/PageSchema";
 import SearchShiftChart from "@/components/SearchShiftChart";
 import StatTile from "@/components/StatTile";
-import { SECTION, SECTION_WIDE, SECTION_X } from "@/lib/layout";
-import { SERVICE_TIERS } from "@/lib/offers";
+import {
+  CAPABILITIES,
+  COMPARISON,
+  HERO,
+  PROBLEM,
+  SERVICES,
+  SOLUTION,
+  STEPS,
+} from "@/lib/home";
+import { SECTION, SECTION_NARROW, SECTION_X } from "@/lib/layout";
 import { delay } from "@/lib/reveal";
 import { HOME_STATS } from "@/lib/stats";
-import { BRAND, OFFER_TITLE } from "@/lib/site";
+import { BRAND, OFFER, OFFER_SHORT } from "@/lib/site";
 import { pageMeta } from "@/lib/seo";
-import {
-  FOLD_COPY,
-  REASSURANCE,
-  PLANS_COPY,
-} from "@/lib/home";
 
 export const metadata: Metadata = pageMeta({
   title: `${BRAND}: does AI recommend your business?`,
@@ -30,393 +32,268 @@ export const metadata: Metadata = pageMeta({
   absoluteTitle: true,
 });
 
-/* The long-form explainer sections share one measure and one H2 scale (Claude
-   Design update 2026-07-30). The measure now comes from lib/layout.ts, which
-   every route shares: this page used to carry its own 1180 and was the only
-   thing on the site that did. */
-const H2 =
-  "display text-[clamp(33px,4.4vw,52px)] leading-[1.1] text-ink text-pretty";
+/* One text node, not two: `Run my {x}` would ship as `Run my <!-- -->free AI
+   visibility check` and split the label in the raw bytes a crawler reads. */
+const PRIMARY = `Run my ${OFFER} `;
 
+/**
+ * The home page, rebuilt 2026-09-14 from the Sable design
+ * (mockup/sable-site.dc.html), section for section: the fold, the problem with
+ * the shift chart, three capabilities, how it works, what you get, the
+ * comparison, and the closing band. Copy lives in lib/home.ts.
+ */
 export default function Home() {
   return (
     <>
       {/* No breadcrumb: the home page is the root of every trail. */}
       <PageSchema meta={metadata} path="/" />
-      {/* The home FAQ renders from the same HOME_FAQS array that feeds this
-          FAQPage node, so the visible questions and the schema cannot drift.
-          Same pattern as /how-it-works. */}
 
-      {/* THE FOLD. Rebuilt 2026-08-03 (Josh: the site reads like a research
-          report, not a product). Three things changed and each is load-bearing.
+      {/* ---- THE FOLD ------------------------------------------------------
+          data-hero="dark" dresses the header light-on-dark for this page and
+          lets the fold run up behind it (globals.css, "Header").
 
-          IT IS NAVY. The site opened on warm paper under a navy header, which
-          put a seam across the top of every page and made the first screen the
-          palest thing on it. Running the fold in ink instead lets the header
-          dissolve into it, gives Sky somewhere legal to live at the top of the
-          page, and means the deliverable can be the bright object in the frame
-          rather than one more card on the same ground.
-
-          IT SHOWS A MEASUREMENT. The old fold was a headline, a lede and a
-          field: three claims about measuring and nothing measured. FoldReadout
-          is a real reading off the sample dataset, so the first screen argues
-          by evidence like the rest of the page does.
-
-          THE CHEVRON IS GONE, and with it the svh arithmetic it needed. That
-          block existed to promise "the first screen ends AT the chevron", which
-          only had to hold because the fold was one centred column with nothing
-          below the lede to signal depth. A two-column fold whose right half is
-          a data card signals it without a hint to scroll. `min-h` still fills
-          the screen on desktop; on phones the columns stack and the readout is
-          simply the next thing, which is the point.
-
-          UNCHANGED ON PURPOSE: the h1 and the lede (the strongest sentences on
-          the site), and the GET form, which stays a plain form so the primary
-          action never waits on hydration. #site and the "Run my" button are
-          pinned by funnel.spec.ts. */}
-      <section className="bg-ink text-white">
+          The GET form stays a plain form, not an island: the fold's primary
+          action must never wait on hydration, and `form-action 'self'` in the
+          CSP already allows it. /free-check reads `site` and prefills the
+          website field. #site and the button's name are pinned by
+          funnel.spec.ts. */}
+      <section data-hero="dark" className="relative overflow-hidden bg-night text-white">
+        <Beams variant="hero" />
         <div
-          className={`${SECTION_X} flex min-h-[calc(100svh-126px)] flex-col justify-center py-14 md:py-16`}
+          className={`relative ${SECTION_X} grid min-h-[100svh] items-end gap-12 pb-11 pt-28 lg:grid-cols-2 lg:gap-14 lg:pt-24`}
         >
-          <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] lg:gap-16">
-            {/* min-w-0 on both halves: on phones this is a single auto column
-                and a grid item defaults to min-width:auto, so the column is
-                floored at its min-content and pushes the page sideways. Same
-                root cause as the fr tracks in lib/layout.ts's commit. */}
-            <div className="min-w-0">
-              <div data-reveal>
-                <RuleEyebrow onDark>{FOLD_COPY.eyebrow}</RuleEyebrow>
-              </div>
-              {/* The commercial proposition, not the provocation. The old h1
-                  ("does it say your name?") asked the visitor a question and
-                  left them to work out what was being sold; this states the
-                  service and the outcome in one line. */}
-              <h1
-                data-reveal
-                style={delay(80)}
-                className="display mt-5 max-w-[620px] text-[clamp(34px,4.6vw,54px)] leading-[1.06] text-white text-pretty"
+          <div className="min-w-0">
+            <h1
+              data-reveal
+              className="display display-light max-w-[14ch] text-[clamp(40px,5.2vw,76px)] leading-[1.03] text-white text-pretty"
+            >
+              {`${HERO.heading} `}
+              <span className="text-sky">{HERO.headingAccent}</span>
+            </h1>
+            <p
+              data-reveal
+              style={delay(80)}
+              className="mt-5 max-w-[48ch] text-[16.5px] leading-[1.65] text-white/86 text-pretty"
+            >
+              {HERO.lede}
+            </p>
+            <div
+              data-reveal
+              style={delay(160)}
+              className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-4"
+            >
+              <Link
+                href="/free-check/"
+                className="btn btn-sky px-7 py-4 text-[17px] sm:px-[34px] sm:py-[19px] sm:text-[18px]"
               >
-                {FOLD_COPY.heroHeading}
-              </h1>
-              <p
-                data-reveal
-                style={delay(160)}
-                className="mt-6 max-w-[560px] text-[16.5px] leading-[1.65] text-white/75"
+                {PRIMARY}
+                <span aria-hidden="true">→</span>
+              </Link>
+              <Link
+                href="/how-it-works/"
+                className="border-b border-white/30 pb-0.5 text-[15.5px] text-white/85 transition-colors hover:text-white"
               >
-                {FOLD_COPY.heroLede}
-              </p>
-
-              {/* One field, then the same form the visitor was always going to
-                  fill. A GET form is not an interactivity island, so the fold
-                  still works with JavaScript off, and `form-action 'self'` in
-                  the CSP already allows it. /free-check reads the `site` param
-                  and prefills the website field. */}
-              <form
-                action="/free-check/"
-                method="get"
-                data-reveal
-                style={delay(240)}
-                /* Stacked, not side by side. The primary action's label grew
-                   to the full offer name and squeezed the field to ~140px in a
-                   row, which put the page's most important input second in
-                   visual weight to its own button. Full-width both makes the
-                   field usable and the action unmistakable. */
-                className="mt-8 flex w-full max-w-[440px] flex-col gap-3"
-              >
-                <label htmlFor="site" className="sr-only">
-                  Your website
-                </label>
-                {/* A translucent field rather than a white one: a white input
-                    beside a white submit reads as one shape, and the button has
-                    to be the brighter of the two. */}
-                <input
-                  id="site"
-                  name="site"
-                  type="text"
-                  inputMode="url"
-                  autoComplete="url"
-                  required
-                  maxLength={200}
-                  placeholder="yourbusiness.com"
-                  className="w-full rounded-full border border-white/35 bg-white/[0.14] px-[22px] py-[15px] text-[15px] text-white placeholder:text-white/60 focus:border-white focus:outline-none focus:ring-2 focus:ring-white/25"
-                />
-                <button
-                  type="submit"
-                  className="btn-pill-invert w-full justify-center px-[26px] py-[16px] text-[13.5px]"
-                >
-                  {/* One text node, not two: `Run my {x}` ships as
-                      `Run my <!-- -->free ai check` and splits the label in the
-                      raw bytes a crawler reads. */}
-                  {/* The full offer name, not OFFER_SHORT: the pill is
-                      uppercase-transformed so length is the only cost, and the
-                      brief wants the primary action to say what it runs. */}
-                  {`Run my ${OFFER_TITLE} `}
-                  <span className="text-base">&#10230;</span>
-                </button>
-              </form>
-
-              <p
-                data-reveal
-                style={delay(300)}
-                className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-[13.5px] text-white/75"
-              >
-                {/* The dogfood page is the credential we actually have: nobody
-                    else in this category publishes an audit of themselves, and
-                    the sample-data honesty rule forbids a client logo wall
-                    until a real result is cleared. */}
-                <Link
-                  href="/our-score/"
-                  className="inline-flex items-center gap-2 font-medium text-white/85 underline-offset-4 hover:text-white hover:underline"
-                >
-                  <span
-                    aria-hidden="true"
-                    className="h-[6px] w-[6px] rounded-full bg-sky"
-                  />
-                  {FOLD_COPY.proof}
-                </Link>
-                <Link
-                  href="/sample-report/"
-                  className="font-medium text-white/85 underline-offset-4 hover:text-white hover:underline"
-                >
-                  {FOLD_COPY.secondary}
-                </Link>
-              </p>
+                {`${HERO.secondary} `}
+                <span aria-hidden="true">→</span>
+              </Link>
             </div>
+            <p data-reveal style={delay(220)} className="mt-3.5 text-[13.5px] text-white/70">
+              {HERO.fineprint}
+            </p>
+          </div>
 
-            {/* The interface, not a readout of one. FoldReadout stated the
-                result; this performs the behaviour that produces it, which is
-                the difference between a page about AI search and a page that
-                shows it. The scorecard is not lost: it is the same numbers the
-                sample-result section carries below. */}
-            <div data-reveal="scale" style={delay(220)} className="min-w-0">
-              <LiveAnswer />
-            </div>
+          <div
+            data-reveal="scale"
+            style={delay(200)}
+            className="w-full min-w-0 max-w-[430px] lg:justify-self-end"
+          >
+            {/* The live customer questions, kept from the previous home page
+                in place of the design's before/after card (Josh, 2026-09-14). */}
+            <LiveAnswer />
+            <form
+              action="/free-check/"
+              method="get"
+              className="mt-[18px] flex flex-wrap gap-2.5"
+            >
+              <label htmlFor="site" className="sr-only">
+                Your website
+              </label>
+              <input
+                id="site"
+                name="site"
+                type="text"
+                inputMode="url"
+                autoComplete="url"
+                required
+                maxLength={200}
+                placeholder="yourbusiness.com"
+                className="min-w-[170px] flex-1 rounded-[10px] border border-white/22 bg-white/[0.08] px-4 py-[13px] font-mono text-[15px] text-white placeholder:text-white/55 focus:border-sky focus:outline-none"
+              />
+              {/* `grow` so that when a phone wraps the button under the field it
+                  takes the full width rather than sitting short on the left. */}
+              <button
+                type="submit"
+                className="btn btn-mono btn-sky grow px-[22px] py-[13px] text-[12px] sm:grow-0"
+              >
+                {`${OFFER_SHORT} `}
+                <span aria-hidden="true">→</span>
+              </button>
+            </form>
+            <p className="mt-3.5 flex flex-wrap gap-x-2 gap-y-1 text-[14px] text-white/80">
+              <Link href="/our-score/" className="transition-colors hover:text-white">
+                {HERO.proof}
+              </Link>
+              {/* Hidden on phones, where the two links wrap onto two lines and
+                  the dot would dangle at the end of the first. */}
+              <span aria-hidden="true" className="hidden sm:inline">
+                ·
+              </span>
+              <Link href="/sample-report/" className="transition-colors hover:text-white">
+                {HERO.sample}
+              </Link>
+            </p>
           </div>
         </div>
       </section>
 
-      {/* ---- SCENE 2 · THE SHIFT -----------------------------------------
-          The urgency moment, and it is the chart's scene rather than a
-          section with a chart in it. Two sourced stats sit under the graphic
-          as evidence, not as their own block: the stat row used to be a scene
-          of its own and was three cards saying what the chart already shows. */}
-      <SearchShiftChart />
-
-      <section className="border-b border-line">
-        <div className={`${SECTION} grid gap-7 md:grid-cols-2 md:gap-12`}>
+      {/* ---- THE PROBLEM ---------------------------------------------------
+          The shift chart is the evidence for the heading beside it, and the
+          two cited stats sit under both. */}
+      <section className="bg-paper-dim">
+        <div
+          className={`${SECTION_X} grid items-start gap-12 pb-10 pt-16 md:pt-[100px] lg:grid-cols-[minmax(260px,0.72fr)_minmax(0,2fr)] lg:gap-[52px]`}
+        >
+          <div data-reveal className="min-w-0">
+            <Eyebrow>{PROBLEM.eyebrow}</Eyebrow>
+            <h2 className="display mt-[18px] max-w-[16ch] text-[clamp(28px,2.4vw,34px)] leading-[1.12] text-ink text-pretty">
+              {PROBLEM.heading}
+            </h2>
+            <p className="mt-4 max-w-[40ch] text-[14.5px] leading-[1.65] text-ink-soft">
+              {PROBLEM.body}
+            </p>
+            <ul className="mt-6 flex flex-col gap-[13px]">
+              {PROBLEM.points.map((point) => (
+                <li key={point.title} className="border-t border-line-dark pt-[13px]">
+                  <h3 className="text-[14.5px] font-semibold text-ink">{point.title}</h3>
+                  <p className="mt-1 text-[13.5px] leading-[1.6] text-ink-soft">
+                    {point.body}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <SearchShiftChart />
+        </div>
+        <div className={`${SECTION_X} grid gap-4 pb-16 pt-6 md:grid-cols-2 md:pb-[100px]`}>
           {HOME_STATS.slice(0, 2).map((stat, i) => (
-            <div key={stat.source} data-reveal style={delay(i * 110)}>
+            <div key={stat.source} data-reveal style={delay(i * 110)} className="min-w-0">
               <StatTile stat={stat} />
             </div>
           ))}
         </div>
       </section>
 
-      {/* ---- SCENE 3 · THE SHORTLIST -------------------------------------
-          One headline, one graphic, no supporting paragraph. The hero shows an
-          answer being written; this shows what forty of them add up to, which
-          is the shortlist with the reader's business at the bottom of it.
-
-          Full-bleed navy and the artifact at scale: the scene changes surface
-          AND composition from the one above it, which is the pacing the page
-          was missing when every block was a card on paper. */}
-      <section className="bg-ink text-white">
-        <div className={`${SECTION_WIDE} py-16 md:py-20`}>
-          <div data-reveal className="mx-auto max-w-[760px] text-center">
-            <RuleEyebrow onDark className="justify-center">
-              Where search lives now
-            </RuleEyebrow>
-            <h2 className="display mt-5 text-[clamp(32px,4.6vw,56px)] leading-[1.08] text-white text-pretty">
-              Search is moving to answers, and answers name a shortlist.
-            </h2>
-          </div>
-          <div
-            data-reveal="scale"
-            style={delay(140)}
-            className="mx-auto mt-14 max-w-[860px]"
-          >
-            <ShareOfVoice />
-          </div>
-        </div>
-      </section>
-
-      {/* ---- SCENE 4 · PRICING -------------------------------------------
-          PRICES COME FROM lib/offers.ts, WHICH READS lib/site.ts. Two of the
-          three are still "[$X]" and nothing here invents a number, an
-          inclusion or a guarantee to cover for that. */}
-      <section id="pricing" className="scroll-mt-20 border-b border-line">
-        <div className={SECTION}>
-          <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] lg:gap-16">
-            <div data-reveal className="min-w-0">
-              <RuleEyebrow>{PLANS_COPY.eyebrow}</RuleEyebrow>
-              <h2 className={`mt-4 ${H2}`}>{PLANS_COPY.heading}</h2>
-              <p className="mt-5 max-w-[460px] text-[15.5px] leading-[1.7] text-ink-soft">
-                {PLANS_COPY.body}
-              </p>
-            </div>
-            <div data-reveal="scale" style={delay(140)} className="min-w-0">
-              <ReportStack />
-            </div>
-          </div>
-
-          <div className="mt-14 grid gap-5 md:grid-cols-3">
-            {SERVICE_TIERS.map((tier, i) => (
-              <div
-                key={tier.name}
-                data-reveal
-                style={delay(i * 90)}
-                className={`flex min-w-0 flex-col p-7 ${
-                  tier.featured
-                    ? "bg-ink text-white"
-                    : "border border-line-dark bg-white"
-                }`}
-              >
-                <p
-                  className={`font-mono text-[11px] font-semibold uppercase tracking-[0.14em] ${
-                    tier.featured ? "text-sky" : "text-ink-faint"
-                  }`}
-                >
-                  {tier.name}
-                </p>
-                <p
-                  className={`display mt-4 text-[34px] leading-none ${
-                    tier.featured ? "text-white" : "text-ink"
-                  }`}
-                >
-                  {tier.price}
-                </p>
-                {tier.priceNote && (
-                  <p className="mt-2 text-[12.5px] text-ink-faint">
-                    {tier.priceNote}
-                  </p>
-                )}
-                <p
-                  className={`mt-4 text-[14.5px] leading-[1.6] ${
-                    tier.featured ? "text-white/75" : "text-ink-soft"
-                  }`}
-                >
-                  {tier.description}
-                </p>
-                <ul className="mt-5 flex flex-col gap-2.5">
-                  {tier.includes.map((item) => (
-                    <li
-                      key={item}
-                      className={`grid grid-cols-[14px_minmax(0,1fr)] gap-x-2.5 text-[13.5px] leading-[1.5] ${
-                        tier.featured ? "text-white/85" : "text-ink-soft"
-                      }`}
-                    >
-                      <span
-                        aria-hidden="true"
-                        className={`mt-[7px] h-[5px] w-[5px] rounded-full ${
-                          tier.featured ? "bg-sky" : "bg-ink"
-                        }`}
-                      />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-                {tier.note && (
-                  <p
-                    className={`mt-4 text-[12.5px] leading-[1.5] ${
-                      tier.featured ? "text-white/60" : "text-ink-faint"
-                    }`}
-                  >
-                    {tier.note}
-                  </p>
-                )}
-                <Link
-                  href={tier.cta.href}
-                  className={`mt-7 justify-center px-6 py-[13px] text-[12.5px] ${
-                    tier.featured ? "btn-pill-invert" : "btn-pill"
-                  }`}
-                >
-                  {tier.cta.label}
-                </Link>
-              </div>
-            ))}
-          </div>
-
-          <p data-reveal className="mt-6 text-[13.5px] text-ink-soft">
-            <Link
-              href="/pricing/"
-              className="font-medium text-ink underline-offset-4 hover:text-accent hover:underline"
-            >
-              Compare the tiers in full
-            </Link>
+      {/* ---- THE SOLUTION -------------------------------------------------- */}
+      <section className="bg-white">
+        <div data-reveal className={`${SECTION_X} pb-4 pt-16 md:pb-10 md:pt-[100px]`}>
+          <Eyebrow>{SOLUTION.eyebrow}</Eyebrow>
+          <h2 className="display mt-6 max-w-[16ch] text-[clamp(34px,4.2vw,58px)] leading-[1.05] text-ink text-pretty">
+            {`${SOLUTION.heading} `}
+            <span className="text-cobalt">{SOLUTION.headingAccent}</span>
+          </h2>
+          <p className="mt-5 max-w-[52ch] text-[16.5px] leading-[1.7] text-ink-soft">
+            {SOLUTION.body}
           </p>
         </div>
-      </section>
-
-      {/* ---- SCENE 5 · HOW SABLE WORKS ------------------------------------
-          Four sections became one console that advances itself. The headline
-          is the only copy in the scene; the stage rail and the swapping
-          artifact carry the rest, which is what took roughly 1200px and four
-          paragraphs out of the page. */}
-      <section id="features" className="scroll-mt-20 bg-ink text-white">
-        <div className={`${SECTION_WIDE} py-16 md:py-20`}>
-          <div data-reveal className="max-w-[680px]">
-            <RuleEyebrow onDark>How Sable works</RuleEyebrow>
-            <h2 className="display mt-5 text-[clamp(30px,4.2vw,50px)] leading-[1.08] text-white text-pretty">
-              One system, running on a schedule.
-            </h2>
-          </div>
-          <div data-reveal="scale" style={delay(140)} className="mt-11">
-            <StageConsole />
-          </div>
-        </div>
-      </section>
-
-      {/* ---- SCENE 6 · BEFORE AND AFTER -----------------------------------
-          The outcome, as the two answers side by side. One line of setup,
-          because the artifact states the rest. */}
-      <section>
-        <div className={`${SECTION_WIDE} py-16 md:py-20`}>
-          <div data-reveal className="max-w-[700px]">
-            <RuleEyebrow>Before and after</RuleEyebrow>
-            <h2 className={`mt-4 ${H2}`}>
-              The same question. Two very different answers.
-            </h2>
-            <p className="mt-5 max-w-[560px] text-[15.5px] leading-[1.7] text-ink-soft">
-              Both businesses rank on page one of Google. Only one exists in the
-              paragraph the customer reads.
-            </p>
-          </div>
-          <div data-reveal style={delay(120)} className="mt-11">
-            <AnswerCompare />
-          </div>
-        </div>
-      </section>
-
-      {/* The reassurance line, not a section. The full FAQ moved to /faq
-          (2026-08-03): six accordion questions were the one block on this page
-          that could only be read rather than seen, and they sat between the
-          before/after scene and the ask. The three points below are the ones
-          that actually stand between a visitor and starting, stated in a line
-          instead of a block, and the before/after now runs straight into the
-          CTA the way the brief asks. */}
-      <section className="border-b border-line">
-        <div className={`${SECTION_X} py-9`}>
-          <ul
-            data-reveal
-            className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-center text-[13.5px] text-ink-soft"
+        {CAPABILITIES.map((capability, i) => (
+          <CapabilityRow key={capability.no} capability={capability} flip={i % 2 === 1} />
+        ))}
+        <div className={`${SECTION_X} pb-16 pt-6 md:pb-[100px]`}>
+          <Link
+            href="/free-check/"
+            className="btn btn-navy px-7 py-4 text-[16.5px] sm:px-[30px] sm:py-[17px]"
           >
-            {REASSURANCE.map((item) => (
-              <li key={item} className="inline-flex items-center gap-2.5">
-                <span
-                  aria-hidden="true"
-                  className="h-[5px] w-[5px] shrink-0 rounded-full bg-ink"
-                />
+            {PRIMARY}
+            <span aria-hidden="true">→</span>
+          </Link>
+        </div>
+      </section>
+
+      {/* ---- HOW IT WORKS -------------------------------------------------- */}
+      <section className="relative flex items-center overflow-hidden bg-night text-white lg:min-h-screen">
+        <Beams variant="band" />
+        <div className={`relative ${SECTION}`}>
+          <div data-reveal>
+            <Eyebrow onDark>{STEPS.eyebrow}</Eyebrow>
+            <h2 className="display mt-6 max-w-[17ch] text-[clamp(34px,4.2vw,58px)] leading-[1.05] text-white text-pretty">
+              {STEPS.heading}
+            </h2>
+          </div>
+          {/* The third column crosses the beams, so the steps carry a soft dark
+              halo: it keeps the copy legible over the bright core without
+              drawing a box the design does not have. */}
+          <ol className="mt-12 grid gap-8 [text-shadow:0_1px_16px_rgba(4,8,15,0.9)] md:mt-14 md:grid-cols-3 md:gap-5">
+            {STEPS.steps.map((step, i) => (
+              <li
+                key={step.no}
+                data-reveal
+                style={delay(i * 110)}
+                className="border-t border-white/28 pt-[22px]"
+              >
+                <h3 className="font-mono text-[11px] font-normal uppercase tracking-[0.16em] text-sky">
+                  {`${step.no} · ${step.name}`}
+                </h3>
+                <p className="mt-3.5 text-[16.5px] leading-[1.7] text-white/88">{step.body}</p>
+              </li>
+            ))}
+          </ol>
+          <Link
+            href="/free-check/"
+            className="btn btn-sky mt-11 px-7 py-4 text-[16.5px] sm:px-[30px] sm:py-[17px]"
+          >
+            {PRIMARY}
+            <span aria-hidden="true">→</span>
+          </Link>
+        </div>
+      </section>
+
+      {/* ---- WHAT YOU GET -------------------------------------------------- */}
+      <section className="bg-night text-white">
+        <div className={`${SECTION} grid items-start gap-12 lg:grid-cols-2 lg:gap-14`}>
+          <div data-reveal>
+            <Eyebrow onDark>{SERVICES.eyebrow}</Eyebrow>
+            <h2 className="display mt-6 max-w-[14ch] text-[clamp(32px,3.8vw,52px)] leading-[1.06] text-white">
+              {SERVICES.heading}
+            </h2>
+            <p className="mt-5 max-w-[42ch] text-[16px] leading-[1.7] text-white/84">
+              {SERVICES.body}
+            </p>
+            <Link href="/pricing/" className="btn btn-ghost mt-7 px-6 py-3.5 text-[15px]">
+              See pricing
+            </Link>
+          </div>
+          <ul data-reveal style={delay(120)} className="grid gap-x-8 sm:grid-cols-2">
+            {SERVICES.items.map((item) => (
+              <li key={item} className="border-t border-white/18 py-[15px] text-[16px] text-white">
                 {item}
               </li>
             ))}
-            <li>
-              <Link
-                href="/faq/"
-                className="font-medium text-ink underline-offset-4 hover:text-accent hover:underline"
-              >
-                Read the full FAQ
-              </Link>
-            </li>
           </ul>
+        </div>
+      </section>
+
+      {/* ---- WHY SABLE ----------------------------------------------------- */}
+      <section className="bg-white">
+        <div className={`${SECTION_NARROW} py-16 md:py-[100px]`}>
+          <div data-reveal>
+            <Eyebrow>{COMPARISON.eyebrow}</Eyebrow>
+            <h2 className="display mt-6 max-w-[18ch] text-[clamp(32px,3.8vw,52px)] leading-[1.06] text-ink text-pretty">
+              {COMPARISON.heading}
+            </h2>
+          </div>
+          <div data-reveal style={delay(120)} className="mt-10">
+            <CompareTable />
+          </div>
         </div>
       </section>
 

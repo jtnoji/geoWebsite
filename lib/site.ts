@@ -101,12 +101,16 @@ export const OFFER_CTA = "Get your free AI visibility check";
  */
 export const GOOGLE_SITE_VERIFICATION = "";
 
+/**
+ * The header nav, per the Sable design (2026-09-14): four links plus Home for
+ * the mobile menu. /learn left the header then, and stays one click from every
+ * page through ALL_PAGES in the footer (website-plan §1).
+ */
 export const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/how-it-works/", label: "How it works" },
   { href: "/sample-report/", label: "Sample report" },
   { href: "/pricing/", label: "Pricing" },
-  { href: "/learn/", label: "Learn" },
   { href: "/about/", label: "About" },
 ] as const;
 

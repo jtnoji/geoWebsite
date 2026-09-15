@@ -1,6 +1,4 @@
-import RuleEyebrow from "./RuleEyebrow";
 import { SEARCH_SHIFT_COPY } from "@/lib/home";
-import { SECTION } from "@/lib/layout";
 import { delay } from "@/lib/reveal";
 import {
   AGENTIC_SHARE,
@@ -13,6 +11,10 @@ import {
  * The search-shift chart: buying that an AI agent shaped rising against clicks
  * leaving Google, with a dashed present line and a labelled projection past it.
  *
+ * Since the Sable redesign (2026-09-14) it is the white card on the right of
+ * the home "problem" section, as the design draws it, rather than a section of
+ * its own with a heading. The data, the curve and the caveats did not change.
+ *
  * SERVER COMPONENT, and it has to stay one. It renders copy and numbers, so
  * the CLAUDE.md invariant applies: every value here must exist in the exported
  * HTML with JavaScript off, which is also how the engines we measure will read
@@ -22,18 +24,18 @@ import {
  * globals.css). No new dependency, no second observer, no client boundary.
  *
  * Every <text> below is real text in the raw HTML, not a path, so the numbers
- * are quotable by a crawler. The prose summary under the chart carries the
- * same figures in sentences for the same reason.
+ * are quotable by a crawler. The <desc> carries the same figures in sentences
+ * for the same reason.
  */
 
 /* Geometry is in viewBox units. Deliberately small (720 wide) so the SVG
    scales UP on desktop rather than down, which keeps the mobile scale factor
    survivable: type inside an SVG scales with the box, so a 1200-unit design
-   would render 8px axis labels on a phone. Font sizes below are still
-   responsive in user units for the same reason. */
-const VIEW = { w: 720, h: 440 };
+   would render 8px axis labels on a phone. */
+/* h stops just under the year labels: the card's own padding is the margin. */
+const VIEW = { w: 720, h: 400 };
 /* `right` leaves room for the 2028 label to sit centred under its own tick
-   without running off the viewBox. At mobile type sizes that label is ~50
+   without running off the viewBox. At phone type sizes that label is ~60
    units wide, so the margin has to be at least half of that. */
 const PLOT = { left: 70, right: 660, top: 48, bottom: 344 };
 const Y_MAX = 70;
@@ -111,14 +113,19 @@ const paths = (series: TrendSeries) => {
 };
 
 /* Type inside an SVG scales with the viewBox, so these sizes are in user
-   units and have to be set per breakpoint against how wide the box actually
-   renders: ~350px on a phone (0.49 scale), ~880px on a tablet where the
-   section is still one column (1.2), ~740px once it splits into two columns at
-   lg (1.03). One fixed size cannot serve all three. Re-check these if the
-   column split moves. */
-const AXIS = "text-[22px] sm:text-[15px] lg:text-[13.5px]";
-const VALUE = "text-[24px] sm:text-[16px] lg:text-[15px] font-medium";
-const STROKE = "[stroke-width:5.5] sm:[stroke-width:4] lg:[stroke-width:3.4]";
+   units and have to be set per breakpoint against how wide the card's plot
+   actually renders: ~310px on a phone (0.43 scale), ~500 to 620px while the
+   section is one column (0.7 to 0.87), ~570px at lg where the card takes two
+   thirds of the row (0.79), and ~890px at 1440 (1.24). Re-check these if the
+   section's column split moves. */
+const AXIS = "text-[23px] sm:text-[16px] xl:text-[14px]";
+const VALUE = "text-[28px] sm:text-[20px] xl:text-[19px] font-semibold";
+const STROKE = "[stroke-width:6] sm:[stroke-width:4.5] xl:[stroke-width:3.5]";
+
+const SERIES = [
+  { series: AGENTIC_SHARE, tone: "ink", swatch: "bg-ink" },
+  { series: SEARCH_CLICKS, tone: "slate", swatch: "bg-slate" },
+] as const;
 
 function Series({
   series,
@@ -127,14 +134,14 @@ function Series({
   labelAbove,
 }: {
   series: TrendSeries;
-  tone: "ink" | "soft";
+  tone: "ink" | "slate";
   drawDelay: number;
   labelAbove: boolean;
 }) {
   const { measured: measuredPath, projected: projectedPath } = paths(series);
   const measured = series.points.filter((p) => !p.projected);
-  const stroke = tone === "ink" ? "stroke-ink" : "stroke-ink-soft";
-  const fill = tone === "ink" ? "fill-ink" : "fill-ink-soft";
+  const stroke = tone === "ink" ? "stroke-ink" : "stroke-slate";
+  const fill = tone === "ink" ? "fill-ink" : "fill-slate";
   const first = measured[0];
   const last = measured[measured.length - 1];
 
@@ -153,7 +160,7 @@ function Series({
         d={projectedPath}
         fill="none"
         strokeLinecap="round"
-        strokeDasharray="7 9"
+        strokeDasharray="11 9"
         className={`chart-late ${stroke} ${STROKE} [stroke-opacity:0.5]`}
       />
       <g className="chart-late">
@@ -169,14 +176,15 @@ function Series({
         {/* The opening value always sits above its point: at the left edge
             there is nothing above either line, while below the falling
             series' first point is exactly where the two lines cross. Only the
-            closing value follows the series' own side. */}
+            closing value follows the series' own side. Values are always ink,
+            whichever line they label. */}
         {[first, last].map((p) => (
           <text
             key={p.year}
             x={x(p.year) + (p === first ? 12 : 0)}
-            y={y(p.value) + (p === first || labelAbove ? -18 : 34)}
+            y={y(p.value) + (p === first || labelAbove ? -18 : 36)}
             textAnchor={p === first ? "start" : "middle"}
-            className={`${fill} ${VALUE}`}
+            className={`fill-ink ${VALUE}`}
           >
             {p.value}%
           </text>
@@ -190,170 +198,144 @@ export default function SearchShiftChart() {
   const nowX = x(TREND_NOW);
 
   return (
-    <section className="border-b border-line">
-            {/* No min-height any more. It was a full-viewport "second screen" when
-          the page was a long-form report; on a conversion page this is late
-          market context and does not get a screen to itself. */}
-      <div className={SECTION}>
-        <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,4fr)_minmax(0,7fr)] lg:gap-14">
-          <div data-reveal>
-            <RuleEyebrow>{SEARCH_SHIFT_COPY.eyebrow}</RuleEyebrow>
-            <h2 className="display mt-4 max-w-[560px] text-[clamp(29px,3.6vw,46px)] leading-[1.1] text-ink text-pretty">
-              {SEARCH_SHIFT_COPY.heading}
-            </h2>
-            <p className="mt-5 max-w-[480px] text-[15.5px] leading-[1.7] text-ink-soft">
-              {SEARCH_SHIFT_COPY.body[0]}
-            </p>
-            <p className="mt-4 max-w-[480px] text-[15.5px] leading-[1.7] text-ink-soft">
-              {SEARCH_SHIFT_COPY.body[1]}
-            </p>
-          </div>
-
-          {/* No card. The chart sits directly on the paper ground: it is the
-              section's signature element, so a white panel around it would
-              read as a mockup pasted onto the page rather than as the page's
-              own evidence. Losing the white fill costs the projection zone its
-              contrast, so that tint is now an ink wash (below) instead of
-              paper-dim, which would vanish against a paper-dim ground. */}
-          <figure data-reveal="draw" style={delay(120)}>
-            {/* Legend in HTML, not SVG: it carries the source links, and HTML
-                type stays readable at any width while SVG type scales with
-                the box. */}
-            <figcaption className="flex flex-wrap gap-x-7 gap-y-2">
-              {[AGENTIC_SHARE, SEARCH_CLICKS].map((series, i) => (
-                <span key={series.label} className="flex items-baseline gap-2.5">
-                  <span
-                    aria-hidden="true"
-                    className={`mt-[7px] h-[3px] w-6 shrink-0 ${
-                      i === 0 ? "bg-ink" : "bg-ink-soft"
-                    }`}
-                  />
-                  <span className="text-[13.5px] leading-[1.5] text-ink">
-                    {series.label}{" "}
-                    <a
-                      href={series.url}
-                      rel="noopener noreferrer"
-                      className="whitespace-nowrap font-mono text-[10.5px] uppercase tracking-[0.1em] text-ink-faint hover:text-ink"
-                    >
-                      {series.source}
-                    </a>
-                  </span>
-                </span>
-              ))}
-            </figcaption>
-
-            <svg
-              viewBox={`0 0 ${VIEW.w} ${VIEW.h}`}
-              className="mt-3 w-full"
-              role="img"
-              aria-labelledby="shift-title shift-desc"
+    <figure
+      data-reveal="draw"
+      style={delay(120)}
+      className="min-w-0 rounded-[30px] border border-line bg-white px-5 pb-6 pt-7 shadow-float sm:px-10 sm:pb-9 sm:pt-10"
+    >
+      {/* Legend in HTML, not SVG: it carries the source links, and HTML type
+          stays readable at any width while SVG type scales with the box. */}
+      <figcaption>
+        <p className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-ink-faint">
+          {SEARCH_SHIFT_COPY.eyebrow}
+        </p>
+        <ul className="mt-4 flex flex-col gap-[9px]">
+          {/* The swatch has its own column, so when a phone wraps the label
+              and its source, both wrap under the label and the swatch stays
+              beside the first line instead of sitting alone above it. */}
+          {SERIES.map(({ series, swatch }) => (
+            <li
+              key={series.label}
+              className="grid grid-cols-[30px_minmax(0,1fr)] gap-x-[11px]"
             >
-            <title id="shift-title">
-              Purchases influenced by AI agents rising while Google searches
-              that end in a click fall, 2024 to 2026, with a projection to 2028
-            </title>
-            <desc id="shift-desc">
-              {AGENTIC_SHARE.summary} {SEARCH_CLICKS.summary}
-            </desc>
-
-            {/* Everything right of the present line is drawn, not measured.
-                A wash of the ink already in the palette, so "this part is not
-                data" is carried by tone rather than by a colour this palette
-                does not have. */}
-            <rect
-              x={nowX}
-              y={PLOT.top - 22}
-              width={PLOT.right - nowX + 14}
-              height={PLOT.bottom - PLOT.top + 22}
-              className="fill-ink opacity-[0.045]"
-            />
-
-            {GRID.map((g) => (
-              <g key={g}>
-                <line
-                  x1={PLOT.left}
-                  x2={PLOT.right + 12}
-                  y1={y(g)}
-                  y2={y(g)}
-                  className="stroke-line [stroke-width:1]"
-                />
-                <text
-                  x={PLOT.left - 14}
-                  y={y(g) + 4}
-                  textAnchor="end"
-                  className={`fill-ink-faint ${AXIS} font-mono`}
+              <span
+                aria-hidden="true"
+                className={`mt-[9px] h-1 w-[30px] rounded-sm ${swatch}`}
+              />
+              <span className="text-[14.5px] leading-[1.5] text-ink">
+                {`${series.label} `}
+                <a
+                  href={series.url}
+                  rel="noopener noreferrer"
+                  className="whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.14em] text-ink-faint transition-colors hover:text-ink"
                 >
-                  {g}%
-                </text>
-              </g>
-            ))}
+                  {series.source}
+                </a>
+              </span>
+            </li>
+          ))}
+        </ul>
+        <p className="mt-2.5 text-[12.5px] leading-[1.55] text-ink-faint">
+          {SEARCH_SHIFT_COPY.projectionNote}
+        </p>
+      </figcaption>
 
+      <svg
+        viewBox={`0 0 ${VIEW.w} ${VIEW.h}`}
+        className="mt-6 w-full"
+        role="img"
+        aria-labelledby="shift-title shift-desc"
+      >
+        <title id="shift-title">
+          Purchases influenced by AI agents rising while Google searches that
+          end in a click fall, 2024 to 2026, with a projection to 2028
+        </title>
+        <desc id="shift-desc">
+          {AGENTIC_SHARE.summary} {SEARCH_CLICKS.summary}
+        </desc>
+
+        {/* Everything right of the present line is drawn, not measured. A
+            wash of the ink already in the palette, so "this part is not data"
+            is carried by tone rather than by another colour. */}
+        <rect
+          x={nowX}
+          y={PLOT.top - 22}
+          width={PLOT.right - nowX + 14}
+          height={PLOT.bottom - PLOT.top + 22}
+          className="fill-ink opacity-[0.05]"
+        />
+
+        {GRID.map((g) => (
+          <g key={g}>
             <line
-              x1={nowX}
-              x2={nowX}
-              y1={PLOT.top - 22}
-              y2={PLOT.bottom}
-              strokeDasharray="5 7"
-              className="stroke-line-dark [stroke-width:1.5]"
+              x1={PLOT.left}
+              x2={PLOT.right + 12}
+              y1={y(g)}
+              y2={y(g)}
+              className="stroke-line-dark [stroke-width:1]"
             />
             <text
-              x={nowX - 12}
-              y={PLOT.top - 26}
+              x={PLOT.left - 14}
+              y={y(g) + 5}
               textAnchor="end"
-              className={`fill-ink-faint ${AXIS} font-mono uppercase tracking-[0.16em]`}
+              className={`fill-ink-faint ${AXIS}`}
             >
-              now
+              {g}%
             </text>
-            <text
-              x={(nowX + PLOT.right) / 2}
-              y={PLOT.top - 26}
-              textAnchor="middle"
-              className={`fill-ink-faint ${AXIS} font-mono uppercase tracking-[0.16em]`}
-            >
-              projection
-            </text>
+          </g>
+        ))}
 
-            {YEARS.map((year) => (
-              <text
-                key={year}
-                x={x(year)}
-                y={PLOT.bottom + 34}
-                textAnchor="middle"
-                className={`fill-ink-faint ${AXIS} font-mono`}
-              >
-                {year}
-              </text>
-            ))}
+        <line
+          x1={nowX}
+          x2={nowX}
+          y1={PLOT.top - 22}
+          y2={PLOT.bottom}
+          strokeDasharray="5 5"
+          className="stroke-[#b7c4d8] [stroke-width:1.5]"
+        />
+        <text
+          x={nowX - 12}
+          y={PLOT.top - 30}
+          textAnchor="end"
+          className={`fill-ink-faint ${AXIS} uppercase tracking-[0.16em]`}
+        >
+          now
+        </text>
+        <text
+          x={nowX + 12}
+          y={PLOT.top - 30}
+          className={`fill-ink-faint ${AXIS} uppercase tracking-[0.16em]`}
+        >
+          projection
+        </text>
 
-              {/* The two closing values sit at the same x, so they take the
-                  side their own line is on: the agentic series is still the
-                  lower of the two in 2026 and only crosses inside the
-                  projection. Flip both together if the measured points ever
-                  cross before the present line. */}
-              <Series
-                series={AGENTIC_SHARE}
-                tone="ink"
-                drawDelay={0}
-                labelAbove={false}
-              />
-              <Series
-                series={SEARCH_CLICKS}
-                tone="soft"
-                drawDelay={260}
-                labelAbove
-              />
-            </svg>
+        {YEARS.map((year) => (
+          <text
+            key={year}
+            x={x(year)}
+            y={PLOT.bottom + 38}
+            textAnchor="middle"
+            className={`fill-ink-soft ${AXIS}`}
+          >
+            {year}
+          </text>
+        ))}
 
-            {/* The caveats ship WITH the chart, not in a link or a tooltip.
-                A company that audits other people's evidence does not get to
-                hide the methodology break in its own. */}
-            <p className="mt-3 border-t border-line pt-3 text-[11.5px] leading-[1.55] text-ink-faint">
-              {SEARCH_SHIFT_COPY.projectionNote} {AGENTIC_SHARE.caveat}{" "}
-              {SEARCH_CLICKS.caveat}
-            </p>
-          </figure>
-        </div>
-      </div>
-    </section>
+        {/* The two closing values sit at the same x, so they take the side
+            their own line is on: the agentic series is still the lower of the
+            two in 2026 and only crosses inside the projection. Flip both
+            together if the measured points ever cross before the present
+            line. */}
+        <Series series={AGENTIC_SHARE} tone="ink" drawDelay={0} labelAbove={false} />
+        <Series series={SEARCH_CLICKS} tone="slate" drawDelay={260} labelAbove />
+      </svg>
+
+      {/* The caveats ship WITH the chart, not in a link or a tooltip. A
+          company that audits other people's evidence does not get to hide the
+          methodology break in its own. */}
+      <p className="mt-4 border-t border-line pt-3 text-[11.5px] leading-[1.55] text-ink-faint">
+        {AGENTIC_SHARE.caveat} {SEARCH_CLICKS.caveat}
+      </p>
+    </figure>
   );
 }

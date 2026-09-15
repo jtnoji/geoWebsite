@@ -17,31 +17,26 @@ export const SITE_WIDE_SCHEMA = ["Organization", "WebSite", "ProfessionalService
 export const PAGES: PageSpec[] = [
   {
     path: "/",
-    /* Re-pinned 2026-08-03 when the home page was rebuilt as a conversion
-       page. Two of the old strings belonged to sections that no longer exist
-       ("We measure your AI visibility. Properly."), so they were replaced with
-       the new page's load-bearing copy rather than dropped: the proposition,
-       the offer sentence, the sample-result claim, and a sourced stat. The
-       count is unchanged on purpose, and so is the point of the test. */
+    /* Re-pinned 2026-09-14 for the Sable redesign. The pricing tiers and the
+       stage console left the home page, so their two strings were replaced
+       with the new page's load-bearing copy rather than dropped: the lede, the
+       first capability, and the comparison. The count is unchanged on purpose,
+       and so is the point of the test. */
     /* mustContain[0] is load-bearing beyond this file: geo.spec and
        security.spec both use it as the "did a crawler get real content"
        probe, so it has to be the page's headline proposition. */
     mustContain: [
       "Your customers are asking AI who to hire",
-      "Sable measures where your business appears across ChatGPT",
-      /* Capability one's heading. The wrapper h2 it replaced went away when
-         each capability became its own full-bleed section, so this pins the
-         sequence itself rather than a signpost above it. */
-      "We ask what your customers ask.",
-      /* The commercial options are on the home page now, so a crawler losing
-         them is a real regression rather than a copy edit. */
-      "Full AI Visibility Audit",
+      "We optimize your website, content, and brand presence",
+      /* Capability one's heading: pins the capability sequence itself. */
+      "See where you appear across AI search",
+      "Built for AI search, not retrofitted to it",
       "The shortlist got smaller",
       "of U.S. consumers used AI tools to find local businesses",
       "BrightLocal, 2026",
-      /* The hero animation is CSS-only precisely so its questions and answers
-         are in the raw bytes. If this ever fails, the hero has become a client
-         component and a crawler is seeing an empty box. */
+      /* The hero's live customer questions are CSS-only precisely so every
+         question and answer is in the raw bytes. If this ever fails, the panel
+         has become a client component and a crawler is seeing an empty box. */
       "what is the best restaurant in my area?",
     ],
     // No BreadcrumbList: home is the root of every trail, so a one-rung
@@ -60,7 +55,7 @@ export const PAGES: PageSpec[] = [
   {
     path: "/sample-report/",
     mustContain: [
-      "This is what you actually get.",
+      "The whole report", // the Sable head (2026-09-14)
       "The prioritized fix list",
       "mention rate", // ArtifactCard header bars are lowercase mono
     ],
@@ -69,9 +64,12 @@ export const PAGES: PageSpec[] = [
   {
     path: "/how-it-works/",
     mustContain: [
-      "Measurement you can actually inspect.",
+      "One system, running on", // the Sable hero (2026-09-14)
       "Ten runs, not one screenshot",
-      "Five stages to the report, then the work",
+      /* A stage that is not the default tab: it is hidden until chosen, so
+         this proves every stage's copy ships in the raw HTML, not just the
+         one on show. */
+      "We find what keeps you out.",
       "What we won", // honesty heading; apostrophe HTML-escaped
     ],
     schemaTypes: ["WebPage", "BreadcrumbList", "FAQPage"],

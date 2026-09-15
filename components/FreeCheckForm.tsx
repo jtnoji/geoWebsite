@@ -27,7 +27,12 @@ const FIELDS = [
 ] as const;
 
 const INPUT_CLASS =
-  "mt-1.5 w-full rounded-xl border border-line-dark bg-white px-3 py-2.5 text-base text-ink placeholder:text-ink-faint focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/15";
+  "mt-2 w-full rounded-[10px] border border-field bg-white px-[15px] py-[13px] text-[15px] text-ink placeholder:text-ink-faint focus:border-cobalt focus:outline-none focus:ring-2 focus:ring-cobalt/15";
+
+/* Mono tracked labels, as the Sable design sets its form (the About booking
+   card in mockup/sable-site.dc.html). ink-faint on white is 5.2:1. */
+const LABEL_CLASS =
+  "block font-mono text-[10.5px] uppercase tracking-[0.16em] text-ink-faint";
 
 type Lead = Record<string, FormDataEntryValue | null>;
 
@@ -173,12 +178,12 @@ export default function FreeCheckForm() {
                 type="tel"
                 required
                 placeholder="(510) 555-0100"
-                className="w-full rounded-xl border border-line-dark bg-white px-3 py-2 text-sm text-ink placeholder:text-ink-faint focus:border-accent focus:outline-none"
+                className="w-full rounded-[10px] border border-field bg-white px-3 py-2.5 text-sm text-ink placeholder:text-ink-faint focus:border-cobalt focus:outline-none"
               />
               <button
                 type="submit"
                 disabled={phoneStatus === "sending"}
-                className="btn-solid shrink-0 px-4 py-2 text-xs disabled:opacity-60"
+                className="btn btn-navy shrink-0 px-4 py-2 text-xs disabled:opacity-60"
               >
                 {phoneStatus === "sending" ? "…" : "Add"}
               </button>
@@ -205,7 +210,7 @@ export default function FreeCheckForm() {
 
       {FIELDS.map((field) => (
         <div key={field.name}>
-          <label htmlFor={field.name} className="block text-sm font-semibold text-ink">
+          <label htmlFor={field.name} className={LABEL_CLASS}>
             {field.label}
           </label>
           <input
@@ -221,7 +226,7 @@ export default function FreeCheckForm() {
       ))}
 
       <div>
-        <label htmlFor="description" className="block text-sm font-semibold text-ink">
+        <label htmlFor="description" className={LABEL_CLASS}>
           What do you do?
         </label>
         <textarea
@@ -235,7 +240,7 @@ export default function FreeCheckForm() {
       </div>
 
       <div>
-        <label htmlFor="email" className="block text-sm font-semibold text-ink">
+        <label htmlFor="email" className={LABEL_CLASS}>
           Email
         </label>
         <input
@@ -251,7 +256,7 @@ export default function FreeCheckForm() {
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="btn-solid w-full justify-center px-6 py-3 text-[13px] disabled:opacity-60"
+        className="btn btn-mono btn-cobalt w-full px-4 py-[15px] text-[12px] disabled:opacity-60 sm:px-6"
       >
         {status === "submitting" ? "Submitting…" : `Run my ${OFFER}`}
       </button>

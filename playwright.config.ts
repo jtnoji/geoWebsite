@@ -20,9 +20,9 @@ export default defineConfig({
   },
 
   /**
-   * Chromium alone was hiding a whole class of risk: BottomBar is
-   * position:fixed on every page and the ground is a background-attachment:
-   * fixed gradient, both of which WebKit and iOS Safari handle differently.
+   * Chromium alone was hiding a whole class of risk: the header is
+   * position:fixed with a backdrop-filter on every page, and its dress is
+   * chosen with :has(), all of which WebKit and iOS Safari handle differently.
    *
    * visual.spec.ts runs on chromium ONLY. It writes to fixed paths in
    * tests/screenshots/ for the design-critique loop, so running it in three

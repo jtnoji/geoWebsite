@@ -34,6 +34,12 @@ Navigation: Home · How it works · Sample report · Pricing · Learn · About �
 "Free visibility check" as a persistent button-styled nav item. Footer: full page
 list, business name + city (NAP), email, LinkedIn links for both founders.
 
+**Revised 2026-09-14 (Sable redesign, §6):** the header nav is How it works ·
+Sample report · Pricing · About, per the design. Learn is still linked from the
+footer page list on every page, so no article loses an internal link. The
+persistent bottom CTA bar is gone; the fixed header carries the CTA on every
+page, which is what the rule below asks for.
+
 Rule: every page has the primary CTA visible without scrolling back up (sticky
 header button), and no page is more than one click from /free-check or /contact.
 
@@ -511,6 +517,56 @@ call bookings) so you know where the funnel leaks.
   3. **The situations read as alternatives, not a set.** A bordered box says
      "one of several equal things"; these are three different readers, so they
      get a rule, a numeral, and nothing else.
+
+- **Sable redesign (2026-09-14, Josh).** The site now follows the "Sable" system
+  from Claude Design, `mockup/sable-site.dc.html`: Libre Franklin and JetBrains
+  Mono with no serif, a cool grey ground, near-black bands with light-beam
+  gradients, and Sky as the primary fill on dark. It replaces the Berkeley
+  brand-sheet system and the long-form home. Rules in CLAUDE.md "Design
+  system". Decisions made while implementing it:
+  1. **Home follows the design section for section**: hero with an answer card
+     (the live customer questions panel, see 7), the problem and the shift chart, three capabilities,
+     how it works, what you get, the comparison table, the closing band. The
+     pricing tiers, the before/after scene and the reassurance line left the
+     home page; /pricing and /faq still carry them.
+  2. **Inner pages take the new look and keep some content** (Josh). The design
+     draws /how-it-works, /sample-report, /pricing and /about as a hero plus one
+     block. /how-it-works keeps its five method sections and the FAQPage schema
+     under the new hero and stage console. /sample-report shows the real report
+     artifacts and the fix list where the design had a placeholder preview.
+     /pricing keeps its FAQ and Service schema. /about keeps both founder bios
+     and the Person schema.
+  3. **The About "Book a call" form is a booking panel that links to /contact**
+     (Josh). Nothing on the backend accepted it, and a form that does nothing
+     is worse than none. The lead path is unchanged.
+  4. **Three lines softened** (Josh), because they came closer to an outcome
+     promise than the no-guarantee rule allows: "Get your brand recommended by
+     AI" is now "Give AI a reason to name you"; "From invisible to recommended
+     in three steps" is now "Three steps, repeated every month"; the hero card's
+     "After 90 days" became "After the fixes" (and then left with that card, see
+     7).
+  5. **Held back from the design because rules forbid them:** "results in 60
+     seconds" (the queue is manual, and the promise is 1–2 business days); the
+     "Trusted by" strip of placeholder client logos (the Home section of §2 rules
+     out borrowed logos and unnamed "trusted by" copy); em dashes ("01 — Audit");
+     the "exactly" and "actually" fillers; `hello@sable.ai` (`EMAIL` in
+     lib/site.ts is the one address).
+  6. **Colour contrast beats the design's hex where they disagree**, same as
+     the Berkeley pass did: the design's `#8C9BB5` fails AA as text, so every
+     text use of it moved to `#5E6E88`, and it survives only as a non-text tone.
+  7. **The hero keeps the live customer questions from the previous home page**
+     (Josh, same day), in place of the design's static before/after card. The
+     query box types six customer questions in turn and each answer names three
+     placeholder businesses with the reader's slot drawn empty. It shows no
+     rates, so there is no before/after number left to soften, and it is CSS
+     only, so every question and answer is in the raw HTML. It sits in the
+     design's glass card.
+
+  **Open for Josh:** two lines still sit near the no-guarantee rule and shipped
+  as designed: the hero lede ("so your company appears more often") and Grow's
+  "We get you into the ones that matter". /sample-report now says "The whole
+  report" and "Nine pages", which describe the full deliverable rather than the
+  artifacts the page shows; confirm both before launch.
 
 **Security launch checklist (added 2026-07-25) — must clear before go-live:**
 

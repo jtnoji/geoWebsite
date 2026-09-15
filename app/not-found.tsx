@@ -46,10 +46,11 @@ export default function NotFound() {
       </div>
 
       <div data-reveal style={delay(110)} className="mt-9 flex flex-wrap items-center justify-center gap-4">
-        <Link href="/free-check/" className="btn-pill px-[26px] py-[15px] text-[13.5px]">
-          {OFFER_CTA} <span className="text-base">&#10230;</span>
+        <Link href="/free-check/" className="btn btn-navy px-[26px] py-[15px] text-[15px]">
+          {`${OFFER_CTA} `}
+          <span aria-hidden="true">→</span>
         </Link>
-        <Link href="/" className="btn-pill-outline px-[26px] py-[15px] text-[13.5px]">
+        <Link href="/" className="btn btn-outline px-[26px] py-[15px] text-[15px]">
           Back to home
         </Link>
       </div>

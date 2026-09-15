@@ -161,8 +161,12 @@ export const SEARCH_CLICKS: TrendSeries = {
 /** The year the dashed present line sits on. Everything right of it is drawn. */
 export const TREND_NOW = 2026;
 
-/* ---- What the shift is worth (home, RevenueAtStake) ---------------------
-   ADDED 2026-08-03. All three numbers come from ONE study, on purpose.
+/* ---- What the shift is worth ---------------------------------------------
+   ADDED 2026-08-03 for the home RevenueAtStake section. NOT RENDERED since the
+   Sable redesign (2026-09-14) removed that section; kept, with its sourcing
+   notes, for the next page that needs these figures.
+
+   All three numbers come from ONE study, on purpose.
 
    The question these answer is "what does absence from AI answers cost", and
    the honest answer is that nobody can price a specific business's absence.
@@ -202,9 +206,9 @@ export const REVENUE_STATS: Stat[] = [
 ];
 
 /**
- * Why the loss does not show up in the reader's own analytics. This is the
- * load-bearing claim of the RevenueAtStake artifact, so it carries a source
- * like any other number.
+ * Why the loss does not show up in the reader's own analytics. It was the
+ * load-bearing claim of the RevenueAtStake artifact (not rendered since
+ * 2026-09-14), so it carries a source like any other number.
  */
 export const ATTRIBUTION_NOTE: Stat = {
   value: "6 in 10",

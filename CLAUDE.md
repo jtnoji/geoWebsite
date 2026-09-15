@@ -13,14 +13,17 @@ contradicts them — change the doc first, then the code.
 ## Stack & commands
 
 Next.js (App Router) + TypeScript + Tailwind, **static export** (`output:
-'export'`), deployed on Vercel. **Design reference:
-`mockup/sable-brand-sheet.html` (the "Berkeley" system, imported from Claude
-Design 2026-08-02 — open it in a browser before styling anything).** It is the
-delivered brand sheet with the ~700KB of inlined base64 fonts swapped for a
-Google Fonts `<link>`; that `<link>` is fine because the sheet is a local
-reference document and never ships. `mockup/weir-style.html` and `weir-*.jpg`
-are the superseded 2026-07-20 system, kept only to read old commits against.
-The IBM Plex mockups before that were deleted 2026-07-25; `git show
+'export'`), deployed on Vercel. **Design reference: `mockup/sable-site.dc.html`
+(the "Sable" system, imported from Claude Design 2026-09-14 — read it before
+styling anything).** It is a Design Components file: the markup and the data
+behind every section read as source, but it needs the Claude Design runtime to
+render, so treat it as the spec rather than a page to open. Its Google Fonts
+`<link>` is fine because it is a local reference and never ships.
+`mockup/sable-brand-sheet.html` (the "Berkeley" system, 2026-08-02) stays
+canonical for the mark only: plume geometry, the reduction rule and the lockup
+(§01–§03, §07). Its type and palette are superseded. `mockup/weir-style.html`
+and `weir-*.jpg` are the 2026-07-20 system, kept only to read old commits
+against. The IBM Plex mockups before that were deleted 2026-07-25; `git show
 5ad0939:mockup/index.html` still has them.
 
 ```bash
@@ -41,15 +44,16 @@ repo, and shipping one loses leads silently until someone checks by hand.
 not deployable without it (no meta CSP, no /.well-known/security.txt).
 
 `npm test` runs three projects: **chromium, webkit (Desktop Safari) and
-mobile-safari (iPhone)**. WebKit is not optional here: `BottomBar` is
-`position: fixed` and `Header` is `position: sticky` on every page, and Safari
-treats both differently. (The `background-attachment: fixed` gradient that was
-the other half of this rationale is gone with the weir system — the Berkeley
-ground is a flat fill.) `visual.spec.ts` writes
-chromium shots to `tests/screenshots/` (the design-critique loop) and WebKit
-shots to `tests/screenshots/webkit/`; diff the pair when touching anything
-fixed-position. New browsers install with
-`./node_modules/.bin/playwright install webkit`.
+mobile-safari (iPhone)**. WebKit is not optional here: `Header` is
+`position: fixed` with a `backdrop-filter` on every page, and its dress is
+picked with `:has()`, all of which Safari handles differently. `visual.spec.ts`
+writes chromium shots to `tests/screenshots/` (the design-critique loop) and
+WebKit shots to `tests/screenshots/webkit/`; diff the pair when touching
+anything fixed-position. Browsers install with
+`./node_modules/.bin/playwright install chromium webkit`. After a Playwright
+upgrade every browser test fails in 0ms with "Executable doesn't exist" until
+you do; the ~390 checks that need no browser still pass, which makes the run
+look half-green.
 
 **Never put `upgrade-insecure-requests` in the `<meta>` CSP.** WebKit honours
 it there and upgrades every subresource to https even on `http://127.0.0.1`,
@@ -66,11 +70,13 @@ that fails its own audit.
 ## Layout
 
 `app/` (one folder per route — see scaffold.md §2 for the full tree) ·
-`components/` (Header, Footer, Cta, StatTile, StepList, HonestyBlock,
-FaqSection, ReportPreview, FreeCheckForm) · `lib/` (`site.ts` brand/NAP/pricing
-constants, `schema.ts` JSON-LD builders, `stats.ts` cited statistics) ·
-`content/learn/` (articles as markdown) · `tests/` (geo.spec.ts,
-funnel.spec.ts, visual.spec.ts) · `public/`.
+`components/` (Header, Footer, Cta, ClosingCta, Beams, Eyebrow, StatTile,
+CapabilityRow, FindingsPanel, StageTabs, HonestyBlock, FaqSection,
+ReportPreview, FreeCheckForm) · `lib/` (`site.ts` brand/NAP/pricing constants,
+`home.ts` home copy, `offers.ts` tiers, `sample.ts` illustrative data,
+`schema.ts` JSON-LD builders, `stats.ts` cited statistics) · `content/learn/`
+(articles as markdown) · `tests/` (geo.spec.ts, funnel.spec.ts,
+visual.spec.ts, security.spec.ts) · `public/`.
 
 ## Hard invariants
 
@@ -189,15 +195,16 @@ funnel.spec.ts, visual.spec.ts) · `public/`.
   changes the shape, add it deliberately; never widen the pattern to "any".
 - **Brand images are generated, not hand-drawn.** `app/opengraph-image.png`,
   `app/icon.png` and `app/favicon.ico` come from
-  `scripts/make-brand-assets.py`, which reads `BRAND` from `lib/site.ts` and
-  pulls both families out of the woff2 `next/font` already downloaded into
-  `out/` (weight 400 exists in Libre Franklin, Cormorant, and both italics, so
-  `face()` matches on family + weight + style — matching weight alone returns
-  whichever `@font-face` the CSS concatenation happened to put first).
-  **Re-run it when the brand name lands**, or every link shared anywhere will
-  keep saying `[Brand]`. **The committed PNGs are currently STALE** — they
-  still carry the weir palette and Poppins. Regenerate with a venv that has
-  Pillow + fontTools; the system Python has neither.
+  `scripts/make-brand-assets.py`, which reads `BRAND` and `OFFER_TITLE` from
+  `lib/site.ts`, the hero headline from `lib/home.ts`, and pulls both families
+  out of the woff2 `next/font` already downloaded into `out/` (weight 400
+  exists in Libre Franklin, its italic and JetBrains Mono, so `face()` matches
+  on family + weight + style — matching weight alone returns whichever
+  `@font-face` the CSS concatenation happened to put first).
+  **Re-run it when the brand name, the hero headline or the palette moves**,
+  or every link shared anywhere keeps the old card. Last regenerated
+  2026-09-14 for the Sable system. It needs a venv with Pillow, fontTools and
+  brotli; the system Python has none of them.
   Next emits the `og:image`, `twitter:image` and icon
   tags from the file names alone, so nothing else needs editing. It is NOT in
   `npm run build` on purpose: Vercel's build image has no guaranteed Python,
@@ -223,161 +230,164 @@ funnel.spec.ts, visual.spec.ts) · `public/`.
   option. If a feature seems to need a heavy dependency, it's probably the
   wrong feature.
 
-## Design system (locked 2026-08-02 — the "Berkeley" system; canonical: `mockup/sable-brand-sheet.html`)
+## Design system (locked 2026-09-14 — the "Sable" system; canonical: `mockup/sable-site.dc.html`)
 
-Replaces the "weir" system (locked 2026-07-20, `mockup/weir-style.html`), which
-ran on a fixed pastel gradient, Poppins, and a rationed California-gold accent.
-Section numbers below (§01–§07) refer to the brand sheet.
+Replaces the "Berkeley" system (locked 2026-08-02,
+`mockup/sable-brand-sheet.html`), which set Cormorant display type over warm
+paper, rationed Sky to navy bands and carried the long-form home. Before that,
+the "weir" system (`mockup/weir-style.html`). What each page kept, what was
+softened and what was held back from the design are product decisions, recorded
+in website-plan.md §6.
 
-**The mark** (§01, `components/Plume.tsx`). Three rising plumes. Each is a
-teardrop — `border-radius: 60% 60% 60% 0`, three rounded corners and one square
-heel — and all three sit on a shared baseline. Every dimension derives from one
-unit `u` (the width of a single plume): heights `1.7u · 2.3u · 2.9u`, gap
-`0.3u`. That is why `Plume` takes `u` and nothing else: §07 forbids stretching,
-squashing and re-proportioning, and a geometry that can only be scaled cannot
-be any of those. **§03 reduction rule:** under 20px tall the mark drops to two
-plumes, under 16px to one — `Plume` applies this itself, so callers just pass a
-smaller `u`. Never below 14px wordmark.
-`Lockup` = mark + wordmark (+ optional tracked subline). The wordmark renders
-`BRAND` from `lib/site.ts`, never a literal, so the launch rename stays a
-one-file change. **The header lockup carries the "AI SEO" subline** (Josh,
-2026-08-02); the sheet's own §06 header shows mark + wordmark alone, so this is
-a deliberate departure and the copy sign-off is on record.
+**The mark** (`components/Plume.tsx`, geometry from brand sheet §01). Three
+rising plumes. Each is a teardrop — `border-radius: 60% 60% 60% 0`, three
+rounded corners and one square heel — and all three sit on a shared baseline.
+Every dimension derives from one unit `u`: heights `1.7u · 2.3u · 2.9u`, gap
+`0.3u`. `Plume` takes `u` and nothing else, because brand sheet §07 forbids
+stretching, squashing and re-proportioning. **§03 reduction rule:** under 20px
+tall the mark drops to two plumes, under 16px to one; `Plume` applies it
+itself, so callers just pass a smaller `u`. Colour follows the Sable design:
+the two short plumes are the ground's ink at two strengths and the tallest is
+Sky, on dark and on light alike (`tone`: `light` | `dark` | `header` | `mono`;
+`header` reads CSS variables, so the mark follows the header's dress).
+`Lockup` = mark + wordmark in Libre Franklin 500 + optional tracked subline.
+`layout="row"` sets the subline on the wordmark's baseline (header);
+`layout="stack"` stacks it in mono (footer). The wordmark renders `BRAND` from
+`lib/site.ts`, never a literal. **The header lockup carries the "AI SEO"
+subline** (Josh, 2026-08-02).
 
-**Typography** (§05). **Two families, and the split is the system.** Cormorant
-Garamond is display ONLY — h1, h2, and editorial figures, applied via the
-`.display` class. Libre Franklin carries everything else: body, h3 and below,
-labels, buttons, and every data cell. Both via `next/font/google` (self-hosted
-at build; never a fonts CDN `<link>` — it would break the static export).
+**Typography.** Two families. **Libre Franklin** carries everything a person
+reads: headings at 600 with tight negative tracking via `.display`, body at
+400, and the one light hero headline at 300 via `.display-light`. **JetBrains
+Mono** carries eyebrows, labels, sources, data cells and the compact buttons,
+uppercase with wide tracking (.1–.16em). Both via `next/font/google`
+(self-hosted at build; never a fonts CDN `<link>` — it would break the static
+export). Nothing is heavier than 600.
 - `.display` in globals.css is **deliberately unlayered**, so it beats the
-  `font-bold` and `tracking-*` utilities already sitting on ~28 headings
-  without touching one of them. It sets weight 400 and letter-spacing
-  **+0.02em**. Positive: the sheet specifies "Light 300 & Regular 400 … tracked
-  +0.01 to +0.04 em", and Cormorant at 500 with negative tracking closes its
-  hairlines into adjacent stems.
-- Cormorant runs small for its point size, so display sizes want roughly a step
-  more than the sans equivalent.
-- Franklin sets labels and metadata uppercase with wide tracking (.14–.36em).
-  **That tracked label is the only uppercase in the system.** Nothing goes
-  above weight 500 in new work.
+  `font-bold` and `tracking-*` utilities on headings across the site without
+  touching any of them. `.display-light` comes after it and wins when both are
+  set.
 
-**Tokens** (`app/globals.css`). A single navy hue stepped four ways over warm
-paper. ink `#0e2340` (Berkeley Navy — headings, fills, tallest plume) · accent
-`#12325c` (Sable Blue — links, active states, eyebrows) · ink-soft `#4a5666`
-(Harbour — body, middle plume) · ink-faint `#626c78` (labels, card meta) ·
-ink-dim `#b2b7bc` (Mist — first plume; **non-text only**) · paper `#ffffff`
-(cards) · paper-dim `#f2f1ec` (Paper — the ground AND inset artifact boxes) ·
-sky `#7fa6d9` · line `rgba(14,35,64,.1)` / line-dark `rgba(14,35,64,.16)` ·
-bad `#4a5666` (== ink-soft) · dot `#c3c6cb` / dot-bad `#d0d2d6` · band
-`#ffffff` (BottomBar — body reserves 62px).
-- **Harbour and the label grey are darker than the brand sheet's own values,
-  on purpose.** The sheet ships `#697585` and `#98a1ab`, which measure 4.14:1
-  and 2.32:1 on this paper — both under WCAG AA's 4.5:1, at a 15px body size.
-  Both moved down a flat -31 per channel, which keeps the hue and the even
-  spacing between steps and buys 6.59:1 and 4.72:1. **The contrast ratios are
-  the invariant, not the hex values.** Re-measure before changing either.
+**Tokens** (`app/globals.css` `@theme`). One navy hue over a cool grey ground.
+ink `#0e2340` (headings, fills) · accent `#12325c` (links) · ink-soft `#3c4c66`
+(body) · ink-faint `#5e6e88` (labels, meta, sources) · ink-dim `#8c9bb5`
+(**non-text only**) · slate `#4a5b80` (second chart series, the stepped-down
+side of a comparison) · paper `#ffffff` (cards) · paper-dim `#eef1f5` (the
+ground) · inset `#f7f9fc` (rows inside a white panel) · frost `#f4f7fb` /
+frost-dim `#e7ecf4` (light panels on a dark band, and their header strip) ·
+night `#04080f` (dark bands, footer) · sky `#7fa6d9` · cobalt `#2f6fd0` · line
+`#e1e8f2` / line-dark `#d5ddea` · track `#dce4ef` · field `#c9d5e6` (inputs) ·
+the status pairs risk, caution, ok and note (text on its own tint, chips only) ·
+shadows `card`, `float` and `glass`, and no fourth.
+- **The contrast ratios are the invariant, not the hex values.** On the ground,
+  ink-soft is 7.7:1 and ink-faint 4.56:1, which makes ink-faint the floor for
+  any text. The design also set meta text in `#8c9bb5` (2.8:1 on white), so
+  every text use of it moved to ink-faint. Each status pair is at least 5.5:1.
+  Re-measure before changing any of them.
 
-**The Sky rule** (§04). Sky is the one bright note and it is legal **on navy
-only, never on paper**. The sheet says once per page; the operative rule here is
-**at most once per navy band**, because the long-form home runs ~9k words over
-four widely separated navy bands and a single accent across that distance is
-not a system, it is a typo. On a short page the two readings coincide.
-Outside the chrome (the header lockup's tallest plume and the active-nav
-underline) the home spends it three times, once per band that has anywhere to
-put it: the "Where search lives in 2026" eyebrow, the `EngagementSteps` band
-eyebrow, and the `FreeCheckPanel` navy panel's label. Anything tempted to be a
-second inside the same band uses `white/12` or the inverted pill instead.
+**The two bright notes, and neither crosses over.** **Sky is the bright note on
+dark:** eyebrows, the headline accent, and the fill of the primary button on a
+dark band (`.btn-sky`). **Cobalt is the bright note on light:** the headline
+accent, bars, list dots and the compact form button (`.btn-cobalt`). Cobalt is
+4.9:1 on white but 4.3:1 on the ground, so on the ground it is large text or a
+mark only; that is why the /sample-report numerals are accent, not cobalt. The
+Berkeley "Sky once per navy band" rule went with that system.
 
-**Ground.** Flat warm paper (`paper-dim`), no gradient. Cards earn separation
-from a white fill plus a hairline, never from the ground shifting under them.
-The only surface change is a full-bleed navy band, and it is a section-level
-device: four on the long-form home ("Where search lives in 2026",
-`EngagementSteps`, `FreeCheckPanel`, `ClosingCta`). A band needs to be worth a
-whole surface, and it cannot contain a measurement artifact, because inverting
-one costs it the square-and-shadowless language that keeps data out of the
-marketing register.
+**Ground and bands.** The ground is flat `paper-dim`; white sections and white
+cards step up from it. The dark device is a full-bleed `night` band. A band that
+opens a page, or carries the home's steps or its close, sits on the light beams
+(`Beams`: `hero` | `band` | `page`): stacked CSS gradients cut with
+`clip-path`, decorative, `aria-hidden`, and faded so copy always sits on
+near-black. Dark on the home: the fold, How it works, What you get, the closing
+band. Dark heroes elsewhere: /how-it-works and /about. **A page whose first
+section is dark marks that section `data-hero="dark"`.** That one attribute
+dresses the header light-on-dark and lets the hero run up behind it
+(`body:has(...)` in globals.css). Forget it and the page gets a light header
+over a dark hero.
 
-**Vary the block, not the palette.** Three identical card grids down one page
-read as one module repeating, which is what the home did until 2026-08-03. The
-levers are structure and density: a card grid, a ruled ledger on the ground, a
-chrome-less column with a rule over it, a bordered list with a numeral rail
-(`FoundationList`), joined step cells (`StepList`). Reuse of one component
-across a page is not a virtue when the page is 9k words. **Head alignment is
-NOT one of the levers** — see the alignment rule below.
+**Header.** Fixed, 72px, translucent with a backdrop blur, in one of two dresses
+chosen by `data-hero` as above. `.site-main` pads every other page by 72px so
+content starts below the bar. The dress is a set of CSS variables (`--hdr-*`,
+`--plume-*`) consumed by `.nav-link`, `.nav-on`, `.nav-cta` and `.nav-panel`, so
+`MobileNav` follows it without knowing the page. **There is no bottom CTA bar**
+any more (removed 2026-09-14): the fixed header's CTA is the ≤1-click route to
+/free-check on every page.
 
-**Shapes.** Radii: 12px standard, 18–22px product-mockup cards, 999px pills.
-Buttons are `.btn-pill` / `.btn-pill-outline` (hero/nav), `.btn-pill-invert`
-(white fill on navy bands — the header CTA), `.btn-pill-ghost` and `.btn-solid`
-(in-flow); all weight 500, tracking .14em, defined once in globals.css and
-never recomposed inline. Soft large shadows ONLY on product-mockup cards (the
-hero answer card); measurement artifacts (ArtifactCard, SamplingCard) stay
-square-cornered and shadowless so data never reads as marketing. **Two
-motions, and that is the whole budget:** `.weir-bob` on the hero chevron (name
-predates this system) and the `data-reveal="draw"` line draw on the home
-search-shift chart. Both are reduced-motion safe, and the chart's is CSS keyed
-off the class `ScrollReveal` already toggles, so it needs no library and no
-client component. A third motion needs a reason, not a preference.
+**Shapes and buttons.** Radii: 10px inputs and compact buttons, 11px buttons,
+12–14px tiles and tier cards, 16px panels and artifact cards, 18px the console,
+22px panel wells, 30px the shift chart card, 999px pills. **Buttons are `.btn`
+plus one tone:** `.btn-navy` (primary on light), `.btn-sky` (primary on dark),
+`.btn-cobalt`, `.btn-white` (on a navy card), `.btn-ghost` (secondary on dark),
+`.btn-outline` (secondary on light), with `.btn-mono` as the compact modifier.
+Radius, weight and tracking live in globals.css and are unlayered, so a
+`rounded-*` or `tracking-*` utility at the call site loses silently; padding and
+font size stay at the call site. The header CTA is its own outline pill
+(`.nav-cta`). **Three motions, and that is the budget:** the `data-reveal` fade
+and rise (`ScrollReveal`), the `data-reveal="draw"` line draw on the shift
+chart, and the typing loop in the hero's live customer questions (`LiveAnswer`,
+the `.prompt-*` rules), kept from the previous home page at Josh's request.
+All three are CSS, reduced-motion safe, and leave every word in the raw HTML.
+The typing loop's keyframes are cut for six questions and `LiveAnswer` throws
+at build time if the count changes. A fourth motion needs a reason, not a
+preference.
 
-**A chart is a measurement artifact, so it obeys those rules.** Server-rendered
-inline SVG only: every value must survive JS-off, which is both the static-export
-invariant and how the engines we audit will read it. No charting library. Real
-`<text>` nodes, never paths, so the numbers stay quotable. Measured data is
-solid; anything extrapolated is dashed inside a `paper-dim` zone and labelled
-as a projection. Methodology caveats ship next to the chart, not behind a link.
+**Interactive without JavaScript.** The /how-it-works console (`StageTabs`) is
+four visually hidden radio inputs and `:has()` selectors: every stage's copy is
+in the raw HTML, the tabs are a keyboard radio group, and there is no client
+component. The first panel shows by default, so a browser without `:has()`
+still shows stage one. The selectors are written for four stages, and
+`StageTabs` throws at build time if the count changes.
 
-**Absence has two directions, and mixing them up is the easy mistake.** This
-palette has no warning hue and gets none — absence is carried by TONE and
-STRUCTURE, never by a colour shift, and never by red.
+**A chart is a measurement artifact.** Server-rendered inline SVG only: every
+value must survive JS-off, which is both the static-export invariant and how
+the engines we audit will read it. No charting library. Real `<text>` nodes,
+never paths, so the numbers stay quotable. Measured data is solid; anything
+extrapolated is dashed inside a tinted zone and labelled as a projection.
+Methodology caveats ship next to the chart, not behind a link.
+
+**Absence has two directions.**
 - **Comparison** (you vs competitor, sampling dot rows, crawler seen/not-seen):
-  a quantity shown as *less*, so it steps **DOWN** — Harbour text, lighter
+  a quantity shown as *less*, so it steps **DOWN** to slate text and paler
   dots. See `SamplingCard`.
-- **Flagged failure** ("not mentioned", a failing check, a form error): a
-  finding that demands attention, so it steps **UP** to full ink, and the
-  loudest of them inverts to a navy fill with white text. See `ReportPreview`
-  and the home hero's "not mentioned" flag.
+- **Flagged finding** (a blocked crawler, absence from a cited source, a
+  failing check): a **status chip** in the design's hues, `risk`, `caution`,
+  `ok` or the neutral `note`, text on its own tint. See `FindingsPanel` and
+  `ReportPreview`. The hues are chips only: never a text colour on their own,
+  never a section fill. (The Berkeley "never red" rule went with that system,
+  by design.)
 
-**Emphasis steps down, not up.** Navy fill is already the loudest thing
-available on paper, and it is what the *default* state wears. So the one
-emphasized element in a set is marked by the OTHERS stepping down to
-paper-dim/ink-faint — see the `hot` stage in the how-it-works pipeline. The
-same inversion applies to `Chip`, whose default is now the solid navy fill and
-whose quiet variant is `tone="outline"`.
+**Recurring components** (in `components/`, reuse — never fork): Plume / Lockup
+· Eyebrow (dot + mono label, `onDark`) · Chip (`solid` | `outline` | `sky`) ·
+Beams · ArtifactCard (white panel, navy mono header strip) · SamplingCard ·
+FindingsPanel (a titled panel of finding rows, each with a bar or a note and a
+status chip) · StatTile · HonestyBlock · FaqSection · Cta (the closing band on
+every page but home) · StageTabs. Home only: LiveAnswer (the live customer
+questions panel in the design's glass card) · SearchShiftChart (the chart
+card) · CapabilityRow · CompareTable · ClosingCta. Home copy lives in `lib/home.ts` and tier copy in
+`lib/offers.ts`, never in the page.
 
-**Recurring components** (in `components/`, reuse — never fork): Plume /
-Lockup (the mark) · Chip (`tone`: `solid` default | `outline` | `sky`; the
-weir `gold` boolean is gone) · ArtifactCard (square, navy header bar) ·
-SamplingCard (side-by-side you-vs-competitor dot rows, competitor half stepped
-down) · DataChips · StepList (joined cells, numbered tabs) · HonestyBlock ·
-BottomBar (persistent bottom CTA band, no decorative wave) · the product-mockup
-card (hero answer card pattern).
-Long-form home only: RuleEyebrow (rule + tracked label, `onDark` for navy
-bands) · FeatureCard (the engines grid, and nothing else — see "Vary the block")
-· FoundationList · AnswerCompare · SearchShiftChart (the
-second-screen line chart) · RevenueAtStake (what the shift is worth, and why
-the reader cannot see their own share of it) · EngagementSteps (navy band) ·
-FreeCheckPanel (navy panel) · ClosingCta (navy band). Their copy lives in
-`lib/home.ts`, not in the page.
+**Alignment (revised 2026-09-14).** Heads and bodies are left-aligned, as every
+page in the Sable design is: the eye tracks one left edge down the page, and
+centring multi-line body copy costs readability and buys nothing. Three pages
+stay fully centred by founder decision because they are short one-line sections
+rather than body copy: `/contact`, `/our-score` (with its `<Cta centered />`)
+and `/404`.
 
-**Alignment (settled 2026-07-25).** One rule, applied everywhere: **the page
-head centres, the body does not.** The head is the h1, the lede under it, and
-the closing `<Cta centered />`. Everything below stays left-aligned, because
-it is content people read or scan: founder bios, article lists, tier cards,
-FAQ answers, the /our-score table, and every form label and input. Centring
-multi-line body copy costs readability and buys nothing. Two pages are fully
-centred by founder decision because they are short one-line sections rather
-than body copy: `/contact` and `/our-score`. `/404` is fully centred too.
-
-**Claim + artifact rule.** No section ships as text-only. Every claim is
-paired with a concrete artifact (query set card, sampling card, judge verdict,
-deliverables grid). Section bodies are ≤2 sentences; the artifact does the
-explaining. Every page gets one signature element (home: the answer card;
-how-it-works: the pipeline).
+**Claim + artifact rule.** No section ships as text-only. Every claim is paired
+with a concrete artifact (the findings panels, the shift chart, the console's
+scorecard, the query set card, the judge verdict). Every page gets one
+signature element (home: the live customer questions; /how-it-works: the
+console).
 
 **Sample data honesty.** All illustrative mention-rate numbers come from
-`lib/sample.ts` (ONE canonical dataset) and are labeled "illustrative
-example" wherever they render. Never label invented data as a real or
-anonymized client — swap in a real run via lib/sample.ts when one is cleared
-(website-plan §6).
+`lib/sample.ts` and are labeled "illustrative example" wherever they render.
+The Bluequarry dataset is ONE canonical set, and every panel that shows it
+computes from it rather than retyping it (the home measure panel, the console
+scorecard). The hero's live customer questions show no rates at all, and the
+businesses their answers name are braced placeholders ("Competitor A"), never
+invented names, because nobody has verified eighteen of them. Never label
+invented data as a real or anonymized client — swap in a real run via
+lib/sample.ts when one is cleared (website-plan §6).
 
 ## Process
 
