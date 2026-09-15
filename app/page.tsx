@@ -80,28 +80,35 @@ export default function Home() {
       <section data-hero="dark" className="relative overflow-hidden bg-night text-white">
         <Beams variant="hero" />
         <div
-          className={`relative ${SECTION_X} grid min-h-[100svh] content-end pb-11 pt-28 lg:grid-cols-[minmax(0,1fr)_clamp(440px,37vw,660px)] lg:gap-x-[clamp(48px,5vw,112px)] lg:pt-24 lg:tall:grid-rows-[1fr_auto] lg:tall:gap-y-10 lg:short:grid-rows-[minmax(auto,calc(100svh_-_140px))_auto] lg:short:gap-y-16 wide:pb-16`}
+          className={`relative ${SECTION_X} grid min-h-[100svh] content-end pb-[var(--fold-bottom)] pt-28 [--fold-bottom:44px] lg:grid-cols-[minmax(0,1fr)_clamp(440px,37vw,660px)] lg:gap-x-[clamp(48px,5vw,112px)] lg:pt-24 lg:[--fold-bottom:clamp(72px,5.5vw,128px)] lg:tall:grid-rows-[1fr_auto] lg:tall:gap-y-10 lg:short:grid-rows-[minmax(auto,calc(100svh_-_96px_-_var(--fold-bottom)))_auto] lg:short:gap-y-[calc(var(--fold-bottom)_+_24px)]`}
         >
           {/* `hero-copy` lifts away and dims as the fold scrolls off
               (globals.css, "Scroll depth"). It goes on the headline and on the
               copy, never on the panel column, whose glass would go flat.
 
               The headline is sized from its own column (`@container`). At
-              10.2cqi its widest line, "Are you in the answer?" (9.64em in
-              Franklin 300), spans 94% of the column, so it fills the corner at
+              9.6cqi its widest line, "Are you in the answer?" (9.64em in
+              Franklin 300), spans 93% of the column, so it holds the corner at
               any width and never wraps to a fourth line. The 11em cap keeps the
               same three lines where the size ceiling leaves the column wider,
               and in a browser without text-wrap: balance.
 
+              KEPT OFF THE CORNER (Josh: "too close to the bottom left corner").
+              From lg the column is inset from the gutter, and `--fold-bottom`,
+              the fold's bottom padding, grows with the width. The copy sits on
+              the headline's baseline, so it rises with it. In a short window
+              the panel's gap is that padding plus 24px, so the panel starts
+              just below the fold instead of peeking into it.
+
               On a tall screen the panel stacks above the copy, so the headline
-              also yields to the height: (100svh - 560px) / 3.1 is the largest
-              three-line headline that leaves room for the panel (560px is the
-              padding, the gap and the panel at its tallest), which keeps it
+              also yields to the height: (100svh - 480px - --fold-bottom) / 3.1
+              is the largest three-line headline that leaves room for the panel
+              (480px is the top padding, the gap and the panel), which keeps it
               clear of the fold on wide, shallow windows. */}
-          <div className="hero-copy @container min-w-0 lg:col-start-1 lg:self-baseline-last lg:tall:row-start-2 lg:short:row-start-1">
+          <div className="hero-copy @container min-w-0 lg:col-start-1 lg:self-baseline-last lg:pl-[clamp(24px,2vw,56px)] lg:tall:row-start-2 lg:short:row-start-1">
             <h1
               data-reveal
-              className="display display-light max-w-[11em] text-[clamp(30px,10.2cqi,72px)] leading-[1.03] text-white text-balance lg:short:text-[clamp(40px,10.2cqi,150px)] lg:tall:text-[clamp(40px,min(10.2cqi,calc((100svh_-_560px)/3.1)),150px)]"
+              className="display display-light max-w-[11em] text-[clamp(30px,9.6cqi,68px)] leading-[1.03] text-white text-balance lg:short:text-[clamp(40px,9.6cqi,136px)] lg:tall:text-[clamp(40px,min(9.6cqi,calc((100svh_-_480px_-_var(--fold-bottom))/3.1)),136px)]"
             >
               {`${HERO.heading} `}
               <span className="block text-sky">{HERO.headingAccent}</span>

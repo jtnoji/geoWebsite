@@ -409,16 +409,21 @@ with the rest.
   Cerebrium homepage). From lg the headline sits in the bottom-left corner in
   three lines, the lede and actions sit bottom-right on its last baseline, and
   the live customer questions float above them. The headline is sized from its
-  own column (`@container`, `10.2cqi`), so it fills the corner at every width
+  own column (`@container`, `9.6cqi`), so it holds the corner at every width
   and always sets in the same three lines; its `11em` cap holds them where the
-  size ceiling leaves slack. Placement is grid lines only: the markup order is
-  headline, copy, panel, which is what phones and crawlers read.
+  size ceiling leaves slack. It is kept off the corner itself (Josh: "too close
+  to the bottom left corner"): from lg its column is inset from the gutter and
+  the fold's bottom padding is the fluid `--fold-bottom`, which the copy rises
+  with because it sits on the headline's baseline. Placement is grid lines
+  only: the markup order is headline, copy, panel, which is what phones and
+  crawlers read.
   **The fold is the one layout that must fit the screen's height**, so it uses
   the `tall:` / `short:` viewport-height variants in `globals.css` (49rem,
   784px, mutually exclusive). On a tall window the panel stacks above the copy
-  and the headline also caps at `(100svh - 560px) / 3.1` to leave it room; on
-  a short one the panel drops below the copy, so the headline is never cut off
-  at the fold. Re-measure the threshold if the panel or the copy grows.
+  and the headline also caps at `(100svh - 480px - --fold-bottom) / 3.1` to
+  leave it room; on a short one the panel drops below the copy, so the headline
+  is never cut off at the fold. Re-measure the threshold if the panel, the copy
+  or the bottom padding grows.
 
 **Claim + artifact rule.** No section ships as text-only. Every claim is paired
 with a concrete artifact (the findings panels, the shift chart, the console's

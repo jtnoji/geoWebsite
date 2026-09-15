@@ -101,9 +101,9 @@
    customer questions float above the copy; below that they drop under it, so
    a short laptop still gets the headline whole in the bottom-left corner
    instead of cut off at the fold. 784px is measured, not round: a 1440x900
-   laptop's browser window (789px) holds the stacked column, a 1024x768 one
-   comes up 49px short. The two ranges exclude each other, so a `tall:` class
-   and a `short:` class never depend on source order. */
+   laptop's browser window (789px) holds the stacked column, which at 1024
+   wide needs 845px. The two ranges exclude each other, so a `tall:` class and
+   a `short:` class never depend on source order. */
 @custom-variant tall (@media (height >= 49rem));
 @custom-variant short (@media (height < 49rem));
 

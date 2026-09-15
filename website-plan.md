@@ -585,7 +585,9 @@ call bookings) so you know where the funnel leaks.
       from its own column and always sets in the same three lines, the second
       sentence on its own line in Sky. In a browser window under 784px tall
       (most 1280, 1366 and 1536 laptops) the panel drops just below the copy
-      instead, so the headline is never cut off at the fold.
+      instead, so the headline is never cut off at the fold. Refined the same
+      day at Josh's request: the headline about 10% smaller, and lifted up and
+      in from the corner, with the copy rising with it on the same baseline.
 
   **Open for Josh:** two lines still sit near the no-guarantee rule and shipped
   as designed: the hero lede ("so your company appears more often") and Grow's
