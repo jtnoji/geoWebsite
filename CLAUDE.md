@@ -324,9 +324,10 @@ Radius, weight and tracking live in globals.css and are unlayered, so a
 font size stay at the call site. The header CTA is its own outline pill
 (`.nav-cta`).
 
-**Motion** (revised 2026-09-14, Josh: "make it feel more premium"). All CSS,
-no library, reduced-motion safe, and none of it ever keeps a word out of the
-raw HTML. Four kinds, and a fifth needs a reason, not a preference:
+**Motion** (revised 2026-09-14, Josh: "make it feel more premium"). All CSS
+(one island only moves the console's stage on), no library, reduced-motion
+safe, and none of it ever keeps a word out of the raw HTML. Five kinds, and a
+sixth needs a reason, not a preference:
 - **Reveal** (`data-reveal`, toggled once by `ScrollReveal`): fade, rise and
   de-blur on a long expo ease. Variants: `fade`, `scale`, `left` / `right`
   (sideways from md up only, so a phone never widens mid-animation), `stagger`
@@ -347,6 +348,10 @@ raw HTML. Four kinds, and a fifth needs a reason, not a preference:
   questions (`LiveAnswer`, the `.prompt-*` rules, cut for six questions; it
   throws at build time if the count changes).
 - **The header fill** over a dark hero.
+- **The console's stage bar** on /how-it-works: the checked tab's bar fills and
+  hands on to the next stage, and the panels crossfade. The timing is CSS; the
+  one script is the behavior-only `StageAutoplay` island that moves the radio
+  on ("Interactive without JavaScript" below).
 Everything animates opacity, translate, scale or filter, never a layout
 property, using the individual `translate` / `scale` properties so scroll depth
 and reveal compose. Nothing pins, hijacks or smooths the scroll. Put a reveal
@@ -354,10 +359,21 @@ on a wrapper, never on a `.btn`, whose hover transition it would replace.
 
 **Interactive without JavaScript.** The /how-it-works console (`StageTabs`) is
 four visually hidden radio inputs and `:has()` selectors: every stage's copy is
-in the raw HTML, the tabs are a keyboard radio group, and there is no client
-component. The first panel shows by default, so a browser without `:has()`
+in the raw HTML, the tabs are a keyboard radio group, and the console needs no
+script to work. The first panel shows by default, so a browser without `:has()`
 still shows stage one. The selectors are written for four stages, and
 `StageTabs` throws at build time if the count changes.
+- **Autoplay is an enhancement on top** (Josh, 2026-09-14). `StageAutoplay` is
+  a behavior-only island like `ScrollReveal` and renders nothing. The checked
+  tab's bar fills over `--stage-dwell` (6.4s, in `globals.css`), and on
+  `animationend` the island checks the next stage, looping. It only ever sets
+  `checked`, so the radio group always names the stage on show. The first
+  click or arrow key on a stage stops it for good: script-set `checked` fires
+  no event, which is how the two are told apart. Keyboard focus in the
+  console, the console off screen and a hidden tab pause it; reduced motion
+  never starts it. The panels share one grid cell and crossfade, so nothing
+  below the console moves when a stage changes. `security.spec.ts` proves the
+  island runs under the hash-pinned CSP and that a click stops it.
 
 **A chart is a measurement artifact.** Server-rendered inline SVG only: every
 value must survive JS-off, which is both the static-export invariant and how

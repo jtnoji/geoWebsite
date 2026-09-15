@@ -1,3 +1,4 @@
+import StageAutoplay from "./StageAutoplay";
 import { delay } from "@/lib/reveal";
 import {
   SAMPLE_LABEL,
@@ -13,11 +14,17 @@ export type Stage = { label: string; title: string; body: string };
  * The /how-it-works console (mockup/sable-site.dc.html): four stage tabs over
  * a title and a paragraph, beside one scorecard read off the sample dataset.
  *
- * NO JAVASCRIPT. Each tab is a <label> for a visually hidden radio input, and
- * the `.stage-*` rules in globals.css show the panel whose input is checked.
- * So this is a server component, every stage's copy is in the exported HTML
- * with JavaScript off, and the tabs are keyboard-operable as a radio group for
- * free: Tab reaches the group and the arrow keys move between stages.
+ * NO JAVASCRIPT NEEDED. Each tab is a <label> for a visually hidden radio
+ * input, and the `.stage-*` rules in globals.css show the panel whose input is
+ * checked. So this is a server component, every stage's copy is in the
+ * exported HTML with JavaScript off, and the tabs are keyboard-operable as a
+ * radio group for free: Tab reaches the group and the arrow keys move between
+ * stages.
+ *
+ * AUTOPLAY ON TOP (Josh, 2026-09-14). With script, StageAutoplay fills the
+ * checked tab's bar and moves to the next stage when the bar is full, until the
+ * reader picks a stage. It renders nothing and only ever sets `checked`, so
+ * everything above still holds. The timing is `--stage-dwell` in globals.css.
  *
  * The scorecard is the same for every stage, as the design draws it, and it
  * is derived rather than typed: 6 of 40 is SAMPLE_RANKING's own count against
@@ -26,6 +33,9 @@ export type Stage = { label: string; title: string; body: string };
 
 /* Fail closed: the selectors in globals.css are written out for four stages. */
 const EXPECTED_STAGES = 4;
+
+/* One console per page, so one id. StageAutoplay finds the console by it. */
+const CONSOLE_ID = "stage-console";
 
 export default function StageTabs({ stages }: { stages: readonly Stage[] }) {
   if (stages.length !== EXPECTED_STAGES) {
@@ -47,6 +57,7 @@ export default function StageTabs({ stages }: { stages: readonly Stage[] }) {
        wrapper's: opacity or a filter on an ANCESTOR of this backdrop blur
        would flatten it (globals.css, "Scroll depth"). */
     <div
+      id={CONSOLE_ID}
       data-reveal="fade"
       style={delay(120)}
       className="stages depth-in relative overflow-hidden rounded-[18px] border border-white/12 bg-night/55 backdrop-blur-[14px]"
@@ -71,6 +82,9 @@ export default function StageTabs({ stages }: { stages: readonly Stage[] }) {
           >
             <span className="mr-2 opacity-55">{String(i + 1).padStart(2, "0")}</span>
             {stage.label}
+            {/* The bar: full under the checked tab, filling while autoplay runs
+                (globals.css, "Stage tabs"). */}
+            <span aria-hidden="true" className="stage-fill" />
           </label>
         ))}
       </div>
@@ -132,6 +146,8 @@ export default function StageTabs({ stages }: { stages: readonly Stage[] }) {
           </div>
         </div>
       </div>
+
+      <StageAutoplay consoleId={CONSOLE_ID} />
     </div>
   );
 }

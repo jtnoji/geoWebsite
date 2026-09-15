@@ -595,6 +595,14 @@ call bookings) so you know where the funnel leaks.
       cards on the beams, and the comparison table sits in a white card with
       our column tinted. No copy changed. Rules in CLAUDE.md "Section
       variation".
+  12. **The /how-it-works console autoplays** (Josh, same day). On load the
+      active stage's bar fills over 6.4 seconds, then the console moves to
+      the next stage and loops. Clicking a stage selects it and stops
+      autoplay, so the console never moves under someone reading it. It
+      pauses while keyboard focus is in the console, while it is off screen
+      and while the tab is hidden, and it never runs for anyone who prefers
+      reduced motion. With JavaScript off the console works exactly as before.
+      Rules in CLAUDE.md "Interactive without JavaScript".
 
   **Open for Josh:** two lines still sit near the no-guarantee rule and shipped
   as designed: the hero lede ("so your company appears more often") and Grow's

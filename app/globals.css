@@ -935,30 +935,65 @@ body:has([data-hero="dark"]) .site-main {
    checked, so a browser without :has() still shows stage one rather than an
    empty console.
 
+   The panels share one grid cell, like the live customer questions, so the
+   console is always as tall as its longest stage: nothing below it moves when
+   the stage changes, which matters once autoplay changes it every few seconds.
+   The outgoing panel fades quickly and the next one comes up just behind it,
+   so two texts never sit on top of each other at half strength.
+
+   AUTOPLAY (Josh, 2026-09-14) is StageAutoplay, a script-only enhancement. It
+   sets `data-autoplay` while it runs and `data-paused` while the console is off
+   screen or the tab is hidden. The checked tab's bar fills over --stage-dwell,
+   and the island moves to the next stage when that animation ends, so the
+   timing lives here and nowhere else.
+
    THE COUNT IS FOUR. StageTabs.tsx throws at build time if its stage list
    changes without these selectors. */
+.stages {
+  --stage-dwell: 6.4s;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .stages {
+    --stage-out: opacity 220ms ease, visibility 0s linear 220ms;
+    --stage-in: opacity 520ms var(--ease-reveal) 160ms, visibility 0s;
+  }
+}
+
+/* With reduced motion the two variables are undefined, which makes these
+   transitions invalid and so no transition at all: the panels simply swap. */
+.stage-panels {
+  display: grid;
+}
+
 .stage-panel {
-  display: none;
+  grid-area: 1 / 1;
+  opacity: 0;
+  visibility: hidden;
+  transition: var(--stage-out);
 }
 
 .stage-panel:first-child,
 .stages:has(> .stage-input:nth-of-type(2):checked) .stage-panel:nth-child(2),
 .stages:has(> .stage-input:nth-of-type(3):checked) .stage-panel:nth-child(3),
 .stages:has(> .stage-input:nth-of-type(4):checked) .stage-panel:nth-child(4) {
-  display: block;
+  opacity: 1;
+  visibility: visible;
+  transition: var(--stage-in);
 }
 
 .stages:has(> .stage-input:not(:first-of-type):checked) .stage-panel:first-child {
-  display: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: var(--stage-out);
 }
 
 .stage-tab {
+  position: relative;
   border-bottom: 2px solid rgba(255, 255, 255, 0.14);
   color: rgba(255, 255, 255, 0.55);
   cursor: pointer;
-  transition:
-    color 150ms,
-    border-color 150ms;
+  transition: color 150ms;
 }
 
 .stage-tab:hover {
@@ -969,8 +1004,27 @@ body:has([data-hero="dark"]) .site-main {
 .stages:has(> .stage-input:nth-of-type(2):checked) .stage-tab:nth-child(2),
 .stages:has(> .stage-input:nth-of-type(3):checked) .stage-tab:nth-child(3),
 .stages:has(> .stage-input:nth-of-type(4):checked) .stage-tab:nth-child(4) {
-  border-bottom-color: var(--color-sky);
   color: #fff;
+}
+
+/* The bar under each tab: a Sky line laid over the tab's 2px track. The
+   checked tab's bar is full, which is the whole indicator with JavaScript off,
+   with motion reduced, and once the reader has picked a stage. */
+.stage-fill {
+  position: absolute;
+  inset-inline: 0;
+  bottom: -2px;
+  height: 2px;
+  background: var(--color-sky);
+  scale: 0 1;
+  transform-origin: left center;
+}
+
+.stages:has(> .stage-input:nth-of-type(1):checked) .stage-tab:nth-child(1) .stage-fill,
+.stages:has(> .stage-input:nth-of-type(2):checked) .stage-tab:nth-child(2) .stage-fill,
+.stages:has(> .stage-input:nth-of-type(3):checked) .stage-tab:nth-child(3) .stage-fill,
+.stages:has(> .stage-input:nth-of-type(4):checked) .stage-tab:nth-child(4) .stage-fill {
+  scale: 1 1;
 }
 
 .stages:has(> .stage-input:nth-of-type(1):focus-visible) .stage-tab:nth-child(1),
@@ -979,6 +1033,34 @@ body:has([data-hero="dark"]) .site-main {
 .stages:has(> .stage-input:nth-of-type(4):focus-visible) .stage-tab:nth-child(4) {
   outline: 2px solid var(--color-sky);
   outline-offset: -4px;
+}
+
+/* While autoplay runs, the checked tab's bar fills instead of standing full.
+   `both` starts it empty and holds it full until the next stage is checked,
+   so the bar never flashes back to empty in the frame before the switch. */
+@media (prefers-reduced-motion: no-preference) {
+  .stages[data-autoplay]:has(> .stage-input:nth-of-type(1):checked) .stage-tab:nth-child(1) .stage-fill,
+  .stages[data-autoplay]:has(> .stage-input:nth-of-type(2):checked) .stage-tab:nth-child(2) .stage-fill,
+  .stages[data-autoplay]:has(> .stage-input:nth-of-type(3):checked) .stage-tab:nth-child(3) .stage-fill,
+  .stages[data-autoplay]:has(> .stage-input:nth-of-type(4):checked) .stage-tab:nth-child(4) .stage-fill {
+    animation: stage-fill var(--stage-dwell) linear both;
+  }
+
+  /* Paused, not stopped: keyboard focus is in the console, or the island says
+     it is off screen or the tab is hidden. */
+  .stages:focus-within .stage-fill,
+  .stages[data-paused] .stage-fill {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes stage-fill {
+  from {
+    scale: 0 1;
+  }
+  to {
+    scale: 1 1;
+  }
 }
 
 /* ---- Markdown article body (/learn/[slug]) -------------------------------

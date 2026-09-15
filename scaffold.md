@@ -40,8 +40,9 @@ const nextConfig = {
 
 Rule for the whole codebase: **no `'use client'` for anything content-bearing.**
 Client components are allowed only for interactivity islands (mobile nav toggle,
-form submit state). All copy, headings, and JSON-LD must be in server components
-so they land in the exported HTML.
+form submit state, the scroll reveal, the /how-it-works console's autoplay). All
+copy, headings, and JSON-LD must be in server components so they land in the
+exported HTML.
 
 ---
 
@@ -72,11 +73,12 @@ geoWebsite/
 │   ├── ClosingCta.tsx          # home's closing band, on the light beams
 │   ├── Beams.tsx               # the light-beam backgrounds behind dark bands
 │   ├── StatTile.tsx            # stat + source line
-│   ├── StageTabs.tsx           # /how-it-works console: CSS-only radio tabs
+│   ├── StageTabs.tsx           # /how-it-works console: CSS-only radio tabs, works with JS off
+│   ├── StageAutoplay.tsx       # 'use client' behavior-only island: console autoplay, renders nothing
 │   ├── HonestyBlock.tsx        # the no-guarantees block (reused verbatim)
 │   ├── FaqSection.tsx          # renders Q&A pairs + emits FAQPage JSON-LD from same data
 │   ├── ReportPreview.tsx       # sample-report artifacts
-│   └── FreeCheckForm.tsx       # 'use client' island — the ONE interactive component
+│   └── FreeCheckForm.tsx       # 'use client' island: the form's submit state
 ├── lib/
 │   ├── schema.ts               # JSON-LD builders: org(), faq(), person(), service(), article()
 │   ├── site.ts                 # single source of truth: brand, domain, NAP, founders, links

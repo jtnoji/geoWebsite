@@ -123,6 +123,39 @@ test("hydration survives the hash-pinned CSP (mobile nav toggles)", async ({ pag
   ).toBeVisible();
 });
 
+test.describe("the /how-it-works console", () => {
+  test("never autoplays for someone who prefers reduced motion", async ({ page }) => {
+    // The suite's default context already asks for reduced motion.
+    await page.goto("/how-it-works/");
+    await expect(page.locator("#stage-1")).toBeChecked();
+    await page.waitForTimeout(500);
+    await expect(page.locator("#stage-console")).not.toHaveAttribute("data-autoplay");
+  });
+
+  test.describe("with motion allowed", () => {
+    test.use({ contextOptions: { reducedMotion: "no-preference" } });
+
+    test("autoplays under the hash-pinned CSP, and a click hands it to the reader", async ({
+      page,
+    }) => {
+      await page.goto("/how-it-works/");
+      const consoleEl = page.locator("#stage-console");
+      // A dead island would never set this: proof the bundle ran under the CSP.
+      await expect(consoleEl).toHaveAttribute("data-autoplay", "");
+
+      // Shorten the dwell rather than wait out the real one per stage.
+      await consoleEl.evaluate((el) => el.style.setProperty("--stage-dwell", "300ms"));
+      await expect(page.locator("#stage-2")).toBeChecked();
+
+      await page.locator('label[for="stage-4"]').click();
+      await expect(consoleEl).not.toHaveAttribute("data-autoplay");
+      // Several dwells later the reader's choice still stands.
+      await page.waitForTimeout(1200);
+      await expect(page.locator("#stage-4")).toBeChecked();
+    });
+  });
+});
+
 test("security.txt is valid RFC 9116 and not expired", async ({ request }) => {
   for (const path of ["/.well-known/security.txt", "/security.txt"]) {
     const res = await request.get(path);
