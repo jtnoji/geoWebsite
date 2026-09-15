@@ -11,12 +11,12 @@ import type { Stat } from "@/lib/stats";
  */
 export default function StatTile({ stat }: { stat: Stat }) {
   return (
-    <figure className="grid h-full items-center gap-x-5 gap-y-3 rounded-xl bg-white px-[26px] py-6 min-[440px]:grid-cols-[auto_minmax(0,1fr)]">
-      <p className="whitespace-nowrap text-[40px] font-semibold leading-none tracking-[-0.035em] text-ink">
+    <figure className="grid h-full items-center gap-x-5 gap-y-3 rounded-xl bg-white px-[26px] py-6 min-[440px]:grid-cols-[auto_minmax(0,1fr)] wide:gap-x-8 wide:px-10 wide:py-9">
+      <p className="whitespace-nowrap text-[clamp(40px,2.778vw,64px)] font-semibold leading-none tracking-[-0.035em] text-ink">
         {stat.value}
       </p>
       <div>
-        <blockquote className="text-[14.5px] leading-[1.55] text-ink-soft">
+        <blockquote className="text-[clamp(14.5px,1.007vw,18px)] leading-[1.55] text-ink-soft">
           {stat.text}
         </blockquote>
         <figcaption className="mt-[7px] font-mono text-[10px] uppercase tracking-[0.14em] text-ink-faint">

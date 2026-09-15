@@ -9,6 +9,7 @@ import {
   getArticleSlugs,
   type ArticleMeta,
 } from "@/lib/articles";
+import { SECTION } from "@/lib/layout";
 import { delay } from "@/lib/reveal";
 import { BRAND } from "@/lib/site";
 import { pageMeta } from "@/lib/seo";
@@ -74,25 +75,33 @@ export default async function Article({
         })}
       />
 
-      <div className="mx-auto max-w-2xl px-5 py-16 sm:px-8 md:py-20">
-        <Link
-          href="/learn/"
-          className="text-sm font-semibold text-ink hover:text-accent"
-        >
-          ← All articles
-        </Link>
-        <div data-reveal>
-          <h1 className="display mt-4 text-4xl font-bold leading-[1.1] tracking-tight text-ink">
-            {meta.title}
-          </h1>
-          {/* The byline is not decoration. The Article JSON-LD credits
-              meta.author as a Person, and this site's rule is that schema
-              never states what the page does not show. Until 2026-07-31 the
-              frontmatter carried an author, the page printed only a date, and
-              the schema credited the Organization. All three now agree. */}
-          <p className="mt-3 text-sm text-ink-faint">
-            <time dateTime={meta.date}>{meta.date}</time> · {meta.author}
-          </p>
+      {/* Full width like every page (lib/layout.ts). From lg the title column
+          sits beside the article and stays in view while it scrolls, so the
+          page spans the screen while the body keeps a readable line length:
+          prose stretched across a wide row is harder to read, not easier. */}
+      <div
+        className={`${SECTION} grid gap-10 lg:grid-cols-[minmax(0,4fr)_minmax(0,7fr)] lg:gap-16 wide:gap-24`}
+      >
+        <div className="min-w-0 lg:sticky lg:top-[104px] lg:self-start">
+          <Link
+            href="/learn/"
+            className="text-sm font-semibold text-ink hover:text-accent"
+          >
+            ← All articles
+          </Link>
+          <div data-reveal>
+            <h1 className="display mt-4 text-[clamp(34px,3.2vw,64px)] leading-[1.1] text-ink text-pretty">
+              {meta.title}
+            </h1>
+            {/* The byline is not decoration. The Article JSON-LD credits
+                meta.author as a Person, and this site's rule is that schema
+                never states what the page does not show. Until 2026-07-31 the
+                frontmatter carried an author, the page printed only a date, and
+                the schema credited the Organization. All three now agree. */}
+            <p className="mt-3 text-sm text-ink-faint">
+              <time dateTime={meta.date}>{meta.date}</time> · {meta.author}
+            </p>
+          </div>
         </div>
         {/* The article body reveals as one block. Its HTML comes from
             lib/articles.ts, so there are no per-element hooks to stagger, and
@@ -101,10 +110,12 @@ export default async function Article({
             raw-HTML test in geo.spec.ts locates the body with
             /<div class="article[^"]*">/ and asserts the markup inside carries
             no class= or style=. Extra attributes on that div break the match
-            and silently blind a security check on untrusted markdown. */}
-        <div data-reveal style={delay(110)}>
+            and silently blind a security check on untrusted markdown. The
+            wrapper must hold the .article div and nothing else, because the
+            same test ends the body at the first `</div></div>`. */}
+        <div data-reveal style={delay(110)} className="min-w-0">
           <div
-            className="article mt-8"
+            className="article max-w-[72ch]"
             dangerouslySetInnerHTML={{ __html: html }}
           />
         </div>

@@ -23,21 +23,27 @@ function Mark({ value }: { value: boolean | string }) {
 export default function CompareTable() {
   return (
     <div className="overflow-x-auto">
-      <table className="w-full min-w-[340px] border-collapse text-[15.5px]">
+      <table className="w-full min-w-[340px] border-collapse text-[clamp(15.5px,1.076vw,19.5px)]">
         <thead>
           <tr className="border-b border-ink">
             <th scope="col" className="w-[46%] pb-3.5 text-left font-normal">
               <span className="sr-only">Capability</span>
             </th>
-            <th scope="col" className="pb-3.5 text-center text-[15px] font-semibold text-ink">
+            <th
+              scope="col"
+              className="pb-3.5 text-center text-[clamp(15px,1.042vw,19px)] font-semibold text-ink"
+            >
               {BRAND}
             </th>
-            <th scope="col" className="pb-3.5 text-center text-[15px] font-normal text-ink-faint">
+            <th
+              scope="col"
+              className="pb-3.5 text-center text-[clamp(15px,1.042vw,19px)] font-normal text-ink-faint"
+            >
               {COMPARISON.rival}
             </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody data-reveal="stagger">
           {COMPARISON.rows.map((row) => (
             <tr key={row.label} className="border-b border-line">
               <th scope="row" className="py-[15px] pr-3 text-left font-normal text-ink">

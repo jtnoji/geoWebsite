@@ -201,7 +201,7 @@ export default function SearchShiftChart() {
     <figure
       data-reveal="draw"
       style={delay(120)}
-      className="min-w-0 rounded-[30px] border border-line bg-white px-5 pb-6 pt-7 shadow-float sm:px-10 sm:pb-9 sm:pt-10"
+      className="depth-in min-w-0 rounded-[30px] border border-line bg-white px-5 pb-6 pt-7 shadow-float sm:px-10 sm:pb-9 sm:pt-10"
     >
       {/* Legend in HTML, not SVG: it carries the source links, and HTML type
           stays readable at any width while SVG type scales with the box. */}

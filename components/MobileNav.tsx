@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { SECTION_X } from "@/lib/layout";
 import { NAV_LINKS } from "@/lib/site";
 
 /**
@@ -38,7 +39,7 @@ export default function MobileNav() {
           aria-label="Mobile"
           className="nav-panel absolute inset-x-0 top-[72px] shadow-[0_18px_30px_-24px_rgba(4,8,15,0.6)]"
         >
-          <ul className="mx-auto w-full max-w-[1440px] px-5 py-2 sm:px-8">
+          <ul className={`${SECTION_X} py-2`}>
             {NAV_LINKS.map((link) => (
               <li key={link.href}>
                 <Link

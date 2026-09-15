@@ -1,5 +1,5 @@
 /**
- * The page grid. One container, one vertical rhythm, used by every section on
+ * The page grid. One gutter, one vertical rhythm, used by every section on
  * every route.
  *
  * WHY THIS FILE EXISTS (2026-08-03). The home page had drifted to FIVE content
@@ -7,19 +7,28 @@
  * individual section was fine and the page still read as unstructured, because
  * the eye tracks the left edge and that edge never held still.
  *
- * WIDENED 2026-09-14 for the Sable redesign (mockup/sable-site.dc.html), which
- * draws every section on a 1440px track with 32px gutters and 100px of
- * vertical padding. The old 1120 measure and the 1400 wide track collapsed
- * into that one width.
+ * FULL WIDTH SINCE 2026-09-14 (Josh: "make sure it fills the entire width of
+ * the page when fullscreen"). The Sable redesign first capped every section at
+ * its 1440px track, which on a 1728px laptop screen boxed the content into the
+ * middle 80% of the page. There is no max-width container now: every section
+ * runs gutter to gutter at every width, the gutter widens on large screens,
+ * and headings keep scaling with the viewport past 1440 so the composition
+ * holds instead of thinning out. At 1440 and below nothing changed.
  *
- * Import these. Do not retype the classes at a call site, and do not invent a
- * width for one section: a section that needs to feel wider is a full-bleed
- * band (a background on the <section>, this container inside it), which is
- * the one sanctioned way out.
+ * What still has a measure is reading copy, set in `ch`: a line stays legible
+ * to roughly 75 characters however wide the screen is, so a paragraph is never
+ * stretched to fill a row. Width is filled by the grid instead: from 1600px up
+ * a text-only head splits into its heading on the left and its copy on the
+ * right (`HEAD_SPLIT`), and lists become grids.
+ *
+ * Import these. Do not retype the classes at a call site.
  */
 
-/** The content column. Every section's inner wrapper starts with this. */
-export const SECTION_X = "mx-auto w-full max-w-[1440px] px-5 sm:px-8";
+/** Side padding: 20px on phones, the design's 32px from sm, wider on large screens. */
+export const GUTTER = "px-5 sm:px-8 wide:px-12 ultra:px-16";
+
+/** The content column: the whole width of the page, inside the gutter. */
+export const SECTION_X = `w-full ${GUTTER}`;
 
 /** Standard vertical rhythm: 64px on phones, the design's 100px from md up. */
 export const SECTION_Y = "py-16 md:py-[100px]";
@@ -28,8 +37,10 @@ export const SECTION_Y = "py-16 md:py-[100px]";
 export const SECTION = `${SECTION_X} ${SECTION_Y}`;
 
 /**
- * The reading track, for a block whose content is a table or a column of text
- * that would sprawl at 1440 (the home comparison table). A SECOND value, not a
- * free-for-all: a section is at the track or at the reading track.
+ * A text-only head (a heading and its copy) that stacks below 1600px and
+ * splits across the page from there up: heading left, copy right,
+ * bottom-aligned. Children space themselves with this grid's gap rather than
+ * margins, so the stacked and the split layouts share one markup.
  */
-export const SECTION_NARROW = "mx-auto w-full max-w-[1100px] px-5 sm:px-8";
+export const HEAD_SPLIT =
+  "grid gap-y-5 wide:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] wide:items-end wide:gap-x-24";

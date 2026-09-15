@@ -5,7 +5,7 @@ import Eyebrow from "@/components/Eyebrow";
 import FaqSection from "@/components/FaqSection";
 import JsonLd from "@/components/JsonLd";
 import PageSchema from "@/components/PageSchema";
-import { SECTION_X } from "@/lib/layout";
+import { HEAD_SPLIT, SECTION_X } from "@/lib/layout";
 import { delay } from "@/lib/reveal";
 import { crumb, service, type Faq } from "@/lib/schema";
 import { PRICING_COPY, SERVICE_TIERS } from "@/lib/offers";
@@ -62,21 +62,25 @@ export default function Pricing() {
         })}
       />
 
-      <section className={`${SECTION_X} pb-12 pt-14 md:pb-14 md:pt-[68px]`}>
-        <div data-reveal>
+      <section className={`${SECTION_X} ${HEAD_SPLIT} pb-12 pt-14 md:pb-14 md:pt-[68px]`}>
+        <div data-reveal className="min-w-0">
           <Eyebrow>{PRICING_COPY.eyebrow}</Eyebrow>
-          <h1 className="display mt-6 max-w-[18ch] text-[clamp(42px,5.4vw,76px)] leading-[1.03] text-ink text-pretty">
+          <h1 className="display mt-6 max-w-[18ch] text-[clamp(42px,5.4vw,116px)] leading-[1.03] text-ink text-pretty">
             {`${PRICING_COPY.heading} `}
             <span className="text-cobalt">{PRICING_COPY.headingAccent}</span>
           </h1>
-          <p className="mt-[22px] max-w-[52ch] text-[16px] leading-[1.7] text-ink-soft">
-            {PRICING_COPY.body}
-          </p>
         </div>
+        <p
+          data-reveal
+          style={delay(100)}
+          className="max-w-[52ch] text-[clamp(16px,1.111vw,20px)] leading-[1.7] text-ink-soft"
+        >
+          {PRICING_COPY.body}
+        </p>
       </section>
 
       <section className={`${SECTION_X} pb-16 md:pb-[100px]`}>
-        <div className="grid items-stretch gap-4 lg:grid-cols-3">
+        <div className="grid items-stretch gap-4 lg:grid-cols-3 wide:gap-6">
           {SERVICE_TIERS.map((tier, i) => {
             const dark = tier.featured;
             return (
@@ -84,7 +88,7 @@ export default function Pricing() {
                 key={tier.name}
                 data-reveal
                 style={delay(i * 90)}
-                className={`flex min-w-0 flex-col rounded-[14px] border p-7 sm:p-8 ${
+                className={`flex min-w-0 flex-col rounded-[14px] border p-7 sm:p-8 wide:p-10 ${
                   dark ? "border-ink bg-ink text-white" : "border-track bg-white"
                 }`}
               >
@@ -96,17 +100,21 @@ export default function Pricing() {
                   {tier.name}
                 </h2>
                 <p
-                  className={`mt-[22px] text-[clamp(38px,3.4vw,46px)] font-light leading-[1.05] tracking-[-0.04em] ${
+                  className={`mt-[22px] text-[clamp(38px,3.4vw,72px)] font-light leading-[1.05] tracking-[-0.04em] ${
                     dark ? "text-white" : "text-ink"
                   }`}
                 >
                   {tier.price}
                 </p>
-                <p className={`mt-2.5 text-[14px] ${dark ? "text-white/72" : "text-ink-faint"}`}>
+                <p
+                  className={`mt-2.5 text-[clamp(14px,0.972vw,17px)] ${
+                    dark ? "text-white/72" : "text-ink-faint"
+                  }`}
+                >
                   {tier.priceNote}
                 </p>
                 <p
-                  className={`mt-5 text-[15.5px] leading-[1.65] ${
+                  className={`mt-5 text-[clamp(15.5px,1.076vw,19px)] leading-[1.65] ${
                     dark ? "text-white/88" : "text-ink-soft"
                   }`}
                 >
@@ -116,13 +124,13 @@ export default function Pricing() {
                   {tier.includes.map((item) => (
                     <li
                       key={item}
-                      className={`grid grid-cols-[16px_minmax(0,1fr)] items-start gap-2.5 text-[15px] leading-[1.55] ${
+                      className={`grid grid-cols-[16px_minmax(0,1fr)] items-start gap-2.5 text-[clamp(15px,1.042vw,19px)] leading-[1.55] ${
                         dark ? "text-white" : "text-ink"
                       }`}
                     >
                       <span
                         aria-hidden="true"
-                        className={`mt-2 h-1.5 w-1.5 rounded-full ${dark ? "bg-sky" : "bg-cobalt"}`}
+                        className={`mt-[0.5em] h-1.5 w-1.5 rounded-full ${dark ? "bg-sky" : "bg-cobalt"}`}
                       />
                       {item}
                     </li>
@@ -140,7 +148,10 @@ export default function Pricing() {
             );
           })}
         </div>
-        <p data-reveal className="mt-6 max-w-[60ch] text-[14px] leading-[1.6] text-ink-faint">
+        <p
+          data-reveal
+          className="mt-6 max-w-[60ch] text-[clamp(14px,0.972vw,17px)] leading-[1.6] text-ink-faint"
+        >
           {PRICING_COPY.honesty}
         </p>
       </section>
@@ -148,8 +159,9 @@ export default function Pricing() {
       <section className="border-t border-line-dark">
         <div className={`${SECTION_X} py-16 md:py-[100px]`}>
           <Eyebrow>Questions</Eyebrow>
-          <div data-reveal style={delay(100)} className="mt-8 max-w-3xl">
-            <FaqSection faqs={FAQS} />
+          {/* Three across from lg, so the questions fill the page's width. */}
+          <div className="mt-8">
+            <FaqSection faqs={FAQS} columns={3} />
           </div>
         </div>
       </section>

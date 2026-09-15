@@ -2,12 +2,16 @@ import { test } from "@playwright/test";
 import { PAGES } from "./pages";
 
 /**
- * Full-page screenshots at phone / tablet / desktop widths — the artifact for
- * the design-critique loop (scaffold §5). Not assertions; output lands in
- * tests/screenshots/.
+ * Full-page screenshots at phone / tablet / desktop / wide widths — the
+ * artifact for the design-critique loop (scaffold §5). Not assertions; output
+ * lands in tests/screenshots/.
+ *
+ * 1920 was added 2026-09-14 when the site went full width: the layout only
+ * changes past 1600px, so without a wide shot nothing in the loop would show a
+ * regression back to a boxed-in page.
  */
 
-const WIDTHS = [390, 768, 1440] as const;
+const WIDTHS = [390, 768, 1440, 1920] as const;
 
 for (const page of PAGES) {
   for (const width of WIDTHS) {

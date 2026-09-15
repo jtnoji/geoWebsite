@@ -4,7 +4,7 @@ import Cta from "@/components/Cta";
 import Eyebrow from "@/components/Eyebrow";
 import PageSchema from "@/components/PageSchema";
 import { MentionRateCard, SourcesCard, VerbatimCard } from "@/components/ReportPreview";
-import { SECTION_X } from "@/lib/layout";
+import { HEAD_SPLIT, SECTION, SECTION_X } from "@/lib/layout";
 import { delay } from "@/lib/reveal";
 import { crumb } from "@/lib/schema";
 import { pageMeta } from "@/lib/seo";
@@ -78,25 +78,31 @@ export default function SampleReport() {
         trail={[crumb("/sample-report/")]}
       />
 
-      <section className={`${SECTION_X} pb-12 pt-14 md:pb-[60px] md:pt-[68px]`}>
-        <div data-reveal>
+      <section
+        className={`${SECTION_X} ${HEAD_SPLIT} pb-12 pt-14 md:pb-[60px] md:pt-[68px]`}
+      >
+        <div data-reveal className="min-w-0">
           <Eyebrow>Sample report</Eyebrow>
-          <h1 className="display mt-6 max-w-[17ch] text-[clamp(42px,5.4vw,74px)] leading-[1.03] text-ink text-pretty">
+          <h1 className="display mt-6 max-w-[17ch] text-[clamp(42px,5.4vw,116px)] leading-[1.03] text-ink text-pretty">
             {"The whole report, "}
             <span className="text-cobalt">before you pay for one</span>
           </h1>
-          <p className="mt-[22px] max-w-[54ch] text-[16px] leading-[1.7] text-ink-soft">
-            Nine pages, built from the same query set we would run for you.
-            Numbers are from an illustrative business, not a real client.
-          </p>
         </div>
+        <p
+          data-reveal
+          style={delay(100)}
+          className="max-w-[54ch] text-[clamp(16px,1.111vw,20px)] leading-[1.7] text-ink-soft"
+        >
+          Nine pages, built from the same query set we would run for you.
+          Numbers are from an illustrative business, not a real client.
+        </p>
       </section>
 
       <section
-        className={`${SECTION_X} grid items-start gap-12 pb-16 md:pb-[100px] lg:grid-cols-2`}
+        className={`${SECTION_X} grid items-start gap-12 pb-16 md:pb-[100px] lg:grid-cols-2 wide:gap-24`}
       >
         <div data-reveal className="min-w-0">
-          <ol className="flex flex-col gap-3.5">
+          <ol data-reveal="stagger" className="flex flex-col gap-3.5">
             {CONTENTS.map((item, i) => (
               <li
                 key={item.title}
@@ -108,8 +114,8 @@ export default function SampleReport() {
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <div>
-                  <p className="text-[17px] text-ink">{item.title}</p>
-                  <p className="mt-1.5 text-[14.5px] leading-[1.6] text-ink-soft">
+                  <p className="text-[clamp(17px,1.181vw,21px)] text-ink">{item.title}</p>
+                  <p className="mt-1.5 text-[clamp(14.5px,1.007vw,18px)] leading-[1.6] text-ink-soft">
                     {item.body}
                   </p>
                 </div>
@@ -133,17 +139,25 @@ export default function SampleReport() {
       </section>
 
       <section className="border-t border-line-dark">
-        <div className={`${SECTION_X} py-16 md:py-[100px]`}>
-          <div data-reveal>
-            <h2 className="display max-w-[20ch] text-[clamp(30px,3.4vw,44px)] leading-[1.08] text-ink text-pretty">
+        {/* Stacked below 1600px; from there the head sits beside the list so
+            the section spans the page. */}
+        <div
+          className={`${SECTION} grid gap-10 wide:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] wide:gap-24`}
+        >
+          <div data-reveal className="min-w-0">
+            <h2 className="display max-w-[20ch] text-[clamp(30px,3.4vw,72px)] leading-[1.08] text-ink text-pretty">
               The prioritized fix list
             </h2>
-            <p className="mt-4 max-w-[56ch] text-[16px] leading-[1.7] text-ink-soft">
+            <p className="mt-4 max-w-[56ch] text-[clamp(16px,1.111vw,20px)] leading-[1.7] text-ink-soft">
               The full audit closes with fixes ordered by what moves AI answers.
               Each one ties back to a finding in the data.
             </p>
           </div>
-          <ol data-reveal style={delay(100)} className="mt-10 max-w-3xl">
+          <ol
+            data-reveal="stagger"
+            style={delay(100)}
+            className="min-w-0 max-w-3xl wide:max-w-none"
+          >
             {FIX_LIST.map((item, i) => (
               <li
                 key={item.fix}
@@ -153,8 +167,10 @@ export default function SampleReport() {
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <div>
-                  <p className="text-[17px] font-semibold text-ink">{item.fix}</p>
-                  <p className="mt-1.5 text-[14.5px] leading-[1.6] text-ink-soft">
+                  <p className="text-[clamp(17px,1.181vw,21px)] font-semibold text-ink">
+                    {item.fix}
+                  </p>
+                  <p className="mt-1.5 max-w-[64ch] text-[clamp(14.5px,1.007vw,18px)] leading-[1.6] text-ink-soft">
                     {item.why}
                   </p>
                 </div>

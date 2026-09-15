@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { SECTION_X } from "@/lib/layout";
 import { delay } from "@/lib/reveal";
 import { ALL_PAGES, OFFER_CTA } from "@/lib/site";
 
@@ -9,6 +10,9 @@ import { ALL_PAGES, OFFER_CTA } from "@/lib/site";
  *
  * It still routes to /free-check in one click, which is the funnel rule every
  * other page follows (funnel.spec.ts). A mistyped URL is a real visitor.
+ *
+ * Full width and left-aligned like every page since 2026-09-14; it used to be
+ * centred. The page list runs across the width as a grid.
  */
 
 /**
@@ -31,21 +35,21 @@ export const metadata: Metadata = {
 };
 export default function NotFound() {
   return (
-    <div className="mx-auto max-w-2xl px-5 py-24 text-center sm:px-8 md:py-32">
+    <div className={`${SECTION_X} py-24 md:py-32`}>
       <div data-reveal>
         <p className="font-mono text-xs font-semibold uppercase tracking-[0.08em] text-ink-faint">
           404
         </p>
-        <h1 className="display mt-4 text-4xl font-bold leading-[1.1] tracking-tight text-ink">
+        <h1 className="display mt-4 text-[clamp(40px,4.4vw,96px)] leading-[1.05] text-ink">
           That page isn&rsquo;t here.
         </h1>
-        <p className="mx-auto mt-5 max-w-md text-base leading-7 text-ink-soft">
+        <p className="mt-5 max-w-[52ch] text-[clamp(16px,1.111vw,20px)] leading-[1.7] text-ink-soft">
           The link may be old, or we may have moved something. Everything on the
           site is one click away below.
         </p>
       </div>
 
-      <div data-reveal style={delay(110)} className="mt-9 flex flex-wrap items-center justify-center gap-4">
+      <div data-reveal style={delay(110)} className="mt-9 flex flex-wrap items-center gap-4">
         <Link href="/free-check/" className="btn btn-navy px-[26px] py-[15px] text-[15px]">
           {`${OFFER_CTA} `}
           <span aria-hidden="true">→</span>
@@ -55,11 +59,16 @@ export default function NotFound() {
         </Link>
       </div>
 
-      <nav data-reveal style={delay(220)} aria-label="All pages" className="mt-16 border-t-2 border-ink pt-5">
+      <nav
+        data-reveal
+        style={delay(220)}
+        aria-label="All pages"
+        className="mt-16 border-t-2 border-ink pt-5"
+      >
         <h2 className="font-mono text-xs font-semibold uppercase tracking-[0.06em] text-ink-faint">
           Every page
         </h2>
-        <ul className="mt-4 flex flex-wrap justify-center gap-x-6 gap-y-2.5 text-sm">
+        <ul className="mt-4 grid gap-x-8 gap-y-2.5 text-[clamp(14px,0.972vw,17px)] sm:grid-cols-2 lg:grid-cols-4 wide:grid-cols-6">
           {ALL_PAGES.map((page) => (
             <li key={page.href}>
               <Link

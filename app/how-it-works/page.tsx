@@ -9,7 +9,7 @@ import JsonLd from "@/components/JsonLd";
 import PageSchema from "@/components/PageSchema";
 import { SamplingRows } from "@/components/SamplingCard";
 import StageTabs, { type Stage } from "@/components/StageTabs";
-import { SECTION_X } from "@/lib/layout";
+import { HEAD_SPLIT, SECTION_X } from "@/lib/layout";
 import { delay } from "@/lib/reveal";
 import { crumb, faq } from "@/lib/schema";
 import { SAMPLE_LABEL, SAMPLE_QUERY, SAMPLE_ROWS } from "@/lib/sample";
@@ -242,20 +242,20 @@ export default function HowItWorks() {
       {/* ---- HERO + CONSOLE ------------------------------------------------ */}
       <section data-hero="dark" className="relative overflow-hidden bg-night text-white">
         <Beams variant="page" />
-        <div className={`relative ${SECTION_X} pb-12 pt-32 md:pb-[70px] md:pt-[150px]`}>
+        <div
+          className={`hero-copy relative ${SECTION_X} pb-12 pt-32 md:pb-[70px] md:pt-[150px]`}
+        >
           <div data-reveal>
             <Eyebrow onDark>{`How ${BRAND} works`}</Eyebrow>
-            <h1 className="display mt-6 max-w-[15ch] text-[clamp(42px,5.6vw,80px)] leading-[1.02] text-white text-pretty">
+            <h1 className="display mt-6 max-w-[15ch] text-[clamp(42px,5.6vw,120px)] leading-[1.02] text-white text-pretty">
               {"One system, running on "}
               <span className="text-sky">a schedule</span>
             </h1>
           </div>
         </div>
-        <div
-          data-reveal="scale"
-          style={delay(120)}
-          className={`relative ${SECTION_X} pb-16 md:pb-[100px]`}
-        >
+        {/* The console reveals itself (see StageTabs): a wrapper's opacity
+            would flatten its glass. */}
+        <div className={`relative ${SECTION_X} pb-16 md:pb-[100px]`}>
           <StageTabs stages={STAGES} />
         </div>
       </section>
@@ -264,12 +264,18 @@ export default function HowItWorks() {
           Kept from the previous page: the FAQPage JSON-LD above is built from
           these five, so the headings and bodies here ARE the schema. */}
       <section className="bg-paper-dim">
-        <div data-reveal className={`${SECTION_X} pt-16 md:pt-[100px]`}>
-          <Eyebrow>The protocol</Eyebrow>
-          <h2 className="display mt-6 max-w-[18ch] text-[clamp(32px,3.8vw,52px)] leading-[1.06] text-ink text-pretty">
-            Measurement you can inspect.
-          </h2>
-          <p className="mt-5 max-w-[56ch] text-[16.5px] leading-[1.7] text-ink-soft">
+        <div className={`${SECTION_X} ${HEAD_SPLIT} pt-16 md:pt-[100px]`}>
+          <div data-reveal className="min-w-0">
+            <Eyebrow>The protocol</Eyebrow>
+            <h2 className="display mt-6 max-w-[18ch] text-[clamp(32px,3.8vw,80px)] leading-[1.06] text-ink text-pretty">
+              Measurement you can inspect.
+            </h2>
+          </div>
+          <p
+            data-reveal
+            style={delay(100)}
+            className="max-w-[56ch] text-[clamp(16.5px,1.146vw,20.5px)] leading-[1.7] text-ink-soft"
+          >
             What we run, how often, and how every answer is judged. Public,
             because measurement you can&rsquo;t inspect is just marketing.
           </p>
@@ -281,15 +287,15 @@ export default function HowItWorks() {
               key={section.id}
               id={section.id}
               data-reveal
-              className="grid items-start gap-8 border-t border-line-dark py-12 first:border-t-0 md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] md:gap-14"
+              className="grid items-start gap-8 border-t border-line-dark py-12 first:border-t-0 md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] md:gap-14 wide:gap-24 wide:py-16"
             >
               <div className="min-w-0">
                 <Chip tone="outline">{section.label}</Chip>
-                <h2 className="display mt-5 max-w-[20ch] text-[clamp(26px,2.6vw,34px)] leading-[1.12] text-ink text-pretty">
+                <h2 className="display mt-5 max-w-[20ch] text-[clamp(26px,2.6vw,54px)] leading-[1.12] text-ink text-pretty">
                   {section.heading}
                 </h2>
                 {section.id !== "s5" && (
-                  <p className="mt-4 max-w-[52ch] text-[16px] leading-[1.7] text-ink-soft">
+                  <p className="mt-4 max-w-[52ch] text-[clamp(16px,1.111vw,20px)] leading-[1.7] text-ink-soft">
                     <BodyWithBolds body={section.body} bolds={section.bolds} />
                     {section.id === "s2" && <sup>1</sup>}
                   </p>

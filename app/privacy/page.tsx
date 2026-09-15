@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import FaqSection from "@/components/FaqSection";
 import PageSchema from "@/components/PageSchema";
+import { HEAD_SPLIT, SECTION } from "@/lib/layout";
 import { delay } from "@/lib/reveal";
 import { crumb, type Faq } from "@/lib/schema";
 import { BRAND, EMAIL, NAP } from "@/lib/site";
@@ -100,31 +101,37 @@ const POLICY: Faq[] = [
 
 export default function Privacy() {
   return (
-    <div className="mx-auto max-w-2xl px-5 py-16 sm:px-8 md:py-20">
+    <div className={SECTION}>
       <PageSchema meta={metadata} path="/privacy/" trail={[crumb("/privacy/")]} />
 
-      {/* Left-aligned throughout, like every page in the Sable design; the
-          policy Q&A reads as body copy (CLAUDE.md "Alignment"). */}
-      <div data-reveal>
-        <h1 className="display text-[clamp(34px,4.4vw,58px)] leading-[1.05] text-ink">
+      {/* Left-aligned and full width, like every page; the head splits from
+          1600px and the policy answers run two across from lg, each keeping
+          its own reading measure (CLAUDE.md "Width and alignment"). */}
+      <div className={HEAD_SPLIT}>
+        <h1
+          data-reveal
+          className="display text-[clamp(34px,4.4vw,96px)] leading-[1.05] text-ink"
+        >
           Privacy
         </h1>
-        <p className="mt-5 text-base leading-7 text-ink-soft">
-          {BRAND} runs AI visibility checks from {NAP.city}, {NAP.region}. The
-          only personal information we hold is what you send through the free
-          check. This page says exactly what that is, in the same plain
-          language as the rest of the site.
-        </p>
-        <p className="mt-3 text-sm text-ink-faint">In effect since {EFFECTIVE}</p>
+        <div data-reveal style={delay(100)} className="min-w-0">
+          <p className="max-w-[60ch] text-[clamp(16px,1.111vw,20px)] leading-[1.7] text-ink-soft">
+            {BRAND} runs AI visibility checks from {NAP.city}, {NAP.region}. The
+            only personal information we hold is what you send through the free
+            check. This page says exactly what that is, in the same plain
+            language as the rest of the site.
+          </p>
+          <p className="mt-3 text-sm text-ink-faint">In effect since {EFFECTIVE}</p>
+        </div>
       </div>
 
-      <div data-reveal style={delay(110)} className="mt-12">
+      <div className="mt-12">
         {/* withSchema={false}: FAQPage markup on a legal page would claim these
             are the site's FAQs. The visible copy is the whole point here. */}
-        <FaqSection faqs={POLICY} withSchema={false} />
+        <FaqSection faqs={POLICY} withSchema={false} columns={2} />
       </div>
 
-      <div data-reveal className="mt-12 border-t-2 border-ink pt-6">
+      <div data-reveal className="mt-12 max-w-2xl border-t-2 border-ink pt-6">
         <h2 className="display text-2xl font-bold tracking-tight text-ink">
           Questions, or a request?
         </h2>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SECTION_X } from "@/lib/layout";
 import { ALL_PAGES, BRAND, EMAIL, FOUNDERS, NAP } from "@/lib/site";
 import { Lockup } from "./Plume";
 
@@ -13,7 +14,9 @@ import { Lockup } from "./Plume";
 export default function Footer() {
   return (
     <footer className="bg-night text-white/72">
-      <div className="mx-auto grid w-full max-w-[1440px] gap-10 px-5 pb-[30px] pt-[70px] sm:grid-cols-2 sm:px-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1.2fr)_minmax(0,1fr)]">
+      <div
+        className={`${SECTION_X} grid gap-10 pb-[30px] pt-[70px] sm:grid-cols-2 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1.2fr)_minmax(0,1fr)]`}
+      >
         <div>
           <Lockup
             u={7}
@@ -79,7 +82,9 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="mx-auto flex w-full max-w-[1440px] flex-wrap justify-between gap-x-6 gap-y-2 px-5 pb-[34px] font-mono text-[10.5px] uppercase tracking-[0.16em] text-white/60 sm:px-8">
+      <div
+        className={`${SECTION_X} flex flex-wrap justify-between gap-x-6 gap-y-2 pb-[34px] font-mono text-[10.5px] uppercase tracking-[0.16em] text-white/60`}
+      >
         <p>
           © {new Date().getFullYear()} {BRAND}
         </p>

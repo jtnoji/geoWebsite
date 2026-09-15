@@ -73,7 +73,7 @@ export function CrawlerLogSection({ log = CRAWLER_HITS }: { log?: Log | null }) 
   if (!hasCrawlerData(log)) return null;
 
   return (
-    <section data-reveal className="mx-auto mt-16 max-w-3xl text-left">
+    <section data-reveal className="mt-16 max-w-3xl">
       <h2 className="display text-2xl font-bold tracking-tight text-ink">
         Who actually crawled us
       </h2>

@@ -561,6 +561,21 @@ call bookings) so you know where the funnel leaks.
      rates, so there is no before/after number left to soften, and it is CSS
      only, so every question and answer is in the raw HTML. It sits in the
      design's glass card.
+  8. **Scroll motion** (Josh, same day: "make it feel more premium"). Reveals
+     are longer and softer and come into focus from a slight blur, short lists
+     cascade, and rate bars fill as their panels arrive. The page also gained
+     scroll-linked depth: dark heroes recede as they leave, the beams in dark
+     bands drift, and the large panels settle as they come in. All CSS, all off
+     for anyone who prefers reduced motion, and none of it hides copy from a
+     crawler. Rules in CLAUDE.md "Motion".
+  9. **Full width** (Josh, same day: "make sure it fills the entire width of
+     the page when fullscreen"). The 1440px container is gone, so on a laptop
+     screen the content no longer sits in the middle 80%. Sections run gutter
+     to gutter at every size and headings keep scaling past 1440. From 1600px,
+     text-only heads split into heading left and copy right, and FAQ sets run
+     across in columns. /contact, /our-score and /404 are no longer centred.
+     Reading copy keeps a legible line length inside that grid. Rules in
+     CLAUDE.md "Width and alignment".
 
   **Open for Josh:** two lines still sit near the no-guarantee rule and shipped
   as designed: the hero lede ("so your company appears more often") and Grow's

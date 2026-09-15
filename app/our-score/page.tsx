@@ -3,6 +3,7 @@ import { CrawlerLogSection } from "@/components/CrawlerLog";
 import Cta from "@/components/Cta";
 import PageSchema from "@/components/PageSchema";
 import { AI_BOTS } from "@/lib/crawlers";
+import { HEAD_SPLIT, SECTION } from "@/lib/layout";
 import { delay } from "@/lib/reveal";
 import { crumb } from "@/lib/schema";
 import { BRAND } from "@/lib/site";
@@ -64,29 +65,38 @@ const RESULTS = [
   },
 ] as const;
 
+/**
+ * Full width like every page (Josh, 2026-09-14). It used to sit centred; the
+ * head now splits from 1600px and the results table spans the page.
+ */
 export default function OurScore() {
   return (
     <>
       <PageSchema meta={metadata} path="/our-score/" trail={[crumb("/our-score/")]} />
 
-      <div className="mx-auto max-w-[1120px] px-5 py-16 text-center sm:px-8 md:py-20">
-        <div data-reveal>
-        <h1 className="display mx-auto max-w-2xl text-4xl font-bold tracking-tight text-ink">
-          We ran our own audit on this website. Here&rsquo;s the report.
-        </h1>
-        <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-ink-soft">
-          A company selling AI visibility audits should pass its own. Below are
-          the Cat 1–6 results for this site: same rubric, same checks, published
-          and dated. Mention-rate tracking for {BRAND}{" "}queries starts at
-          launch and gets published here too.
-        </p>
-        <p className="mt-3 text-sm text-ink-faint">Last audit: {AUDIT_DATE}</p>
+      <div className={SECTION}>
+        <div className={HEAD_SPLIT}>
+          <h1
+            data-reveal
+            className="display max-w-[20ch] text-[clamp(34px,3.6vw,80px)] leading-[1.08] text-ink text-pretty"
+          >
+            We ran our own audit on this website. Here&rsquo;s the report.
+          </h1>
+          <div data-reveal style={delay(100)} className="min-w-0">
+            <p className="max-w-[60ch] text-[clamp(16px,1.111vw,20px)] leading-[1.7] text-ink-soft">
+              A company selling AI visibility audits should pass its own. Below
+              are the Cat 1–6 results for this site: same rubric, same checks,
+              published and dated. Mention-rate tracking for {BRAND}{" "}queries
+              starts at launch and gets published here too.
+            </p>
+            <p className="mt-3 text-sm text-ink-faint">Last audit: {AUDIT_DATE}</p>
+          </div>
         </div>
 
         {/* The table reveals whole. Row-by-row would ripple the shared
             horizontal rules, and this is a data artifact, not marketing. */}
-        <div data-reveal style={delay(120)} className="mt-10 overflow-x-auto">
-          <table className="w-full min-w-[640px] border-collapse text-left text-sm">
+        <div data-reveal style={delay(120)} className="mt-12 overflow-x-auto">
+          <table className="w-full min-w-[640px] border-collapse text-left text-[clamp(14px,0.972vw,17px)]">
             <thead>
               <tr className="border-b-2 border-ink text-[12.5px] uppercase tracking-[0.07em] text-ink-faint">
                 <th className="py-3 pr-4 font-semibold">Category</th>
@@ -124,7 +134,6 @@ export default function OurScore() {
       </div>
 
       <Cta
-        centered
         heading="This is the exact report you'd get."
         sub="See where your own site stands. Free, in your inbox within 1–2 business days."
       />

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SECTION_X } from "@/lib/layout";
 import { BRAND, NAV_LINKS, OFFER_SHORT } from "@/lib/site";
 import MobileNav from "./MobileNav";
 import NavHighlighter from "./NavHighlighter";
@@ -27,7 +28,9 @@ export default function Header() {
   return (
     <header className="site-header fixed inset-x-0 top-0 z-40">
       <NavHighlighter />
-      <div className="mx-auto flex h-[72px] w-full max-w-[1440px] items-center gap-6 px-5 sm:px-8">
+      {/* The page's own gutter, so the lockup and the CTA sit on the same
+          edges as the content under them at every width. */}
+      <div className={`flex h-[72px] items-center gap-6 ${SECTION_X}`}>
         <Link href="/" aria-label={`${BRAND}, home`} className="shrink-0">
           <Lockup u={7} size={21} tone="header" subline="AI SEO" />
         </Link>

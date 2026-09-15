@@ -36,16 +36,16 @@ const DELIVERABLES = [
 export default function FreeCheck() {
   return (
     <div
-      className={`${SECTION_X} grid items-start gap-12 pb-16 pt-12 md:pb-[100px] md:pt-[68px] lg:grid-cols-[minmax(0,1fr)_minmax(0,520px)] lg:grid-rows-[auto_1fr] lg:gap-x-16 lg:gap-y-10`}
+      className={`${SECTION_X} grid items-start gap-12 pb-16 pt-12 md:pb-[100px] md:pt-[68px] lg:grid-cols-[minmax(0,1fr)_minmax(0,520px)] lg:grid-rows-[auto_1fr] lg:gap-x-16 lg:gap-y-10 wide:grid-cols-[minmax(0,1fr)_minmax(0,640px)] wide:gap-x-24`}
     >
       <PageSchema meta={metadata} path="/free-check/" trail={[crumb("/free-check/")]} />
 
       <div data-reveal className="min-w-0 lg:col-start-1 lg:row-start-1">
         <Eyebrow>{OFFER_TITLE}</Eyebrow>
-        <h1 className="display mt-6 max-w-[18ch] text-[clamp(34px,4.4vw,58px)] leading-[1.05] text-ink text-pretty">
+        <h1 className="display mt-6 max-w-[18ch] text-[clamp(34px,4.4vw,96px)] leading-[1.05] text-ink text-pretty">
           What does AI say when customers ask about businesses like yours?
         </h1>
-        <p className="mt-5 max-w-[52ch] text-[16px] leading-[1.7] text-ink-soft">
+        <p className="mt-5 max-w-[52ch] text-[clamp(16px,1.111vw,20px)] leading-[1.7] text-ink-soft">
           Tell us who you are. We&rsquo;ll run real customer questions through
           ChatGPT, Google&rsquo;s AI answers, Gemini, and Perplexity, then email
           you a short report: whether you&rsquo;re mentioned, who&rsquo;s named
@@ -67,13 +67,13 @@ export default function FreeCheck() {
         <h2 className="font-mono text-[10.5px] font-normal uppercase tracking-[0.16em] text-ink-faint">
           What you&rsquo;ll get
         </h2>
-        <ul className="mt-4 max-w-[52ch]">
+        <ul data-reveal="stagger" className="mt-4 max-w-[52ch]">
           {DELIVERABLES.map((item) => (
             <li
               key={item}
-              className="grid grid-cols-[18px_minmax(0,1fr)] items-start gap-2.5 border-t border-line-dark py-3 text-[15px] leading-[1.55] text-ink"
+              className="grid grid-cols-[18px_minmax(0,1fr)] items-start gap-2.5 border-t border-line-dark py-3 text-[clamp(15px,1.042vw,19px)] leading-[1.55] text-ink"
             >
-              <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 rounded-full bg-cobalt" />
+              <span aria-hidden="true" className="mt-[0.5em] h-1.5 w-1.5 rounded-full bg-cobalt" />
               {item}
             </li>
           ))}

@@ -45,7 +45,10 @@ export default function FindingsPanel({
         <p className="text-[15px] font-semibold text-ink">{title}</p>
         <p className="text-[12.5px] text-ink-faint">{meta}</p>
       </div>
-      <ul className="flex flex-col gap-2.5 px-4 pb-5 pt-[18px] sm:px-5">
+      <ul
+        data-reveal="stagger"
+        className="flex flex-col gap-2.5 px-4 pb-5 pt-[18px] sm:px-5"
+      >
         {rows.map((row) => (
           <li
             key={row.label}
@@ -59,7 +62,7 @@ export default function FindingsPanel({
                   className="mt-[7px] block h-[5px] overflow-hidden rounded-full bg-track"
                 >
                   <span
-                    className="block h-full rounded-full bg-cobalt"
+                    className="bar-fill block h-full rounded-full bg-cobalt"
                     style={{ width: `${Math.round(row.bar * 100)}%` }}
                   />
                 </span>

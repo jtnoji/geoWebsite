@@ -82,6 +82,20 @@
   --shadow-glass: 0 30px 70px -40px rgba(0, 0, 0, 0.9);
 }
 
+/* The two breakpoints past the design's 1440 track, where the site keeps
+   growing (lib/layout.ts): `wide:` from 1600px and `ultra:` from 2200px.
+
+   Declared here, in rem like Tailwind's own sm to 2xl, and NEVER written as
+   arbitrary `min-[1600px]:` variants. Tailwind v4 cannot sort a px breakpoint
+   against its rem ones, so an arbitrary px override is emitted earlier in the
+   stylesheet and silently loses to any `sm:`, `md:` or `lg:` value on the same
+   property. That is exactly what happened on 2026-09-14: the wide gutter, gaps
+   and column ratios all shipped and none of them applied. */
+@theme {
+  --breakpoint-wide: 100rem;
+  --breakpoint-ultra: 137.5rem;
+}
+
 html {
   /* The header is fixed, so an in-page anchor would otherwise land under it. */
   scroll-padding-top: 96px;
@@ -145,8 +159,10 @@ body {
   backdrop-filter: blur(10px);
 }
 
+/* 0.9, not lower: this dress is kept for the whole page, and at 0.78 the bar
+   read as a muddy grey once it sat over the white sections below the fold. */
 body:has([data-hero="dark"]) .site-header {
-  --hdr-bg: rgba(4, 8, 15, 0.78);
+  --hdr-bg: rgba(4, 8, 15, 0.9);
   --hdr-ink: #ffffff;
   --hdr-muted: rgba(255, 255, 255, 0.72);
   --hdr-active: #7fa6d9;
@@ -179,7 +195,7 @@ body:has([data-hero="dark"]) .site-header {
     backdrop-filter: blur(0);
   }
   to {
-    background-color: rgba(4, 8, 15, 0.78);
+    background-color: rgba(4, 8, 15, 0.9);
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
   }
@@ -347,34 +363,149 @@ body:has([data-hero="dark"]) .site-main {
 }
 
 /* ---- Scroll reveal -------------------------------------------------------
-   Sections fade and rise once as they enter the viewport. ScrollReveal.tsx
-   only toggles `.is-in`; everything else is here.
+   Content arrives as it enters the viewport: it fades in, rises, and comes
+   into focus from a slight blur, on a long expo ease-out so it settles rather
+   than stops. ScrollReveal.tsx only toggles `.is-in`; everything else is here.
+
+   REVISED 2026-09-14 (Josh: "make it feel more premium"). The move is longer
+   and softer than it was, adds the de-blur, and gained the stagger and bar
+   rules below. It animates the individual `translate`, `scale` and `filter`
+   properties rather than `transform`, so the scroll-linked depth further down
+   can scale an element that is also revealing without either one clobbering
+   the other.
 
    The hidden state is gated behind `.js-reveal`, which an inline script in
    layout.tsx puts on <html> before first paint. Without JavaScript the class
    never lands, so every word renders at full opacity: the raw HTML an AI
    crawler reads is never animated away. Gating in CSS rather than defaulting
-   to opacity:0 is the whole trick. */
+   to opacity:0 is the whole trick.
+
+   Variants, set as the attribute's value:
+     (none)   rise and focus. The default for copy.
+     fade     no movement, for anything that already moves on its own.
+     scale    a shorter rise from 96%, for product objects.
+     left     arrive from the left, and `right` from the right, for panels
+              beside copy. Sideways from md up only: on a phone a sideways
+              start would push the page wider for a moment.
+     stagger  the element stays put and its CHILDREN arrive in turn, 70ms
+              apart. For short lists only: on a long one the bottom of the
+              cascade plays out below the fold before anyone scrolls to it, so
+              long lists put `data-reveal` on each item instead.
+     draw     the chart. See the next block. */
+
+:root {
+  --ease-reveal: cubic-bezier(0.16, 1, 0.3, 1);
+}
 
 .js-reveal [data-reveal] {
   opacity: 0;
-  transform: translateY(22px);
+  translate: 0 28px;
+  filter: blur(6px);
   transition:
-    opacity 700ms cubic-bezier(0.22, 0.61, 0.36, 1) var(--reveal-delay, 0ms),
-    transform 700ms cubic-bezier(0.22, 0.61, 0.36, 1) var(--reveal-delay, 0ms);
+    opacity 900ms var(--ease-reveal) var(--reveal-delay, 0ms),
+    translate 1100ms var(--ease-reveal) var(--reveal-delay, 0ms),
+    scale 1100ms var(--ease-reveal) var(--reveal-delay, 0ms),
+    filter 900ms var(--ease-reveal) var(--reveal-delay, 0ms);
 }
 
 .js-reveal [data-reveal="fade"] {
-  transform: none;
+  translate: none;
 }
 
 .js-reveal [data-reveal="scale"] {
-  transform: scale(0.975);
+  translate: 0 16px;
+  scale: 0.96;
+}
+
+@media (min-width: 768px) {
+  .js-reveal [data-reveal="left"] {
+    translate: -48px 0;
+  }
+
+  .js-reveal [data-reveal="right"] {
+    translate: 48px 0;
+  }
 }
 
 .js-reveal [data-reveal].is-in {
   opacity: 1;
-  transform: none;
+  translate: none;
+  scale: none;
+  filter: none;
+}
+
+/* A stagger container never hides itself; its children carry the reveal,
+   starting 120ms after the container is seen so a cascade nested inside a
+   revealing column begins once the column has mostly settled. */
+.js-reveal [data-reveal="stagger"] {
+  opacity: 1;
+  translate: none;
+  filter: none;
+}
+
+.js-reveal [data-reveal="stagger"] > * {
+  opacity: 0;
+  translate: 0 18px;
+  filter: blur(4px);
+  transition:
+    opacity 800ms var(--ease-reveal)
+      calc(var(--reveal-delay, 0ms) + 120ms + var(--stagger, 0ms)),
+    translate 1000ms var(--ease-reveal)
+      calc(var(--reveal-delay, 0ms) + 120ms + var(--stagger, 0ms)),
+    filter 800ms var(--ease-reveal)
+      calc(var(--reveal-delay, 0ms) + 120ms + var(--stagger, 0ms));
+}
+
+.js-reveal [data-reveal="stagger"].is-in > * {
+  opacity: 1;
+  translate: none;
+  filter: none;
+}
+
+[data-reveal="stagger"] > :nth-child(2) {
+  --stagger: 70ms;
+}
+[data-reveal="stagger"] > :nth-child(3) {
+  --stagger: 140ms;
+}
+[data-reveal="stagger"] > :nth-child(4) {
+  --stagger: 210ms;
+}
+[data-reveal="stagger"] > :nth-child(5) {
+  --stagger: 280ms;
+}
+[data-reveal="stagger"] > :nth-child(6) {
+  --stagger: 350ms;
+}
+[data-reveal="stagger"] > :nth-child(7) {
+  --stagger: 420ms;
+}
+[data-reveal="stagger"] > :nth-child(8) {
+  --stagger: 490ms;
+}
+[data-reveal="stagger"] > :nth-child(9) {
+  --stagger: 560ms;
+}
+[data-reveal="stagger"] > :nth-child(10) {
+  --stagger: 630ms;
+}
+[data-reveal="stagger"] > :nth-child(n + 11) {
+  --stagger: 700ms;
+}
+
+/* Rate bars fill from their left edge once the panel holding them arrives,
+   each a beat after its own row, so the numbers visibly land. Keyed off any
+   revealed ancestor; the delay rides the row's --stagger. Bars are data, so
+   with JavaScript off (no `.js-reveal`) they are simply full. */
+.js-reveal .bar-fill {
+  scale: 0 1;
+  transform-origin: left center;
+  transition: scale 1400ms var(--ease-reveal)
+    calc(var(--reveal-delay, 0ms) + 320ms + var(--stagger, 0ms));
+}
+
+.js-reveal .is-in .bar-fill {
+  scale: 1 1;
 }
 
 /* ---- Chart draw (home search-shift chart) --------------------------------
@@ -390,7 +521,8 @@ body:has([data-hero="dark"]) .site-main {
    regardless of its real geometry. The projection cannot use the same trick,
    because its dashes ARE a stroke-dasharray, so it fades in instead. */
 .js-reveal [data-reveal="draw"] {
-  transform: none;
+  translate: none;
+  filter: none;
 }
 
 .js-reveal [data-reveal="draw"] .chart-line {
@@ -414,9 +546,18 @@ body:has([data-hero="dark"]) .site-main {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .js-reveal [data-reveal] {
+  .js-reveal [data-reveal],
+  .js-reveal [data-reveal="stagger"] > * {
     opacity: 1;
-    transform: none;
+    translate: none;
+    scale: none;
+    filter: none;
+    transition: none;
+  }
+
+  /* Bars are data: with motion off they are simply full. */
+  .js-reveal .bar-fill {
+    scale: none;
     transition: none;
   }
 
@@ -431,6 +572,95 @@ body:has([data-hero="dark"]) .site-main {
   .js-reveal [data-reveal="draw"] .chart-late {
     opacity: 1;
     transition: none;
+  }
+}
+
+/* ---- Scroll depth ---------------------------------------------------------
+   Scroll-LINKED motion, where the reveal above is scroll-TRIGGERED: these
+   track the scrollbar frame by frame, so the page answers the hand that is
+   moving it. Added 2026-09-14 with the reveal revision (Josh).
+
+   - A dark hero recedes as it leaves: its beams sink and swell behind the
+     copy while `.hero-copy` lifts away a little faster and dims. The depth is
+     the two moving at different rates.
+   - A dark band's beams drift through it as it passes, slower than the page.
+   - The page's large objects (`.depth-in`: the shift chart, the capability
+     panels, the /how-it-works console) settle from 94% as they come in.
+
+   CSS scroll-driven animations: no JavaScript, no library. Progressive, so a
+   browser without view timelines gets the still page, and so does anyone who
+   prefers reduced motion. Opacity, translate and scale only. Nothing here
+   pins or hijacks the scroll.
+
+   Two traps avoided on purpose. First, never put opacity or a filter on an
+   ANCESTOR of a glass card: either makes that ancestor a backdrop root and the
+   card's backdrop blur goes flat. That is why `.hero-copy` is the hero's copy
+   column only, never the column holding LiveAnswer, and why LiveAnswer and
+   StageTabs carry their own reveal instead of a wrapper's. Second, scale comes
+   from the individual `scale` property so it composes with the reveal's
+   `translate`; an element with `.depth-in` must not also use the `scale`
+   reveal variant, which would animate the same property twice. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    [data-hero="dark"] {
+      view-timeline: --hero block;
+    }
+
+    [data-hero="dark"] > .beams {
+      animation: beams-sink linear both;
+      animation-timeline: --hero;
+      animation-range: exit 0% exit 100%;
+    }
+
+    [data-hero="dark"] .hero-copy {
+      animation: hero-recede linear both;
+      animation-timeline: --hero;
+      animation-range: exit 0% exit 75%;
+    }
+
+    section:not([data-hero]) > .beams {
+      animation: beams-drift linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+
+    .depth-in {
+      animation: depth-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 70%;
+    }
+  }
+}
+
+@keyframes beams-sink {
+  to {
+    translate: 0 16%;
+    scale: 1.06;
+  }
+}
+
+@keyframes hero-recede {
+  to {
+    opacity: 0.25;
+    translate: 0 -56px;
+  }
+}
+
+@keyframes beams-drift {
+  from {
+    translate: 0 -7%;
+  }
+  to {
+    translate: 0 7%;
+  }
+}
+
+@keyframes depth-in {
+  from {
+    scale: 0.94;
+  }
+  to {
+    scale: 1;
   }
 }
 

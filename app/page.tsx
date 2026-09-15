@@ -18,7 +18,7 @@ import {
   SOLUTION,
   STEPS,
 } from "@/lib/home";
-import { SECTION, SECTION_NARROW, SECTION_X } from "@/lib/layout";
+import { HEAD_SPLIT, SECTION, SECTION_X } from "@/lib/layout";
 import { delay } from "@/lib/reveal";
 import { HOME_STATS } from "@/lib/stats";
 import { BRAND, OFFER, OFFER_SHORT } from "@/lib/site";
@@ -36,11 +36,21 @@ export const metadata: Metadata = pageMeta({
    visibility check` and split the label in the raw bytes a crawler reads. */
 const PRIMARY = `Run my ${OFFER} `;
 
+/* The in-flow primary button, at the design's size and a step larger on the
+   wide screens where everything around it has grown. */
+const PRIMARY_SIZE =
+  "px-7 py-4 text-[16.5px] sm:px-[30px] sm:py-[17px] wide:px-9 wide:py-5 wide:text-[19px]";
+
 /**
  * The home page, rebuilt 2026-09-14 from the Sable design
  * (mockup/sable-site.dc.html), section for section: the fold, the problem with
  * the shift chart, three capabilities, how it works, what you get, the
  * comparison, and the closing band. Copy lives in lib/home.ts.
+ *
+ * Every section runs the full width of the page (lib/layout.ts). Type sizes
+ * are clamps that equal the design at 1440 and keep growing past it, so a
+ * large screen gets the same composition larger rather than a 1440 box with
+ * margins either side.
  */
 export default function Home() {
   return (
@@ -60,12 +70,15 @@ export default function Home() {
       <section data-hero="dark" className="relative overflow-hidden bg-night text-white">
         <Beams variant="hero" />
         <div
-          className={`relative ${SECTION_X} grid min-h-[100svh] items-end gap-12 pb-11 pt-28 lg:grid-cols-2 lg:gap-14 lg:pt-24`}
+          className={`relative ${SECTION_X} grid min-h-[100svh] items-end gap-12 pb-11 pt-28 lg:grid-cols-2 lg:gap-14 lg:pt-24 wide:gap-24 wide:pb-16`}
         >
-          <div className="min-w-0">
+          {/* `hero-copy` lifts away and dims as the fold scrolls off
+              (globals.css, "Scroll depth"). The copy column only: the card
+              column must not take opacity, or its glass goes flat. */}
+          <div className="hero-copy min-w-0">
             <h1
               data-reveal
-              className="display display-light max-w-[14ch] text-[clamp(40px,5.2vw,76px)] leading-[1.03] text-white text-pretty"
+              className="display display-light max-w-[14ch] text-[clamp(40px,5.2vw,112px)] leading-[1.03] text-white text-pretty"
             >
               {`${HERO.heading} `}
               <span className="text-sky">{HERO.headingAccent}</span>
@@ -73,46 +86,51 @@ export default function Home() {
             <p
               data-reveal
               style={delay(80)}
-              className="mt-5 max-w-[48ch] text-[16.5px] leading-[1.65] text-white/86 text-pretty"
+              className="mt-5 max-w-[48ch] text-[clamp(16.5px,1.146vw,20.5px)] leading-[1.65] text-white/86 text-pretty"
             >
               {HERO.lede}
             </p>
             <div
               data-reveal
               style={delay(160)}
-              className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-4"
+              className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-4 wide:mt-9"
             >
               <Link
                 href="/free-check/"
-                className="btn btn-sky px-7 py-4 text-[17px] sm:px-[34px] sm:py-[19px] sm:text-[18px]"
+                className="btn btn-sky px-7 py-4 text-[17px] sm:px-[34px] sm:py-[19px] sm:text-[18px] wide:px-10 wide:py-[22px] wide:text-[20px]"
               >
                 {PRIMARY}
                 <span aria-hidden="true">→</span>
               </Link>
               <Link
                 href="/how-it-works/"
-                className="border-b border-white/30 pb-0.5 text-[15.5px] text-white/85 transition-colors hover:text-white"
+                className="border-b border-white/30 pb-0.5 text-[clamp(15.5px,1.076vw,19px)] text-white/85 transition-colors hover:text-white"
               >
                 {`${HERO.secondary} `}
                 <span aria-hidden="true">→</span>
               </Link>
             </div>
-            <p data-reveal style={delay(220)} className="mt-3.5 text-[13.5px] text-white/70">
+            <p
+              data-reveal
+              style={delay(220)}
+              className="mt-3.5 text-[clamp(13.5px,0.9375vw,16px)] text-white/70"
+            >
               {HERO.fineprint}
             </p>
           </div>
 
-          <div
-            data-reveal="scale"
-            style={delay(200)}
-            className="w-full min-w-0 max-w-[430px] lg:justify-self-end"
-          >
+          {/* No reveal on this column itself: opacity or a filter on an
+              ancestor of the glass card flattens its backdrop blur, so the
+              card, the form and the links each carry their own. */}
+          <div className="w-full min-w-0 max-w-[430px] lg:justify-self-end wide:max-w-[540px] ultra:max-w-[620px]">
             {/* The live customer questions, kept from the previous home page
                 in place of the design's before/after card (Josh, 2026-09-14). */}
             <LiveAnswer />
             <form
               action="/free-check/"
               method="get"
+              data-reveal
+              style={delay(320)}
               className="mt-[18px] flex flex-wrap gap-2.5"
             >
               <label htmlFor="site" className="sr-only">
@@ -139,7 +157,11 @@ export default function Home() {
                 <span aria-hidden="true">→</span>
               </button>
             </form>
-            <p className="mt-3.5 flex flex-wrap gap-x-2 gap-y-1 text-[14px] text-white/80">
+            <p
+              data-reveal
+              style={delay(380)}
+              className="mt-3.5 flex flex-wrap gap-x-2 gap-y-1 text-[clamp(14px,0.972vw,16.5px)] text-white/80"
+            >
               <Link href="/our-score/" className="transition-colors hover:text-white">
                 {HERO.proof}
               </Link>
@@ -161,21 +183,23 @@ export default function Home() {
           two cited stats sit under both. */}
       <section className="bg-paper-dim">
         <div
-          className={`${SECTION_X} grid items-start gap-12 pb-10 pt-16 md:pt-[100px] lg:grid-cols-[minmax(260px,0.72fr)_minmax(0,2fr)] lg:gap-[52px]`}
+          className={`${SECTION_X} grid items-start gap-12 pb-10 pt-16 md:pt-[100px] lg:grid-cols-[minmax(260px,0.72fr)_minmax(0,2fr)] lg:gap-[52px] wide:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] wide:gap-24`}
         >
           <div data-reveal className="min-w-0">
             <Eyebrow>{PROBLEM.eyebrow}</Eyebrow>
-            <h2 className="display mt-[18px] max-w-[16ch] text-[clamp(28px,2.4vw,34px)] leading-[1.12] text-ink text-pretty">
+            <h2 className="display mt-[18px] max-w-[16ch] text-[clamp(28px,2.4vw,52px)] leading-[1.12] text-ink text-pretty">
               {PROBLEM.heading}
             </h2>
-            <p className="mt-4 max-w-[40ch] text-[14.5px] leading-[1.65] text-ink-soft">
+            <p className="mt-4 max-w-[40ch] text-[clamp(14.5px,1.007vw,18px)] leading-[1.65] text-ink-soft">
               {PROBLEM.body}
             </p>
-            <ul className="mt-6 flex flex-col gap-[13px]">
+            <ul data-reveal="stagger" className="mt-6 flex flex-col gap-[13px]">
               {PROBLEM.points.map((point) => (
                 <li key={point.title} className="border-t border-line-dark pt-[13px]">
-                  <h3 className="text-[14.5px] font-semibold text-ink">{point.title}</h3>
-                  <p className="mt-1 text-[13.5px] leading-[1.6] text-ink-soft">
+                  <h3 className="text-[clamp(14.5px,1.007vw,18px)] font-semibold text-ink">
+                    {point.title}
+                  </h3>
+                  <p className="mt-1 text-[clamp(13.5px,0.9375vw,17px)] leading-[1.6] text-ink-soft">
                     {point.body}
                   </p>
                 </li>
@@ -184,7 +208,9 @@ export default function Home() {
           </div>
           <SearchShiftChart />
         </div>
-        <div className={`${SECTION_X} grid gap-4 pb-16 pt-6 md:grid-cols-2 md:pb-[100px]`}>
+        <div
+          className={`${SECTION_X} grid gap-4 pb-16 pt-6 md:grid-cols-2 md:pb-[100px] wide:gap-6`}
+        >
           {HOME_STATS.slice(0, 2).map((stat, i) => (
             <div key={stat.source} data-reveal style={delay(i * 110)} className="min-w-0">
               <StatTile stat={stat} />
@@ -193,26 +219,31 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ---- THE SOLUTION -------------------------------------------------- */}
+      {/* ---- THE SOLUTION --------------------------------------------------
+          From 1600px the head splits: heading left, copy right, so the row
+          spans the page rather than its left half. */}
       <section className="bg-white">
-        <div data-reveal className={`${SECTION_X} pb-4 pt-16 md:pb-10 md:pt-[100px]`}>
-          <Eyebrow>{SOLUTION.eyebrow}</Eyebrow>
-          <h2 className="display mt-6 max-w-[16ch] text-[clamp(34px,4.2vw,58px)] leading-[1.05] text-ink text-pretty">
-            {`${SOLUTION.heading} `}
-            <span className="text-cobalt">{SOLUTION.headingAccent}</span>
-          </h2>
-          <p className="mt-5 max-w-[52ch] text-[16.5px] leading-[1.7] text-ink-soft">
+        <div className={`${SECTION_X} ${HEAD_SPLIT} pb-4 pt-16 md:pb-10 md:pt-[100px]`}>
+          <div data-reveal className="min-w-0">
+            <Eyebrow>{SOLUTION.eyebrow}</Eyebrow>
+            <h2 className="display mt-6 max-w-[16ch] text-[clamp(34px,4.2vw,90px)] leading-[1.05] text-ink text-pretty">
+              {`${SOLUTION.heading} `}
+              <span className="text-cobalt">{SOLUTION.headingAccent}</span>
+            </h2>
+          </div>
+          <p
+            data-reveal
+            style={delay(100)}
+            className="max-w-[52ch] text-[clamp(16.5px,1.146vw,20.5px)] leading-[1.7] text-ink-soft"
+          >
             {SOLUTION.body}
           </p>
         </div>
         {CAPABILITIES.map((capability, i) => (
           <CapabilityRow key={capability.no} capability={capability} flip={i % 2 === 1} />
         ))}
-        <div className={`${SECTION_X} pb-16 pt-6 md:pb-[100px]`}>
-          <Link
-            href="/free-check/"
-            className="btn btn-navy px-7 py-4 text-[16.5px] sm:px-[30px] sm:py-[17px]"
-          >
+        <div data-reveal className={`${SECTION_X} pb-16 pt-6 md:pb-[100px]`}>
+          <Link href="/free-check/" className={`btn btn-navy ${PRIMARY_SIZE}`}>
             {PRIMARY}
             <span aria-hidden="true">→</span>
           </Link>
@@ -225,56 +256,69 @@ export default function Home() {
         <div className={`relative ${SECTION}`}>
           <div data-reveal>
             <Eyebrow onDark>{STEPS.eyebrow}</Eyebrow>
-            <h2 className="display mt-6 max-w-[17ch] text-[clamp(34px,4.2vw,58px)] leading-[1.05] text-white text-pretty">
+            <h2 className="display mt-6 max-w-[17ch] text-[clamp(34px,4.2vw,90px)] leading-[1.05] text-white text-pretty">
               {STEPS.heading}
             </h2>
           </div>
           {/* The third column crosses the beams, so the steps carry a soft dark
               halo: it keeps the copy legible over the bright core without
               drawing a box the design does not have. */}
-          <ol className="mt-12 grid gap-8 [text-shadow:0_1px_16px_rgba(4,8,15,0.9)] md:mt-14 md:grid-cols-3 md:gap-5">
-            {STEPS.steps.map((step, i) => (
-              <li
-                key={step.no}
-                data-reveal
-                style={delay(i * 110)}
-                className="border-t border-white/28 pt-[22px]"
-              >
-                <h3 className="font-mono text-[11px] font-normal uppercase tracking-[0.16em] text-sky">
+          <ol
+            data-reveal="stagger"
+            className="mt-12 grid gap-8 [text-shadow:0_1px_16px_rgba(4,8,15,0.9)] md:mt-14 md:grid-cols-3 md:gap-5 wide:gap-12"
+          >
+            {STEPS.steps.map((step) => (
+              <li key={step.no} className="border-t border-white/28 pt-[22px]">
+                <h3 className="font-mono text-[clamp(11px,0.764vw,13px)] font-normal uppercase tracking-[0.16em] text-sky">
                   {`${step.no} · ${step.name}`}
                 </h3>
-                <p className="mt-3.5 text-[16.5px] leading-[1.7] text-white/88">{step.body}</p>
+                <p className="mt-3.5 text-[clamp(16.5px,1.146vw,20.5px)] leading-[1.7] text-white/88">
+                  {step.body}
+                </p>
               </li>
             ))}
           </ol>
-          <Link
-            href="/free-check/"
-            className="btn btn-sky mt-11 px-7 py-4 text-[16.5px] sm:px-[30px] sm:py-[17px]"
-          >
-            {PRIMARY}
-            <span aria-hidden="true">→</span>
-          </Link>
+          {/* The reveal sits on a wrapper, not on the button: the reveal's
+              transition list would replace the button's hover transition. */}
+          <div data-reveal className="mt-11">
+            <Link href="/free-check/" className={`btn btn-sky ${PRIMARY_SIZE}`}>
+              {PRIMARY}
+              <span aria-hidden="true">→</span>
+            </Link>
+          </div>
         </div>
       </section>
 
       {/* ---- WHAT YOU GET -------------------------------------------------- */}
       <section className="bg-night text-white">
-        <div className={`${SECTION} grid items-start gap-12 lg:grid-cols-2 lg:gap-14`}>
+        <div
+          className={`${SECTION} grid items-start gap-12 lg:grid-cols-2 lg:gap-14 wide:gap-24`}
+        >
           <div data-reveal>
             <Eyebrow onDark>{SERVICES.eyebrow}</Eyebrow>
-            <h2 className="display mt-6 max-w-[14ch] text-[clamp(32px,3.8vw,52px)] leading-[1.06] text-white">
+            <h2 className="display mt-6 max-w-[14ch] text-[clamp(32px,3.8vw,80px)] leading-[1.06] text-white">
               {SERVICES.heading}
             </h2>
-            <p className="mt-5 max-w-[42ch] text-[16px] leading-[1.7] text-white/84">
+            <p className="mt-5 max-w-[42ch] text-[clamp(16px,1.111vw,20px)] leading-[1.7] text-white/84">
               {SERVICES.body}
             </p>
-            <Link href="/pricing/" className="btn btn-ghost mt-7 px-6 py-3.5 text-[15px]">
+            <Link
+              href="/pricing/"
+              className="btn btn-ghost mt-7 px-6 py-3.5 text-[15px] wide:px-8 wide:py-4 wide:text-[17px]"
+            >
               See pricing
             </Link>
           </div>
-          <ul data-reveal style={delay(120)} className="grid gap-x-8 sm:grid-cols-2">
+          <ul
+            data-reveal="stagger"
+            style={delay(120)}
+            className="grid gap-x-8 sm:grid-cols-2 wide:gap-x-12"
+          >
             {SERVICES.items.map((item) => (
-              <li key={item} className="border-t border-white/18 py-[15px] text-[16px] text-white">
+              <li
+                key={item}
+                className="border-t border-white/18 py-[15px] text-[clamp(16px,1.111vw,20px)] text-white wide:py-5"
+              >
                 {item}
               </li>
             ))}
@@ -282,16 +326,20 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ---- WHY SABLE ----------------------------------------------------- */}
+      {/* ---- WHY SABLE -----------------------------------------------------
+          The design centred this at 1100px. It runs full width with the rest
+          now: stacked below 1600px, and head beside table from there up. */}
       <section className="bg-white">
-        <div className={`${SECTION_NARROW} py-16 md:py-[100px]`}>
-          <div data-reveal>
+        <div
+          className={`${SECTION} grid gap-10 wide:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] wide:gap-24`}
+        >
+          <div data-reveal className="min-w-0">
             <Eyebrow>{COMPARISON.eyebrow}</Eyebrow>
-            <h2 className="display mt-6 max-w-[18ch] text-[clamp(32px,3.8vw,52px)] leading-[1.06] text-ink text-pretty">
+            <h2 className="display mt-6 max-w-[18ch] text-[clamp(32px,3.8vw,80px)] leading-[1.06] text-ink text-pretty">
               {COMPARISON.heading}
             </h2>
           </div>
-          <div data-reveal style={delay(120)} className="mt-10">
+          <div data-reveal style={delay(120)} className="min-w-0">
             <CompareTable />
           </div>
         </div>

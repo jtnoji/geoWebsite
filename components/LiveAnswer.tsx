@@ -52,9 +52,19 @@ const slot = (i: number) =>
 
 export default function LiveAnswer() {
   return (
+    /* The card carries its own reveal rather than a wrapper's: opacity or a
+       filter on an ANCESTOR of this backdrop blur would flatten the glass
+       (globals.css, "Scroll depth"). */
     <div
+      data-reveal="scale"
       className="overflow-hidden rounded-2xl border border-white/16 bg-night/60 shadow-glass backdrop-blur-[14px]"
-      style={{ "--prompt-bg": BOX, "--prompt-caret": "#7fa6d9" } as React.CSSProperties}
+      style={
+        {
+          "--prompt-bg": BOX,
+          "--prompt-caret": "#7fa6d9",
+          "--reveal-delay": "200ms",
+        } as React.CSSProperties
+      }
     >
       <div className="flex flex-wrap justify-between gap-3 border-b border-white/12 px-[18px] py-[11px] font-mono text-[10px] uppercase tracking-[0.16em]">
         <span className="text-sky">

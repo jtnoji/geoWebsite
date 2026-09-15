@@ -194,9 +194,12 @@ const LAYERS: Record<Variant, CSSProperties[]> = {
 
 export default function Beams({ variant }: { variant: Variant }) {
   return (
+    /* `.beams` is the hook for the scroll-linked depth in globals.css: the
+       layer sinks behind a dark hero as it leaves and drifts through a dark
+       band as it passes. It must stay a direct child of its <section>. */
     <div
       aria-hidden="true"
-      className="pointer-events-none absolute inset-0 overflow-hidden"
+      className="beams pointer-events-none absolute inset-0 overflow-hidden"
     >
       {LAYERS[variant].map((layer, i) => (
         <div key={i} className="absolute" style={layer} />

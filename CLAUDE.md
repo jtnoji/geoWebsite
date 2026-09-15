@@ -322,14 +322,33 @@ plus one tone:** `.btn-navy` (primary on light), `.btn-sky` (primary on dark),
 Radius, weight and tracking live in globals.css and are unlayered, so a
 `rounded-*` or `tracking-*` utility at the call site loses silently; padding and
 font size stay at the call site. The header CTA is its own outline pill
-(`.nav-cta`). **Three motions, and that is the budget:** the `data-reveal` fade
-and rise (`ScrollReveal`), the `data-reveal="draw"` line draw on the shift
-chart, and the typing loop in the hero's live customer questions (`LiveAnswer`,
-the `.prompt-*` rules), kept from the previous home page at Josh's request.
-All three are CSS, reduced-motion safe, and leave every word in the raw HTML.
-The typing loop's keyframes are cut for six questions and `LiveAnswer` throws
-at build time if the count changes. A fourth motion needs a reason, not a
-preference.
+(`.nav-cta`).
+
+**Motion** (revised 2026-09-14, Josh: "make it feel more premium"). All CSS,
+no library, reduced-motion safe, and none of it ever keeps a word out of the
+raw HTML. Four kinds, and a fifth needs a reason, not a preference:
+- **Reveal** (`data-reveal`, toggled once by `ScrollReveal`): fade, rise and
+  de-blur on a long expo ease. Variants: `fade`, `scale`, `left` / `right`
+  (sideways from md up only, so a phone never widens mid-animation), `stagger`
+  (the children cascade 70ms apart; short lists only, while long lists such as
+  an FAQ put `data-reveal` on each item) and `draw` (the chart). Rate bars
+  (`.bar-fill`) fill once their panel arrives.
+- **Scroll depth** (scroll-linked, inside `@supports (animation-timeline:
+  view())`): a dark hero's `.beams` sink while its `.hero-copy` lifts away and
+  dims; a dark band's beams drift as it passes; `.depth-in` objects (the shift
+  chart, the capability panels, the console) settle from 94%. **Never put
+  opacity or a filter on an ANCESTOR of a glass card**: it makes that ancestor
+  a backdrop root and the card's blur goes flat. That is why `.hero-copy` is
+  the copy column only and why `LiveAnswer` and `StageTabs` carry their own
+  reveal. A `.depth-in` element must not use the `scale` reveal variant.
+- **The chart draw** and **the typing loop** in the hero's live customer
+  questions (`LiveAnswer`, the `.prompt-*` rules, cut for six questions; it
+  throws at build time if the count changes).
+- **The header fill** over a dark hero.
+Everything animates opacity, translate, scale or filter, never a layout
+property, using the individual `translate` / `scale` properties so scroll depth
+and reveal compose. Nothing pins, hijacks or smooths the scroll. Put a reveal
+on a wrapper, never on a `.btn`, whose hover transition it would replace.
 
 **Interactive without JavaScript.** The /how-it-works console (`StageTabs`) is
 four visually hidden radio inputs and `:has()` selectors: every stage's copy is
@@ -366,12 +385,26 @@ questions panel in the design's glass card) · SearchShiftChart (the chart
 card) · CapabilityRow · CompareTable · ClosingCta. Home copy lives in `lib/home.ts` and tier copy in
 `lib/offers.ts`, never in the page.
 
-**Alignment (revised 2026-09-14).** Heads and bodies are left-aligned, as every
-page in the Sable design is: the eye tracks one left edge down the page, and
-centring multi-line body copy costs readability and buys nothing. Three pages
-stay fully centred by founder decision because they are short one-line sections
-rather than body copy: `/contact`, `/our-score` (with its `<Cta centered />`)
-and `/404`.
+**Width and alignment (revised 2026-09-14).** Every page runs the full width of
+the screen (Josh: "make sure it fills the entire width of the page when
+fullscreen"). There is no max-width container: `lib/layout.ts` gives each
+section the whole row inside a gutter that widens on large screens, and the
+header and footer share that gutter. Type is set in clamps that equal the
+design at 1440 and keep growing past it, so a 1728 or 2560 screen gets the same
+composition larger rather than a 1440 box with margins; nothing changes at 1440
+or below. Reading copy keeps a `ch` measure, so a paragraph is never stretched
+across a row. Width is filled by the grid instead: from 1600px a text-only head
+splits into heading left and copy right (`HEAD_SPLIT`), FAQ sets run two or
+three across (`FaqSection columns`), and an article's title column sits beside
+its body. Everything is left-aligned, as every page in the design is; the pages
+once centred by founder decision (/contact, /our-score, /404) went full width
+with the rest.
+- **Wide-screen overrides use the `wide:` (1600px) and `ultra:` (2200px)
+  theme breakpoints** declared in `globals.css`, never arbitrary
+  `min-[1600px]:` variants. Tailwind v4 cannot sort a px breakpoint against
+  its rem ones, so an arbitrary px override is emitted before `sm:`/`md:`/`lg:`
+  and silently loses to them. The first full-width pass shipped exactly that:
+  every wide gutter, gap and column ratio was in the CSS and none applied.
 
 **Claim + artifact rule.** No section ships as text-only. Every claim is paired
 with a concrete artifact (the findings panels, the shift chart, the console's
@@ -391,7 +424,7 @@ lib/sample.ts when one is cleared (website-plan §6).
 
 ## Process
 
-- Validation loop for every change: write → `npm run build` → `npm test` → screenshot review (visual.spec.ts emits 390/768/1440px full-page
+- Validation loop for every change: write → `npm run build` → `npm test` → screenshot review (visual.spec.ts emits 390/768/1440/1920px full-page
   shots to `tests/screenshots/`) → commit.
 - Build order follows scaffold.md §7. Steps 1–5 have no open-item
   dependencies; `/sample-report`, `/learn` content, and the launch pass wait on

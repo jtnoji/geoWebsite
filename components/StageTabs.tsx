@@ -1,3 +1,4 @@
+import { delay } from "@/lib/reveal";
 import {
   SAMPLE_LABEL,
   SAMPLE_QUERY,
@@ -40,8 +41,16 @@ export default function StageTabs({ stages }: { stages: readonly Stage[] }) {
   return (
     /* Frosted night glass rather than the design's 5% white: the page hero's
        beams run behind the console, and without the blur one crossed the
-       fourth tab's label. */
-    <div className="stages relative overflow-hidden rounded-[18px] border border-white/12 bg-night/55 backdrop-blur-[14px]">
+       fourth tab's label.
+
+       The console carries its own reveal and `depth-in` rather than a
+       wrapper's: opacity or a filter on an ANCESTOR of this backdrop blur
+       would flatten it (globals.css, "Scroll depth"). */
+    <div
+      data-reveal="fade"
+      style={delay(120)}
+      className="stages depth-in relative overflow-hidden rounded-[18px] border border-white/12 bg-night/55 backdrop-blur-[14px]"
+    >
       {stages.map((stage, i) => (
         <input
           key={stage.label}
@@ -66,14 +75,14 @@ export default function StageTabs({ stages }: { stages: readonly Stage[] }) {
         ))}
       </div>
 
-      <div className="grid items-start gap-10 p-6 sm:p-10 lg:grid-cols-2">
+      <div className="grid items-start gap-10 p-6 sm:p-10 lg:grid-cols-2 wide:gap-24 wide:p-14">
         <div className="stage-panels min-w-0">
           {stages.map((stage) => (
             <div key={stage.label} className="stage-panel">
-              <h2 className="display text-[clamp(26px,2.8vw,36px)] leading-[1.15] text-white text-pretty">
+              <h2 className="display text-[clamp(26px,2.8vw,54px)] leading-[1.15] text-white text-pretty">
                 {stage.title}
               </h2>
-              <p className="mt-[18px] max-w-[46ch] text-[16px] leading-[1.7] text-white/82">
+              <p className="mt-[18px] max-w-[46ch] text-[clamp(16px,1.111vw,20px)] leading-[1.7] text-white/82">
                 {stage.body}
               </p>
             </div>
@@ -109,7 +118,7 @@ export default function StageTabs({ stages }: { stages: readonly Stage[] }) {
                     className="block h-1 overflow-hidden rounded-full bg-track"
                   >
                     <span
-                      className="block h-full rounded-full bg-ink"
+                      className="bar-fill block h-full rounded-full bg-ink"
                       style={{ width: `${Math.round((row.you / row.runs) * 100)}%` }}
                     />
                   </span>
