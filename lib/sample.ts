@@ -80,3 +80,70 @@ export const SAMPLE_RANKING: readonly SampleRank[] = [
 ];
 
 export const SAMPLE_LABEL = "illustrative example · not a real client";
+
+/* ---- The /how-it-works console's stage cards (Josh, 2026-09-14) ----------
+   Each stage of the console shows its own artifact (components/ConsoleCards).
+   The facts behind those cards live here, and the pages that showed them
+   first read them from here too, so no count is ever typed twice. */
+
+/** The question set: the Measure card and the /how-it-works query set card. */
+export const SAMPLE_QUESTIONS = [
+  { q: SAMPLE_QUERY, tag: "CATEGORY" },
+  { q: "how much should a startup spend on a marketing agency", tag: "COST" },
+  { q: "marketing agency vs first marketing hire", tag: "COMPARE" },
+  { q: "is [agency] worth it for a seed-stage company", tag: "BRAND" },
+] as const;
+
+/** The third-party lists the engines cite for the category, and how many list the client. */
+export const SAMPLE_SOURCES = { cited: 6, listed: 2 } as const;
+
+/** Questions where a competitor's page is quoted and the client has no page. */
+export const SAMPLE_LOSING_QUERIES = 3;
+
+/** What the judge flagged as wrong in one ChatGPT answer (/how-it-works, "Judging"). */
+export const SAMPLE_ACCURACY_ERROR = "says they only run paid ads; they run full-funnel";
+
+/** The fix list the full audit closes with: /sample-report, and the Improve card. */
+export const SAMPLE_FIXES = [
+  {
+    fix: "Unblock AI crawlers at the firewall",
+    why: "GPTBot and PerplexityBot were getting challenge pages, so the site is invisible to the engines we measure.",
+    where: "Your site",
+  },
+  {
+    fix: `Get listed on the ${SAMPLE_SOURCES.cited - SAMPLE_SOURCES.listed} missing directories AI cites`,
+    why: `The engines cited the same ${SAMPLE_SOURCES.cited} sources across runs; the client appears on ${SAMPLE_SOURCES.listed} of them.`,
+    where: "Off site",
+  },
+  {
+    fix: `Publish answer-first service pages for the ${SAMPLE_LOSING_QUERIES} losing queries`,
+    why: "Competitors' pages were quoted verbatim in the answers. The client had no page on those questions.",
+    where: "Content",
+  },
+] as const;
+
+/**
+ * The Track card: the same forty answers, run again a month later.
+ *
+ * RUN ONE IS SAMPLE_ROWS, read from there; only run two's counts live here.
+ * The movement is deliberately modest and mixed, and Google AI does not move
+ * at all: a re-run where everything rose would read as the outcome promise the
+ * no-guarantees rule forbids. NEW ILLUSTRATIVE FIGURES (2026-09-14), flagged
+ * for Josh in website-plan §6.
+ */
+const RUN_TWO: Readonly<Record<string, number>> = {
+  ChatGPT: 3,
+  "Google AI": 0,
+  Perplexity: 5,
+  Gemini: 2,
+};
+
+export const SAMPLE_RERUN_ROWS = SAMPLE_ROWS.map((row) => {
+  const after = RUN_TWO[row.engine];
+  if (after === undefined) {
+    throw new Error(
+      `lib/sample.ts: RUN_TWO has no count for ${row.engine}. Add one beside SAMPLE_ROWS.`
+    );
+  }
+  return { engine: row.engine, runs: row.runs, before: row.you, after };
+});

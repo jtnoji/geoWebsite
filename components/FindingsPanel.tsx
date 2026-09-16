@@ -5,7 +5,8 @@
  *
  * Chip tones follow the flagged-finding rule in globals.css: `risk`, `caution`
  * and `ok` are status hues for findings, `note` is the neutral navy tint. They
- * are chip colours only, never text or section colours.
+ * are chip colours only, never text or section colours. FINDING_CHIP is
+ * exported so the /how-it-works console's findings card uses the same tones.
  *
  * Every panel that renders sample numbers says so in its `meta`, per the
  * sample-data honesty rule.
@@ -23,7 +24,7 @@ export type FindingRow = {
   bar?: number;
 };
 
-const CHIP: Record<FindingTone, string> = {
+export const FINDING_CHIP: Record<FindingTone, string> = {
   risk: "bg-risk-bg text-risk",
   caution: "bg-caution-bg text-caution",
   ok: "bg-ok-bg text-ok",
@@ -72,7 +73,7 @@ export default function FindingsPanel({
               )}
             </div>
             <span
-              className={`whitespace-nowrap rounded-full px-3 py-1.5 text-[13px] font-semibold ${CHIP[row.tone]}`}
+              className={`whitespace-nowrap rounded-full px-3 py-1.5 text-[13px] font-semibold ${FINDING_CHIP[row.tone]}`}
             >
               {row.value}
             </span>

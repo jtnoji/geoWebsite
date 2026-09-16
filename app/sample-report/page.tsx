@@ -6,6 +6,7 @@ import PageSchema from "@/components/PageSchema";
 import { MentionRateCard, SourcesCard, VerbatimCard } from "@/components/ReportPreview";
 import { HEAD_SPLIT, SECTION, SECTION_X } from "@/lib/layout";
 import { delay } from "@/lib/reveal";
+import { SAMPLE_FIXES } from "@/lib/sample";
 import { crumb } from "@/lib/schema";
 import { pageMeta } from "@/lib/seo";
 
@@ -25,6 +26,9 @@ export const metadata: Metadata = pageMeta({
  *
  * "Nine pages" and "The whole report" are the design's words for the full
  * deliverable. They are flagged in website-plan §6 to confirm before launch.
+ *
+ * The fix list is SAMPLE_FIXES in lib/sample.ts: the /how-it-works console's
+ * Improve card shows the same three fixes, so neither page types them.
  */
 
 const CONTENTS = [
@@ -51,21 +55,6 @@ const CONTENTS = [
   {
     title: "Prioritized roadmap",
     body: "The fixes in the order that moves the needle fastest, with the effort each one takes.",
-  },
-] as const;
-
-const FIX_LIST = [
-  {
-    fix: "Unblock AI crawlers at the firewall",
-    why: "GPTBot and PerplexityBot were getting challenge pages, so the site is invisible to the engines we measure.",
-  },
-  {
-    fix: "Get listed on the 4 missing directories AI cites",
-    why: "The engines cited the same 6 sources across runs; the client appears on 2 of them.",
-  },
-  {
-    fix: "Publish answer-first service pages for the 3 losing queries",
-    why: "Competitors' pages were quoted verbatim in the answers. The client had no page on those questions.",
   },
 ] as const;
 
@@ -158,7 +147,7 @@ export default function SampleReport() {
             style={delay(100)}
             className="min-w-0 max-w-3xl wide:max-w-none"
           >
-            {FIX_LIST.map((item, i) => (
+            {SAMPLE_FIXES.map((item, i) => (
               <li
                 key={item.fix}
                 className="grid gap-1 border-t border-line-dark py-5 md:grid-cols-[48px_minmax(0,1fr)] md:gap-4"

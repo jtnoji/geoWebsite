@@ -71,6 +71,9 @@ export const PAGES: PageSpec[] = [
          one on show. */
       "We find what keeps you out.",
       "What we won", // honesty heading; apostrophe HTML-escaped
+      /* The Track stage's card, hidden until chosen: proves every stage's
+         card ships in the raw HTML, not only the one on show. */
+      "Same 40 answers, re-run",
     ],
     schemaTypes: ["WebPage", "BreadcrumbList", "FAQPage"],
   },

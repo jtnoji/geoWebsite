@@ -374,6 +374,12 @@ still shows stage one. The selectors are written for four stages, and
   never starts it. The panels share one grid cell and crossfade, so nothing
   below the console moves when a stage changes. `security.spec.ts` proves the
   island runs under the hash-pinned CSP and that a click stops it.
+- **Each stage shows its own card** (Josh, 2026-09-14): the question set on
+  Measure, the audit findings on Diagnose, the fix list on Improve and the
+  re-run on Track (`ConsoleCards`). The copy and the cards are two stacks
+  (`.stage-stack` > `.stage-slot`) that switch together, and every card is in
+  the raw HTML whichever stage is showing; `tests/pages.ts` pins the Track
+  card's title to prove it.
 
 **A chart is a measurement artifact.** Server-rendered inline SVG only: every
 value must survive JS-off, which is both the static-export invariant and how
@@ -398,7 +404,7 @@ Methodology caveats ship next to the chart, not behind a link.
 Beams · ArtifactCard (white panel, navy mono header strip) · SamplingCard ·
 FindingsPanel (a titled panel of finding rows, each with a bar or a note and a
 status chip) · StatTile · HonestyBlock · FaqSection · Cta (the closing band on
-every page but home) · StageTabs. Home only: LiveAnswer (the live customer
+every page but home) · StageTabs (with `ConsoleCards`, one card per stage). Home only: LiveAnswer (the live customer
 questions panel in the design's glass card) · SearchShiftChart (the chart
 card) · CapabilityRow · CompareTable · ClosingCta. Home copy lives in `lib/home.ts` and tier copy in
 `lib/offers.ts`, never in the page.
@@ -466,15 +472,18 @@ sits and gives text a container where one earns it. Subtly, on purpose:
 
 **Claim + artifact rule.** No section ships as text-only. Every claim is paired
 with a concrete artifact (the findings panels, the shift chart, the console's
-scorecard, the query set card, the judge verdict). Every page gets one
+stage cards, the query set card, the judge verdict). Every page gets one
 signature element (home: the live customer questions; /how-it-works: the
 console).
 
 **Sample data honesty.** All illustrative mention-rate numbers come from
 `lib/sample.ts` and are labeled "illustrative example" wherever they render.
 The Bluequarry dataset is ONE canonical set, and every panel that shows it
-computes from it rather than retyping it (the home measure panel, the console
-scorecard). The hero's live customer questions show no rates at all, and the
+computes from it rather than retyping it (the home measure panel, the
+/how-it-works console's stage cards). The Track card's second run
+(`SAMPLE_RERUN_ROWS`) is the only figure set not derived from `SAMPLE_ROWS`:
+modest and mixed on purpose, with Google AI flat, so it cannot read as a
+promised result. The hero's live customer questions show no rates at all, and the
 businesses their answers name are braced placeholders ("Competitor A"), never
 invented names, because nobody has verified eighteen of them. Never label
 invented data as a real or anonymized client — swap in a real run via

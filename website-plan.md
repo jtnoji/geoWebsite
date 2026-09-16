@@ -603,12 +603,21 @@ call bookings) so you know where the funnel leaks.
       and while the tab is hidden, and it never runs for anyone who prefers
       reduced motion. With JavaScript off the console works exactly as before.
       Rules in CLAUDE.md "Interactive without JavaScript".
+  13. **Each console stage shows its own card** (Josh, same day). The design
+      drew one scorecard beside every stage. Now Measure shows the question
+      set and how many times each question runs, Diagnose the audit findings,
+      Improve the fix list, and Track the same 40 answers re-run. Every fact
+      comes from lib/sample.ts, and the question set and fix list moved there,
+      so /how-it-works and /sample-report read them rather than retyping them.
 
   **Open for Josh:** two lines still sit near the no-guarantee rule and shipped
   as designed: the hero lede ("so your company appears more often") and Grow's
   "We get you into the ones that matter". /sample-report now says "The whole
   report" and "Nine pages", which describe the full deliverable rather than the
-  artifacts the page shows; confirm both before launch.
+  artifacts the page shows; confirm both before launch. The console's Track
+  card shows a second illustrative run (15% to 25% named, Google AI flat).
+  Those are the only new sample figures, modest and mixed on purpose; confirm
+  them too.
 
 **Security launch checklist (added 2026-07-25) — must clear before go-live:**
 

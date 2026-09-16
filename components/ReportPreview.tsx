@@ -5,6 +5,7 @@ import {
   SAMPLE_LABEL,
   SAMPLE_QUERY,
   SAMPLE_ROWS,
+  SAMPLE_SOURCES,
 } from "@/lib/sample";
 
 /**
@@ -19,7 +20,11 @@ import {
 
 const SOURCE_CHECKS = [
   { label: "AI crawlers can read your site", state: "Blocked by firewall", bad: true },
-  { label: "Listed on the sources AI cites", state: "2 of 6 best-agency lists", bad: false },
+  {
+    label: "Listed on the sources AI cites",
+    state: `${SAMPLE_SOURCES.listed} of ${SAMPLE_SOURCES.cited} best-agency lists`,
+    bad: false,
+  },
   { label: "Content readable without JavaScript", state: "Yes", bad: false },
 ] as const;
 

@@ -8,11 +8,18 @@ import HonestyBlock from "@/components/HonestyBlock";
 import JsonLd from "@/components/JsonLd";
 import PageSchema from "@/components/PageSchema";
 import { SamplingRows } from "@/components/SamplingCard";
+import { FindingsCard, FixesCard, QuestionsCard, RerunCard } from "@/components/ConsoleCards";
 import StageTabs, { type Stage } from "@/components/StageTabs";
 import { HEAD_SPLIT, SECTION_X } from "@/lib/layout";
 import { delay } from "@/lib/reveal";
 import { crumb, faq } from "@/lib/schema";
-import { SAMPLE_LABEL, SAMPLE_QUERY, SAMPLE_ROWS } from "@/lib/sample";
+import {
+  SAMPLE_ACCURACY_ERROR,
+  SAMPLE_LABEL,
+  SAMPLE_QUERY,
+  SAMPLE_QUESTIONS,
+  SAMPLE_ROWS,
+} from "@/lib/sample";
 import { BRAND, HONESTY_COPY } from "@/lib/site";
 import { SAMPLING_FOOTNOTE } from "@/lib/stats";
 import { pageMeta } from "@/lib/seo";
@@ -33,27 +40,32 @@ export const metadata: Metadata = pageMeta({
  * console now tells the sequence.
  */
 
-/** The console's four stages, as the design writes them. */
+/** The console's four stages, as the design writes them, each with the card
+    that shows its work (components/ConsoleCards, Josh, 2026-09-14). */
 const STAGES: readonly Stage[] = [
   {
     label: "Measure",
     title: "We ask what your customers ask.",
     body: "Real buying questions for your category, run across ChatGPT, Google AI, Gemini and Perplexity, ten times each. Answers move run to run, so a single screenshot tells you nothing.",
+    card: <QuestionsCard />,
   },
   {
     label: "Diagnose",
     title: "We find what keeps you out.",
     body: "Every answer is traced back to the sources behind it. Crawler access, missing structure, thin category pages and the third-party sites doing the deciding.",
+    card: <FindingsCard />,
   },
   {
     label: "Improve",
     title: "We work the roadmap.",
     body: "Fixes on your site and off it, in the order that moves the needle fastest. You can take the roadmap and run it yourself, or we implement it.",
+    card: <FixesCard />,
   },
   {
     label: "Track",
     title: "We re-run the same query set.",
     body: "Before and after rates on identical questions, plus any new competitors and sources that entered the answer. You see what each change did.",
+    card: <RerunCard />,
   },
 ];
 
@@ -101,12 +113,9 @@ const SECTIONS = [
   },
 ] as const;
 
-const QUERY_ROWS = [
-  { q: `"${SAMPLE_QUERY}"`, tag: "CATEGORY" },
-  { q: '"how much should a startup spend on a marketing agency"', tag: "COST" },
-  { q: '"marketing agency vs first marketing hire"', tag: "COMPARE" },
-  { q: '"is [agency] worth it for a seed-stage company"', tag: "BRAND" },
-] as const;
+/* The question set and the accuracy error live in lib/sample.ts: the console's
+   Measure and Diagnose cards show the same ones, so neither place types them. */
+const QUERY_ROWS = SAMPLE_QUESTIONS.map(({ q, tag }) => ({ q: `"${q}"`, tag }));
 
 const VERDICT_ROWS = [
   { k: "presence", bold: "Mentioned", rest: ": 2nd of 3 named", flag: false },
@@ -114,7 +123,7 @@ const VERDICT_ROWS = [
   {
     k: "accuracy",
     bold: "1 error",
-    rest: ": says they only run paid ads; they run full-funnel",
+    rest: `: ${SAMPLE_ACCURACY_ERROR}`,
     flag: true,
   },
 ] as const;

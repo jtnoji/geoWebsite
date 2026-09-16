@@ -935,11 +935,13 @@ body:has([data-hero="dark"]) .site-main {
    checked, so a browser without :has() still shows stage one rather than an
    empty console.
 
-   The panels share one grid cell, like the live customer questions, so the
-   console is always as tall as its longest stage: nothing below it moves when
-   the stage changes, which matters once autoplay changes it every few seconds.
-   The outgoing panel fades quickly and the next one comes up just behind it,
-   so two texts never sit on top of each other at half strength.
+   Each stage has two slots, its copy and its card, and each set of four shares
+   one grid cell (`.stage-stack` > `.stage-slot`), like the live customer
+   questions. So the console is always as tall as its longest stage: nothing
+   below it moves when the stage changes, which matters once autoplay changes
+   it every few seconds. The outgoing slot fades quickly and the next one comes
+   up just behind it, so two texts never sit on top of each other at half
+   strength.
 
    AUTOPLAY (Josh, 2026-09-14) is StageAutoplay, a script-only enhancement. It
    sets `data-autoplay` while it runs and `data-paused` while the console is off
@@ -961,28 +963,28 @@ body:has([data-hero="dark"]) .site-main {
 }
 
 /* With reduced motion the two variables are undefined, which makes these
-   transitions invalid and so no transition at all: the panels simply swap. */
-.stage-panels {
+   transitions invalid and so no transition at all: the slots simply swap. */
+.stage-stack {
   display: grid;
 }
 
-.stage-panel {
+.stage-slot {
   grid-area: 1 / 1;
   opacity: 0;
   visibility: hidden;
   transition: var(--stage-out);
 }
 
-.stage-panel:first-child,
-.stages:has(> .stage-input:nth-of-type(2):checked) .stage-panel:nth-child(2),
-.stages:has(> .stage-input:nth-of-type(3):checked) .stage-panel:nth-child(3),
-.stages:has(> .stage-input:nth-of-type(4):checked) .stage-panel:nth-child(4) {
+.stage-slot:first-child,
+.stages:has(> .stage-input:nth-of-type(2):checked) .stage-slot:nth-child(2),
+.stages:has(> .stage-input:nth-of-type(3):checked) .stage-slot:nth-child(3),
+.stages:has(> .stage-input:nth-of-type(4):checked) .stage-slot:nth-child(4) {
   opacity: 1;
   visibility: visible;
   transition: var(--stage-in);
 }
 
-.stages:has(> .stage-input:not(:first-of-type):checked) .stage-panel:first-child {
+.stages:has(> .stage-input:not(:first-of-type):checked) .stage-slot:first-child {
   opacity: 0;
   visibility: hidden;
   transition: var(--stage-out);
