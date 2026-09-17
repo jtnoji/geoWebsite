@@ -591,6 +591,17 @@ call bookings) so you know where the funnel leaks.
       instead, so the headline is never cut off at the fold. Refined the same
       day at Josh's request: the headline about 10% smaller, and lifted up and
       in from the corner, with the copy rising with it on the same baseline.
+      AMENDED 2026-09-17 (Josh: "the live customer questions item be really
+      big and sit translucently behind everything", "in the bottom right").
+      The questions stop being a column in the fold and become a layer behind
+      it: from 1024px up the card leaves the flow, anchors the bottom-right
+      corner and scales up about 1.75x from it at 30% opacity, with the
+      headline, the lede, the actions and the domain form reading over it. The
+      form and the two proof links stay in flow and stay clickable; the layer
+      is `pointer-events-none` so it cannot take their clicks. Below 1024px
+      nothing changed: the card is still in flow at full strength, and the
+      markup order is still headline, copy, panel. The headline did not move
+      or change size. Rules in CLAUDE.md "Width and alignment".
   11. **Section variation** (Josh, same day: headings "in the same spot every
       single time" felt stale, and plain text read as generic). Subtle and home
       only: the solution and Why Sable heads centre over their sets, What you

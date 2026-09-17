@@ -80,7 +80,7 @@ export default function Home() {
       <section data-hero="dark" className="relative overflow-hidden bg-night text-white">
         <Beams variant="hero" />
         <div
-          className={`relative ${SECTION_X} grid min-h-[100svh] content-end pb-[var(--fold-bottom)] pt-28 [--fold-bottom:44px] lg:grid-cols-[minmax(0,1fr)_clamp(440px,37vw,660px)] lg:gap-x-[clamp(48px,5vw,112px)] lg:pt-24 lg:[--fold-bottom:clamp(72px,5.5vw,128px)] lg:tall:grid-rows-[1fr_auto] lg:tall:gap-y-10 lg:short:grid-rows-[minmax(auto,calc(100svh_-_96px_-_var(--fold-bottom)))_auto] lg:short:gap-y-[calc(var(--fold-bottom)_+_24px)]`}
+          className={`relative ${SECTION_X} grid min-h-[100svh] content-end pb-[var(--fold-bottom)] pt-28 [--fold-bottom:44px] lg:grid-cols-[minmax(0,1fr)_clamp(440px,37vw,660px)] lg:gap-x-[clamp(48px,5vw,112px)] lg:pt-24 lg:[--fold-bottom:clamp(72px,5.5vw,128px)] lg:grid-rows-[1fr_auto] lg:gap-y-10`}
         >
           {/* `hero-copy` lifts away and dims as the fold scrolls off
               (globals.css, "Scroll depth"). It goes on the headline and on the
@@ -107,7 +107,7 @@ export default function Home() {
               grew to ~400px when the live answer took the shape of a real
               reply), which keeps it clear of the fold on wide, shallow
               windows. */}
-          <div className="hero-copy @container min-w-0 lg:col-start-1 lg:self-baseline-last lg:pl-[clamp(24px,2vw,56px)] lg:tall:row-start-2 lg:short:row-start-1">
+          <div className="hero-copy @container min-w-0 lg:relative lg:z-10 lg:col-start-1 lg:row-start-2 lg:self-baseline-last lg:pl-[clamp(24px,2vw,56px)]">
             <h1
               data-reveal
               className="display display-light max-w-[11em] text-[clamp(30px,9.6cqi,68px)] leading-[1.03] text-white text-balance lg:short:text-[clamp(40px,9.6cqi,136px)] lg:tall:text-[clamp(40px,min(9.6cqi,calc((100svh_-_480px_-_var(--fold-bottom))/3.1)),136px)]"
@@ -117,7 +117,7 @@ export default function Home() {
             </h1>
           </div>
 
-          <div className="hero-copy mt-5 min-w-0 lg:col-start-2 lg:mt-0 lg:self-baseline-last lg:tall:row-start-2 lg:short:row-start-1">
+          <div className="hero-copy mt-5 min-w-0 lg:relative lg:z-10 lg:col-start-2 lg:row-start-2 lg:mt-0 lg:self-baseline-last">
             <p
               data-reveal
               style={delay(80)}
@@ -154,23 +154,45 @@ export default function Home() {
             </p>
           </div>
 
-          {/* No reveal on this column itself: opacity or a filter on an
-              ancestor of the glass card flattens its backdrop blur, so the
-              card, the form and the links each carry their own. From lg, in a
-              tall enough window, it takes the upper row of the right column
-              and centres in the height the fold has to spare above the copy;
-              in a shorter one it drops below the copy (the `tall:` / `short:`
-              variants in globals.css). */}
-          <div className="mt-12 w-full min-w-0 max-w-[430px] lg:col-start-2 lg:mt-0 lg:max-w-none lg:tall:row-start-1 lg:tall:self-center lg:short:row-start-2 lg:short:self-start">
-            {/* The live customer questions, kept from the previous home page
-                in place of the design's before/after card (Josh, 2026-09-14). */}
+          {/* THE LIVE CUSTOMER QUESTIONS, BEHIND EVERYTHING (Josh,
+              2026-09-17: "the live customer questions item be really big and
+              sit translucently behind everything", "in the bottom right").
+              Kept from the previous home page in place of the design's
+              before/after card (Josh, 2026-09-14).
+
+              Below lg it is what it always was: an in-flow card, full
+              strength, readable, in the markup order headline, copy, panel.
+              From lg it leaves the flow, anchors the fold's bottom-right
+              corner and grows from it, faint enough that the lede and the
+              actions read over it.
+
+              ONE TRANSFORM, NOT A BIGGER FONT. `scale` grows the card, its
+              type, its rules and its radii together, in proportion, and costs
+              no layout because the card is already out of flow. Sizing the
+              type instead would need every clamp inside LiveAnswer rewritten.
+
+              `pointer-events-none` matters: the layer covers the lede and the
+              actions, and without it the corner of the card would swallow
+              clicks meant for them.
+
+              THE OPACITY HERE FLATTENS THE CARD'S BACKDROP BLUR, which is a
+              bug everywhere else in this codebase (globals.css, "Scroll
+              depth"). It is deliberate here: this is a background layer on a
+              night band, so there is nothing behind it to blur but the beams.
+              Do not copy the pattern to a card that is still in front. */}
+          <div className="mt-12 w-full min-w-0 max-w-[430px] lg:pointer-events-none lg:absolute lg:bottom-[clamp(12px,2.2vw,56px)] lg:right-[clamp(12px,2.2vw,56px)] lg:mt-0 lg:w-[460px] lg:max-w-none lg:origin-bottom-right lg:scale-[1.75] lg:opacity-30">
             <LiveAnswer />
+          </div>
+
+          {/* The domain form and the two proof links stay in flow, in the
+              right column just above the lede, and above the layer. */}
+          <div className="mt-[18px] w-full min-w-0 max-w-[430px] lg:relative lg:z-10 lg:col-start-2 lg:row-start-1 lg:mt-0 lg:max-w-none lg:self-end">
             <form
               action="/free-check/"
               method="get"
               data-reveal
               style={delay(380)}
-              className="mt-[18px] flex flex-wrap gap-2.5"
+              className="flex flex-wrap gap-2.5"
             >
               <label htmlFor="site" className="sr-only">
                 Your website

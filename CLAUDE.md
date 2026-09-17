@@ -437,7 +437,8 @@ variation" below).
 - **The home fold anchors bottom-left** (Josh, 2026-09-14, after the
   Cerebrium homepage). From lg the headline sits in the bottom-left corner in
   three lines, the lede and actions sit bottom-right on its last baseline, and
-  the live customer questions float above them. The headline is sized from its
+  and the live customer questions sit behind everything (below). The headline
+  is sized from its
   own column (`@container`, `9.6cqi`), so it holds the corner at every width
   and always sets in the same three lines; its `11em` cap holds them where the
   size ceiling leaves slack. It is kept off the corner itself (Josh: "too close
@@ -446,13 +447,34 @@ variation" below).
   with because it sits on the headline's baseline. Placement is grid lines
   only: the markup order is headline, copy, panel, which is what phones and
   crawlers read.
-  **The fold is the one layout that must fit the screen's height**, so it uses
-  the `tall:` / `short:` viewport-height variants in `globals.css` (53rem,
-  848px, mutually exclusive). On a tall window the panel stacks above the copy
-  and the headline also caps at `(100svh - 540px - --fold-bottom) / 3.1` to
-  leave it room; on a short one the panel drops below the copy, so the headline
-  is never cut off at the fold. Re-measure the threshold if the panel, the copy
-  or the bottom padding grows.
+- **The live customer questions are a layer behind the fold, not a column in
+  it** (Josh, 2026-09-17: "the live customer questions item be really big and
+  sit translucently behind everything", "in the bottom right"). Below lg the
+  card is exactly what it always was, in flow and full strength. From lg it
+  leaves the flow, anchors the fold's bottom-right corner, and grows there:
+  one `scale` on the wrapper (about 1.75x from `origin-bottom-right`) takes the
+  card, its type, its rules and its radii up together, so nothing inside
+  LiveAnswer is re-sized and it costs no layout. At `opacity-30` the lede, the
+  actions and the domain form read over it.
+  - **`pointer-events-none` is load-bearing.** The layer covers the lede, the
+    actions and the form, and without it the card would swallow their clicks.
+    `funnel.spec.ts` submits that form, so a regression here fails the suite.
+  - **The opacity flattens the card's backdrop blur**, which is a bug
+    everywhere else (see Motion). It is deliberate for a background layer on a
+    night band, where there is nothing behind it to blur but the beams. Do not
+    copy the pattern onto a card that is still in front.
+  - The headline, the copy and the form block each carry `lg:relative lg:z-10`
+    to sit above the layer. An absolutely positioned sibling paints over static
+    ones, so dropping the `z-10` puts the card over the copy, and a negative
+    `z-index` instead would drop it behind the section's own background.
+  **The fold is the one layout that must fit the screen's height.** The card
+  used to compete for that height, which is why the grid had two
+  viewport-height modes; out of flow it no longer does, so the grid is one
+  `lg:grid-rows-[1fr_auto]` and the `tall:` / `short:` variants (`globals.css`,
+  53rem, mutually exclusive) now only cap the headline. That cap still
+  reserves room for a panel that is no longer in flow, which is conservative
+  rather than wrong: at every width measured, `9.6cqi` is the binding term and
+  the cap never fires. Re-measure if the copy or the bottom padding grows.
 
 **Section variation (home, added 2026-09-14).** Josh: the section headings sat
 "in the same spot every single time", which made the long scroll feel stale,
