@@ -58,6 +58,10 @@ export const PAGES: PageSpec[] = [
       "The whole report", // the Sable head (2026-09-14)
       "The prioritized fix list",
       "mention rate", // ArtifactCard header bars are lowercase mono
+      /* Deep in the walkthrough: proves the whole report ships as text, not
+         as a picture of a report (2026-09-16). */
+      "Statements that contradict the fact sheet",
+      "what the engines actually said",
     ],
     schemaTypes: ["WebPage", "BreadcrumbList"],
   },

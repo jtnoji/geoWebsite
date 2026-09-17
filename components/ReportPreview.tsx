@@ -1,21 +1,18 @@
 import ArtifactCard from "./ArtifactCard";
-import SamplingCard from "./SamplingCard";
-import {
-  SAMPLE_COMPETITORS,
-  SAMPLE_LABEL,
-  SAMPLE_QUERY,
-  SAMPLE_ROWS,
-  SAMPLE_SOURCES,
-} from "@/lib/sample";
+import { SAMPLE_SOURCES } from "@/lib/sample";
 
 /**
- * Report panels: ArtifactCards and the run-sampling dot rows. Data comes from
- * lib/sample.ts (the ONE canonical illustrative dataset). Swap for real
- * anonymized report imagery when the sample run is picked (scaffold §7 step 6).
+ * The retrieval checklist on /sample-report: the part of the report that is
+ * about the reader's own site rather than about the engines.
  *
- * These are the FLAGGED-FAILURE case of absence, the opposite of SamplingCard's
- * comparison case: a finding that demands attention is a risk-tinted chip, the
- * same treatment the home findings panels give a blocked crawler.
+ * It used to sit beside a verbatim card and a mention-rate card. Those went
+ * when the page became a walkthrough of the whole report (2026-09-16): the
+ * excerpts and the rates are now sections of their own, rendered by
+ * ReportSections from the same illustrative cycle in lib/sample.ts.
+ *
+ * This is the FLAGGED-FAILURE case of absence: a finding that demands
+ * attention is risk-tinted, the same treatment the home findings panels give a
+ * blocked crawler.
  */
 
 const SOURCE_CHECKS = [
@@ -27,35 +24,6 @@ const SOURCE_CHECKS = [
   },
   { label: "Content readable without JavaScript", state: "Yes", bad: false },
 ] as const;
-
-function MentionRateCard() {
-  return (
-    <SamplingCard
-      title={<>mention rate · &ldquo;{SAMPLE_QUERY}&rdquo;</>}
-      meta="5 runs/engine"
-      rows={[...SAMPLE_ROWS]}
-      footer={SAMPLE_LABEL}
-    />
-  );
-}
-
-function VerbatimCard() {
-  return (
-    <ArtifactCard
-      title={<>chatgpt: &ldquo;{SAMPLE_QUERY}&rdquo;</>}
-      meta="run 3/5"
-    >
-      <p className="px-5 py-4 text-[14.5px] leading-6 text-ink-soft">
-        &ldquo;For a seed-stage B2B startup, well-regarded agencies include{" "}
-        <b className="font-semibold text-ink">{SAMPLE_COMPETITORS[0]}</b> and{" "}
-        <b className="font-semibold text-ink">{SAMPLE_COMPETITORS[1]}</b>&hellip;&rdquo;
-      </p>
-      <p className="mx-5 mb-5 rounded-[10px] bg-risk-bg px-3.5 py-2.5 font-mono text-[12.5px] font-medium text-risk">
-        The client was not mentioned.
-      </p>
-    </ArtifactCard>
-  );
-}
 
 function SourcesCard() {
   return (
@@ -81,4 +49,4 @@ function SourcesCard() {
   );
 }
 
-export { MentionRateCard, VerbatimCard, SourcesCard };
+export { SourcesCard };

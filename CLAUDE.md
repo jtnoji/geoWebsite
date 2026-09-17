@@ -407,7 +407,10 @@ FindingsPanel (a titled panel of finding rows, each with a bar or a note and a
 status chip) · StatTile · HonestyBlock · FaqSection · Cta (the closing band on
 every page but home) · StageTabs (with `ConsoleCards`, one card per stage). Home only: LiveAnswer (the live customer
 questions panel in the design's glass card) · SearchShiftChart (the chart
-card) · CapabilityRow · CompareTable · ClosingCta. Home copy lives in `lib/home.ts` and tier copy in
+card) · CapabilityRow · CompareTable · ClosingCta. /sample-report only:
+`ReportSections` (one artifact per section of the report, all reading the
+illustrative cycle in `lib/sample.ts`) and `ReportPreview` (the retrieval
+checklist). Home copy lives in `lib/home.ts` and tier copy in
 `lib/offers.ts`, never in the page.
 
 **Width and alignment (revised 2026-09-14).** Every page runs the full width of

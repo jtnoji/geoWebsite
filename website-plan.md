@@ -621,12 +621,22 @@ call bookings) so you know where the funnel leaks.
       named in 5 of them, AI Overviews naming it in none. Still open: the sixth
       platform the full bundle adds, and which per-tier question counts to
       publish. Rules in launch-checklist.md §2.
+  15. **The sample report shows the report** (Josh, 2026-09-16: "show the
+      reader the page"). /sample-report walks all ten sections in the order the
+      Track report prints them, each with that section's artifact rendered:
+      mention rate by engine, share of model, the buying-journey split, the
+      brand-by-engine matrix, cited sources, fact-sheet contradictions,
+      verbatim excerpts, the retrieval checklist, the citation ledger and the
+      method appendix. They read one illustrative cycle in lib/sample.ts: 100
+      questions, five engines, five runs, 2,500 answers, labelled on every
+      card. The "Nine pages" claim went with the rewrite, so that sign-off line
+      is closed and "The whole report" is now literally what the page shows.
 
   **Open for Josh:** two lines still sit near the no-guarantee rule and shipped
   as designed: the hero lede ("so your company appears more often") and Grow's
-  "We get you into the ones that matter". /sample-report now says "The whole
-  report" and "Nine pages", which describe the full deliverable rather than the
-  artifacts the page shows; confirm both before launch. The console's Track
+  "We get you into the ones that matter". /sample-report's "Nine pages" went
+  with the walkthrough rewrite (item 15), and "The whole report" now describes
+  what the page actually renders, so neither needs a decision any more. The console's Track
   card shows a second illustrative run (15% to 25% named, Google AI flat).
   Those are the only new sample figures, modest and mixed on purpose; confirm
   them too.

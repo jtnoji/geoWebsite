@@ -71,6 +71,11 @@ publish.
 ("Bluequarry Growth", a b2b marketing agency), labelled "illustrative example ·
 not a real client".
 
+Since 2026-09-16 the page walks all ten sections of the report with each
+section's artifact rendered, so the structure, vocabulary and honesty framing
+are the real ones and only the numbers are invented. A cleared run therefore
+swaps data, not design.
+
 A cleared run has to supply:
 
 - Written permission to publish an anonymized version, and how far to
@@ -152,8 +157,9 @@ No research needed, just a yes or no:
   Overviews, and other AI search results" (`lib/home.ts`).
 - The Grow capability line, "We get you into the ones that matter"
   (`lib/home.ts`).
-- /sample-report's "The whole report" and "Nine pages", which describe the
-  full deliverable rather than the artifacts the page shows.
+- ~~/sample-report's "The whole report" and "Nine pages"~~ closed 2026-09-16:
+  "Nine pages" is gone and the page now walks every section, so the headline
+  describes what it shows.
 - The console Track card's second run, 15% to 25% named with Google AI flat
   (`SAMPLE_RERUN_ROWS` in `lib/sample.ts`), the only invented figures added
   since the redesign.
