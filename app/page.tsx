@@ -101,10 +101,12 @@ export default function Home() {
               just below the fold instead of peeking into it.
 
               On a tall screen the panel stacks above the copy, so the headline
-              also yields to the height: (100svh - 480px - --fold-bottom) / 3.1
+              also yields to the height: (100svh - 540px - --fold-bottom) / 3.1
               is the largest three-line headline that leaves room for the panel
-              (480px is the top padding, the gap and the panel), which keeps it
-              clear of the fold on wide, shallow windows. */}
+              (540px is the top padding, the gap and the panel column, which
+              grew to ~400px when the live answer took the shape of a real
+              reply), which keeps it clear of the fold on wide, shallow
+              windows. */}
           <div className="hero-copy @container min-w-0 lg:col-start-1 lg:self-baseline-last lg:pl-[clamp(24px,2vw,56px)] lg:tall:row-start-2 lg:short:row-start-1">
             <h1
               data-reveal

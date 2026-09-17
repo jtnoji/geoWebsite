@@ -557,7 +557,9 @@ call bookings) so you know where the funnel leaks.
   7. **The hero keeps the live customer questions from the previous home page**
      (Josh, same day), in place of the design's static before/after card. The
      query box types six customer questions in turn and each answer names three
-     placeholder businesses with the reader's slot drawn empty. It shows no
+     businesses whose names are withheld, drawn as redacted bars in the shape
+     an engine answers, with the reader's slot empty under them (revised
+     2026-09-16). It shows no
      rates, so there is no before/after number left to soften, and it is CSS
      only, so every question and answer is in the raw HTML. It sits in the
      design's glass card.
@@ -583,8 +585,9 @@ call bookings) so you know where the funnel leaks.
       grid lines from 1024px up; the markup order is unchanged, so phones and
       crawlers still read headline, copy, then the panel. The headline is sized
       from its own column and always sets in the same three lines, the second
-      sentence on its own line in Sky. In a browser window under 784px tall
-      (most 1280, 1366 and 1536 laptops) the panel drops just below the copy
+      sentence on its own line in Sky. In a browser window under 848px tall
+      (most 1280, 1366 and 1536 laptops, and a 1440x900 one) the panel drops
+      just below the copy
       instead, so the headline is never cut off at the fold. Refined the same
       day at Josh's request: the headline about 10% smaller, and lifted up and
       in from the corner, with the copy rising with it on the same baseline.
@@ -649,7 +652,9 @@ call bookings) so you know where the funnel leaks.
 - [ ] Re-run `npm audit` at launch. As of 2026-07-25 the 9 remaining highs are
       all in the eslint dev chain and ship in nothing.
 
-**Still open:**
+**Still open.** The full inventory, with a status for each item and what it
+blocks, is `launch-checklist.md` (added 2026-09-16). The list below stays for
+the history of the decisions behind it.
 
 - **Apply `scripts/lead-canary.sql` in the Supabase SQL editor, then enable the
   hourly workflow** (added 2026-07-31, scaffold §6d). The probe and the workflow

@@ -5,11 +5,18 @@
 
 export const BRAND = "Sable"; // locked 2026-08-02 (Josh). Was "[Brand]".
 
-export const DOMAIN = "https://geo-website-sepia.vercel.app"; // interim: Vercel URL — swap when the real domain is bought
+/**
+ * sableagency.co is bought (Josh, 2026-09-16) and does NOT point here yet, so
+ * this stays the Vercel URL. Every canonical, the sitemap, the feed and the OG
+ * image URL are built from it, and the hourly lead canary fetches it, so
+ * pointing it at a host that does not resolve breaks all of them. Flip it the
+ * day DNS lands, then rebuild. See launch-checklist.md.
+ */
+export const DOMAIN = "https://geo-website-sepia.vercel.app";
 
 export const TAGLINE = "AI visibility measurement for your business";
 
-export const EMAIL = "hello@example.com"; // placeholder
+export const EMAIL = "hello@sableagency.co"; // live inbox (Josh, 2026-09-16)
 
 export const NAP = {
   businessName: BRAND,

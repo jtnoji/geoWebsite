@@ -97,15 +97,17 @@
 }
 
 /* Viewport HEIGHT, for the home fold (app/page.tsx), the one layout that has
-   to fit the screen rather than the page. From 49rem (784px) tall the live
+   to fit the screen rather than the page. From 53rem (848px) tall the live
    customer questions float above the copy; below that they drop under it, so
    a short laptop still gets the headline whole in the bottom-left corner
-   instead of cut off at the fold. 784px is measured, not round: a 1440x900
-   laptop's browser window (789px) holds the stacked column, which at 1024
-   wide needs 845px. The two ranges exclude each other, so a `tall:` class and
-   a `short:` class never depend on source order. */
-@custom-variant tall (@media (height >= 49rem));
-@custom-variant short (@media (height < 49rem));
+   instead of cut off at the fold. 848px is measured, not round: the stacked
+   column needs 835px at 1440 wide and more at 1024, so a 1440x900 laptop's
+   browser window (789px) gets the short layout. It was 49rem until the live
+   answer took the shape of a real reply (2026-09-16) and the panel grew ~46px;
+   re-measure whenever it changes again. The two ranges exclude each other, so
+   a `tall:` class and a `short:` class never depend on source order. */
+@custom-variant tall (@media (height >= 53rem));
+@custom-variant short (@media (height < 53rem));
 
 html {
   /* The header is fixed, so an in-page anchor would otherwise land under it. */
@@ -781,20 +783,21 @@ body:has([data-hero="dark"]) .site-main {
 /* Type, hold, erase, then sit idle for the other five slots.
 
    THE STOPS ENCODE THE QUESTION COUNT AND THE SLOT SHAPE. A slot is 1/6 of
-   the loop (16.67%); inside it, typing runs to 37.5% of the slot, the hold to
-   80%, and the erase over the last 20%. The erase gets less of the slot than
-   the typing on purpose: reading back your own deletion is not interesting,
-   so it clears at about 28ms a character against the type's 53ms. Change the
-   number of questions and these have to be recut. LiveAnswer.tsx throws at
-   build time if they drift apart. */
+   the loop (16.67%); inside it, typing runs to 28% of the slot, the query then
+   sits complete until 85%, and the erase takes the last 15%. The hold is the
+   long part on purpose (Josh, 2026-09-16: more pause before the deletion, so a
+   reader can actually read the answer), and the erase still gets less of the
+   slot than the typing, because reading back your own deletion is not
+   interesting. Change the number of questions and these have to be recut.
+   LiveAnswer.tsx throws at build time if they drift apart. */
 @keyframes prompt-type {
   0% {
     left: 0;
   }
-  6.25% {
+  4.7% {
     left: 100%;
   }
-  13.33% {
+  14.2% {
     left: 100%;
   }
   16.67% {
@@ -810,7 +813,7 @@ body:has([data-hero="dark"]) .site-main {
    every one of these is a hard switch.
 
    The blink stops are half-second beats measured against the CURRENT slot
-   (1.515% of a 33s loop each), so they scale with SLOT_SECONDS rather than
+   (1.11% of a 45s loop each), so they scale with SLOT_SECONDS rather than
    staying at half a second if it changes. That degrades gracefully: a longer
    slot blinks a little slower, which is still a blink. */
 @keyframes prompt-caret {
@@ -819,20 +822,32 @@ body:has([data-hero="dark"]) .site-main {
   }
   /* Typed. Hold one beat solid before blinking, the way a cursor does when
      you stop typing rather than the instant you do. */
-  6.25% {
+  4.7% {
     opacity: 1;
   }
-  7.77% {
+  5.81% {
     opacity: 0;
   }
-  9.28% {
+  6.92% {
     opacity: 1;
   }
-  10.8% {
+  8.03% {
+    opacity: 0;
+  }
+  9.14% {
+    opacity: 1;
+  }
+  10.25% {
+    opacity: 0;
+  }
+  11.36% {
+    opacity: 1;
+  }
+  12.47% {
     opacity: 0;
   }
   /* Solid from here through the erase. */
-  12.31% {
+  13.58% {
     opacity: 1;
   }
   16.67% {
@@ -844,10 +859,11 @@ body:has([data-hero="dark"]) .site-main {
 }
 
 /* The answer for the question currently on screen. Same clock as everything
-   else in the widget: it waits out the typing (to 6.25%), holds while the
-   query sits complete, and leaves as the erase begins at 13.33%. A reader
-   therefore sees a question asked and answered, which is the behaviour Sable
-   measures, rather than a query box that types into nothing. */
+   else in the widget: it waits out the typing (to 4.7%), holds while the query
+   sits complete, and leaves as the erase begins at 14.2%. That hold runs about
+   three seconds at the current slot, which is the whole point of it: a reader
+   sees a question asked AND answered, which is the behaviour Sable measures,
+   rather than a query box that types into nothing. */
 .prompt-answer {
   visibility: hidden;
   opacity: 0;
@@ -861,27 +877,27 @@ body:has([data-hero="dark"]) .site-main {
 
 @keyframes prompt-answer {
   0%,
-  6.25% {
+  4.9% {
     visibility: hidden;
     opacity: 0;
     transform: translateY(6px);
   }
-  7.9% {
+  6.2% {
     visibility: visible;
     opacity: 1;
     transform: translateY(0);
   }
-  12.5% {
+  12.9% {
     visibility: visible;
     opacity: 1;
     transform: translateY(0);
   }
-  13.33% {
+  14.2% {
     visibility: visible;
     opacity: 0;
     transform: translateY(-4px);
   }
-  13.4%,
+  14.3%,
   100% {
     visibility: hidden;
     opacity: 0;

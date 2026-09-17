@@ -443,9 +443,9 @@ variation" below).
   only: the markup order is headline, copy, panel, which is what phones and
   crawlers read.
   **The fold is the one layout that must fit the screen's height**, so it uses
-  the `tall:` / `short:` viewport-height variants in `globals.css` (49rem,
-  784px, mutually exclusive). On a tall window the panel stacks above the copy
-  and the headline also caps at `(100svh - 480px - --fold-bottom) / 3.1` to
+  the `tall:` / `short:` viewport-height variants in `globals.css` (53rem,
+  848px, mutually exclusive). On a tall window the panel stacks above the copy
+  and the headline also caps at `(100svh - 540px - --fold-bottom) / 3.1` to
   leave it room; on a short one the panel drops below the copy, so the headline
   is never cut off at the fold. Re-measure the threshold if the panel, the copy
   or the bottom padding grows.
@@ -484,8 +484,9 @@ computes from it rather than retyping it (the home measure panel, the
 (`SAMPLE_RERUN_ROWS`) is the only figure set not derived from `SAMPLE_ROWS`:
 modest and mixed on purpose, with Google AI flat, so it cannot read as a
 promised result. The hero's live customer questions show no rates at all, and the
-businesses their answers name are braced placeholders ("Competitor A"), never
-invented names, because nobody has verified eighteen of them. Never label
+businesses their answers name are not named: the answer draws the three it
+listed as redacted bars, because nobody has verified eighteen invented names
+and the shape of the reply is the point (Josh, 2026-09-16). Never label
 invented data as a real or anonymized client — swap in a real run via
 lib/sample.ts when one is cleared (website-plan §6).
 

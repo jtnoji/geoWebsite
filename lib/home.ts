@@ -66,11 +66,10 @@ export const PROMPT_DEMO = {
   /** ORDER IS THE CYCLE, and it alternates openings on purpose. Lowercase,
       because that is how people type into these things.
 
-      THE NAMES ARE PLACEHOLDERS, DELIBERATELY. lib/sample.ts forbids putting
-      words in a real company's mouth, and its invented names are verified
-      against real businesses before shipping. Six consumer categories would
-      need eighteen more of those, unverified, so the answers use the braced
-      placeholder convention instead. */
+      NO BUSINESS IS NAMED IN THE ANSWERS. LiveAnswer draws the three the
+      engine listed as redacted bars, because lib/sample.ts forbids putting
+      words in a real company's mouth and eighteen invented names would each
+      need verifying. See the note in LiveAnswer.tsx. */
   questions: [
     {
       q: "what is the best restaurant in my area?",
@@ -103,9 +102,6 @@ export const PROMPT_DEMO = {
       lead: "In {your city}, these come up the most:",
     },
   ],
-  /** Every answer names three. The count is the argument: a shortlist has
-      room for a handful, and the fourth slot is the reader's, drawn empty. */
-  named: ["Competitor A", "Competitor B", "Competitor C"],
 } as const;
 
 export const PROBLEM = {

@@ -2,7 +2,7 @@ import { PROMPT_DEMO } from "@/lib/home";
 
 /**
  * The hero's live customer questions: a working AI interface. A customer
- * question types itself into the box, the engine answers, the answer names
+ * question types itself into the box, the engine answers, the answer lists
  * three businesses, and the reader's is not one of them. Then it clears and
  * the next customer asks something else.
  *
@@ -18,12 +18,17 @@ import { PROMPT_DEMO } from "@/lib/home";
  * whose turn it is, and `prompt-answer` brings the reply in once the query is
  * complete and takes it away as the erase starts.
  *
- * THE BUSINESS NAMES ARE PLACEHOLDERS. See the note on PROMPT_DEMO in
- * lib/home.ts: putting words in a real company's mouth is the one thing
- * lib/sample.ts flatly forbids.
+ * THE ANSWER SHAPE (Josh, 2026-09-16). It reads as a real engine reply: the
+ * lead sentence, a numbered list of what it named, then the reader's slot,
+ * empty. THE NAMES ARE WITHHELD, drawn as redacted bars: lib/sample.ts forbids
+ * putting words in a real company's mouth, and eighteen invented names across
+ * six categories would each need verifying against a real business. The old
+ * "Competitor A" chips avoided that too, but they did not read like an answer.
+ * The bars are decorative, so the sentence beside them is what a screen reader
+ * and a crawler get.
  */
 
-const SLOT_SECONDS = 5.5;
+const SLOT_SECONDS = 7.5;
 
 /* Fail closed: the prompt-* keyframes in globals.css are cut into sixths, one
    slot per question. A seventh question without recutting them would put two
@@ -43,6 +48,11 @@ const CYCLE_SECONDS = PROMPT_DEMO.questions.length * SLOT_SECONDS;
    the cover is a solid block laid over the untyped half of the question, so
    any mismatch shows as a rectangle. The card around the box stays glass. */
 const BOX = "#0f1a2b";
+
+/* The three named businesses, as bar widths rather than names. Uneven on
+   purpose: real answers name a two-word studio and a five-word partnership in
+   the same list. */
+const NAMED_WIDTHS = ["34%", "45%", "28%"] as const;
 
 const slot = (i: number) =>
   ({
@@ -130,22 +140,34 @@ export default function LiveAnswer() {
             </p>
             <p className="mt-2 text-[13.5px] leading-[1.55] text-white/85">{lead}</p>
 
-            {/* THE SHORTLIST, DRAWN. Three filled chips and one empty one: the
-                list has four slots in the reader's head and theirs is the one
-                with nothing in it. */}
-            <ul className="mt-3 flex flex-wrap items-center gap-2">
-              {PROMPT_DEMO.named.map((name) => (
-                <li
-                  key={name}
-                  className="rounded-full bg-white/[0.14] px-3 py-1.5 text-[12.5px] font-medium text-white"
-                >
-                  {name}
+            {/* THE SHORTLIST, IN THE SHAPE AN ENGINE ANSWERS IT: three named
+                businesses with their names withheld, then the reader's slot,
+                drawn empty. The count is the argument: a shortlist has room
+                for a handful, and the fourth line is the reader's. */}
+            <ol aria-hidden="true" className="mt-2.5 flex flex-col gap-[7px]">
+              {NAMED_WIDTHS.map((width, rank) => (
+                <li key={width} className="flex items-center gap-2.5">
+                  <span className="font-mono text-[10.5px] text-white/40">
+                    {`${rank + 1}.`}
+                  </span>
+                  <span
+                    className="h-[9px] shrink-0 rounded-full bg-white/[0.22]"
+                    style={{ width }}
+                  />
+                  <span className="h-[9px] min-w-0 flex-1 rounded-full bg-white/[0.07]" />
                 </li>
               ))}
-              <li className="rounded-full border border-dashed border-white/35 px-3 py-1.5 text-[12.5px] font-medium text-white/55">
-                your business
-              </li>
-            </ul>
+            </ol>
+            <p className="sr-only">
+              {`This answer names ${NAMED_WIDTHS.length} businesses. Their names are withheld.`}
+            </p>
+
+            <p className="mt-2.5 flex items-center gap-2.5 rounded-[9px] border border-dashed border-white/32 px-3 py-[7px] text-[12.5px] text-white/65">
+              <span aria-hidden="true" className="font-mono text-[10.5px] text-white/40">
+                {`${NAMED_WIDTHS.length + 1}.`}
+              </span>
+              your business, not mentioned
+            </p>
           </div>
         ))}
       </div>
