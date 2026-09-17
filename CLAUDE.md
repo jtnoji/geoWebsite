@@ -451,11 +451,20 @@ variation" below).
   it** (Josh, 2026-09-17: "the live customer questions item be really big and
   sit translucently behind everything", "in the bottom right"). Below lg the
   card is exactly what it always was, in flow and full strength. From lg it
-  leaves the flow, anchors the fold's bottom-right corner, and grows there:
-  one `scale` on the wrapper (about 1.75x from `origin-bottom-right`) takes the
-  card, its type, its rules and its radii up together, so nothing inside
-  LiveAnswer is re-sized and it costs no layout. At `opacity-30` the lede, the
-  actions and the domain form read over it.
+  leaves the flow and fills the fold's right side, anchored `top-[14%]` with
+  the gutter inset on the right: one `scale` on the wrapper (2.5x from
+  `origin-top-right`) takes the card, its type, its rules and its radii up
+  together, so nothing inside LiveAnswer is re-sized and it costs no layout.
+  At `opacity-30` the headline, the lede, the actions and the domain form all
+  read over it.
+  - **It is anchored from the TOP even though the brief said bottom right**
+    (Josh, "in the bottom right", then "make it way bigger"). At this size the
+    card is taller than the space under the header, so it has to bleed off one
+    edge. Scaling from the bottom crops the top, which is the card's label and
+    the question being typed, the two things that make it legible as a
+    customer asking an engine. Scaling from the top instead bleeds off the
+    bottom, and at 1440x900 only about 18px of it goes. Its mass still sits
+    right and low, which is what the brief was after.
   - **`pointer-events-none` is load-bearing.** The layer covers the lede, the
     actions and the form, and without it the card would swallow their clicks.
     `funnel.spec.ts` submits that form, so a regression here fails the suite.
@@ -474,7 +483,10 @@ variation" below).
   53rem, mutually exclusive) now only cap the headline. That cap still
   reserves room for a panel that is no longer in flow, which is conservative
   rather than wrong: at every width measured, `9.6cqi` is the binding term and
-  the cap never fires. Re-measure if the copy or the bottom padding grows.
+  the cap never fires. **The fold now fits 100svh at every viewport measured
+  from 1024 to 2560**, where it used to run 24-43px past it at 1440x900 and
+  1600x900, because the card is no longer competing for the height. Re-measure
+  if the copy or the bottom padding grows.
 
 **Section variation (home, added 2026-09-14).** Josh: the section headings sat
 "in the same spot every single time", which made the long scroll feel stale,

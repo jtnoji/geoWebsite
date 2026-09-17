@@ -180,7 +180,7 @@ export default function Home() {
               depth"). It is deliberate here: this is a background layer on a
               night band, so there is nothing behind it to blur but the beams.
               Do not copy the pattern to a card that is still in front. */}
-          <div className="mt-12 w-full min-w-0 max-w-[430px] lg:pointer-events-none lg:absolute lg:bottom-[clamp(12px,2.2vw,56px)] lg:right-[clamp(12px,2.2vw,56px)] lg:mt-0 lg:w-[460px] lg:max-w-none lg:origin-bottom-right lg:scale-[1.75] lg:opacity-30">
+          <div className="mt-12 w-full min-w-0 max-w-[430px] lg:pointer-events-none lg:absolute lg:top-[14%] lg:right-[clamp(12px,2.2vw,56px)] lg:mt-0 lg:w-[460px] lg:max-w-none lg:origin-top-right lg:scale-[2.5] lg:opacity-30">
             <LiveAnswer />
           </div>
 

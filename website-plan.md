@@ -594,9 +594,13 @@ call bookings) so you know where the funnel leaks.
       AMENDED 2026-09-17 (Josh: "the live customer questions item be really
       big and sit translucently behind everything", "in the bottom right").
       The questions stop being a column in the fold and become a layer behind
-      it: from 1024px up the card leaves the flow, anchors the bottom-right
-      corner and scales up about 1.75x from it at 30% opacity, with the
-      headline, the lede, the actions and the domain form reading over it. The
+      it: from 1024px up the card leaves the flow, fills the fold's right
+      side and scales up 2.5x at 30% opacity, with the headline, the lede, the
+      actions and the domain form all reading over it. Enlarged the same day
+      ("make it way bigger"), which is also why it is anchored from the top
+      and bleeds off the bottom rather than the reverse: at this size it has
+      to bleed off one edge, and cropping the top would take the label and the
+      question being typed. The
       form and the two proof links stay in flow and stay clickable; the layer
       is `pointer-events-none` so it cannot take their clicks. Below 1024px
       nothing changed: the card is still in flow at full strength, and the
