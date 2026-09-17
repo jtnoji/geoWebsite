@@ -104,7 +104,8 @@ visual.spec.ts, security.spec.ts) · `public/`.
   them.
 - **Copy rules are legal posture (from geoPromptRunner's gtm-legal-readiness +
   smb-pivot-plan):** never guarantee placement or rankings ("rank #1 in
-  ChatGPT" is banned); visibility numbers are sampled rates ("7 of 10 runs"),
+  ChatGPT" is banned); visibility numbers are sampled rates ("3 of 5 runs": K=5 on
+  every measurement, across five engines),
   never point-in-time ranks; every statistic carries a named source; no
   llms.txt (we'd flag it as theater in a client audit). New marketing copy
   follows website-plan.md or gets Josh's sign-off first.

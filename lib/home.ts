@@ -15,7 +15,7 @@
 import type { Capability } from "@/components/CapabilityRow";
 import type { FindingRow } from "@/components/FindingsPanel";
 import type { Faq } from "@/lib/schema";
-import { SAMPLE_ROWS } from "@/lib/sample";
+import { SAMPLE_ROWS, SAMPLE_RUNS_TOTAL } from "@/lib/sample";
 import { BRAND } from "@/lib/site";
 
 /** The fold. The h1 is carried over unchanged from the previous home page. */
@@ -30,7 +30,7 @@ export const HERO = {
   secondary: "See how it works",
   /* The design said "results in 60 seconds". The queue is manual and the
      promise everywhere else on the site is 1–2 business days. */
-  fineprint: "Free · no card · four engines · report in 1–2 business days",
+  fineprint: "Free · no card · five engines · report in 1–2 business days",
   /* The design's "Trusted by" strip of placeholder client logos is not here.
      website-plan §2 rules out borrowed logos and unnamed "trusted by" copy
      until a real client result is cleared. This line is the credential we do
@@ -78,7 +78,7 @@ export const PROMPT_DEMO = {
     },
     {
       q: "where should I get my hair done?",
-      engine: "Google AI",
+      engine: "Google AI Overviews",
       lead: "Based on reviews and recent write-ups, the ones most often recommended:",
     },
     {
@@ -93,12 +93,12 @@ export const PROMPT_DEMO = {
     },
     {
       q: "what is the best gym for beginners?",
-      engine: "ChatGPT",
+      engine: "Claude",
       lead: "For someone starting out, I would look at:",
     },
     {
       q: "who does good plumbing near me?",
-      engine: "Google AI",
+      engine: "Google AI Overviews",
       lead: "In {your city}, these come up the most:",
     },
   ],
@@ -163,7 +163,7 @@ export const CAPABILITIES: readonly Capability[] = [
     /* The design said "See exactly where you appear". "Exactly" is one of
        the filler intensifiers the voice rule cuts. */
     heading: "See where you appear across AI search",
-    body: "Real buying questions for your category, run ten times each across four engines, scored the same way every month.",
+    body: "Real buying questions for your category, run five times each across five engines, scored the same way every month.",
     points: [
       "Mention rate per engine",
       "Share of voice against the names beating you",
@@ -171,7 +171,7 @@ export const CAPABILITIES: readonly Capability[] = [
     ],
     panel: {
       title: "Visibility by engine",
-      meta: "40 answers · illustrative example",
+      meta: `${SAMPLE_RUNS_TOTAL} answers · illustrative example`,
       rows: VISIBILITY_ROWS,
     },
   },
@@ -230,29 +230,29 @@ export const CAPABILITIES: readonly Capability[] = [
     ],
     panel: {
       title: "Sources behind your category",
-      meta: "cited in 40 answers · illustrative example",
+      meta: `cited in ${SAMPLE_RUNS_TOTAL} answers · illustrative example`,
       rows: [
         {
           label: "industrypub.com",
-          sub: "Cited in 22 answers",
+          sub: "Cited in 14 answers",
           value: "You: absent",
           tone: "risk",
         },
         {
           label: "reviewsite.com",
-          sub: "Cited in 17 answers",
+          sub: "Cited in 11 answers",
           value: "You: listed",
           tone: "ok",
         },
         {
           label: "citylist.com",
-          sub: "Cited in 11 answers",
+          sub: "Cited in 7 answers",
           value: "You: outdated",
           tone: "caution",
         },
         {
           label: "yourdomain.com",
-          sub: "Cited in 6 answers",
+          sub: "Cited in 4 answers",
           value: "Owned",
           tone: "note",
         },
@@ -271,7 +271,7 @@ export const STEPS = {
     {
       no: "01",
       name: "Audit",
-      body: "We measure where your brand appears today across ChatGPT, Gemini, Perplexity and Google AI Overviews, and trace every answer back to its sources.",
+      body: "We measure where your brand appears today across ChatGPT, Claude, Gemini, Perplexity and Google AI Overviews, and trace every answer back to its sources.",
     },
     {
       no: "02",
@@ -335,7 +335,7 @@ export const COMPARISON: {
 export const CLOSING = {
   heading: "See where your brand stands in",
   headingAccent: "AI search",
-  body: "We'll analyze how your company appears across ChatGPT, Gemini, Perplexity and Google AI Overviews, and show you the biggest opportunities.",
+  body: "We'll analyze how your company appears across ChatGPT, Claude, Gemini, Perplexity and Google AI Overviews, and show you the biggest opportunities.",
   fineprint: "Free · no card · no commitment",
 } as const;
 
@@ -358,9 +358,9 @@ export const HOME_FAQS: Faq[] = [
       "An SEO audit tells you about rankings on a results page. This measures whether you are named inside a generated answer. That draws on a different set of sources, uses different crawlers, and can go wrong while your rankings stay excellent.",
   },
   {
-    question: "Why run the same question ten times?",
+    question: "Why run the same question five times?",
     answer:
-      "Because these systems are non-deterministic. Ask the same question twice and you can get two different shortlists. One run is a coin flip. A rate across ten runs is a measurement you can compare against next month.",
+      "Because these systems are non-deterministic. Ask the same question twice and you can get two different shortlists. One run is a coin flip. A rate across five runs on each engine is a measurement you can compare against next month.",
   },
   {
     question: "How long until anything changes?",

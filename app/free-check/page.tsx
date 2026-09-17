@@ -11,7 +11,7 @@ import { pageMeta } from "@/lib/seo";
 export const metadata: Metadata = pageMeta({
   title: OFFER_TITLE,
   description:
-    "Tell us who you are. We run real customer questions through ChatGPT, Google AI, Gemini, and Perplexity, then email a short report. Free, no call required.",
+    "Tell us who you are. We run real customer questions through ChatGPT, Claude, Gemini, Perplexity and Google AI Overviews, then email a short report.",
   path: "/free-check/",
 });
 

@@ -612,6 +612,15 @@ call bookings) so you know where the funnel leaks.
       Improve the fix list, and Track the same 40 answers re-run. Every fact
       comes from lib/sample.ts, and the question set and fix list moved there,
       so /how-it-works and /sample-report read them rather than retyping them.
+  14. **Measurement claims corrected to the real method** (Josh, 2026-09-16,
+      from the price list and the Track sample report). K=5 runs per question
+      per engine, on five engines: ChatGPT, Claude, Gemini, Perplexity and
+      Google AI Overviews. The site had said ten runs across four engines
+      everywhere, including /how-it-works §2, the FAQ and the capability copy.
+      The illustrative dataset moved with it: 25 answers a question, the client
+      named in 5 of them, AI Overviews naming it in none. Still open: the sixth
+      platform the full bundle adds, and which per-tier question counts to
+      publish. Rules in launch-checklist.md §2.
 
   **Open for Josh:** two lines still sit near the no-guarantee rule and shipped
   as designed: the hero lede ("so your company appears more often") and Grow's

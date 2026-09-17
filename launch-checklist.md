@@ -56,16 +56,13 @@ Decisions needed before /pricing is rewritten:
    for.
 5. Whether per-tier measurement volumes are published at all.
 
-**Blocking conflict, bigger than the prices.** The site's measurement claim is
-ten runs per question across four engines, forty answers. The price list is
-five runs per question (K=5) across five platforms, six on the full bundle,
-with 10, 40, 60 or 100 questions by tier. Until this is settled the following
-all state the wrong shape: the home hero and capability copy ("ten times
-each"), /how-it-works §2 ("Ten runs, not one screenshot", "10× per engine"),
-the FAQ ("Why run the same question ten times?"), the sample dataset (4 engines
-× 10 runs = 40 answers) and four test pins. To fix it we need the five platform
-names, the sixth that the full bundle adds, and the per-tier question counts
-that are safe to publish.
+**Measurement shape: SETTLED 2026-09-16.** K=5 on every measurement (Josh),
+across five engines: ChatGPT, Claude, Gemini, Perplexity and Google AI
+Overviews. The site had said ten runs across four engines; that is corrected
+everywhere, including the illustrative dataset, which is now five engines at
+five runs, so 25 answers a question. Still open: the sixth platform the full
+bundle adds, and which per-tier question counts (10, 40, 60, 100) are safe to
+publish.
 
 ## 3. The sample report
 

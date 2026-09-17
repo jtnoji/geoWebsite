@@ -93,7 +93,7 @@ export function professionalService(): JsonLdObject {
     url: DOMAIN,
     email: EMAIL,
     description:
-      "AI visibility measurement: we measure whether ChatGPT, Google AI, Gemini, and Perplexity mention your business, who is named instead, and which sources drive the answers.",
+      "AI visibility measurement: we measure whether ChatGPT, Claude, Gemini, Perplexity and Google AI Overviews mention your business, who is named instead, and which sources drive the answers.",
     address: POSTAL_ADDRESS,
     areaServed: "US",
     // Resolves the duplicate-entity problem: this node and ORG_ID are the same

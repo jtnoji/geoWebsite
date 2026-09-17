@@ -65,7 +65,7 @@ export const PAGES: PageSpec[] = [
     path: "/how-it-works/",
     mustContain: [
       "One system, running on", // the Sable hero (2026-09-14)
-      "Ten runs, not one screenshot",
+      "Five runs, not one screenshot",
       /* A stage that is not the default tab: it is hidden until chosen, so
          this proves every stage's copy ships in the raw HTML, not just the
          one on show. */
@@ -73,7 +73,7 @@ export const PAGES: PageSpec[] = [
       "What we won", // honesty heading; apostrophe HTML-escaped
       /* The Track stage's card, hidden until chosen: proves every stage's
          card ships in the raw HTML, not only the one on show. */
-      "Same 40 answers, re-run",
+      "Same 25 answers, re-run",
     ],
     schemaTypes: ["WebPage", "BreadcrumbList", "FAQPage"],
   },

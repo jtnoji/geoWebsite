@@ -26,9 +26,9 @@ export const SERVICE_TIERS: readonly ServiceTier[] = [
     price: "$0",
     priceNote: "No card, no call required",
     description:
-      "The short report. Where you stand on all four engines, and who's named instead of you.",
+      "The short report. Where you stand on all five engines, and who's named instead of you.",
     includes: [
-      "Mention rate across four engines",
+      "Mention rate across five engines",
       "The competitors named instead of you",
       "Crawler access findings",
     ],

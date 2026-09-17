@@ -17,7 +17,7 @@ Three things. Being on the shortlist of sources engines cite in your category be
 
 ## How do I measure visibility when every answer is different?
 
-By sampling. [SE Ranking's 2025 test](https://seranking.com/blog/ai-mode-volatility-test/) ran 5,000 local queries repeatedly and found four out of five cited URLs change between runs of the same query. So run the same customer questions many times per engine and report rates. "Named in 7 of 10 runs" is a number you can track. A single-fetch "AI rank" is a coin flip dressed up as data.
+By sampling. [SE Ranking's 2025 test](https://seranking.com/blog/ai-mode-volatility-test/) ran 5,000 local queries repeatedly and found four out of five cited URLs change between runs of the same query. So run the same customer questions many times per engine and report rates. "Named in 3 of 5 runs" is a number you can track. A single-fetch "AI rank" is a coin flip dressed up as data.
 
 ## What should a business do differently this year?
 

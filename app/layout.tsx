@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     template: `%s · ${BRAND}`,
   },
   description:
-    "We measure whether ChatGPT, Google AI, Gemini, and Perplexity mention your business: sampled rates, named competitors, and the sources behind the answers.",
+    "Do the AI engines name your business? We measure ChatGPT, Claude, Gemini, Perplexity and Google AI Overviews: sampled rates, named competitors, sources.",
   openGraph: {
     siteName: BRAND,
     type: "website",

@@ -32,7 +32,7 @@ function MentionRateCard() {
   return (
     <SamplingCard
       title={<>mention rate · &ldquo;{SAMPLE_QUERY}&rdquo;</>}
-      meta="10 runs/engine"
+      meta="5 runs/engine"
       rows={[...SAMPLE_ROWS]}
       footer={SAMPLE_LABEL}
     />
@@ -43,7 +43,7 @@ function VerbatimCard() {
   return (
     <ArtifactCard
       title={<>chatgpt: &ldquo;{SAMPLE_QUERY}&rdquo;</>}
-      meta="run 3/10"
+      meta="run 3/5"
     >
       <p className="px-5 py-4 text-[14.5px] leading-6 text-ink-soft">
         &ldquo;For a seed-stage B2B startup, well-regarded agencies include{" "}

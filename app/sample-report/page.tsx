@@ -34,7 +34,7 @@ export const metadata: Metadata = pageMeta({
 const CONTENTS = [
   {
     title: "Mention rate by engine",
-    body: "How often you are named across ChatGPT, Google AI, Gemini and Perplexity, sampled ten runs per question.",
+    body: "How often you are named across ChatGPT, Claude, Gemini, Perplexity and Google AI Overviews, sampled five runs per question.",
   },
   {
     title: "Share of voice",

@@ -27,7 +27,7 @@ import { pageMeta } from "@/lib/seo";
 export const metadata: Metadata = pageMeta({
   title: "How it works: our AI visibility methodology",
   description:
-    "Which engines we measure, why every question runs ten times, how answers are judged, and how we implement the fixes. The whole protocol, in public.",
+    "Which engines we measure, why every question runs five times, how answers are judged, and how we implement the fixes. The whole protocol, in public.",
   path: "/how-it-works/",
 });
 
@@ -46,7 +46,7 @@ const STAGES: readonly Stage[] = [
   {
     label: "Measure",
     title: "We ask what your customers ask.",
-    body: "Real buying questions for your category, run across ChatGPT, Google AI, Gemini and Perplexity, ten times each. Answers move run to run, so a single screenshot tells you nothing.",
+    body: "Real buying questions for your category, run across ChatGPT, Claude, Gemini, Perplexity and Google AI Overviews, five times each. Answers move run to run, so a single screenshot tells you nothing.",
     card: <QuestionsCard />,
   },
   {
@@ -86,9 +86,9 @@ const SECTIONS = [
   {
     id: "s2",
     label: "02 · Sampling",
-    heading: "Ten runs, not one screenshot",
-    body: 'AI answers change between runs, so a single fetch is a coin flip. We run every query 10× per engine and report the rate. A single-run "AI rank" is noise.',
-    bolds: ["a single fetch is a coin flip", "10× per engine"],
+    heading: "Five runs, not one screenshot",
+    body: 'AI answers change between runs, so a single fetch is a coin flip. We run every query 5× per engine and report the rate. A single-run "AI rank" is noise.',
+    bolds: ["a single fetch is a coin flip", "5× per engine"],
   },
   {
     id: "s3",
@@ -182,7 +182,7 @@ function Artifact({ id }: { id: string }) {
     return (
       <ArtifactCard
         title={<>sampling: &ldquo;{SAMPLE_QUERY}&rdquo;</>}
-        meta="10 runs/engine"
+        meta="5 runs/engine"
         footer={SAMPLE_LABEL}
       >
         <SamplingRows rows={SAMPLE_ROWS} />
@@ -191,7 +191,7 @@ function Artifact({ id }: { id: string }) {
   }
   if (id === "s3") {
     return (
-      <ArtifactCard title="judge verdict · run 7/10 · chatgpt" meta="fact sheet v3">
+      <ArtifactCard title="judge verdict · run 4/5 · chatgpt" meta="fact sheet v3">
         <div className="px-5 py-2">
           {VERDICT_ROWS.map((row) => (
             <div

@@ -17,7 +17,7 @@ A mix of what the models learned in training and what they retrieve live: review
 
 ## Can GEO be measured?
 
-Yes, but only with sampling. AI answers change from run to run, so a single query proves nothing. Real measurement asks the same customer questions repeatedly across engines and reports rates. "Named in 7 of 10 runs" is a measurement. A screenshot of one good answer is an anecdote.
+Yes, but only with sampling. AI answers change from run to run, so a single query proves nothing. Real measurement asks the same customer questions repeatedly across engines and reports rates. "Named in 3 of 5 runs" is a measurement. A screenshot of one good answer is an anecdote.
 
 ## Can anyone guarantee a spot in AI answers?
 

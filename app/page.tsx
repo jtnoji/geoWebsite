@@ -27,7 +27,7 @@ import { pageMeta } from "@/lib/seo";
 export const metadata: Metadata = pageMeta({
   title: `${BRAND}: does AI recommend your business?`,
   description:
-    "ChatGPT, Google AI, Gemini, and Perplexity name only a few businesses per answer. We measure whether you're one of them, and who gets named instead.",
+    "ChatGPT, Claude, Gemini, Perplexity and Google AI Overviews name only a few businesses per answer. We measure whether you are one of them, and who is.",
   path: "/",
   absoluteTitle: true,
 });
