@@ -606,6 +606,24 @@ call bookings) so you know where the funnel leaks.
       nothing changed: the card is still in flow at full strength, and the
       markup order is still headline, copy, panel. The headline did not move
       or change size. Rules in CLAUDE.md "Width and alignment".
+  16. **Home text cut back** (Josh, 2026-09-17: "i feel like there is too much
+      text on the home page. Take the 'The Problem' segment for example ...
+      rather htan a whole explanation"). The problem section is now the
+      heading "Your customers are searching differently", the chart, and three
+      cited figures answering the three beats Josh asked for: AI search up
+      (45% of U.S. consumers, from 6%, BrightLocal), the shortlist (3x fewer
+      businesses in AI answers, Sterling Sky), and the money ($750B of U.S.
+      revenue through AI search by 2028, McKinsey). Gone: the paragraph and
+      the three prose points. The money figure is McKinsey's channel size, NOT
+      a per-business number; the REVENUE_STATS note in lib/stats.ts explains
+      why that one does not exist and must not be invented.
+      The chart lost its projections in the same pass ("strip it down to just
+      the bare minimum"), so it plots measured points only, 2024 to 2026. Its
+      two source links and two methodology caveats stay, because a chart
+      without them is the thing we audit other people for.
+      STILL OPEN: Josh said "for example", so the other home sections are
+      candidates for the same cut and have not had it.
+
   11. **Section variation** (Josh, same day: headings "in the same spot every
       single time" felt stale, and plain text read as generic). Subtle and home
       only: the solution and Why Sable heads centre over their sets, What you

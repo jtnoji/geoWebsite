@@ -20,7 +20,7 @@ import {
 } from "@/lib/home";
 import { SECTION, SECTION_X } from "@/lib/layout";
 import { delay } from "@/lib/reveal";
-import { HOME_STATS } from "@/lib/stats";
+import { PROBLEM_STATS } from "@/lib/stats";
 import { BRAND, OFFER, OFFER_SHORT } from "@/lib/site";
 import { pageMeta } from "@/lib/seo";
 
@@ -240,39 +240,28 @@ export default function Home() {
       </section>
 
       {/* ---- THE PROBLEM ---------------------------------------------------
-          The shift chart is the evidence for the heading beside it, and the
-          two cited stats sit under both. */}
+          CUT BACK 2026-09-17 (Josh: "there is too much text on the home page
+          ... rather htan a whole explanation"). The heading, the chart, and
+          three cited figures. The paragraph and the three prose points that
+          used to sit under the heading are gone, and what they asserted the
+          figures now show: the growth, the shortlist, the money. Copy in
+          lib/home.ts, figures in lib/stats.ts PROBLEM_STATS. */}
       <section className="bg-paper-dim">
         <div
-          className={`${SECTION_X} grid items-start gap-12 pb-10 pt-16 md:pt-[100px] lg:grid-cols-[minmax(260px,0.72fr)_minmax(0,2fr)] lg:gap-[52px] wide:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] wide:gap-24`}
+          className={`${SECTION_X} grid items-start gap-12 pb-10 pt-16 md:pt-[100px] lg:grid-cols-[minmax(260px,0.72fr)_minmax(0,2fr)] lg:items-center lg:gap-[52px] wide:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] wide:gap-24`}
         >
           <div data-reveal className="min-w-0">
             <Eyebrow>{PROBLEM.eyebrow}</Eyebrow>
             <h2 className="display mt-[18px] max-w-[16ch] text-[clamp(28px,2.4vw,52px)] leading-[1.12] text-ink text-pretty">
               {PROBLEM.heading}
             </h2>
-            <p className="mt-4 max-w-[40ch] text-[clamp(14.5px,1.007vw,18px)] leading-[1.65] text-ink-soft">
-              {PROBLEM.body}
-            </p>
-            <ul data-reveal="stagger" className="mt-6 flex flex-col gap-[13px]">
-              {PROBLEM.points.map((point) => (
-                <li key={point.title} className="border-t border-line-dark pt-[13px]">
-                  <h3 className="text-[clamp(14.5px,1.007vw,18px)] font-semibold text-ink">
-                    {point.title}
-                  </h3>
-                  <p className="mt-1 text-[clamp(13.5px,0.9375vw,17px)] leading-[1.6] text-ink-soft">
-                    {point.body}
-                  </p>
-                </li>
-              ))}
-            </ul>
           </div>
           <SearchShiftChart />
         </div>
         <div
-          className={`${SECTION_X} grid gap-4 pb-16 pt-6 md:grid-cols-2 md:pb-[100px] wide:gap-6`}
+          className={`${SECTION_X} grid gap-4 pb-16 pt-6 md:grid-cols-3 md:pb-[100px] wide:gap-6`}
         >
-          {HOME_STATS.slice(0, 2).map((stat, i) => (
+          {PROBLEM_STATS.map((stat, i) => (
             <div key={stat.source} data-reveal style={delay(i * 110)} className="min-w-0">
               <StatTile stat={stat} />
             </div>

@@ -1,19 +1,24 @@
-import { SEARCH_SHIFT_COPY } from "@/lib/home";
 import { delay } from "@/lib/reveal";
-import {
-  AGENTIC_SHARE,
-  SEARCH_CLICKS,
-  TREND_NOW,
-  type TrendSeries,
-} from "@/lib/stats";
+import { AGENTIC_SHARE, SEARCH_CLICKS, type TrendSeries } from "@/lib/stats";
 
 /**
  * The search-shift chart: buying that an AI agent shaped rising against clicks
- * leaving Google, with a dashed present line and a labelled projection past it.
+ * leaving Google. The white card on the right of the home "problem" section.
  *
- * Since the Sable redesign (2026-09-14) it is the white card on the right of
- * the home "problem" section, as the design draws it, rather than a section of
- * its own with a heading. The data, the curve and the caveats did not change.
+ * STRIPPED 2026-09-17 (Josh: "Also woudl be good to simplify the grahp. The
+ * graph has too much text, strip it down to just the bare minimum"). What went:
+ * the projection zone, the dashed projected strokes, the present line, the
+ * "now" and "projection" markers, the 2027 and 2028 ticks, the chart's own
+ * eyebrow, and the projection note. That was most of the card's text, and it
+ * also takes our own 2028 extrapolation off the page. The points still exist
+ * in lib/stats.ts behind their `projected` flag, which is what MEASURED below
+ * filters on, so this is reversible.
+ *
+ * What stays, and is not negotiable: the two source links and the two
+ * methodology caveats. "A chart is a measurement artifact" in CLAUDE.md puts
+ * caveats NEXT to the chart rather than behind a link, because a company that
+ * audits other people's evidence does not get to hide the break in its own.
+ * Strip anything else before these.
  *
  * SERVER COMPONENT, and it has to stay one. It renders copy and numbers, so
  * the CLAUDE.md invariant applies: every value here must exist in the exported
@@ -34,16 +39,19 @@ import {
    would render 8px axis labels on a phone. */
 /* h stops just under the year labels: the card's own padding is the margin. */
 const VIEW = { w: 720, h: 400 };
-/* `right` leaves room for the 2028 label to sit centred under its own tick
-   without running off the viewBox. At phone type sizes that label is ~60
+/* `right` leaves room for the last year label to sit centred under its own
+   tick without running off the viewBox. At phone type sizes that label is ~60
    units wide, so the margin has to be at least half of that. */
 const PLOT = { left: 70, right: 660, top: 48, bottom: 344 };
-const Y_MAX = 70;
+/* 45, not 70: with the projections gone the highest value drawn is 39.6, and a
+   70 ceiling left the top third of the card empty. */
+const Y_MAX = 45;
 /* The window starts at 2024 because that is the earliest measured point on
-   either series. The agentic line begins a year later, and the empty quarter
-   at the left is the truthful shape of that: nobody was measuring it yet. */
-const YEARS = [2024, 2025, 2026, 2027, 2028] as const;
-const GRID = [0, 20, 40, 60] as const;
+   either series, and ends at 2026 because that is the latest. The agentic line
+   begins a year later, and the empty quarter at the left is the truthful shape
+   of that: nobody was measuring it yet. */
+const YEARS = [2024, 2025, 2026] as const;
+const GRID = [0, 20, 40] as const;
 
 const x = (year: number) =>
   PLOT.left +
@@ -54,6 +62,9 @@ const y = (value: number) =>
   PLOT.bottom - (value / Y_MAX) * (PLOT.bottom - PLOT.top);
 
 type Pt = { x: number; y: number };
+
+/** Only the readings are drawn. See the note at the top of the file. */
+const MEASURED = (series: TrendSeries) => series.points.filter((p) => !p.projected);
 
 /**
  * Monotone cubic tangents (Fritsch-Carlson). The curve is interpolation
@@ -87,9 +98,10 @@ const tangents = (pts: Pt[]) => {
 
 const n = (v: number) => v.toFixed(1);
 
-const segment = (pts: Pt[], m: number[], from: number, to: number) => {
-  let d = `M${n(pts[from].x)} ${n(pts[from].y)}`;
-  for (let i = from; i < to; i++) {
+const line = (pts: Pt[]) => {
+  const m = tangents(pts);
+  let d = `M${n(pts[0].x)} ${n(pts[0].y)}`;
+  for (let i = 0; i < pts.length - 1; i++) {
     const c = (pts[i + 1].x - pts[i].x) / 3;
     d +=
       ` C${n(pts[i].x + c)} ${n(pts[i].y + m[i] * c)},` +
@@ -97,19 +109,6 @@ const segment = (pts: Pt[], m: number[], from: number, to: number) => {
       ` ${n(pts[i + 1].x)} ${n(pts[i + 1].y)}`;
   }
   return d;
-};
-
-/* Both strokes are cut out of ONE curve, so the tangent at the present line is
-   shared and the dashed half leaves exactly where the solid half arrives. */
-const paths = (series: TrendSeries) => {
-  const pts = series.points.map((p) => ({ x: x(p.year), y: y(p.value) }));
-  const m = tangents(pts);
-  const firstProjected = series.points.findIndex((p) => p.projected);
-  const cut = firstProjected === -1 ? pts.length - 1 : firstProjected - 1;
-  return {
-    measured: segment(pts, m, 0, cut),
-    projected: segment(pts, m, cut, pts.length - 1),
-  };
 };
 
 /* Type inside an SVG scales with the viewBox, so these sizes are in user
@@ -123,8 +122,8 @@ const VALUE = "text-[28px] sm:text-[20px] xl:text-[19px] font-semibold";
 const STROKE = "[stroke-width:6] sm:[stroke-width:4.5] xl:[stroke-width:3.5]";
 
 const SERIES = [
-  { series: AGENTIC_SHARE, tone: "ink", swatch: "bg-ink" },
-  { series: SEARCH_CLICKS, tone: "slate", swatch: "bg-slate" },
+  { series: AGENTIC_SHARE, swatch: "bg-ink" },
+  { series: SEARCH_CLICKS, swatch: "bg-slate" },
 ] as const;
 
 function Series({
@@ -138,8 +137,7 @@ function Series({
   drawDelay: number;
   labelAbove: boolean;
 }) {
-  const { measured: measuredPath, projected: projectedPath } = paths(series);
-  const measured = series.points.filter((p) => !p.projected);
+  const measured = MEASURED(series);
   const stroke = tone === "ink" ? "stroke-ink" : "stroke-slate";
   const fill = tone === "ink" ? "fill-ink" : "fill-slate";
   const first = measured[0];
@@ -148,20 +146,13 @@ function Series({
   return (
     <g>
       <path
-        d={measuredPath}
+        d={line(measured.map((p) => ({ x: x(p.year), y: y(p.value) })))}
         pathLength={100}
         fill="none"
         strokeLinecap="round"
         strokeLinejoin="round"
         style={delay(drawDelay)}
         className={`chart-line ${stroke} ${STROKE}`}
-      />
-      <path
-        d={projectedPath}
-        fill="none"
-        strokeLinecap="round"
-        strokeDasharray="11 9"
-        className={`chart-late ${stroke} ${STROKE} [stroke-opacity:0.5]`}
       />
       <g className="chart-late">
         {measured.map((p) => (
@@ -195,8 +186,6 @@ function Series({
 }
 
 export default function SearchShiftChart() {
-  const nowX = x(TREND_NOW);
-
   return (
     <figure
       data-reveal="draw"
@@ -206,10 +195,7 @@ export default function SearchShiftChart() {
       {/* Legend in HTML, not SVG: it carries the source links, and HTML type
           stays readable at any width while SVG type scales with the box. */}
       <figcaption>
-        <p className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-ink-faint">
-          {SEARCH_SHIFT_COPY.eyebrow}
-        </p>
-        <ul className="mt-4 flex flex-col gap-[9px]">
+        <ul className="flex flex-col gap-[9px]">
           {/* The swatch has its own column, so when a phone wraps the label
               and its source, both wrap under the label and the swatch stays
               beside the first line instead of sitting alone above it. */}
@@ -235,35 +221,21 @@ export default function SearchShiftChart() {
             </li>
           ))}
         </ul>
-        <p className="mt-2.5 text-[12.5px] leading-[1.55] text-ink-faint">
-          {SEARCH_SHIFT_COPY.projectionNote}
-        </p>
       </figcaption>
 
       <svg
         viewBox={`0 0 ${VIEW.w} ${VIEW.h}`}
-        className="mt-6 w-full"
+        className="mt-5 w-full"
         role="img"
         aria-labelledby="shift-title shift-desc"
       >
         <title id="shift-title">
           Purchases influenced by AI agents rising while Google searches that
-          end in a click fall, 2024 to 2026, with a projection to 2028
+          end in a click fall, 2024 to 2026
         </title>
         <desc id="shift-desc">
           {AGENTIC_SHARE.summary} {SEARCH_CLICKS.summary}
         </desc>
-
-        {/* Everything right of the present line is drawn, not measured. A
-            wash of the ink already in the palette, so "this part is not data"
-            is carried by tone rather than by another colour. */}
-        <rect
-          x={nowX}
-          y={PLOT.top - 22}
-          width={PLOT.right - nowX + 14}
-          height={PLOT.bottom - PLOT.top + 22}
-          className="fill-ink opacity-[0.05]"
-        />
 
         {GRID.map((g) => (
           <g key={g}>
@@ -285,30 +257,6 @@ export default function SearchShiftChart() {
           </g>
         ))}
 
-        <line
-          x1={nowX}
-          x2={nowX}
-          y1={PLOT.top - 22}
-          y2={PLOT.bottom}
-          strokeDasharray="5 5"
-          className="stroke-[#b7c4d8] [stroke-width:1.5]"
-        />
-        <text
-          x={nowX - 12}
-          y={PLOT.top - 30}
-          textAnchor="end"
-          className={`fill-ink-faint ${AXIS} uppercase tracking-[0.16em]`}
-        >
-          now
-        </text>
-        <text
-          x={nowX + 12}
-          y={PLOT.top - 30}
-          className={`fill-ink-faint ${AXIS} uppercase tracking-[0.16em]`}
-        >
-          projection
-        </text>
-
         {YEARS.map((year) => (
           <text
             key={year}
@@ -322,17 +270,16 @@ export default function SearchShiftChart() {
         ))}
 
         {/* The two closing values sit at the same x, so they take the side
-            their own line is on: the agentic series is still the lower of the
-            two in 2026 and only crosses inside the projection. Flip both
-            together if the measured points ever cross before the present
-            line. */}
+            their own line is on: the agentic series is the lower of the two
+            throughout the measured window. Flip both together if the measured
+            points ever cross. */}
         <Series series={AGENTIC_SHARE} tone="ink" drawDelay={0} labelAbove={false} />
         <Series series={SEARCH_CLICKS} tone="slate" drawDelay={260} labelAbove />
       </svg>
 
       {/* The caveats ship WITH the chart, not in a link or a tooltip. A
           company that audits other people's evidence does not get to hide the
-          methodology break in its own. */}
+          methodology break in its own. These are the last thing to cut. */}
       <p className="mt-4 border-t border-line pt-3 text-[11.5px] leading-[1.55] text-ink-faint">
         {AGENTIC_SHARE.caveat} {SEARCH_CLICKS.caveat}
       </p>

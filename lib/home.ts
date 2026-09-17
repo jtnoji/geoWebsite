@@ -104,38 +104,23 @@ export const PROMPT_DEMO = {
   ],
 } as const;
 
+/**
+ * CUT BACK 2026-09-17 (Josh: "i feel like there is too much text on the home
+ * page. Take the 'The Problem' segment for example. rather htan a whole
+ * explanation. just, 'Your customers are searching differently'").
+ *
+ * The heading, and then three cited figures in place of the paragraph and the
+ * three prose points that used to follow it: the growth, the shortlist, the
+ * money. They are PROBLEM_STATS in lib/stats.ts, and each carries its own
+ * source. What the prose asserted, the figures now show.
+ *
+ * The claim-plus-artifact rule still holds, by the chart and the tiles rather
+ * than by explanation. Do not put the paragraph back: the section is short on
+ * purpose.
+ */
 export const PROBLEM = {
   eyebrow: "The problem",
   heading: "Your customers are searching differently",
-  body: "People aren't just Googling anymore. They ask ChatGPT, Gemini and Perplexity which companies to trust, and the answer names three or four. Most brands have no idea whether they are one of them.",
-  points: [
-    {
-      title: "You can't see it happening",
-      body: "Rankings and traffic reports say nothing about whether a model named you in the paragraph a buyer read.",
-    },
-    {
-      title: "The shortlist is shorter",
-      body: "Ten blue links became three or four names. Being on page one no longer means being in the answer.",
-    },
-    {
-      title: "Your competitors are already cited",
-      body: "Whoever the model trusts today keeps getting recommended, and that advantage compounds every crawl.",
-    },
-  ],
-} as const;
-
-/**
- * The shift chart's own labels. The chart's numbers live in lib/stats.ts.
- *
- * The claim is deliberately narrower than "search is dying": one line is
- * buying that an AI agent influenced, the other is searches that still end in
- * a click. Nothing here says search VOLUME is falling, because it is not, and
- * that narrowness is binding on any copy that ever sits beside this chart.
- */
-export const SEARCH_SHIFT_COPY = {
-  eyebrow: "The shift, in two lines",
-  projectionNote:
-    "Solid is measured. Dashed is projection: 2027 is Forrester's own, 2028 is ours, and neither is a forecast we stand behind.",
 } as const;
 
 export const SOLUTION = {

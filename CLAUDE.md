@@ -388,6 +388,18 @@ the engines we audit will read it. No charting library. Real `<text>` nodes,
 never paths, so the numbers stay quotable. Measured data is solid; anything
 extrapolated is dashed inside a tinted zone and labelled as a projection.
 Methodology caveats ship next to the chart, not behind a link.
+- **The home shift chart draws MEASURED points only** (Josh, 2026-09-17:
+  "simplify the grahp ... strip it down to just the bare minimum"). Dropping
+  the projections took the tinted zone, the dashed strokes, the present line,
+  the "now" and "projection" markers, two year ticks and the projection note
+  with them, which was most of the card's text, and it takes our own 2028
+  extrapolation off the site. `lib/stats.ts` still holds those points behind
+  their `projected` flag, so it is reversible; the projection-labelling rule
+  above is what putting them back costs.
+- **The source links and the caveats are the floor, not part of the strip.**
+  On a chart they are the last thing to cut, and the answer is "not these". A
+  company that audits other people's evidence does not get to hide the
+  methodology break in its own.
 
 **Absence has two directions.**
 - **Comparison** (you vs competitor, sampling dot rows, crawler seen/not-seen):
@@ -492,8 +504,8 @@ variation" below).
 "in the same spot every single time", which made the long scroll feel stale,
 and bare text everywhere read as generic. So the home varies where each head
 sits and gives text a container where one earns it. Subtly, on purpose:
-- **Heads, top to bottom:** the fold bottom-left, the problem top-left beside
-  its chart, the solution centred over the capability rows (its action centred
+- **Heads, top to bottom:** the fold bottom-left, the problem left and centred
+  beside its chart, the solution centred over the capability rows (its action centred
   under them), the steps band left, What you get mirrored (list left, head
   right, from lg), Why Sable centred, the close left. **No two neighbouring
   sections put their head in the same place**; keep it that way when a section

@@ -61,6 +61,15 @@ export const HOME_STATS: Stat[] = [
    business feels. */
 
 /**
+ * NOT DRAWN SINCE 2026-09-17 (Josh: "simplify the graph ... strip it down to
+ * just the bare minimum"). The chart renders the MEASURED points only, and
+ * filters on the `projected` flag below. Dropping them took the projection
+ * zone, the present line, the "now" and "projection" markers, two year ticks
+ * and the projection note off the card, which was most of its text. The
+ * points and their reasoning stay here, as REVENUE_STATS does, so putting
+ * them back is one filter. Our own 2028 pair should NOT come back without the
+ * labelling described below.
+ *
  * REVISED 2026-08-03. Projected points bend rather than continue the last
  * measured slope, which is the shape both series have had so far and not a
  * straight run off the end of the data.
@@ -114,9 +123,9 @@ export type TrendSeries = {
  *    If the primary report settles it differently, the primary wins.
  */
 export const AGENTIC_SHARE: TrendSeries = {
-  label: "U.S. online purchases AI agents influence",
+  label: "U.S. purchases AI agents influenced",
   summary:
-    "The share of U.S. online purchases influenced or initiated by an AI agent rose from about 4% in early 2025 to 19% in the first quarter of 2026, and Forrester projects 34% by the end of 2027.",
+    "The share of U.S. online purchases influenced or initiated by an AI agent rose from about 4% in early 2025 to 19% in the first quarter of 2026.",
   points: [
     { year: 2025, value: 4 },
     { year: 2026, value: 19 },
@@ -143,7 +152,7 @@ export const AGENTIC_SHARE: TrendSeries = {
  * already bad enough.
  */
 export const SEARCH_CLICKS: TrendSeries = {
-  label: "Google searches ending in a click",
+  label: "U.S. searches that send a click",
   summary:
     "The share of U.S. Google searches ending in a click of any kind fell from 39.6% in 2024 to 32% in early 2026, the inverse of SparkToro's zero-click rate.",
   points: [
@@ -232,3 +241,17 @@ export const SAMPLING_FOOTNOTE: Stat = {
   source: "SE Ranking AI Mode volatility test, 2025",
   url: "https://seranking.com/blog/ai-mode-volatility-test/",
 };
+
+/**
+ * The three the home "problem" section shows (Josh, 2026-09-17: the section
+ * should be the heading and then "something about ai search up <whatever
+ * metric> in <whatever timeframe>", "something about how google will show
+ * <x#> of results, but ai only shows <10", "and then something about money").
+ *
+ * They answer those three in order, and each is a figure someone else
+ * published: the growth, the shortlist, the money. The money one is McKinsey's
+ * channel size, NOT a per-business figure. Read the REVENUE_STATS note above
+ * before adding a fourth: the per-business number does not exist, and the
+ * vendors publishing one are doing the thing we audit other people for.
+ */
+export const PROBLEM_STATS: Stat[] = [HOME_STATS[0], HOME_STATS[1], REVENUE_STATS[0]];
