@@ -388,14 +388,23 @@ the engines we audit will read it. No charting library. Real `<text>` nodes,
 never paths, so the numbers stay quotable. Measured data is solid; anything
 extrapolated is dashed inside a tinted zone and labelled as a projection.
 Methodology caveats ship next to the chart, not behind a link.
-- **The home shift chart draws MEASURED points only** (Josh, 2026-09-17:
-  "simplify the grahp ... strip it down to just the bare minimum"). Dropping
-  the projections took the tinted zone, the dashed strokes, the present line,
-  the "now" and "projection" markers, two year ticks and the projection note
-  with them, which was most of the card's text, and it takes our own 2028
-  extrapolation off the site. `lib/stats.ts` still holds those points behind
-  their `projected` flag, so it is reversible; the projection-labelling rule
-  above is what putting them back costs.
+- **The home shift chart draws readings plus the SOURCE'S OWN projection, and
+  never ours** (stripped 2026-09-17, "strip it down to just the bare
+  minimum"; made starker 2026-09-18, the graph "isn't extreme enough. It
+  should really demonstrate and exaggerate the shift"). It plots the four
+  readings and Forrester's own 2027 point, dashed inside the tinted zone and
+  labelled, because that is the point that takes the agentic line above where
+  the click line ends. **Our own 2028 pair stays out**, flagged `ours` in
+  `lib/stats.ts`, which is the filter the chart applies. A `projected` point
+  without that flag is a source projecting its own data and is citable; one
+  with it is ours and never renders.
+- **Make the reading stark, never the data.** The drama on that card is all
+  presentation: a 40 ceiling instead of 70, a cobalt filled area instead of an
+  ink stroke, a shorter box that steepens every slope. Nothing is re-based,
+  re-indexed, or extended past what a source published, and no value moved. If
+  a future ask needs the shift to look bigger still, find another
+  presentation lever or a better-sourced number. A chart that overstates its
+  own evidence is the exact failure this company sells an audit of.
 - **The source links and the caveats are the floor, not part of the strip.**
   On a chart they are the last thing to cut, and the answer is "not these". A
   company that audits other people's evidence does not get to hide the

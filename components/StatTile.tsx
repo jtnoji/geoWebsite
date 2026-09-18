@@ -11,8 +11,8 @@ import type { Stat } from "@/lib/stats";
  */
 export default function StatTile({ stat }: { stat: Stat }) {
   return (
-    <figure className="grid h-full items-center gap-x-5 gap-y-3 rounded-xl bg-white px-[26px] py-6 min-[440px]:grid-cols-[auto_minmax(0,1fr)] wide:gap-x-8 wide:px-10 wide:py-9">
-      <p className="whitespace-nowrap text-[clamp(40px,2.778vw,64px)] font-semibold leading-none tracking-[-0.035em] text-ink">
+    <figure className="grid h-full items-center gap-x-5 gap-y-2.5 rounded-xl bg-white px-6 py-5 min-[420px]:grid-cols-[auto_minmax(0,1fr)] wide:gap-x-7 wide:px-8 wide:py-6">
+      <p className="whitespace-nowrap text-[clamp(42px,3.1vw,60px)] font-semibold leading-none tracking-[-0.035em] text-ink">
         {stat.value}
       </p>
       <div>

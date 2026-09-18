@@ -618,9 +618,27 @@ call bookings) so you know where the funnel leaks.
       a per-business number; the REVENUE_STATS note in lib/stats.ts explains
       why that one does not exist and must not be invented.
       The chart lost its projections in the same pass ("strip it down to just
-      the bare minimum"), so it plots measured points only, 2024 to 2026. Its
-      two source links and two methodology caveats stay, because a chart
-      without them is the thing we audit other people for.
+      the bare minimum"). Its two source links and two methodology caveats
+      stay, because a chart without them is the thing we audit other people
+      for.
+      REVISED 2026-09-18 (Josh: the graph "isn't extreme enough. It should
+      really demonstrate and exaggerate the shift to agentic search and
+      importnacei n sales"; "the statistics are good, but they aren't
+      prominent enough"; "the problem graph and stats cards barely fit onto
+      one screen"). Three things, and no number changed:
+      - The chart reads as a takeover. The ceiling drops from 70 to 40, the
+        rising series becomes a cobalt filled area rather than an ink line,
+        the box is shorter so every slope steepens, and FORRESTER'S OWN 2027
+        projection comes back, dashed and labelled, because it is the point
+        that carries the agentic line above where the click line ends. Our own
+        2028 figures stay out. The rule is now in CLAUDE.md: make the reading
+        stark, never the data.
+      - The figures are bigger and sit in the reading column beside the
+        chart rather than in a strip beneath it, which is also what makes the
+        section fit.
+      - The section is one row, 680px at 1440x900 against 1127px before, and
+        fits one screen from 1280x800 to 2560x1300. A phone still stacks to
+        about 1180px, which no layout avoids.
       STILL OPEN: Josh said "for example", so the other home sections are
       candidates for the same cut and have not had it.
 

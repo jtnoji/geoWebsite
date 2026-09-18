@@ -17,7 +17,7 @@ export type Stat = {
 export const HOME_STATS: Stat[] = [
   {
     value: "45%",
-    text: "of U.S. consumers used AI tools to find local businesses last year, up from 6% the year before.",
+    text: "of U.S. consumers used AI tools to find local businesses last year, up from 6%.",
     bold: "up from 6%",
     source: "BrightLocal, 2026",
     url: "https://www.brightlocal.com/research/lcrs-ai-trust/",
@@ -27,7 +27,7 @@ export const HOME_STATS: Stat[] = [
     // businesses in AI local packs vs 18,330 in traditional 3-packs across
     // 322 markets (~3× fewer). Follow-up: pin the exact article URL.
     value: "3× fewer",
-    text: "businesses appear in AI answers than in traditional search results. The shortlist got smaller.",
+    text: "businesses appear in AI answers than in search results. The shortlist got smaller.",
     bold: "The shortlist got smaller.",
     source: "Sterling Sky / Places Scout, 322-market study",
     url: "https://www.sterlingsky.ca/",
@@ -61,14 +61,22 @@ export const HOME_STATS: Stat[] = [
    business feels. */
 
 /**
- * NOT DRAWN SINCE 2026-09-17 (Josh: "simplify the graph ... strip it down to
- * just the bare minimum"). The chart renders the MEASURED points only, and
- * filters on the `projected` flag below. Dropping them took the projection
- * zone, the present line, the "now" and "projection" markers, two year ticks
- * and the projection note off the card, which was most of its text. The
- * points and their reasoning stay here, as REVENUE_STATS does, so putting
- * them back is one filter. Our own 2028 pair should NOT come back without the
- * labelling described below.
+ * WHAT IS DRAWN, AND WHAT IS NOT (revised 2026-09-18, Josh: the graph "isn't
+ * extreme enough. It should really demonstrate and exaggerate the shift to
+ * agentic search and importnacei n sales").
+ *
+ * The chart draws every point that is not flagged `ours`. In practice that is
+ * the four measured readings plus FORRESTER'S OWN 2027 projection, which is
+ * the point that makes the agentic line climb past the click line, and it is
+ * Forrester's number rather than ours. It is drawn dashed, inside the tinted
+ * zone, and labelled.
+ *
+ * OUR 2028 pair stays out, and the 2027 click point with it. Stripped
+ * 2026-09-17 ("strip it down to just the bare minimum") and not coming back:
+ * the drama the chart needs is available from cited numbers, so there is no
+ * reason to put our own extrapolation on the page to get it. THAT is the line
+ * here. Make the shift look as stark as the sourced data will carry, and not
+ * one step further.
  *
  * REVISED 2026-08-03. Projected points bend rather than continue the last
  * measured slope, which is the shape both series have had so far and not a
@@ -86,6 +94,13 @@ export type TrendPoint = {
   value: number;
   /** Not measured. Drawn dashed inside the projection zone. */
   projected?: boolean;
+  /**
+   * OUR extrapolation rather than the source's own. The chart filters these
+   * out, so nothing we invented is ever drawn. A `projected` point WITHOUT
+   * this flag is the cited source projecting its own data, which is citable.
+   * Never add this flag to a point and then draw it anyway.
+   */
+  ours?: boolean;
 };
 
 export type TrendSeries = {
@@ -125,12 +140,12 @@ export type TrendSeries = {
 export const AGENTIC_SHARE: TrendSeries = {
   label: "U.S. purchases AI agents influenced",
   summary:
-    "The share of U.S. online purchases influenced or initiated by an AI agent rose from about 4% in early 2025 to 19% in the first quarter of 2026.",
+    "The share of U.S. online purchases influenced or initiated by an AI agent rose from about 4% in early 2025 to 19% in the first quarter of 2026, and Forrester projects 34% by the end of 2027.",
   points: [
     { year: 2025, value: 4 },
     { year: 2026, value: 19 },
     { year: 2027, value: 34, projected: true },
-    { year: 2028, value: 62, projected: true },
+    { year: 2028, value: 62, projected: true, ours: true },
   ],
   source: "Forrester Research, 2026",
   url: "https://www.forrester.com/blogs/the-state-of-agentic-commerce-in-mid-2026/",
@@ -158,8 +173,8 @@ export const SEARCH_CLICKS: TrendSeries = {
   points: [
     { year: 2024, value: 39.6 },
     { year: 2026, value: 32 },
-    { year: 2027, value: 25, projected: true },
-    { year: 2028, value: 16, projected: true },
+    { year: 2027, value: 25, projected: true, ours: true },
+    { year: 2028, value: 16, projected: true, ours: true },
   ],
   source: "SparkToro with Similarweb, 2026",
   url: "https://sparktoro.com/blog/in-2026-less-than-one-third-of-google-searches-still-send-a-click/",
@@ -193,7 +208,7 @@ export const TREND_NOW = 2026;
 export const REVENUE_STATS: Stat[] = [
   {
     value: "$750B",
-    text: "of U.S. revenue will move through AI-powered search by 2028, on McKinsey's projection.",
+    text: "of U.S. revenue is projected to move through AI search by 2028.",
     bold: "by 2028",
     source: "McKinsey & Company, 2025",
     url: "https://www.mckinsey.com/capabilities/growth-marketing-and-sales/our-insights/new-front-door-to-the-internet-winning-in-the-age-of-ai-search",

@@ -248,24 +248,34 @@ export default function Home() {
           lib/home.ts, figures in lib/stats.ts PROBLEM_STATS. */}
       <section className="bg-paper-dim">
         <div
-          className={`${SECTION_X} grid items-start gap-12 pb-10 pt-16 md:pt-[100px] lg:grid-cols-[minmax(260px,0.72fr)_minmax(0,2fr)] lg:items-center lg:gap-[52px] wide:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] wide:gap-24`}
+          className={`${SECTION_X} grid items-start gap-10 pb-14 pt-14 md:pb-20 md:pt-20 lg:grid-cols-[minmax(340px,1fr)_minmax(0,1.5fr)] lg:items-center lg:gap-[52px] wide:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] wide:gap-20`}
         >
-          <div data-reveal className="min-w-0">
-            <Eyebrow>{PROBLEM.eyebrow}</Eyebrow>
-            <h2 className="display mt-[18px] max-w-[16ch] text-[clamp(28px,2.4vw,52px)] leading-[1.12] text-ink text-pretty">
-              {PROBLEM.heading}
-            </h2>
+          {/* ONE ROW, not two (Josh, 2026-09-18: "the problem graph and stats
+              cards barely fit onto one screen"). The figures moved out of a
+              full-width strip under the chart and into the reading column
+              beside it, which both shortens the section by about 400px and
+              puts them higher up the page than the chart's own footnotes. */}
+          <div className="min-w-0">
+            <div data-reveal>
+              <Eyebrow>{PROBLEM.eyebrow}</Eyebrow>
+              <h2 className="display mt-[18px] max-w-[16ch] text-[clamp(28px,2.4vw,52px)] leading-[1.12] text-ink text-pretty">
+                {PROBLEM.heading}
+              </h2>
+            </div>
+            <div className="mt-7 flex flex-col gap-3 wide:mt-9 wide:gap-4">
+              {PROBLEM_STATS.map((stat, i) => (
+                <div
+                  key={stat.source}
+                  data-reveal
+                  style={delay(i * 110)}
+                  className="min-w-0"
+                >
+                  <StatTile stat={stat} />
+                </div>
+              ))}
+            </div>
           </div>
           <SearchShiftChart />
-        </div>
-        <div
-          className={`${SECTION_X} grid gap-4 pb-16 pt-6 md:grid-cols-3 md:pb-[100px] wide:gap-6`}
-        >
-          {PROBLEM_STATS.map((stat, i) => (
-            <div key={stat.source} data-reveal style={delay(i * 110)} className="min-w-0">
-              <StatTile stat={stat} />
-            </div>
-          ))}
         </div>
       </section>
 
