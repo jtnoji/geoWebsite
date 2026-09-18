@@ -405,11 +405,25 @@ Methodology caveats ship next to the chart, not behind a link.
   labels, and the plot at the box's full height with the one-screen fit paid
   for out of PADDING. Nothing is re-based, re-indexed, or extended past what a
   source published, and no value has moved.
+  - **Our own extrapolation may shape the curve and may never be a figure**
+    (Josh, 2026-09-18: "change the data in the graph then ... surely the
+    expectation ... is parabolic to the upside"). The forward curve past
+    Forrester's 2027 is ours. It is drawn dashed, inside the tinted zone, and
+    **carries no number**, which is what keeps every figure on the card
+    attributable to the organisation named beside it. `labelled` in
+    SearchShiftChart enforces that from the `ours` flag. Labelling that
+    endpoint would turn an expectation into a quotable claim, and it is the
+    one edit on this card that must never be made.
   - **Two levers are off the table, permanently.** A baseline above zero, and
-    our own extrapolation. Both make the line steeper by lying about it, and a
-    chart that overstates its own evidence is the exact failure this company
-    sells an audit of. If the shift needs to look bigger than presentation can
-    make it, the answer is a better-sourced number, not a steeper axis.
+    moving a measured reading. Both make the line steeper by lying about it,
+    and a chart that overstates its own evidence is the exact failure this
+    company sells an audit of.
+  - **The caveat outranks the drama.** Forrester's own commentary says most
+    agentic behaviour today is assistive and that hype is running ahead of
+    behaviour (research-validation.md §5). The card says so under the chart. A
+    steeper curve does not license quieting that line, and `AGENTIC_2030` in
+    `lib/stats.ts` records the cited 2030 forecasts for the day someone wants
+    the far end to be evidence rather than expectation.
 - **The source links and the caveats are the floor, not part of the strip.**
   On a chart they are the last thing to cut, and the answer is "not these". A
   company that audits other people's evidence does not get to hide the

@@ -71,12 +71,21 @@ export const HOME_STATS: Stat[] = [
  * Forrester's number rather than ours. It is drawn dashed, inside the tinted
  * zone, and labelled.
  *
- * OUR 2028 pair stays out, and the 2027 click point with it. Stripped
- * 2026-09-17 ("strip it down to just the bare minimum") and not coming back:
- * the drama the chart needs is available from cited numbers, so there is no
- * reason to put our own extrapolation on the page to get it. THAT is the line
- * here. Make the shift look as stark as the sourced data will carry, and not
- * one step further.
+ * OUR 2028 pair is drawn again as of 2026-09-18 (Josh: "change the data in
+ * the graph then. absent me trying to find evidence in my favor, surely the
+ * expectation for agentic search + agentic commerce is parabolic to the
+ * upside"). It is what bends the agentic curve upward past 2027 and sinks the
+ * click line away from it.
+ *
+ * THE CONDITION IT COMES BACK UNDER, and it is not negotiable: our points
+ * shape the CURVE and never present a FIGURE. They are dashed, they sit
+ * inside the tinted zone, and the chart does not label them, so there is no
+ * number on that card a reader could quote back to us that its named source
+ * did not publish. SearchShiftChart's `labelled` is what enforces it. Do not
+ * "finish" the chart by labelling the endpoint.
+ *
+ * Two things stay off the table whatever the ask: a baseline above zero, and
+ * moving a measured reading. Both make the slope steeper by lying about it.
  *
  * REVISED 2026-08-03. Projected points bend rather than continue the last
  * measured slope, which is the shape both series have had so far and not a
@@ -270,3 +279,51 @@ export const SAMPLING_FOOTNOTE: Stat = {
  * vendors publishing one are doing the thing we audit other people for.
  */
 export const PROBLEM_STATS: Stat[] = [HOME_STATS[0], HOME_STATS[1], REVENUE_STATS[0]];
+
+/* ---- The 2030 agentic-commerce forecasts --------------------------------
+   FOUND 2026-09-18, while checking Josh's claim that "the expectation for
+   agentic search + agentic commerce is parabolic to the upside". It holds up:
+   several top-tier firms have published 2030 forecasts, and they are steep.
+
+   NOT RENDERED, and NOT plotted on the shift chart, for one specific reason:
+   THE DENOMINATORS DO NOT MATCH THE CHART'S SERIES. Bain counts purchases
+   "initiated, influenced, or completed by third-party AI agents or
+   retailer-hosted agents, EXCLUDING shopping journeys that only use
+   AI-assisted search or discovery". Forrester's series, which the chart
+   plots, counts influence broadly and already reads 19% for Q1 2026. Drop
+   Bain's 15-25% onto that axis at 2030 and the line goes DOWN, which is the
+   denominator error the chart's own header warns about. One definition per
+   axis.
+
+   Where they are usable: a stat tile of their own, a /learn article, or as
+   the replacement for our 2028 extrapolation IF someone publishes a
+   trajectory on Forrester's definition.
+
+   STATUS. Bain's was read off its own page (the figures and the definition
+   below are quoted from it). The others reached us through a search summary
+   and trade coverage and are NOT verified: read the primary pages before any
+   of them ships. research-validation.md §5 carries this too. */
+export const AGENTIC_2030: Stat[] = [
+  {
+    value: "15 to 25%",
+    text: "of U.S. e-commerce could be agentic by 2030, worth $300B to $500B.",
+    bold: "by 2030",
+    source: "Bain & Company, 2030 forecast",
+    url: "https://www.bain.com/insights/2030-forecast-how-agentic-ai-will-reshape-us-retail-snap-chart/",
+  },
+  {
+    /* UNVERIFIED: search summary and trade coverage, not the primary note. */
+    value: "up to 25%",
+    text: "of U.S. online sales could run through agentic commerce by 2030.",
+    source: "J.P. Morgan, via trade coverage",
+    url: "https://www.retaildive.com/news/agentic-commerce-us-one-trillion-2030/818936/",
+  },
+  {
+    /* UNVERIFIED: search summary. Morgan Stanley's base case is lower than
+       the others, which is worth keeping in view rather than dropping. */
+    value: "10 to 20%",
+    text: "of online retail, on Morgan Stanley's base and optimistic cases for 2030.",
+    source: "Morgan Stanley, agentic commerce outlook",
+    url: "https://www.morganstanley.com/insights/articles/agentic-commerce-market-impact-outlook",
+  },
+];

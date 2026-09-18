@@ -130,6 +130,31 @@ primary sources end to end and move them up into that table, or correct them.
 | U.S. online purchases AI agents influence | 4% (early 2025), 19% (Q1 2026), 34% (end 2027, Forrester's own projection) | Forrester Research, "The Agentic Commerce Inflection Point" / "The State Of Agentic Commerce, Q2 2026". Report is paywalled; figures reach us through trade coverage. Public blog permalink is pinned in stats.ts. | [sourced, secondary] |
 | Google searches that end in a click | 39.6% (2024), 32.0% (early 2026) | SparkToro with Similarweb, "In 2026, Less than One Third of Google Searches Still Send a Click", Jun 2026. | [sourced, derived] |
 
+### 5a · Added 2026-09-18 — the 2030 agentic-commerce forecasts [MOSTLY UNVERIFIED]
+
+Searched while checking Josh's claim that the expectation for agentic commerce
+is "parabolic to the upside". It holds: Bain puts US agentic commerce at $300B
+to $500B by 2030, "roughly 15% to 25% of overall e-commerce"; trade coverage
+puts J.P. Morgan at up to 25% of US online sales and Morgan Stanley at 10% base
+to 20% optimistic; Gartner and McKinsey figures also circulate. Recorded in
+`lib/stats.ts` as `AGENTIC_2030`, **not rendered**.
+
+| Forecast | Source | Status |
+|---|---|---|
+| 15-25% of US e-commerce, $300-500B, by 2030 | Bain & Company snap chart | [sourced, primary page read] |
+| up to 25% of US online sales by 2030 | J.P. Morgan, via Retail Dive | [unverified, secondary] |
+| 10% base / 20% optimistic share of online retail | Morgan Stanley outlook | [unverified, search summary] |
+
+**Why none of them is on the shift chart.** The denominators differ from the
+series the chart plots. Bain explicitly EXCLUDES journeys that only use
+AI-assisted search or discovery; Forrester's series counts influence broadly
+and already reads 19% for Q1 2026. Plotting Bain's 2030 band on Forrester's
+axis draws a DECLINE from 34% in 2027 to ~20% in 2030, which is nonsense, and
+it is the same denominator error §5 already warns about. One definition per
+axis. If someone wants the chart's far end to be cited rather than ours, the
+requirement is a trajectory on Forrester's definition, not a bigger number
+from a different one.
+
 **The rising series changed on 2026-08-03** and the replacement is weaker
 evidence than what it replaced. It was Pew's ChatGPT-adoption line (18/23/34/44
 across 2023–2026), which was four waves of one instrument read straight off the

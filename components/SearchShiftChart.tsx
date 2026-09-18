@@ -15,9 +15,12 @@ import { AGENTIC_SHARE, SEARCH_CLICKS, type TrendPoint, type TrendSeries } from 
  * 2. The agentic series is a COBALT AREA, not an ink line. Filled mass reads
  *    as a takeover; a stroke of the same data reads as a statistic, and
  *    cobalt is the one bright note the system allows on a white ground.
- * 3. FORRESTER'S OWN 2027 projection is drawn again. It is the point that
- *    takes the agentic line ABOVE where the click line ends, which is the
- *    whole thesis in one image, and it is Forrester's number, not ours.
+ * 3. The forward curve runs to 2028: Forrester's own 2027 projection, then
+ *    our 2028 point, which is where the agentic curve bends upward and the
+ *    click line sinks away from it. OUR points are dashed, sit inside the
+ *    tinted zone, and carry NO NUMBER, so nothing a reader could quote back
+ *    to us is ours. Forrester's 2027 is labelled because Forrester published
+ *    it.
  * 4. The plot runs the box's full height (400 units) and the rising series
  *    carries a heavier stroke than the falling one, so weight says which line
  *    is the story. The box was briefly cut to 330 to fit the section on one
@@ -26,12 +29,18 @@ import { AGENTIC_SHARE, SEARCH_CLICKS, type TrendPoint, type TrendSeries } from 
  *    Re-measure the one-screen fit if it grows again: 1366x768 is the binding
  *    viewport, with about 23px to spare.
  *
- * WHAT DID NOT CHANGE, AND MUST NOT: a value. Nothing here is re-based,
- * re-indexed, or extended past what a source published. Our own 2028 figures
- * stay out (`ours` in lib/stats.ts), so the starkest thing on the card is
- * still somebody else's published number. Exaggerate the READING of the data,
- * never the data. A chart that overstates its own evidence is the exact
- * failure this company sells an audit of.
+ * WHAT DID NOT CHANGE, AND MUST NOT: a measured value, and the baseline.
+ * Nothing is re-based or re-indexed, no reading moved, and every number a
+ * reader can see on this card was published by the organisation named beside
+ * it. The curve past 2027 is ours and says so three ways: dashed, tinted,
+ * unlabelled.
+ *
+ * The honest cost, which the page carries in its caveat: Forrester's own
+ * public commentary says most agentic behaviour today is still assistive and
+ * that hype is running ahead of behaviour (research-validation.md §5). A
+ * steeper curve does not get to quiet that line. If a future pass wants the
+ * far end to be evidence rather than expectation, the fix is a source that
+ * publishes a comparable trajectory, not a bolder guess.
  *
  * SERVER COMPONENT, and it has to stay one. It renders copy and numbers, so
  * the CLAUDE.md invariant applies: every value here must exist in the exported
@@ -56,16 +65,16 @@ const VIEW = { w: 720, h: 400 };
    tick without running off the viewBox. At phone type sizes that label is ~60
    units wide, so the margin has to be at least half of that. */
 const PLOT = { left: 70, right: 660, top: 46, bottom: 340 };
-/* 40, just over the highest value drawn (39.6). A taller ceiling leaves the
-   top of the card empty and flattens both slopes. It does NOT go lower: 39.6
-   would fall off the top, and a baseline above zero would exaggerate the
-   slope by lying about it, which is the one thing this chart may not do. */
-const Y_MAX = 40;
-/* 2024 is the earliest measured point on either series and 2027 the latest
+/* Just over the highest value drawn. It does NOT go lower than the data, and
+   the baseline does NOT leave zero: a truncated axis exaggerates a slope by
+   lying about its proportions, which is the one thing this chart may not do.
+   It rose 40 to 65 when the forward curve came back. */
+const Y_MAX = 65;
+/* 2024 is the earliest measured point on either series and 2028 the latest
    drawn. The agentic line starts a year in, and the empty quarter at the left
    is the truthful shape of that: nobody was measuring it yet. */
-const YEARS = [2024, 2025, 2026, 2027] as const;
-const GRID = [0, 20, 40] as const;
+const YEARS = [2024, 2025, 2026, 2027, 2028] as const;
+const GRID = [0, 20, 40, 60] as const;
 /* Everything from here right is projected, and gets the tint. */
 const PROJECTION_FROM = 2026;
 
@@ -80,10 +89,17 @@ const y = (value: number) =>
 type Pt = { x: number; y: number };
 
 /**
- * Every point the chart is allowed to draw: the readings, plus a projection
- * the SOURCE published. `ours` is our own extrapolation and never renders.
+ * EVERY point is drawn, including ours (Josh, 2026-09-18: "change the data in
+ * the graph then ... surely the expectation for agentic search + agentic
+ * commerce is parabolic to the upside").
+ *
+ * `ours` no longer gates the LINE. It gates the NUMBER: see `labelled` below.
+ * That is the rule lib/stats.ts has carried since these points were written.
+ * Our extrapolation may shape the curve, dashed and inside the tinted zone,
+ * and may never present itself as a figure a reader could quote back to us.
+ * Do not "tidy" that by labelling the endpoint.
  */
-const drawn = (series: TrendSeries) => series.points.filter((p) => !p.ours);
+const drawn = (series: TrendSeries) => series.points;
 
 /**
  * Monotone cubic tangents (Fritsch-Carlson). The curve is interpolation
@@ -193,10 +209,14 @@ function Series({
   const fill = tone === "cobalt" ? "fill-cobalt" : "fill-slate";
   const first = points[0];
   const lastMeasured = points.filter((p) => !p.projected).slice(-1)[0];
-  const end = points[points.length - 1];
-  /* first, the last reading, and the projected end when there is one. A Set
-     keeps the middle one from being labelled twice on a series with no
-     projection. */
+  /* The rightmost point anyone else published. Our own points extend the
+     curve past it and carry no number, so this is the last labelled one and
+     the anchor the "end" placement refers to. */
+  const cited = points.filter((p) => !p.ours);
+  const end = cited[cited.length - 1];
+  /* The opening reading, the last reading, and the source's own projection
+     when it has one. A Set keeps the middle from being labelled twice on a
+     series whose last reading IS its last cited point. */
   const labelled = [...new Set([first, lastMeasured, end])];
 
   return (

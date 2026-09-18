@@ -634,9 +634,18 @@ call bookings) so you know where the funnel leaks.
         click line ends. Our own 2028 figures stay out. Asked a third time the
         same day to "make the graph look more extreme", the plot went back to
         the box's full height and the one-screen fit was paid for out of
-        padding instead. The rule is now in CLAUDE.md: make the reading stark,
-        never the data, and a zero baseline and our own extrapolation are both
-        permanently off the table.
+        padding instead. Asked then to "change the data in the graph", since
+        "surely the expectation for agentic search + agentic commerce is
+        parabolic to the upside": the forward curve came back to 2028, which
+        bends the agentic line up past 2027 and sinks the click line away from
+        it, and the ceiling rose 40 to 65 to hold it. Josh's premise checked
+        out, and the cited 2030 forecasts are recorded in lib/stats.ts as
+        AGENTIC_2030 (Bain: 15-25% of US e-commerce by 2030). None is plotted,
+        because their denominators are not Forrester's and mixing them would
+        draw a decline. The 2028 points are OURS: dashed, tinted, and carrying
+        no number, so nothing quotable on the card is unattributed. The rules
+        are in CLAUDE.md, including the two levers that stay off the table, a
+        zero baseline and moving a measured reading.
       - The figures are bigger and sit in the reading column beside the
         chart rather than in a strip beneath it, which is also what makes the
         section fit.
