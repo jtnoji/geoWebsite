@@ -398,13 +398,18 @@ Methodology caveats ship next to the chart, not behind a link.
   `lib/stats.ts`, which is the filter the chart applies. A `projected` point
   without that flag is a source projecting its own data and is citable; one
   with it is ours and never renders.
-- **Make the reading stark, never the data.** The drama on that card is all
-  presentation: a 40 ceiling instead of 70, a cobalt filled area instead of an
-  ink stroke, a shorter box that steepens every slope. Nothing is re-based,
-  re-indexed, or extended past what a source published, and no value moved. If
-  a future ask needs the shift to look bigger still, find another
-  presentation lever or a better-sourced number. A chart that overstates its
-  own evidence is the exact failure this company sells an audit of.
+- **Make the reading stark, never the data.** Asked three times over two days
+  to push the shift harder, and every lever spent was presentation: a 40
+  ceiling instead of 70, a cobalt filled area instead of an ink stroke, a
+  heavier stroke on the rising series than the falling one, bigger value
+  labels, and the plot at the box's full height with the one-screen fit paid
+  for out of PADDING. Nothing is re-based, re-indexed, or extended past what a
+  source published, and no value has moved.
+  - **Two levers are off the table, permanently.** A baseline above zero, and
+    our own extrapolation. Both make the line steeper by lying about it, and a
+    chart that overstates its own evidence is the exact failure this company
+    sells an audit of. If the shift needs to look bigger than presentation can
+    make it, the answer is a better-sourced number, not a steeper axis.
 - **The source links and the caveats are the floor, not part of the strip.**
   On a chart they are the last thing to cut, and the answer is "not these". A
   company that audits other people's evidence does not get to hide the

@@ -627,12 +627,16 @@ call bookings) so you know where the funnel leaks.
       prominent enough"; "the problem graph and stats cards barely fit onto
       one screen"). Three things, and no number changed:
       - The chart reads as a takeover. The ceiling drops from 70 to 40, the
-        rising series becomes a cobalt filled area rather than an ink line,
-        the box is shorter so every slope steepens, and FORRESTER'S OWN 2027
-        projection comes back, dashed and labelled, because it is the point
-        that carries the agentic line above where the click line ends. Our own
-        2028 figures stay out. The rule is now in CLAUDE.md: make the reading
-        stark, never the data.
+        rising series becomes a cobalt filled area rather than an ink line and
+        carries a heavier stroke than the falling one, the value labels grow,
+        and FORRESTER'S OWN 2027 projection comes back, dashed and labelled,
+        because it is the point that carries the agentic line above where the
+        click line ends. Our own 2028 figures stay out. Asked a third time the
+        same day to "make the graph look more extreme", the plot went back to
+        the box's full height and the one-screen fit was paid for out of
+        padding instead. The rule is now in CLAUDE.md: make the reading stark,
+        never the data, and a zero baseline and our own extrapolation are both
+        permanently off the table.
       - The figures are bigger and sit in the reading column beside the
         chart rather than in a strip beneath it, which is also what makes the
         section fit.

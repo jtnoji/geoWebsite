@@ -18,8 +18,13 @@ import { AGENTIC_SHARE, SEARCH_CLICKS, type TrendPoint, type TrendSeries } from 
  * 3. FORRESTER'S OWN 2027 projection is drawn again. It is the point that
  *    takes the agentic line ABOVE where the click line ends, which is the
  *    whole thesis in one image, and it is Forrester's number, not ours.
- * 4. The box is shorter (330 units, was 400), which steepens every slope and
- *    was needed anyway to fit the section on one screen.
+ * 4. The plot runs the box's full height (400 units) and the rising series
+ *    carries a heavier stroke than the falling one, so weight says which line
+ *    is the story. The box was briefly cut to 330 to fit the section on one
+ *    screen; it is back, and the height is paid for out of section and card
+ *    PADDING instead, because padding is not evidence and slope is.
+ *    Re-measure the one-screen fit if it grows again: 1366x768 is the binding
+ *    viewport, with about 23px to spare.
  *
  * WHAT DID NOT CHANGE, AND MUST NOT: a value. Nothing here is re-based,
  * re-indexed, or extended past what a source published. Our own 2028 figures
@@ -46,13 +51,15 @@ import { AGENTIC_SHARE, SEARCH_CLICKS, type TrendPoint, type TrendSeries } from 
    survivable: type inside an SVG scales with the box, so a 1200-unit design
    would render 8px axis labels on a phone. */
 /* h stops just under the year labels: the card's own padding is the margin. */
-const VIEW = { w: 720, h: 330 };
+const VIEW = { w: 720, h: 400 };
 /* `right` leaves room for the last year label to sit centred under its own
    tick without running off the viewBox. At phone type sizes that label is ~60
    units wide, so the margin has to be at least half of that. */
-const PLOT = { left: 70, right: 660, top: 44, bottom: 280 };
+const PLOT = { left: 70, right: 660, top: 46, bottom: 340 };
 /* 40, just over the highest value drawn (39.6). A taller ceiling leaves the
-   top of the card empty and flattens both slopes. */
+   top of the card empty and flattens both slopes. It does NOT go lower: 39.6
+   would fall off the top, and a baseline above zero would exaggerate the
+   slope by lying about it, which is the one thing this chart may not do. */
 const Y_MAX = 40;
 /* 2024 is the earliest measured point on either series and 2027 the latest
    drawn. The agentic line starts a year in, and the empty quarter at the left
@@ -150,8 +157,9 @@ const curves = (points: TrendPoint[]) => {
    three fifths of the row (0.65), and ~740px at 1440 (1.03). Re-check these
    if the section's column split moves. */
 const AXIS = "text-[23px] sm:text-[17px] xl:text-[15px]";
-const VALUE = "text-[29px] sm:text-[22px] xl:text-[21px] font-semibold";
-const STROKE = "[stroke-width:6] sm:[stroke-width:5] xl:[stroke-width:4]";
+const VALUE = "text-[32px] sm:text-[25px] xl:text-[24px] font-semibold";
+const STROKE_RISE = "[stroke-width:7.5] sm:[stroke-width:6.5] xl:[stroke-width:5.5]";
+const STROKE_FALL = "[stroke-width:5] sm:[stroke-width:4] xl:[stroke-width:3]";
 
 /* The rising series takes COBALT, the design system's bright note on light
    (CLAUDE.md: bars, dots and accents on a white ground), and the falling one
@@ -176,7 +184,7 @@ function Series({
   tone: "cobalt" | "slate";
   drawDelay: number;
   labelAbove: boolean;
-  /** The rising series carries the fill. Two filled areas would be mud. */
+  /** The rising series carries the fill AND the heavier stroke. */
   area?: boolean;
 }) {
   const points = drawn(series);
@@ -199,7 +207,7 @@ function Series({
           loses and the area renders solid. */}
       {area ? (
         <g className="chart-late">
-          <path d={areaPath} className={`${fill} opacity-[0.13]`} />
+          <path d={areaPath} className={`${fill} opacity-[0.20]`} />
         </g>
       ) : null}
       <path
@@ -209,7 +217,7 @@ function Series({
         strokeLinecap="round"
         strokeLinejoin="round"
         style={delay(drawDelay)}
-        className={`chart-line ${stroke} ${STROKE}`}
+        className={`chart-line ${stroke} ${area ? STROKE_RISE : STROKE_FALL}`}
       />
       {projected ? (
         <path
@@ -217,7 +225,7 @@ function Series({
           fill="none"
           strokeLinecap="round"
           strokeDasharray="11 9"
-          className={`chart-late ${stroke} ${STROKE} [stroke-opacity:0.55]`}
+          className={`chart-late ${stroke} ${area ? STROKE_RISE : STROKE_FALL} [stroke-opacity:0.6]`}
         />
       ) : null}
       <g className="chart-late">
@@ -226,7 +234,7 @@ function Series({
             key={p.year}
             cx={x(p.year)}
             cy={y(p.value)}
-            r={6}
+            r={area ? 7 : 5.5}
             className={`${fill} stroke-white [stroke-width:2]`}
           />
         ))}
@@ -235,12 +243,23 @@ function Series({
             falling series it lands where the two lines cross. Measured at
             1440: the agentic 19% clears the click line by ~77px, so the two
             2026 labels do not collide. Re-check that if a value moves. */}
+        {/* The opening label goes to the side the line is NOT heading. The
+            rising series leaves its first point up and to the RIGHT, so its
+            label sits left of it; the falling series leaves down and right,
+            so its label sits right. Getting this backwards puts the stroke
+            straight through the digits, which is what it did at 1440 before
+            this. */}
         {labelled.map((p) => (
           <text
             key={p.year}
-            x={x(p.year) + (p === first ? 12 : p === end ? -6 : 0)}
+            x={
+              x(p.year) +
+              (p === first ? (area ? -14 : 12) : p === end ? -6 : 0)
+            }
             y={y(p.value) + (p === first || labelAbove || p === end ? -18 : 34)}
-            textAnchor={p === first ? "start" : p === end ? "end" : "middle"}
+            textAnchor={
+              p === first ? (area ? "end" : "start") : p === end ? "end" : "middle"
+            }
             className={`fill-ink ${VALUE}`}
           >
             {p.value}%
@@ -258,7 +277,7 @@ export default function SearchShiftChart() {
     <figure
       data-reveal="draw"
       style={delay(120)}
-      className="depth-in min-w-0 rounded-[30px] border border-line bg-white px-5 pb-5 pt-6 shadow-float sm:px-8 sm:pb-7 sm:pt-8"
+      className="depth-in min-w-0 rounded-[30px] border border-line bg-white px-5 pb-4 pt-5 shadow-float sm:px-8 sm:pb-5 sm:pt-6"
     >
       {/* Legend in HTML, not SVG: it carries the source links, and HTML type
           stays readable at any width while SVG type scales with the box. */}
@@ -293,7 +312,7 @@ export default function SearchShiftChart() {
 
       <svg
         viewBox={`0 0 ${VIEW.w} ${VIEW.h}`}
-        className="mt-4 w-full"
+        className="mt-3 w-full"
         role="img"
         aria-labelledby="shift-title shift-desc"
       >
@@ -365,7 +384,7 @@ export default function SearchShiftChart() {
       {/* The caveats ship WITH the chart, not in a link or a tooltip. A
           company that audits other people's evidence does not get to hide the
           methodology break in its own. These are the last thing to cut. */}
-      <p className="mt-3 border-t border-line pt-3 text-[11.5px] leading-[1.5] text-ink-faint">
+      <p className="mt-3 border-t border-line pt-2.5 text-[11.5px] leading-[1.5] text-ink-faint">
         {AGENTIC_SHARE.caveat} {SEARCH_CLICKS.caveat}
       </p>
     </figure>

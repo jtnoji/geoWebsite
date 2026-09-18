@@ -248,7 +248,7 @@ export default function Home() {
           lib/home.ts, figures in lib/stats.ts PROBLEM_STATS. */}
       <section className="bg-paper-dim">
         <div
-          className={`${SECTION_X} grid items-start gap-10 pb-14 pt-14 md:pb-20 md:pt-20 lg:grid-cols-[minmax(340px,1fr)_minmax(0,1.5fr)] lg:items-center lg:gap-[52px] wide:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] wide:gap-20`}
+          className={`${SECTION_X} grid items-start gap-10 pb-12 pt-12 md:pb-16 md:pt-16 lg:grid-cols-[minmax(340px,1fr)_minmax(0,1.5fr)] lg:items-center lg:gap-[52px] wide:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] wide:gap-20`}
         >
           {/* ONE ROW, not two (Josh, 2026-09-18: "the problem graph and stats
               cards barely fit onto one screen"). The figures moved out of a
